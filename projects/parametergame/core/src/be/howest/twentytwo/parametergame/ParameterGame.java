@@ -1,42 +1,33 @@
 package be.howest.twentytwo.parametergame;
 
-import be.howest.twentytwo.parametergame.platform.IPlatformSpecificAPI;
-import be.howest.twentytwo.parametergame.screen.MenuScreen;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Logger;
 
-public class ParameterGame extends Game {
-	public static final boolean DEBUG_ENABLED = true;
-	
-	public AssetManager assetMgr;
-	public SpriteBatch batch;
-	public Logger logger;
-	public IPlatformSpecificAPI platformAPI;
-	// public final I18NBundle messages;
-	
-	public ParameterGame(IPlatformSpecificAPI platform){
-		this.platformAPI = platform;
-	}
+public class ParameterGame extends ApplicationAdapter {
+	SpriteBatch batch;
+	Texture img;
 	
 	@Override
 	public void create () {
-		this.assetMgr = new AssetManager();
-		this.batch = new SpriteBatch();
-		this.logger = new Logger("ParametergameLogger");
-		
-		logger.setLevel(Logger.DEBUG);
-		Texture.setAssetManager(assetMgr);
-		setScreen(new MenuScreen(this));
+		batch = new SpriteBatch();
+		img = new Texture("badlogic.jpg");
+	}
+
+	@Override
+	public void render () {
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.begin();
+		batch.draw(img, 0, 0);
+		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
-		this.assetMgr.dispose();
-		this.batch.dispose();
-		
+		batch.dispose();
+		img.dispose();
 	}
 }
