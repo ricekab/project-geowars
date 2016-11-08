@@ -1,8 +1,10 @@
 package be.howest.twentytwo.parametergame.model.system;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.World;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
@@ -16,6 +18,9 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 public class PhysicsSystem extends IteratingSystem {
 	
 	public static final float PHYSICS_TIMESTEP = 1/30f;
+	
+	private ComponentMapper<TransformComponent> transformMapper = ComponentMapper.getFor(TransformComponent.class);
+	private ComponentMapper<BodyComponent> bodyMapper = ComponentMapper.getFor(BodyComponent.class);
 	
 	private World world;
 	private float elapsed;
@@ -39,8 +44,11 @@ public class PhysicsSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		// TODO: Update transform based on body
+		TransformComponent transform = transformMapper.get(entity);
+		BodyComponent body = bodyMapper.get(entity);
 		
+		transform.setPosition(body.getBody().getPosition());
+		transform.setRotation(body.getBody().getAngle() * MathUtils.radiansToDegrees);
 	}
 
 }
