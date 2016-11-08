@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 import javax.inject.Inject;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,8 +25,9 @@ public class ParameterGame extends Game {
 	// anything.
 	public AssetManager assetMgr;
 	public SpriteBatch batch;
-	public Logger logger; // Candidate for DepInj
-	public IPlatformService platformService; // Candidate for DepInj
+	public Logger logger;
+	// Alternatively, use Gdx.app.log(tag, msg) 
+	public IPlatformService platformService;
 	public IDataService dataService;
 	// public Engine ecsEngine; --> can have multiple engines (for multiplayer
 	// lag compensation, etc...)
@@ -38,6 +40,7 @@ public class ParameterGame extends Game {
 		this.dataService = dataService;
 		this.logger = new Logger("ParametersGame");
 		this.logger.setLevel(Logger.DEBUG);
+		
 	}
 
 	@Override
