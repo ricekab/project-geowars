@@ -1,17 +1,16 @@
 package be.howest.twentytwo.parametergame;
 
-import be.howest.twentytwo.parametergame.screen.MenuScreen;
-import be.howest.twentytwo.parametergame.service.db.IDataService;
-import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
-
 import javax.inject.Inject;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
+
+import be.howest.twentytwo.parametergame.screen.MenuScreen;
+import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 
 /**
  * Creates necessary globals and initializes the first screen. Access point for
