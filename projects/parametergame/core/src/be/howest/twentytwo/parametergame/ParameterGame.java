@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
 
 public class ParameterGame extends Game {
+	
 	public static final boolean DEBUG_ENABLED = true;
 	
 	// TODO: Move this stuff into a service container
@@ -20,6 +21,7 @@ public class ParameterGame extends Game {
 	public IPlatformSpecificAPI platformAPI;
 	public Engine ecsEngine;
 	// public final I18NBundle messages;
+	
 	
 	public ParameterGame(IPlatformSpecificAPI platform){
 		this.platformAPI = platform;
