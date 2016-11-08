@@ -49,6 +49,7 @@ public class GameloopScreen extends BaseScreen {
 
 	@Override
 	public void show() {
+		System.out.println("GLScreen - Show");
 		// Load stuff
 		// Assetmgr stuff --> If a lot of assets, move loading to some intermediary load screen
 
@@ -126,11 +127,13 @@ public class GameloopScreen extends BaseScreen {
 	public void pause() {
 		// TODO Auto-generated method stub
 
+		System.out.println("GLScreen - Pause");
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
+		System.out.println("GLScreen - Resume");
 
 	}
 
@@ -138,12 +141,14 @@ public class GameloopScreen extends BaseScreen {
 	public void hide() {
 		// TODO Auto-generated method stub
 		this.dispose();
+		System.out.println("GLScreen - Hide");
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		uiStage.dispose();
+		System.out.println("GLScreen - Dispose");
 	}
 
 }

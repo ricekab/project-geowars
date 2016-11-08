@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.platform;
+package be.howest.twentytwo.parametergame.service.platform;
 
 /**
  * Implement this interface for each supported platform. This acts as a facade to all platform dependent systems.
@@ -7,6 +7,6 @@ package be.howest.twentytwo.parametergame.platform;
  * @author KCYT
  *
  */
-public interface IPlatformSpecificAPI {
+public interface IPlatformService {
 
 }
