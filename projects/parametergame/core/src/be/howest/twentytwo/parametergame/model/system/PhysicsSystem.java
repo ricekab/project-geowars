@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -35,6 +36,7 @@ public class PhysicsSystem extends IteratingSystem {
 	public void update(float deltaTime) {
 		elapsed += deltaTime;
 		if(elapsed >= PHYSICS_TIMESTEP){	// World timestep
+			Gdx.app.log("Phsx", "World step");
 			world.step(PHYSICS_TIMESTEP, 6, 3);
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime);	// Foreach -> processEntity
@@ -49,6 +51,9 @@ public class PhysicsSystem extends IteratingSystem {
 		
 		transform.setPosition(body.getBody().getPosition());
 		transform.setRotation(body.getBody().getAngle() * MathUtils.radiansToDegrees);
+		
+		Gdx.app.log("PhsxSys", body.getBody().getLinearVelocity().toString());
+		Gdx.app.log("Phsx", "Entity pos: " + transform.getPosition());
 	}
 
 }

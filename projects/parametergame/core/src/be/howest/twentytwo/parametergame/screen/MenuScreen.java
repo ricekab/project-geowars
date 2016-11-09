@@ -40,6 +40,7 @@ public class MenuScreen extends BaseScreen {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				getGame().setScreen(new GameScreen(getGame()));
+				dispose();
 			}
 		});
 		startBtn.pad(5f, 10f, 5f, 10f);
