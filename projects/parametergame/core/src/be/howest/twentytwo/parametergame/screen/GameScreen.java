@@ -82,6 +82,8 @@ public class GameScreen extends BaseScreen {
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
 
+		
+		
 		CircleShape circle = new CircleShape();
 		circle.setRadius(4f);
 

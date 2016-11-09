@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.screen;
 import be.howest.twentytwo.parametergame.ParameterGame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -65,6 +66,11 @@ public class MenuScreen extends BaseScreen {
 
 		// Unload any resources we no longer need
 		// game.assetMgr.unload("ui/uiskin.json"); // Or maybe keep for game screen?
+		
+		/*Music music = Gdx.audio.newMusic(Gdx.files.internal("hsmain.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.3f);
+		music.play();*/
 	}
 
 	@Override
