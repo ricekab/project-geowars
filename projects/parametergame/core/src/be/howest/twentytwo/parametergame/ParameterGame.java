@@ -24,8 +24,7 @@ public class ParameterGame extends Game {
 	// anything.
 	public AssetManager assetMgr;
 	public SpriteBatch batch;
-	public Logger logger;
-	// Alternatively, use Gdx.app.log(tag, msg) 
+	@Deprecated public Logger logger;	// Can use Gdx.app.log(tag, msg) 
 	public IPlatformService platformService;
 	public IDataService dataService;
 	// public Engine ecsEngine; --> can have multiple engines (for multiplayer
@@ -39,7 +38,6 @@ public class ParameterGame extends Game {
 		this.dataService = dataService;
 		this.logger = new Logger("ParametersGame");
 		this.logger.setLevel(Logger.DEBUG);
-		
 	}
 
 	@Override

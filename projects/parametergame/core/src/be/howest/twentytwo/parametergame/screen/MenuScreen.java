@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen extends BaseScreen {
@@ -40,7 +39,7 @@ public class MenuScreen extends BaseScreen {
 		startBtn.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				getGame().setScreen(new GameloopScreen(getGame()));
+				getGame().setScreen(new GameScreen(getGame()));
 			}
 		});
 		startBtn.pad(5f, 10f, 5f, 10f);

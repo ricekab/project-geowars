@@ -1,13 +1,12 @@
 package be.howest.twentytwo.parametergame.desktop;
 
+import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.injection.DesktopModule;
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import be.howest.twentytwo.parametergame.ParameterGame;
-import be.howest.twentytwo.parametergame.injection.DesktopModule;
-import be.howest.twentytwo.parametergame.service.platform.DesktopService;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

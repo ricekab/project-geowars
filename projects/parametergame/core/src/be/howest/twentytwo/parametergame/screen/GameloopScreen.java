@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 
+@Deprecated
 public class GameloopScreen extends BaseScreen {
 
 	/** Time (in seconds) between game logic updates. */
