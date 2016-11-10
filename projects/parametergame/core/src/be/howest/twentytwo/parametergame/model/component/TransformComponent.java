@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.model.component;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
@@ -10,6 +11,10 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * {@link BodyComponent}.
  */
 public class TransformComponent implements Component, Poolable {
+	
+	public static final ComponentMapper<TransformComponent> MAPPER = ComponentMapper
+			.getFor(TransformComponent.class);
+	
 	private Vector2 position;
 	private Vector2 scale;
 	private float rotation; // 0 - 360
