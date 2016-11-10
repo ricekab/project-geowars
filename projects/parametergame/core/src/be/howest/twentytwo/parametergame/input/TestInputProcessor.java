@@ -1,4 +1,4 @@
-package input;
+package be.howest.twentytwo.parametergame.input;
 
 import com.badlogic.gdx.InputProcessor;
 
