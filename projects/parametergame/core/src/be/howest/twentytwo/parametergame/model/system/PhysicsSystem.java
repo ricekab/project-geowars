@@ -45,7 +45,7 @@ public class PhysicsSystem extends IteratingSystem {
 		TransformComponent transformComp = TransformComponent.MAPPER.get(entity);
 		BodyComponent bodyComp = BodyComponent.MAPPER.get(entity);
 
-		transformComp.setPosition(bodyComp.getBody().getPosition());
+		transformComp.setPos(bodyComp.getBody().getPosition());
 		transformComp.setRotation(bodyComp.getBody().getAngle() * MathUtils.radiansToDegrees);
 	}
 
