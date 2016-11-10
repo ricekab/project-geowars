@@ -10,7 +10,10 @@ import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+<<<<<<< HEAD
 import com.badlogic.gdx.Gdx;
+=======
+>>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -53,6 +56,7 @@ public class GameScreen extends BaseScreen {
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 		viewport = new FitViewport(100f, 100f); // Viewport size (in world units)
+<<<<<<< HEAD
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio -->
 		 * possible balance concern
@@ -64,6 +68,19 @@ public class GameScreen extends BaseScreen {
 
 		viewport.getCamera().translate(25f, 25f, 0f);
 
+=======
+		/* B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio
+		 * --> possible balance concern
+		 */
+		/*
+		ScreenViewport sv = new ScreenViewport();
+		sv.setUnitsPerPixel(0.2f);	// Note: Real value should probably be higher? Depends on our units.
+		viewport = sv;
+		*/
+		
+		viewport.getCamera().translate(25f, 25f, 0f);
+		
+>>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
@@ -141,6 +158,7 @@ public class GameScreen extends BaseScreen {
 
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
+<<<<<<< HEAD
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
@@ -148,6 +166,15 @@ public class GameScreen extends BaseScreen {
 		getGame().assetMgr.finishLoading();
 		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
 		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a sheet)
+=======
+		
+		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
+		
+		getGame().assetMgr.load("mrArrow.png", Texture.class);
+		getGame().assetMgr.finishLoading();
+		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
+		TextureRegion region = new TextureRegion(texture);	// Load the full texture (it's not a sheet)
+>>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
 		sprite.setRegion(region);
 		ship.add(sprite);
 		return ship;
