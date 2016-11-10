@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  */
 public class SpriteComponent implements Component, Poolable {
 	// TODO: Should I rename this TextureRegionComponent? This could create confusion with actual Sprite class
-	
+
 	public static final ComponentMapper<SpriteComponent> MAPPER = ComponentMapper.getFor(SpriteComponent.class);
 
 	private TextureRegion region;	// TextureRegion for sprite sheet reasons
