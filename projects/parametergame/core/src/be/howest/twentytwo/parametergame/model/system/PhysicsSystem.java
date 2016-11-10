@@ -48,8 +48,6 @@ public class PhysicsSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		TransformComponent transformComp = TRANSFORM_MAPPER.get(entity);
 		BodyComponent bodyComp = BODY_MAPPER.get(entity);
-		
-		Gdx.app.log("phsxSys", bodyComp.getBody().getLinearVelocity().toString());
 
 		transformComp.setPosition(bodyComp.getBody().getPosition());
 		transformComp.setRotation(bodyComp.getBody().getAngle() * MathUtils.radiansToDegrees);
