@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.model.system;
 
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -23,7 +24,7 @@ public class RenderSystem extends IteratingSystem {
 	private static final ComponentMapper<SpriteComponent> SPRITE_MAPPER = ComponentMapper.getFor(SpriteComponent.class);
 
 	public RenderSystem(SpriteBatch batch, Viewport viewport) {
-		super(Family.all(SpriteComponent.class).get());
+		super(Family.all(TransformComponent.class, SpriteComponent.class).get());
 		this.batch = batch;
 		this.viewport = viewport;
 	}

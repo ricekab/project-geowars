@@ -19,11 +19,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PhysicsSystem extends IteratingSystem {
 
 	public static final float PHYSICS_TIMESTEP = 1 / 30f;
-
-	private static final ComponentMapper<TransformComponent> TRANSFORM_MAPPER = ComponentMapper
-			.getFor(TransformComponent.class);
-	private static final ComponentMapper<BodyComponent> BODY_MAPPER = ComponentMapper.getFor(BodyComponent.class);
-
+	
 	private World world;
 	private float elapsed;
 
@@ -46,8 +42,8 @@ public class PhysicsSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		TransformComponent transformComp = TRANSFORM_MAPPER.get(entity);
-		BodyComponent bodyComp = BODY_MAPPER.get(entity);
+		TransformComponent transformComp = TransformComponent.MAPPER.get(entity);
+		BodyComponent bodyComp = BodyComponent.MAPPER.get(entity);
 
 		transformComp.setPosition(bodyComp.getBody().getPosition());
 		transformComp.setRotation(bodyComp.getBody().getAngle() * MathUtils.radiansToDegrees);
