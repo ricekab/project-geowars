@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.model.component;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
@@ -8,6 +9,9 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * Box2D Physics body.
  */
 public class BodyComponent implements Component, Poolable {
+	
+	public static final ComponentMapper<BodyComponent> MAPPER = ComponentMapper.getFor(BodyComponent.class);
+	
 	private Body body;
 
 	public Body getBody() {
