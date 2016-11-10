@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class RenderSystem extends IteratingSystem {
 
+	public final static float PIXELS_PER_METER = 16f;
+	public final static float METERS_PER_PIXEL = 1f / PIXELS_PER_METER;
+
 	private Viewport viewport;
 	private SpriteBatch batch;
 
@@ -47,10 +50,11 @@ public class RenderSystem extends IteratingSystem {
 
 		float width = region.getRegionWidth();
 		float height = region.getRegionHeight();
-		float originX = width / 2f;
-		float originY = height / 2f;
-
-		batch.draw(region, transform.getPos().x, transform.getPos().y, originX, originY, width, height, 1f, 1f,
+		float originX = -1 * width*METERS_PER_PIXEL / 2f;	// Offset
+		float originY = -1 * height*METERS_PER_PIXEL / 2f;
+		float scaleX = METERS_PER_PIXEL; // Scale to world size to match physics object
+		float scaleY = METERS_PER_PIXEL;
+		batch.draw(region, transform.getPos().x, transform.getPos().y, originX, originY, width, height, scaleX, scaleY,
 				transform.getRotation());
 		batch.end();
 	}
