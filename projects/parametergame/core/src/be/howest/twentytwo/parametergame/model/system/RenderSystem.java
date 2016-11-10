@@ -50,11 +50,15 @@ public class RenderSystem extends IteratingSystem {
 
 		float width = region.getRegionWidth();
 		float height = region.getRegionHeight();
-		float originX = -1 * width*METERS_PER_PIXEL / 2f;	// Offset
-		float originY = -1 * height*METERS_PER_PIXEL / 2f;
+		// float originX = -1 * width*METERS_PER_PIXEL / 2f;	// Offset
+		// float originY = -1 * height*METERS_PER_PIXEL / 2f;
+		// float offsetX = * METERS_PER_PIXEL;
+		// float offsetY = * METERS_PER_PIXEL;
+		float offsetX = width/2;
+		float offsetY = height/2;
 		float scaleX = METERS_PER_PIXEL; // Scale to world size to match physics object
 		float scaleY = METERS_PER_PIXEL;
-		batch.draw(region, transform.getPos().x, transform.getPos().y, originX, originY, width, height, scaleX, scaleY,
+		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX, offsetY, width, height, scaleX, scaleY,
 				transform.getRotation());
 		batch.end();
 	}
