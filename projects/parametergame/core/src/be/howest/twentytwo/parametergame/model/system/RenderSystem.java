@@ -20,7 +20,7 @@ public class RenderSystem extends IteratingSystem {
 	private SpriteBatch batch;
 
 	// TODO: Should I just move mappers to some other static class, maybe as part of the component?
-	private final ComponentMapper<SpriteComponent> SPRITE_MAPPER = ComponentMapper.getFor(SpriteComponent.class);
+	private static final ComponentMapper<SpriteComponent> SPRITE_MAPPER = ComponentMapper.getFor(SpriteComponent.class);
 
 	public RenderSystem(SpriteBatch batch, Viewport viewport) {
 		super(Family.all(SpriteComponent.class).get());
