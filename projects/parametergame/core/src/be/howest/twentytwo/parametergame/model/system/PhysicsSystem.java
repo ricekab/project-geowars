@@ -36,7 +36,6 @@ public class PhysicsSystem extends IteratingSystem {
 	public void update(float deltaTime) {
 		elapsed += deltaTime;
 		if(elapsed >= PHYSICS_TIMESTEP){	// World timestep
-			Gdx.app.log("Phsx", "World step");
 			world.step(PHYSICS_TIMESTEP, 6, 3);
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime);	// Foreach -> processEntity
@@ -51,9 +50,6 @@ public class PhysicsSystem extends IteratingSystem {
 		
 		transform.setPosition(body.getBody().getPosition());
 		transform.setRotation(body.getBody().getAngle() * MathUtils.radiansToDegrees);
-		
-		Gdx.app.log("PhsxSys", body.getBody().getLinearVelocity().toString());
-		Gdx.app.log("Phsx", "Entity pos: " + transform.getPosition());
 	}
 
 }
