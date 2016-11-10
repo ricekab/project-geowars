@@ -53,6 +53,7 @@ public class GameScreen extends BaseScreen {
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 		viewport = new FitViewport(100f, 100f); // Viewport size (in world units)
+
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio -->
 		 * possible balance concern
@@ -141,7 +142,7 @@ public class GameScreen extends BaseScreen {
 
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
-
+		
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
 		getGame().assetMgr.load("mrArrow.png", Texture.class);
