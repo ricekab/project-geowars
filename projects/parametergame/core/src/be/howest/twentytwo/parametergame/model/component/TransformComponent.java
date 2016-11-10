@@ -19,10 +19,10 @@ public class TransformComponent implements Component, Poolable {
 	private Vector2 scale;
 	private float rotation; // 0 - 360
 	
-	public Vector2 getPosition() {
+	public Vector2 getPos() {
 		return position;
 	}
-	public void setPosition(Vector2 position) {
+	public void setPos(Vector2 position) {
 		this.position = position;
 	}
 	public Vector2 getScale() {
