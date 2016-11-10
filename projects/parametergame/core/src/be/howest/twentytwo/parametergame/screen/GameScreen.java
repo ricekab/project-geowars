@@ -37,6 +37,8 @@ public class GameScreen extends BaseScreen {
 	private void initWorld() {
 		engine = new PooledEngine(); // NOTE: engine.createEntity() to get the
 										// pooled object.
+		// TODO/NOTE: Engine needs to be passed to factories for construction
+		
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 
 		// ECS systems
@@ -68,13 +70,13 @@ public class GameScreen extends BaseScreen {
 	////// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
 		Entity ship = engine.createEntity();
-		TransformComponent transform = new TransformComponent();
+		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPosition(new Vector2(40f, 40f));
 		transform.setScale(new Vector2(1f, 1f));
 		transform.setRotation(0f);
 		ship.add(transform);
-		BodyComponent bodyComponent = new BodyComponent();
-
+		
+		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
 		// Planet should be static
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -221,7 +223,8 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		world.dispose();
+		
 	}
 
 }
