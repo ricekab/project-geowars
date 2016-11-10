@@ -24,7 +24,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PhysicsSystem extends IteratingSystem {
 
 	public static final float PHYSICS_TIMESTEP = 1 / 30f;
-
+	
 	private World world;
 	/** Time elapsed since last update */
 	private float elapsed;

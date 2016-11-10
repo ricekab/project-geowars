@@ -14,7 +14,7 @@ public class SpriteComponent implements Component, Poolable {
 	public static final ComponentMapper<SpriteComponent> MAPPER = ComponentMapper.getFor(SpriteComponent.class);
 
 	private TextureRegion region;	// TextureRegion for sprite sheet reasons
-	
+
 	public TextureRegion getRegion() {
 		return region;
 	}
