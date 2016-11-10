@@ -1,10 +1,16 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
+import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,18 +19,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import be.howest.twentytwo.parametergame.ParameterGame;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 
 public class GameScreen extends BaseScreen {
 
 	private World world;
 	private PooledEngine engine;
+	private Viewport viewport;		// Needs to be saved for resizes
 
 	public GameScreen(ParameterGame game) {
 		super(game);
@@ -32,26 +34,26 @@ public class GameScreen extends BaseScreen {
 		initUI();
 	}
 
-	///// TEMP --> rendersystem /////
-	Camera tempCam;
-	Viewport vp;
-	///// ENDTEMP /////
-
 	private void initWorld() {
 		engine = new PooledEngine(); // NOTE: engine.createEntity() to get the
 										// pooled object.
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 
 		// ECS systems
-		// TODO: This should be in the rendersystem I guess?
-		Viewport viewport = new FitViewport(50f, 50f); // Viewport size (in
-														// world units)
-		vp = viewport;
-		Camera cam = viewport.getCamera();
-		tempCam = cam;
-
-		// TODO: add render system before others
-		engine.addSystem(new PhysicsRenderSystem(world, cam));
+		// TODO: Viewport choice
+		// A) Fitviewport = letterboxing
+		// viewport = new FitViewport(50f, 50f); // Viewport size (in world units)
+		/* B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio
+		 * --> possible balance concern
+		 */
+		ScreenViewport sv = new ScreenViewport();
+		sv.setUnitsPerPixel(0.2f);	// Note: Real value should probably be higher? Depends on our units.
+		viewport = sv;
+		
+		
+		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
+		engine.addSystem(renderSys);
+		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 		engine.addSystem(new PhysicsSystem(world));
 
 		engine.addEntity(createShip());
@@ -63,7 +65,7 @@ public class GameScreen extends BaseScreen {
 		// TODO
 	}
 
-	////// TESTING ONLY - CREATING ENTITIES //////
+	////// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = new TransformComponent();
@@ -81,8 +83,6 @@ public class GameScreen extends BaseScreen {
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
-
-		
 		
 		CircleShape circle = new CircleShape();
 		circle.setRadius(4f);
@@ -195,42 +195,33 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(255f, 255f, 255f, 1f);
-		Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT);
-		getGame().batch.setProjectionMatrix(tempCam.combined);
-		tempCam.position.set(40f, 40f, 0f);
-		tempCam.update();
-
 		engine.update(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		vp.update(width, height);
+		viewport.update(width, height);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		// TODO: pause boolean --> stop engine update?
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
+		// TODO: See pause();
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-
 	}
 
 }
