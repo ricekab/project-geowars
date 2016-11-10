@@ -9,8 +9,6 @@ import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -18,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -64,7 +61,7 @@ public class GameScreen extends BaseScreen {
 	}
 
 	private void initUI() {
-		// TODO
+		// TODO: UI
 	}
 
 	////// TODO: TESTING ONLY - CREATING ENTITIES //////
@@ -219,7 +216,7 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		// TODO: GameScreen - hide()
 	}
 
 	@Override

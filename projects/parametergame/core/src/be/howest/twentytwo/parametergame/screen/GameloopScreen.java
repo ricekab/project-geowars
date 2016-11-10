@@ -126,28 +126,23 @@ public class GameloopScreen extends BaseScreen {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 		System.out.println("GLScreen - Pause");
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		System.out.println("GLScreen - Resume");
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		this.dispose();
 		System.out.println("GLScreen - Hide");
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		uiStage.dispose();
 		System.out.println("GLScreen - Dispose");
 	}
