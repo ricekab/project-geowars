@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.screen;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
@@ -9,13 +10,17 @@ import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -40,15 +45,18 @@ public class GameScreen extends BaseScreen {
 
 		// ECS systems
 		// TODO: Viewport choice
-		// A) Fitviewport = letterboxing
-		// viewport = new FitViewport(50f, 50f); // Viewport size (in world units)
+		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
+		viewport = new FitViewport(100f, 100f); // Viewport size (in world units)
 		/* B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio
 		 * --> possible balance concern
 		 */
+		/*
 		ScreenViewport sv = new ScreenViewport();
 		sv.setUnitsPerPixel(0.2f);	// Note: Real value should probably be higher? Depends on our units.
 		viewport = sv;
+		*/
 		
+		viewport.getCamera().translate(25f, 25f, 0f);
 		
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
 		engine.addSystem(renderSys);
@@ -68,7 +76,7 @@ public class GameScreen extends BaseScreen {
 	private Entity createShip() {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
-		transform.setPosition(new Vector2(40f, 40f));
+		transform.setPos(new Vector2(40f, 40f));
 		transform.setScale(new Vector2(1f, 1f));
 		transform.setRotation(0f);
 		ship.add(transform);
@@ -101,6 +109,15 @@ public class GameScreen extends BaseScreen {
 
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
+		
+		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
+		
+		getGame().assetMgr.load("mrArrow.png", Texture.class);
+		getGame().assetMgr.finishLoading();
+		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
+		TextureRegion region = new TextureRegion(texture);	// Load the full texture (it's not a sheet)
+		sprite.setRegion(region);
+		ship.add(sprite);
 		return ship;
 	}
 
@@ -108,7 +125,7 @@ public class GameScreen extends BaseScreen {
 		Entity planet = engine.createEntity();
 
 		TransformComponent transform = new TransformComponent();
-		transform.setPosition(new Vector2(0f, 0f));
+		transform.setPos(new Vector2(0f, 0f));
 		transform.setScale(new Vector2(1f, 1f));
 		transform.setRotation(0f);
 		planet.add(transform);
@@ -151,7 +168,7 @@ public class GameScreen extends BaseScreen {
 		Entity floor = engine.createEntity();
 
 		TransformComponent transform = new TransformComponent();
-		transform.setPosition(new Vector2(0f, 0f));
+		transform.setPos(new Vector2(0f, 0f));
 		transform.setScale(new Vector2(1f, 1f));
 		transform.setRotation(0f);
 		floor.add(transform);
