@@ -1,6 +1,8 @@
 package be.howest.twentytwo.parametergame.service.db;
 
-import java.util.Map;
+import java.util.Collection;
+
+import be.howest.twentytwo.parametergame.dataTypes.*;
 
 public interface IDataService {
 	//This is the general class, that communicates with different classes, such as MySQLDataService, T-SQLDataService,....
@@ -15,10 +17,10 @@ public interface IDataService {
 	
 	public Collection<DroneData> getDrones(UserData user);
 	
-	public void saveUser(UserData);
+	public void saveUser(UserData data);
 	
-	public void saveShip(ShipData);
+	public void saveShip(ShipData data);
 	
-	public void saveDrone(DroneData);
+	public void saveDrone(DroneData data);
 	
 }

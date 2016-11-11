@@ -31,22 +31,4 @@ public class TestIDataService {
 		
 	}
 	
-	@Test
-	public void testGetEnemyWithCaps() {
-		String cappedName = "DeAtHsTaR";
-		String behaviour = db.getEnemy(cappedName).get("behaviour");
-		String expected = "stationary";
-		assertEquals(expected, behaviour);
-	}
-	
-	@Test
-	public void testGetShipDrone1() {
-		String name = "Millenium falcon";
-		String drones = db.getShip(name).get("drones");
-		JSONObject json = new JSONObject(drones);
-		String drone1 = (String) json.get("slot1");
-		String expected = "y-wing";
-		assertEquals("Expected " + expected + ", got " + drone1,expected, drone1);
-	}
-	
 }

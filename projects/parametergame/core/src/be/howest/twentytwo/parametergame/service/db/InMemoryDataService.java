@@ -1,48 +1,57 @@
 package be.howest.twentytwo.parametergame.service.db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import be.howest.twentytwo.parametergame.dataTypes.*;
 
 public class InMemoryDataService implements IDataService {
 //for the time being, this will have hard-coded data, and is later DELETED
 	//	data management josb: faking access to MySQL data and return the appropriate data
 	//	TODO make abstract class to manage DB systems?
 	
-	private Map<String, String> data = new HashMap<String, String>();
+	public LevelData getLevel(String key) {
+		LevelData data = new LevelData();
+		return data;
+	}
 	
+	public UserData getUser(String serverID) {
+		UserData data = new UserData();
+		return data;
+	}
 	
-	public Map<String, String> getShip(String shipID) {
-		data.clear();
-		data.put("name", "testShipRecon");
-		data.put("type", "recon");	//recon-fighter-juggernaut
-		data.put("level", "30");
-		data.put("exp", "0");
-		data.put("speed cap", "150");
-		data.put("acceleration mult", "125");
-		data.put("turn rate mult", "200");
+	public List<ShipData> getShips(UserData user) {
+		List<ShipData> data = new ArrayList<>();
+		data.add(new ShipData());
 		return data;
 	}
-	public Map<String, String> getDrone(String droneID) {
-		data.clear();
-		data.put("name", "testDroneOne");
-		data.put("level", "10");
-		data.put("exp", "0");
-		data.put("type", "shooter");	//collecter-shooter-gravitator
-		data.put("utilityUpgrade", "3");
-		data.put("powerUpgrade", "3");
+	
+	public List<DroneData> getDrones(UserData user) {
+		List<DroneData> data = new ArrayList<>();
+		data.add(new DroneData());
 		return data;
 	}
-	public Map<String, String> getEnemy(String name) {
-		data.clear();
-		data.put("name","testEnemyOne");
-		data.put("type","suicider");	//bomber-obstacle-scouter-suicideSquadron-suicider
-		data.put("health","1");
-		data.put("speed cap","200");
-		data.put("acceleration mult","50");
-		data.put("turn rate mult","500");
-		data.put("attack speed", "0");
+	
+	public List<EnemyData> getEnemies(String... name) {
+		List<EnemyData> data = new ArrayList<>();
+		data.add(new EnemyData());
 		return data;
 	}
+	
+	public void saveUser(UserData data) {
+		
+	}
+	
+	public void saveShip(ShipData data) {
+		
+	}
+	
+	public void saveDrone(DroneData data) {
+		
+	}
+	
 }
 
 
