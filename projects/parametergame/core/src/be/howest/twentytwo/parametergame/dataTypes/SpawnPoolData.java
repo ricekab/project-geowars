@@ -1,16 +1,43 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.Random;
 
 public class SpawnPoolData {
 	
-	private List<ClusterData> clusters;	//Put one of each kind of cluster in here, with amount X. If X is decreased, check the value. if it reaches 0, remove from here, and also from chances. recalculate total chance
-	private Map<ClusterData, Float > chances;	//keeps track of each clusters chance to get elected
+	private Set<ClusterData> clusters;
 	
 	public ClusterData getRandomCluster() {
+		ClusterData randomCluster = selectRandomCluster();
+		randomCluster.takeOne();
+		if(randomCluster.getAmountStored() < 1) {
+			clusters.remove(randomCluster);
+			}
+		return randomCluster;
+	}
+	
+	private ClusterData selectRandomCluster() {
+		//TODO initialization so the return doesn't cry. if it actually returns null, it's broken. this needs to be changed.
+		ClusterData cluster = null;
+		float totalChance = 0f;
+		for(ClusterData c : clusters) {
+			totalChance += c.getChance();	//total chance will be calculated, by adding each cluster's chance.
+		}
 		
+		float random = (float)Math.random();	//pick a random value, indicating what cluster will get chosen.
+		random = random * totalChance;			//scale the random value to the total chance.
+		
+		float cumulativeChance = 0f;			//This is the lower bound of the range we'll check.
+		
+		for(ClusterData c : clusters) {
+			if(random < cumulativeChance + c.getChance()) {	//here we check if the random value is inbetween the boundaries. random will always be larger then the cumulativeChance value.
+				cluster = c;	//if random is lesser then cummulativeChance + chance of c, we got this one as the random cluster.
+			} else {
+				cumulativeChance += c.getChance(); //random was larger then the higher bound of this clusters chance. the lower bound of the next cluster is set to the upper bound of this cluster.
+			}
+		}
+		return cluster;
 	}
 
 }
