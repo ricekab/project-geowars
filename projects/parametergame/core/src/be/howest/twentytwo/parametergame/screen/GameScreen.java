@@ -141,7 +141,7 @@ public class GameScreen extends BaseScreen {
 
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
-
+		
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
 		getGame().assetMgr.load("mrArrow.png", Texture.class);
