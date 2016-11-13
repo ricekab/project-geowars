@@ -10,9 +10,9 @@ import be.howest.twentytwo.parametergame.input.TestInputProcessor;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
-import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.TorqueEvent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
@@ -77,10 +77,10 @@ public class GameScreen extends BaseScreen {
 		 * ScreenViewport sv = new ScreenViewport(); sv.setUnitsPerPixel(0.2f); // Note: Real value should probably be
 		 * higher? Depends on our units. viewport = sv;
 		 */
-
-		viewport.getCamera().translate(0f, 0f, 0f);
+		viewport.getCamera().translate(25f, 25f, 0f);
 
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
+
 
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(renderSys);
@@ -118,6 +118,35 @@ public class GameScreen extends BaseScreen {
 	private void initUI() {
 		// TODO: UI
 	}
+
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
+	// //// TODO: TEST CONTACT LISTENER //////
+	private final ContactListener createContactListener() {
+		return new ContactListener() {
+
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				Gdx.app.log("GameScreen", "Presolve");
+			}
+
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+				Gdx.app.log("GameScreen", "Postsolve");
+			}
+
+			@Override
+			public void endContact(Contact contact) {
+				Gdx.app.log("GameScreen", "endContact");
+			}
+
+			@Override
+			public void beginContact(Contact contact) {
+				Gdx.app.log("GameScreen", "beginContact");
+			}
+		};
+	};
+
+	// // ENTITY LISTENER TEST ////
 
 	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 	// //// TODO: TEST CONTACT LISTENER //////
@@ -214,7 +243,7 @@ public class GameScreen extends BaseScreen {
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
-		rigidBody.applyTorque(-1000f, true);
+
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 
 		CircleShape circle = new CircleShape();
@@ -227,8 +256,10 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.density = 1f;
 		fixtureDef.friction = 0.1f;
 		fixtureDef.restitution = 0.75f; // = Bounciness
+
 		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
 		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
+
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -238,12 +269,14 @@ public class GameScreen extends BaseScreen {
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
 
+
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
 		getGame().assetMgr.load("mrArrow.png", Texture.class);
 		getGame().assetMgr.finishLoading();
 		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
 		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a sheet)
+
 		sprite.setRegion(region);
 		ship.add(sprite);
 		return ship;
@@ -383,6 +416,7 @@ public class GameScreen extends BaseScreen {
 	// //// /ENTITIES //////
 
 	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
+
 
 	@Override
 	public void show() {
