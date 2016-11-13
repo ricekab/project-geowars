@@ -1,9 +1,14 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
@@ -64,26 +69,42 @@ public class GameScreen extends BaseScreen {
 		 * higher? Depends on our units. viewport = sv;
 		 */
 
-		viewport.getCamera().translate(25f, 25f, 0f);
-		
+		viewport.getCamera().translate(0f, 0f, 0f);
+
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
-		
-		engine.addSystem(new PhysicsSystem(world));
+
+		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+
+		// DIRTY
+
+		// END DIRTY
+
+		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
-		
+
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), createEntityListener(world));
-		
-		engine.addEntity(createShip());
-		engine.addEntity(createPlanet());
+
+		Entity ship = createShip();
+		Entity planet = createPlanet();
+
+		engine.addEntity(ship);
+		engine.addEntity(planet);
 		engine.addEntity(createFloor());
+		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
+		engine.addEntity(createStaticCircle(0, 0, 1f));
+		engine.addEntity(createStaticCircle(5f, 5f, 1f));
+		engine.addEntity(createStaticCircle(50f, 50f, 1f));
+
+		events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
+				ship.getComponent(BodyComponent.class).getBody()));
 	}
 
 	private void initUI() {
 		// TODO: UI
 	}
 
-	/////// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 	// //// TODO: TEST CONTACT LISTENER //////
 	private final ContactListener createContactListener() {
 		return new ContactListener() {
@@ -109,17 +130,17 @@ public class GameScreen extends BaseScreen {
 			}
 		};
 	};
-	
-	//// ENTITY LISTENER TEST ////
-	
-	private class PhysicsEntityListener implements EntityListener{
+
+	// // ENTITY LISTENER TEST ////
+
+	private class PhysicsEntityListener implements EntityListener {
 
 		private World world;
-		
+
 		public PhysicsEntityListener(World world) {
 			this.world = world;
 		}
-		
+
 		@Override
 		public void entityAdded(Entity entity) {
 			// TODO: world.createBody(...) here?
@@ -128,12 +149,12 @@ public class GameScreen extends BaseScreen {
 
 		@Override
 		public void entityRemoved(Entity entity) {
-			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody());	// Remove body from world
+			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
 		}
-		
+
 	}
-	
-	private EntityListener createEntityListener(World world){
+
+	private EntityListener createEntityListener(World world) {
 		return new PhysicsEntityListener(world);
 	}
 
@@ -150,12 +171,11 @@ public class GameScreen extends BaseScreen {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
-		
+
 		bodyDef.position.set(40f, 40f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
-		rigidBody.applyForceToCenter(new Vector2(-1000f, 0), true);
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 
 		CircleShape circle = new CircleShape();
@@ -175,7 +195,7 @@ public class GameScreen extends BaseScreen {
 
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
-		
+
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
 		getGame().assetMgr.load("mrArrow.png", Texture.class);
@@ -212,7 +232,7 @@ public class GameScreen extends BaseScreen {
 		// Fixture def with circle
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;
-		fixtureDef.density = 10f;
+		fixtureDef.density = 5.5f;
 		fixtureDef.friction = 0.1f;
 		// fixtureDef.restitution = 0.5f; // = Bounciness
 
@@ -276,9 +296,47 @@ public class GameScreen extends BaseScreen {
 		return floor;
 	}
 
+	private Entity createStaticCircle(float x, float y, float radius) {
+		Entity circleEntity = engine.createEntity();
+
+		TransformComponent transform = new TransformComponent();
+		transform.setPos(new Vector2(x, y));
+		transform.setScale(new Vector2(1f, 1f));
+		transform.setRotation(0f);
+		circleEntity.add(transform);
+
+		BodyComponent bodyComponent = new BodyComponent();
+
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.StaticBody;
+
+		bodyDef.position.set(x, y);
+		Body rigidBody = world.createBody(bodyDef); // Put in world
+		bodyComponent.setBody(rigidBody);
+
+		CircleShape circle = new CircleShape();
+		circle.setRadius(radius);
+
+		// Fixture def with circle
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = circle;
+		fixtureDef.density = 1f;
+		fixtureDef.friction = 0.1f;
+		fixtureDef.restitution = 0.75f; // = Bounciness
+
+		rigidBody.createFixture(fixtureDef); // Attach fixture to body
+
+		// Cleanup
+		circle.dispose();
+
+		circleEntity.add(bodyComponent);
+
+		return circleEntity;
+	}
+
 	// //// /ENTITIES //////
-	
-	////// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
+
+	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
 
 	@Override
 	public void show() {
