@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.events;
+package be.howest.twentytwo.parametergame.model.physics.events;
 
 /**
  * Describes an event between 1 or more bodies in the physics world.
