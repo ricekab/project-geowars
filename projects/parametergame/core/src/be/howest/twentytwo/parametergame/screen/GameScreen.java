@@ -2,23 +2,44 @@ package be.howest.twentytwo.parametergame.screen;
 
 import java.util.ArrayList;
 import java.util.Collection;
+<<<<<<< HEAD
+=======
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.input.TestInputProcessor;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+<<<<<<< HEAD
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
+=======
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.TorqueEvent;
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
+<<<<<<< HEAD
 <<<<<<< HEAD
 import com.badlogic.gdx.Gdx;
 =======
 >>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
+=======
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -54,13 +75,21 @@ public class GameScreen extends BaseScreen {
 										// pooled object.
 		// TODO/NOTE: Engine needs to be passed to factories for construction
 
+<<<<<<< HEAD
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 		world.setContactListener(createContactListener());
+=======
+		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+
+		world = new World(new Vector2(0f, 0f), true); // 0g world
+		world.setContactListener(createContactListener(events));
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 		// ECS systems
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 		viewport = new FitViewport(100f, 100f); // Viewport size (in world units)
+<<<<<<< HEAD
 <<<<<<< HEAD
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio -->
@@ -87,11 +116,26 @@ public class GameScreen extends BaseScreen {
 		viewport.getCamera().translate(25f, 25f, 0f);
 		
 >>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
+=======
+		/*
+		 * B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio -->
+		 * possible balance concern
+		 */
+		/*
+		 * ScreenViewport sv = new ScreenViewport(); sv.setUnitsPerPixel(0.2f); // Note: Real value should probably be
+		 * higher? Depends on our units. viewport = sv;
+		 */
+
+		viewport.getCamera().translate(0f, 0f, 0f);
+
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
+
+		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
-		engine.addSystem(new PhysicsSystem(world));
 
+<<<<<<< HEAD
 		engine.addEntity(createShip());
 		engine.addEntity(createPlanet());
 =======
@@ -109,6 +153,8 @@ public class GameScreen extends BaseScreen {
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
+=======
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), createEntityListener(world));
 
 		Entity ship = createShip();
@@ -116,21 +162,42 @@ public class GameScreen extends BaseScreen {
 
 		engine.addEntity(ship);
 		engine.addEntity(planet);
+<<<<<<< HEAD
 >>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
+=======
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 		engine.addEntity(createFloor());
 		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
 		engine.addEntity(createStaticCircle(0, 0, 1f));
 		engine.addEntity(createStaticCircle(5f, 5f, 1f));
 		engine.addEntity(createStaticCircle(50f, 50f, 1f));
 
+<<<<<<< HEAD
 		events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
 				ship.getComponent(BodyComponent.class).getBody()));
+=======
+		/*
+		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(), ship.getComponent(
+		 * BodyComponent.class).getBody()));
+		 */
+		
+		// INPUT MAPPING TEST
+		Body shipBody = BodyComponent.MAPPER.get(ship).getBody();
+		
+		Map<Integer, IPhysicsEvent> keyMap = new HashMap<Integer, IPhysicsEvent>();
+		keyMap.put(Keys.Z, new LinearForceEvent(shipBody, 1000f));
+		keyMap.put(Keys.S, new LinearForceEvent(shipBody, -500f));
+		keyMap.put(Keys.Q, new TorqueEvent(shipBody, 500f));
+		keyMap.put(Keys.D, new TorqueEvent(shipBody, -500f));
+		Gdx.input.setInputProcessor(new TestInputProcessor(keyMap));
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 	}
 
 	private void initUI() {
 		// TODO: UI
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
@@ -165,6 +232,60 @@ public class GameScreen extends BaseScreen {
 
 	// // ENTITY LISTENER TEST ////
 
+=======
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
+	// //// TODO: TEST CONTACT LISTENER //////
+	private final ContactListener createContactListener(Collection<IPhysicsEvent> events) {
+		return new TestContactListener(events);
+	};
+
+	public class TestContactListener implements ContactListener {
+
+		private Collection<IPhysicsEvent> events;
+
+		public TestContactListener(Collection<IPhysicsEvent> events) {
+			this.events = events;
+		}
+
+		@Override
+		public void preSolve(Contact contact, Manifold oldManifold) {
+			Gdx.app.log("GameScreen", "Presolve");
+		}
+
+		@Override
+		public void postSolve(Contact contact, ContactImpulse impulse) {
+			Gdx.app.log("GameScreen", "Postsolve");
+		}
+
+		@Override
+		public void endContact(Contact contact) {
+			Gdx.app.log("GameScreen", "endContact");
+			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
+			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
+			if(categoryA == Constants.GRAVITY_CATEGORY) {
+				// TODO: REMOVE GRAVITY FROM EVENTS	--> Needs lookup => HashSet?
+			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
+				// TODO: REMOVE GRAVITY FROM EVENTS (See above)
+			}
+		}
+
+		@Override
+		public void beginContact(Contact contact) {
+			Gdx.app.log("GameScreen", "beginContact");
+			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
+			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
+			if(categoryA == Constants.GRAVITY_CATEGORY) {
+				this.events.add(new GravityPhysicsEvent(contact.getFixtureA().getBody(), contact.getFixtureB()
+						.getBody()));
+			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
+				this.events.add(new GravityPhysicsEvent(contact.getFixtureB().getBody(), contact.getFixtureA()
+						.getBody()));
+			}
+		}
+	}
+
+	// // ENTITY LISTENER TEST ////
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 	private class PhysicsEntityListener implements EntityListener {
 
 		private World world;
@@ -189,7 +310,10 @@ public class GameScreen extends BaseScreen {
 	private EntityListener createEntityListener(World world) {
 		return new PhysicsEntityListener(world);
 	}
+<<<<<<< HEAD
 >>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
+=======
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
@@ -205,11 +329,14 @@ public class GameScreen extends BaseScreen {
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
 
-		bodyDef.position.set(40f, 40f);
+		bodyDef.position.set(40f, 45f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
+<<<<<<< HEAD
 		rigidBody.applyTorque(-1000f, true);
+=======
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 
 		CircleShape circle = new CircleShape();
@@ -217,11 +344,20 @@ public class GameScreen extends BaseScreen {
 
 		// Fixture def with circle
 		FixtureDef fixtureDef = new FixtureDef();
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 		fixtureDef.shape = circle;
 		fixtureDef.density = 1f;
 		fixtureDef.friction = 0.1f;
 		fixtureDef.restitution = 0.75f; // = Bounciness
+<<<<<<< HEAD
+=======
+		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -232,8 +368,11 @@ public class GameScreen extends BaseScreen {
 		ship.add(bodyComponent);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
+=======
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
@@ -241,6 +380,7 @@ public class GameScreen extends BaseScreen {
 		getGame().assetMgr.finishLoading();
 		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
 		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a sheet)
+<<<<<<< HEAD
 =======
 		
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
@@ -250,6 +390,8 @@ public class GameScreen extends BaseScreen {
 		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
 		TextureRegion region = new TextureRegion(texture);	// Load the full texture (it's not a sheet)
 >>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
+=======
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 		sprite.setRegion(region);
 		ship.add(sprite);
 		return ship;
@@ -283,6 +425,11 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.density = 5.5f;
 		fixtureDef.friction = 0.1f;
 		// fixtureDef.restitution = 0.5f; // = Bounciness
+<<<<<<< HEAD
+=======
+		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -292,6 +439,11 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.shape = circle;
 		fixtureDef.density = 0f;
 		fixtureDef.isSensor = true;
+<<<<<<< HEAD
+=======
+		fixtureDef.filter.categoryBits = Constants.GRAVITY_CATEGORY;
+		// fixtureDef.filter.maskBits = Constants.PLANET_CATEGORY; // Breaks the sensor somehow
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 		rigidBody.createFixture(fixtureDef);
 
@@ -384,10 +536,15 @@ public class GameScreen extends BaseScreen {
 
 	// //// /ENTITIES //////
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
 >>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
+=======
+
+	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
+>>>>>>> 72133ee041e19d0210b6c7b3a3e9ffaaeda9b195
 
 	@Override
 	public void show() {

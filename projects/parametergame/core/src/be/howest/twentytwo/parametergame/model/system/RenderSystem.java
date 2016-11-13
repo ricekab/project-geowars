@@ -53,6 +53,7 @@ public class RenderSystem extends IteratingSystem {
 
 		float width = region.getRegionWidth();
 		float height = region.getRegionHeight();
+		// float originX = -1 * width*METERS_PER_PIXEL / 2f; // Offset
 		// float originY = -1 * height*METERS_PER_PIXEL / 2f;
 		// float offsetX = * METERS_PER_PIXEL;
 		// float offsetY = * METERS_PER_PIXEL;
@@ -64,7 +65,6 @@ public class RenderSystem extends IteratingSystem {
 		float originY = height / 2f;
 
 		batch.draw(region, transform.getPos().x, transform.getPos().y, originX, originY, width, height, 1f, 1f,
-
 				transform.getRotation());
 
 		batch.end();
