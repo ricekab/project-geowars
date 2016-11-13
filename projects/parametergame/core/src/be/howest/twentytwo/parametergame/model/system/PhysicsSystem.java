@@ -51,7 +51,6 @@ public class PhysicsSystem extends IteratingSystem {
 			while(it.hasNext()){
 				evt = it.next();
 				if(!evt.isConsumed()){
-					Gdx.app.log("PhysxSys", "Executing event");
 					evt.execute();
 				} else{
 					it.remove();

@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
@@ -53,8 +54,10 @@ public class GameScreen extends BaseScreen {
 										// pooled object.
 		// TODO/NOTE: Engine needs to be passed to factories for construction
 
+		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+
 		world = new World(new Vector2(0f, 0f), true); // 0g world
-		world.setContactListener(createContactListener());
+		world.setContactListener(createContactListener(events));
 
 		// ECS systems
 		// TODO: Viewport choice
@@ -73,8 +76,7 @@ public class GameScreen extends BaseScreen {
 
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
 
-		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
-
+		
 		// DIRTY
 
 		// END DIRTY
@@ -96,8 +98,10 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(5f, 5f, 1f));
 		engine.addEntity(createStaticCircle(50f, 50f, 1f));
 
-		events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
-				ship.getComponent(BodyComponent.class).getBody()));
+		/*
+		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(), ship.getComponent(
+		 * BodyComponent.class).getBody()));
+		 */
 	}
 
 	private void initUI() {
@@ -106,33 +110,49 @@ public class GameScreen extends BaseScreen {
 
 	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 	// //// TODO: TEST CONTACT LISTENER //////
-	private final ContactListener createContactListener() {
-		return new ContactListener() {
-
-			@Override
-			public void preSolve(Contact contact, Manifold oldManifold) {
-				Gdx.app.log("GameScreen", "Presolve");
-			}
-
-			@Override
-			public void postSolve(Contact contact, ContactImpulse impulse) {
-				Gdx.app.log("GameScreen", "Postsolve");
-			}
-
-			@Override
-			public void endContact(Contact contact) {
-				Gdx.app.log("GameScreen", "endContact");
-			}
-
-			@Override
-			public void beginContact(Contact contact) {
-				Gdx.app.log("GameScreen", "beginContact");
-			}
-		};
+	private final ContactListener createContactListener(Collection<IPhysicsEvent> events) {
+		return new TestContactListener(events);
 	};
 
-	// // ENTITY LISTENER TEST ////
+	public class TestContactListener implements ContactListener {
 
+		private Collection<IPhysicsEvent> events;
+
+		public TestContactListener(Collection<IPhysicsEvent> events) {
+			this.events = events;
+		}
+
+		@Override
+		public void preSolve(Contact contact, Manifold oldManifold) {
+			Gdx.app.log("GameScreen", "Presolve");
+		}
+
+		@Override
+		public void postSolve(Contact contact, ContactImpulse impulse) {
+			Gdx.app.log("GameScreen", "Postsolve");
+		}
+
+		@Override
+		public void endContact(Contact contact) {
+			Gdx.app.log("GameScreen", "endContact");
+		}
+
+		@Override
+		public void beginContact(Contact contact) {
+			Gdx.app.log("GameScreen", "beginContact");
+			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
+			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
+			if(categoryA == Constants.GRAVITY_CATEGORY) {
+				this.events.add(new GravityPhysicsEvent(contact.getFixtureA().getBody(), contact.getFixtureB()
+						.getBody()));
+			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
+				this.events.add(new GravityPhysicsEvent(contact.getFixtureB().getBody(), contact.getFixtureA()
+						.getBody()));
+			}
+		}
+	}
+
+	// // ENTITY LISTENER TEST ////
 	private class PhysicsEntityListener implements EntityListener {
 
 		private World world;
@@ -172,7 +192,7 @@ public class GameScreen extends BaseScreen {
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
 
-		bodyDef.position.set(40f, 40f);
+		bodyDef.position.set(40f, 45f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
@@ -183,11 +203,13 @@ public class GameScreen extends BaseScreen {
 
 		// Fixture def with circle
 		FixtureDef fixtureDef = new FixtureDef();
-		
+
 		fixtureDef.shape = circle;
 		fixtureDef.density = 1f;
 		fixtureDef.friction = 0.1f;
 		fixtureDef.restitution = 0.75f; // = Bounciness
+		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -236,6 +258,8 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.density = 5.5f;
 		fixtureDef.friction = 0.1f;
 		// fixtureDef.restitution = 0.5f; // = Bounciness
+		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -245,6 +269,8 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.shape = circle;
 		fixtureDef.density = 0f;
 		fixtureDef.isSensor = true;
+		fixtureDef.filter.categoryBits = Constants.GRAVITY_CATEGORY;
+		// fixtureDef.filter.maskBits = Constants.PLANET_CATEGORY; // Breaks the sensor somehow
 
 		rigidBody.createFixture(fixtureDef);
 
