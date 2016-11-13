@@ -119,33 +119,6 @@ public class GameScreen extends BaseScreen {
 		// TODO: UI
 	}
 
-	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
-	// //// TODO: TEST CONTACT LISTENER //////
-	private final ContactListener createContactListener() {
-		return new ContactListener() {
-
-			@Override
-			public void preSolve(Contact contact, Manifold oldManifold) {
-				Gdx.app.log("GameScreen", "Presolve");
-			}
-
-			@Override
-			public void postSolve(Contact contact, ContactImpulse impulse) {
-				Gdx.app.log("GameScreen", "Postsolve");
-			}
-
-			@Override
-			public void endContact(Contact contact) {
-				Gdx.app.log("GameScreen", "endContact");
-			}
-
-			@Override
-			public void beginContact(Contact contact) {
-				Gdx.app.log("GameScreen", "beginContact");
-			}
-		};
-	};
-
 	// // ENTITY LISTENER TEST ////
 
 	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
@@ -242,7 +215,7 @@ public class GameScreen extends BaseScreen {
 		bodyDef.position.set(40f, 45f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
-		//rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
+		rigidBody.applyForceToCenter(new Vector2(0f, -500), true);
 
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 
