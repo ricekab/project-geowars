@@ -1,10 +1,8 @@
-package be.howest.twentytwo.parametergame.model.system;
+package be.howest.twentytwo.parametergame.model.physics.events;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-
-import be.howest.twentytwo.parametergame.model.physics.events.RepeatingPhysicsEvent;
 
 /**
  * Physics Event describing a body being attracted towards another body.
