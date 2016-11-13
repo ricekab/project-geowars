@@ -1,34 +1,36 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class LevelData {
 	
 	private Box world;
 	private List<PlanetData> planets;
 	private Box spawnBox;
-	private List<SpawnPoolData> spawnpools;
-	private float spawnTreshold;
-	private float spawnTresholdIncrease;
+	private Queue<SpawnPoolData> spawnpools;
 	
-	public LevelData() {
+	public LevelData(Box world, Box spawnBox) {
 		this.planets = new ArrayList<>();
-		this.spawnpools = new ArrayList<>();
+		this.spawnpools = new LinkedList<>();
+		setWorld(world);
+		setSpawnBox(spawnBox);
 	}
 	
 	//	SETTERS
 	
-	public void setWorld(float width, float height) {
-		this.world = new Box(width, height, 0f, 0f);
+	public void setWorld(Box world) {
+		this.world = new Box(world.getWidth(), world.getHeight(), 0f, 0f);
 	}
 	
-	public void addPlanet(float xCoord, float yCoord, float planetRadius, String texture, float mass, float gravityRadius) {
-		planets.add(new PlanetData( xCoord, yCoord, planetRadius, texture, mass, gravityRadius));
+	public void addPlanet(PlanetData planet) {
+		planets.add(planet);
 	}
 	
-	public void setSpawnBox(float width, float height, float xCoord, float yCoord) {
-		this.spawnBox = new Box(width, height, xCoord, yCoord);
+	public void setSpawnBox(Box spawnBox) {
+		this.spawnBox = spawnBox;
 	}
 	
 	public void addSpawnPool() {
@@ -49,16 +51,8 @@ public class LevelData {
 		return spawnBox;
 	}
 	
-	public List<SpawnPoolData> spawnpools() {
+	public Queue<SpawnPoolData> getSpawnpools() {
 		return spawnpools;
-	}
-	
-	public float getSpawnTreshold() {
-		return spawnTreshold;
-	}
-	
-	public float getSpawnTresholdIncrease() {
-		return spawnTresholdIncrease;
 	}
 
 }

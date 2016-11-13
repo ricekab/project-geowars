@@ -7,6 +7,8 @@ import java.util.Random;
 public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cluster, in a random order
 	
 	private Set<ClusterData> clusters;
+	private float spawnTreshold;
+	private float spawnTresholdIncrease;
 	
 	private ClusterData selectRandomCluster() {
 		//TODO initialization so the return doesn't cry. if it actually returns null, it's broken. this needs to be changed.
@@ -44,6 +46,14 @@ public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cl
 		ClusterData randomCluster = selectRandomCluster();
 		reduceAmount(randomCluster);
 		return randomCluster;
+	}
+	
+	public float getSpawnTreshold() {
+		return spawnTreshold;
+	}
+	
+	public float getSpawnTresholdIncrease() {
+		return spawnTresholdIncrease;
 	}
 	
 	//	SETTERS
