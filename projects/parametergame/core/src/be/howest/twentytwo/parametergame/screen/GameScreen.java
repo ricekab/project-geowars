@@ -9,6 +9,8 @@ import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -63,12 +65,15 @@ public class GameScreen extends BaseScreen {
 		 */
 
 		viewport.getCamera().translate(25f, 25f, 0f);
-
+		
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
+		
+		engine.addSystem(new PhysicsSystem(world));
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
-		engine.addSystem(new PhysicsSystem(world));
-
+		
+		engine.addEntityListener(Family.all(BodyComponent.class).get(), createEntityListener(world));
+		
 		engine.addEntity(createShip());
 		engine.addEntity(createPlanet());
 		engine.addEntity(createFloor());
@@ -78,6 +83,7 @@ public class GameScreen extends BaseScreen {
 		// TODO: UI
 	}
 
+	/////// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 	// //// TODO: TEST CONTACT LISTENER //////
 	private final ContactListener createContactListener() {
 		return new ContactListener() {
@@ -103,6 +109,33 @@ public class GameScreen extends BaseScreen {
 			}
 		};
 	};
+	
+	//// ENTITY LISTENER TEST ////
+	
+	private class PhysicsEntityListener implements EntityListener{
+
+		private World world;
+		
+		public PhysicsEntityListener(World world) {
+			this.world = world;
+		}
+		
+		@Override
+		public void entityAdded(Entity entity) {
+			// TODO: world.createBody(...) here?
+			Gdx.app.log("GS/PhysicsEntityListener", "Entity added");
+		}
+
+		@Override
+		public void entityRemoved(Entity entity) {
+			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody());	// Remove body from world
+		}
+		
+	}
+	
+	private EntityListener createEntityListener(World world){
+		return new PhysicsEntityListener(world);
+	}
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
@@ -122,6 +155,7 @@ public class GameScreen extends BaseScreen {
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
+		rigidBody.applyForceToCenter(new Vector2(-1000f, 0), true);
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 
 		CircleShape circle = new CircleShape();
@@ -243,6 +277,8 @@ public class GameScreen extends BaseScreen {
 	}
 
 	// //// /ENTITIES //////
+	
+	////// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
 
 	@Override
 	public void show() {

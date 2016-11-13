@@ -48,6 +48,8 @@ public class RenderSystem extends IteratingSystem {
 		batch.begin();
 		TextureRegion region = spriteComp.getRegion();
 
+		// TODO: Camera has project / unproject methods to convert between world and screen coordinates.
+		
 		float width = region.getRegionWidth();
 		float height = region.getRegionHeight();
 		// float originX = -1 * width*METERS_PER_PIXEL / 2f;	// Offset
