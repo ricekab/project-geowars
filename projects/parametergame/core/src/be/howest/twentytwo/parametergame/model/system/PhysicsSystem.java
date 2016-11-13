@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
