@@ -135,6 +135,13 @@ public class GameScreen extends BaseScreen {
 		@Override
 		public void endContact(Contact contact) {
 			Gdx.app.log("GameScreen", "endContact");
+			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
+			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
+			if(categoryA == Constants.GRAVITY_CATEGORY) {
+				// TODO: REMOVE GRAVITY FROM EVENTS	--> Needs lookup => HashSet?
+			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
+				// TODO: REMOVE GRAVITY FROM EVENTS (See above)
+			}
 		}
 
 		@Override
