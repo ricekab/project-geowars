@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.model.physics.events;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -16,10 +18,12 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 
 	@Override
 	public void execute() {
-		unit.applyForceToCenter(
-				new Vector2((float) (force * Math.sin(unit.getAngle())), (float) (force * Math.cos(unit.getAngle()))),
-				true);
+		//this.force = 1f;
+		Vector2 forceVector = new Vector2(force * MathUtils.cos(unit.getAngle() + MathUtils.PI/2), force
+				* MathUtils.sin(unit.getAngle() + MathUtils.PI/2));
+		Gdx.app.log("LFE", "angle: " + unit.getAngle());
+		Gdx.app.log("LinearForceEvent", "F: " + forceVector.toString());
+		unit.applyForceToCenter(forceVector, true);
 		super.execute();
 	}
-
 }
