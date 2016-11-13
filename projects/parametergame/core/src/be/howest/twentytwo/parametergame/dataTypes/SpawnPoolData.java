@@ -7,17 +7,6 @@ import java.util.Random;
 public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cluster, in a random order
 	
 	private Set<ClusterData> clusters;
-	/* TODO 
-	 * should we make a class variable randomCluster, and set it with a setRandomCluster()?
-	 * that way getRandomCluster has Command/Query separation. now it changes the state,
-	 * with reduceAmount, and also returns something. The calculation logic stays the same.
-	 */
-	
-	public ClusterData getRandomCluster() {
-		ClusterData randomCluster = selectRandomCluster();
-		reduceAmount(randomCluster);
-		return randomCluster;
-	}
 	
 	private ClusterData selectRandomCluster() {
 		//TODO initialization so the return doesn't cry. if it actually returns null, it's broken. this needs to be changed.
@@ -47,6 +36,20 @@ public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cl
 		if(cluster.getAmountStored() < 1) {
 			clusters.remove(cluster);
 		}
+	}
+	
+	//	GETTERS
+	
+	public ClusterData getRandomCluster() {
+		ClusterData randomCluster = selectRandomCluster();
+		reduceAmount(randomCluster);
+		return randomCluster;
+	}
+	
+	//	SETTERS
+	
+	public void addCluster(ClusterData cluster) {
+		clusters.add(cluster);
 	}
 
 }

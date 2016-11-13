@@ -31,8 +31,8 @@ public class LevelData {
 		this.spawnBox = new Box(width, height, xCoord, yCoord);
 	}
 	
-	public void addSpawnPool(/*TODO*/) {
-		spawnpools.add(new SpawnPoolData(/*TODO*/));
+	public void addSpawnPool() {
+		spawnpools.add(new SpawnPoolData());
 	}
 	
 	//	GETTERS

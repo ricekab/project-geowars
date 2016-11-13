@@ -18,10 +18,6 @@ public class ClusterData {	//a cluster contains only 1 type of enemies. can exis
 		setWeight();
 	}
 	
-	private void setWeight() {
-		this.weight = 1 / (groups * enemies);
-	}
-	
 	public void takeOne() {
 		amountStored--;
 	}
@@ -72,6 +68,10 @@ public class ClusterData {	//a cluster contains only 1 type of enemies. can exis
 	
 	public void setEnemies(int enemies) {
 		this.enemies = enemies;
+	}
+	
+	private void setWeight() {
+		this.weight = 1 / (groups * enemies);
 	}
 
 }
