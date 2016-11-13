@@ -14,11 +14,7 @@ public class SpriteComponent implements Component, Poolable {
 	public static final ComponentMapper<SpriteComponent> MAPPER = ComponentMapper.getFor(SpriteComponent.class);
 
 	private TextureRegion region;	// TextureRegion for sprite sheet reasons
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> Some cleanup. Problem with texture render sizes (pixels <-> world units)
 	public TextureRegion getRegion() {
 		return region;
 	}

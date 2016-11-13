@@ -1,9 +1,14 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
@@ -66,6 +71,7 @@ public class GameScreen extends BaseScreen {
 		 * higher? Depends on our units. viewport = sv;
 		 */
 
+<<<<<<< HEAD
 		viewport.getCamera().translate(25f, 25f, 0f);
 
 =======
@@ -88,13 +94,47 @@ public class GameScreen extends BaseScreen {
 
 		engine.addEntity(createShip());
 		engine.addEntity(createPlanet());
+=======
+		viewport.getCamera().translate(0f, 0f, 0f);
+
+		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
+
+		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+
+		// DIRTY
+
+		// END DIRTY
+
+		engine.addSystem(new PhysicsSystem(world, events));
+		engine.addSystem(renderSys);
+		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+
+		engine.addEntityListener(Family.all(BodyComponent.class).get(), createEntityListener(world));
+
+		Entity ship = createShip();
+		Entity planet = createPlanet();
+
+		engine.addEntity(ship);
+		engine.addEntity(planet);
+>>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
 		engine.addEntity(createFloor());
+		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
+		engine.addEntity(createStaticCircle(0, 0, 1f));
+		engine.addEntity(createStaticCircle(5f, 5f, 1f));
+		engine.addEntity(createStaticCircle(50f, 50f, 1f));
+
+		events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
+				ship.getComponent(BodyComponent.class).getBody()));
 	}
 
 	private void initUI() {
 		// TODO: UI
 	}
 
+<<<<<<< HEAD
+=======
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
+>>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
 	// //// TODO: TEST CONTACT LISTENER //////
 	private final ContactListener createContactListener() {
 		return new ContactListener() {
@@ -120,6 +160,36 @@ public class GameScreen extends BaseScreen {
 			}
 		};
 	};
+<<<<<<< HEAD
+=======
+
+	// // ENTITY LISTENER TEST ////
+
+	private class PhysicsEntityListener implements EntityListener {
+
+		private World world;
+
+		public PhysicsEntityListener(World world) {
+			this.world = world;
+		}
+
+		@Override
+		public void entityAdded(Entity entity) {
+			// TODO: world.createBody(...) here?
+			Gdx.app.log("GS/PhysicsEntityListener", "Entity added");
+		}
+
+		@Override
+		public void entityRemoved(Entity entity) {
+			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
+		}
+
+	}
+
+	private EntityListener createEntityListener(World world) {
+		return new PhysicsEntityListener(world);
+	}
+>>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
@@ -134,7 +204,7 @@ public class GameScreen extends BaseScreen {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
-		
+
 		bodyDef.position.set(40f, 40f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
@@ -159,6 +229,9 @@ public class GameScreen extends BaseScreen {
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
@@ -205,7 +278,7 @@ public class GameScreen extends BaseScreen {
 		// Fixture def with circle
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;
-		fixtureDef.density = 10f;
+		fixtureDef.density = 5.5f;
 		fixtureDef.friction = 0.1f;
 		// fixtureDef.restitution = 0.5f; // = Bounciness
 
@@ -269,7 +342,50 @@ public class GameScreen extends BaseScreen {
 		return floor;
 	}
 
+	private Entity createStaticCircle(float x, float y, float radius) {
+		Entity circleEntity = engine.createEntity();
+
+		TransformComponent transform = new TransformComponent();
+		transform.setPos(new Vector2(x, y));
+		transform.setScale(new Vector2(1f, 1f));
+		transform.setRotation(0f);
+		circleEntity.add(transform);
+
+		BodyComponent bodyComponent = new BodyComponent();
+
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.StaticBody;
+
+		bodyDef.position.set(x, y);
+		Body rigidBody = world.createBody(bodyDef); // Put in world
+		bodyComponent.setBody(rigidBody);
+
+		CircleShape circle = new CircleShape();
+		circle.setRadius(radius);
+
+		// Fixture def with circle
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = circle;
+		fixtureDef.density = 1f;
+		fixtureDef.friction = 0.1f;
+		fixtureDef.restitution = 0.75f; // = Bounciness
+
+		rigidBody.createFixture(fixtureDef); // Attach fixture to body
+
+		// Cleanup
+		circle.dispose();
+
+		circleEntity.add(bodyComponent);
+
+		return circleEntity;
+	}
+
 	// //// /ENTITIES //////
+<<<<<<< HEAD
+=======
+
+	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
+>>>>>>> Basic Physics Event system. Simulated gravity proof-of-concept.
 
 	@Override
 	public void show() {
