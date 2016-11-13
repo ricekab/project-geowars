@@ -7,7 +7,7 @@ import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
@@ -183,6 +183,7 @@ public class GameScreen extends BaseScreen {
 
 		// Fixture def with circle
 		FixtureDef fixtureDef = new FixtureDef();
+		
 		fixtureDef.shape = circle;
 		fixtureDef.density = 1f;
 		fixtureDef.friction = 0.1f;

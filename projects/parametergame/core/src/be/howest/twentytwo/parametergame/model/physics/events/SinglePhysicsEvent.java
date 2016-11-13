@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.events;
+package be.howest.twentytwo.parametergame.model.physics.events;
 
 /**
  * Represents an event that only fires once.
