@@ -2,14 +2,19 @@ package be.howest.twentytwo.parametergame.screen;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.input.TestInputProcessor;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.TorqueEvent;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
@@ -19,6 +24,7 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -76,11 +82,6 @@ public class GameScreen extends BaseScreen {
 
 		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
 
-		
-		// DIRTY
-
-		// END DIRTY
-
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
@@ -102,6 +103,16 @@ public class GameScreen extends BaseScreen {
 		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(), ship.getComponent(
 		 * BodyComponent.class).getBody()));
 		 */
+		
+		// INPUT MAPPING TEST
+		Body shipBody = BodyComponent.MAPPER.get(ship).getBody();
+		
+		Map<Integer, IPhysicsEvent> keyMap = new HashMap<Integer, IPhysicsEvent>();
+		keyMap.put(Keys.Z, new LinearForceEvent(shipBody, 1000f));
+		keyMap.put(Keys.S, new LinearForceEvent(shipBody, -500f));
+		keyMap.put(Keys.Q, new TorqueEvent(shipBody, 500f));
+		keyMap.put(Keys.D, new TorqueEvent(shipBody, -500f));
+		Gdx.input.setInputProcessor(new TestInputProcessor(keyMap));
 	}
 
 	private void initUI() {
@@ -203,7 +214,6 @@ public class GameScreen extends BaseScreen {
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 		rigidBody.applyForceToCenter(new Vector2(0f, -2500f), true);
-		rigidBody.applyTorque(-1000f, true);
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 
 		CircleShape circle = new CircleShape();
