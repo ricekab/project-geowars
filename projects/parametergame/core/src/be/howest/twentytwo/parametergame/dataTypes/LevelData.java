@@ -33,8 +33,8 @@ public class LevelData {
 		this.spawnBox = spawnBox;
 	}
 	
-	public void addSpawnPool() {
-		spawnpools.add(new SpawnPoolData());
+	public void addSpawnPool(SpawnPoolData spawnPool) {
+		spawnpools.offer(spawnPool);
 	}
 	
 	//	GETTERS

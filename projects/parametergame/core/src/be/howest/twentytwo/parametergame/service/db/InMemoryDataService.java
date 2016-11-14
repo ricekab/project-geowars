@@ -13,7 +13,7 @@ public class InMemoryDataService implements IDataService {
 	//	TODO make abstract class to manage DB systems?
 	
 	public LevelData getLevel(String key) {
-		LevelData data = new LevelData();
+		LevelData data = new LevelData(new Box(0f, 0f, 0f, 0f), new Box(0f, 0f, 0f, 0f));
 		return data;
 	}
 	
