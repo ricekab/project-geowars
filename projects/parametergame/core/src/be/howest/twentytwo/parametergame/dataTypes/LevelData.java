@@ -1,19 +1,26 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 public class LevelData {
 	
 	private BoxData world;
-	private List<PlanetData> planets;
+	private Set<PlanetData> planets;
 	private BoxData spawnBox;
 	private Queue<SpawnPoolData> spawnpools;
 	
+	public LevelData() {	// I feel like we should be able to call this witouth putting data in it. to be reviewed
+		this.planets = new HashSet<>();
+		this.spawnpools = new LinkedList<>();
+	}
+	
 	public LevelData(BoxData world, BoxData spawnBox) {
-		this.planets = new ArrayList<>();
+		this.planets = new HashSet<>();
 		this.spawnpools = new LinkedList<>();
 		setWorld(world);
 		setSpawnBox(spawnBox);
@@ -43,7 +50,7 @@ public class LevelData {
 		return world;
 	};
 	
-	public List<PlanetData> getPlanets() {
+	public Set<PlanetData> getPlanets() {
 		return planets;
 	}
 	

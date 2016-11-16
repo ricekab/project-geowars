@@ -61,5 +61,13 @@ public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cl
 	public void addCluster(ClusterData cluster) {
 		clusters.add(cluster);
 	}
+	
+	public void setSpawnTreshold(float spawnTreshold) {
+		this.spawnTreshold = spawnTreshold;
+	}
+	
+	public void setSpawnTresholdIncrease(float spawnTresholdIncrease) {
+		this.spawnTresholdIncrease = spawnTresholdIncrease;
+	}
 
 }
