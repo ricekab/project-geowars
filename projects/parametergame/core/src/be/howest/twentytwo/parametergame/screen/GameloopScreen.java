@@ -93,12 +93,12 @@ public class GameloopScreen extends BaseScreen {
 			statisticsDelta = 0;
 			long currentTime = System.nanoTime();
 			long runningTime = (currentTime - startTime);
-			getGame().logger.info("UPS: " + (float) updateCalls / runningTime * 1000000000 + "(Target: "
-					+ (1f / TIMESTEP) + ")");
-			getGame().logger.info("FPS: " + (float) drawCalls / runningTime * 1000000000);
+			Gdx.app.log("GameloopScreen", ("UPS: " + (float) updateCalls / runningTime * 1000000000 + "(Target: "
+					+ (1f / TIMESTEP) + ")"));
+			Gdx.app.log("GameloopScreen", ("FPS: " + (float) drawCalls / runningTime * 1000000000));
 			float avgFPS = (float) FRAME_TIMES_STORED / (currentTime - drawTimes[drawTimesIdx]) * 1000000000;
-			getGame().logger.info("AVG FPS: " + avgFPS);
-			getGame().logger.info("===");
+			Gdx.app.log("GameloopScreen", ("AVG FPS: " + avgFPS));
+			Gdx.app.log("GameloopScreen", ("==="));
 		}
 	}
 
