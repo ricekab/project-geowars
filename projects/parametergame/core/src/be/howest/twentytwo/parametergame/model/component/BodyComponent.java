@@ -24,6 +24,7 @@ public class BodyComponent implements Component, Poolable {
 
 	@Override
 	public void reset() {
+		body = null;
 		// Need to reset? Should be set by factory anyway.
 	}
 }

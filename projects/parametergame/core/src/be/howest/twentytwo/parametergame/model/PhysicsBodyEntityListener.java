@@ -17,7 +17,11 @@ public class PhysicsBodyEntityListener implements EntityListener {
 
 	@Override
 	public void entityAdded(Entity entity) {
-		// TODO: world.createBody(...) here?
+		// TODO: world.createBody(...) here? 
+		/* --> Body does not store bodyDef, would have to be part of bodyComponent.
+		 * Is storing a BodyDef useful for anything other than this creation? Cloning perhaps?
+		 * (Prototype object for spawning enemies, objects, ...)
+		 */
 		Gdx.app.log("GS/PhysicsEntityListener", "Entity added");
 	}
 

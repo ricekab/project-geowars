@@ -43,6 +43,8 @@ public class TransformComponent implements Component, Poolable {
 	
 	@Override
 	public void reset() {
+		setPos(null);
+		setScale(null);
 		// Need to reset? Should be set by factory anyway.
 	}
 	

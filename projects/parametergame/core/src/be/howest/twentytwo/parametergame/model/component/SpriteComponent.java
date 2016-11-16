@@ -25,6 +25,7 @@ public class SpriteComponent implements Component, Poolable {
 
 	@Override
 	public void reset() {
+		region = null;
 		// Need to reset? Should be set by factory anyway.
 	}
 }
