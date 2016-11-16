@@ -10,10 +10,12 @@ import java.util.Map;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.input.TestInputProcessor;
+import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.TorqueEvent;
@@ -64,7 +66,9 @@ public class GameScreen extends BaseScreen {
 		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
 
 		world = new World(new Vector2(0f, 0f), true); // 0g world
-		world.setContactListener(createContactListener(events));
+		//world.setContactListener(createContactListener(events));
+		ContactListener collisionListener = new GravityContactProcessor(events);
+		world.setContactListener(collisionListener);
 
 		// ECS systems
 		// TODO: Viewport choice
@@ -86,7 +90,7 @@ public class GameScreen extends BaseScreen {
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
-		engine.addEntityListener(Family.all(BodyComponent.class).get(), createEntityListener(world));
+		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
 		Entity ship = createShip();
 		Entity planet = createPlanet();
@@ -172,32 +176,6 @@ public class GameScreen extends BaseScreen {
 						.getBody()));
 			}
 		}
-	}
-
-	// // ENTITY LISTENER TEST ////
-	private class PhysicsEntityListener implements EntityListener {
-
-		private World world;
-
-		public PhysicsEntityListener(World world) {
-			this.world = world;
-		}
-
-		@Override
-		public void entityAdded(Entity entity) {
-			// TODO: world.createBody(...) here?
-			Gdx.app.log("GS/PhysicsEntityListener", "Entity added");
-		}
-
-		@Override
-		public void entityRemoved(Entity entity) {
-			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
-		}
-
-	}
-
-	private EntityListener createEntityListener(World world) {
-		return new PhysicsEntityListener(world);
 	}
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
