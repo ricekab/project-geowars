@@ -25,6 +25,9 @@ public class TransformComponent implements Component, Poolable {
 	public void setPos(Vector2 position) {
 		this.position = position;
 	}
+	public void setPos(float x, float y){
+		this.position = new Vector2(x, y);
+	}
 	public Vector2 getScale() {
 		return scale;
 	}
