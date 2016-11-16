@@ -7,12 +7,12 @@ import java.util.Queue;
 
 public class LevelData {
 	
-	private Box world;
+	private BoxData world;
 	private List<PlanetData> planets;
-	private Box spawnBox;
+	private BoxData spawnBox;
 	private Queue<SpawnPoolData> spawnpools;
 	
-	public LevelData(Box world, Box spawnBox) {
+	public LevelData(BoxData world, BoxData spawnBox) {
 		this.planets = new ArrayList<>();
 		this.spawnpools = new LinkedList<>();
 		setWorld(world);
@@ -21,15 +21,15 @@ public class LevelData {
 	
 	//	SETTERS
 	
-	public void setWorld(Box world) {
-		this.world = new Box(world.getWidth(), world.getHeight(), 0f, 0f);
+	public void setWorld(BoxData world) {
+		this.world = new BoxData(world.getWidth(), world.getHeight(), 0f, 0f);
 	}
 	
 	public void addPlanet(PlanetData planet) {
 		planets.add(planet);
 	}
 	
-	public void setSpawnBox(Box spawnBox) {
+	public void setSpawnBox(BoxData spawnBox) {
 		this.spawnBox = spawnBox;
 	}
 	
@@ -39,7 +39,7 @@ public class LevelData {
 	
 	//	GETTERS
 	
-	public Box getWorld() {
+	public BoxData getWorld() {
 		return world;
 	};
 	
@@ -47,7 +47,7 @@ public class LevelData {
 		return planets;
 	}
 	
-	public Box getSpawnBox() {
+	public BoxData getSpawnBox() {
 		return spawnBox;
 	}
 	

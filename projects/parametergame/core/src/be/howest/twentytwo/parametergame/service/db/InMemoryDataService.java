@@ -10,44 +10,45 @@ import be.howest.twentytwo.parametergame.dataTypes.*;
 public class InMemoryDataService implements IDataService {
 //for the time being, this will have hard-coded data, and is later DELETED
 	//	data management josb: faking access to MySQL data and return the appropriate data
-	//	TODO make abstract class to manage DB systems?
-	
-	public LevelData getLevel(String key) {
-		LevelData data = new LevelData(new Box(0f, 0f, 0f, 0f), new Box(0f, 0f, 0f, 0f));
-		return data;
-	}
-	
+
+	@Override
 	public UserData getUser(String serverID) {
 		UserData data = new UserData();
 		return data;
 	}
-	
+
+	@Override
 	public List<ShipData> getShips(UserData user) {
 		List<ShipData> data = new ArrayList<>();
 		data.add(new ShipData());
 		return data;
 	}
-	
+
+	@Override
 	public List<DroneData> getDrones(UserData user) {
 		List<DroneData> data = new ArrayList<>();
 		data.add(new DroneData());
 		return data;
 	}
-	
+
+	@Override
 	public List<EnemyData> getEnemies(String... name) {
 		List<EnemyData> data = new ArrayList<>();
 		data.add(new EnemyData());
 		return data;
 	}
-	
+
+	@Override
 	public void saveUser(UserData data) {
 		
 	}
-	
+
+	@Override
 	public void saveShip(ShipData data) {
 		
 	}
-	
+
+	@Override
 	public void saveDrone(DroneData data) {
 		
 	}
