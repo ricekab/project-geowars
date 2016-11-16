@@ -123,60 +123,7 @@ public class GameScreen extends BaseScreen {
 		// TODO: UI
 	}
 
-	// // ENTITY LISTENER TEST ////
-
 	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
-	// //// TODO: TEST CONTACT LISTENER //////
-	private final ContactListener createContactListener(Collection<IPhysicsEvent> events) {
-		return new TestContactListener(events);
-	};
-
-	public class TestContactListener implements ContactListener {
-
-		private Collection<IPhysicsEvent> events;
-
-		public TestContactListener(Collection<IPhysicsEvent> events) {
-			this.events = events;
-		}
-
-		@Override
-		public void preSolve(Contact contact, Manifold oldManifold) {
-			Gdx.app.log("GameScreen", "Presolve");
-		}
-
-		@Override
-		public void postSolve(Contact contact, ContactImpulse impulse) {
-			Gdx.app.log("GameScreen", "Postsolve");
-		}
-
-		@Override
-		public void endContact(Contact contact) {
-			Gdx.app.log("GameScreen", "endContact");
-			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
-			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-			if(categoryA == Constants.GRAVITY_CATEGORY) {
-				// TODO: REMOVE GRAVITY FROM EVENTS --> Needs lookup => HashSet?
-				Gdx.app.log("ContactListener", "Fixture A is a gravity field");
-			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
-				// TODO: REMOVE GRAVITY FROM EVENTS (See above)
-				Gdx.app.log("ContactListener", "Fixture B is a gravity field");
-			}
-		}
-
-		@Override
-		public void beginContact(Contact contact) {
-			Gdx.app.log("GameScreen", "beginContact");
-			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
-			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-			if(categoryA == Constants.GRAVITY_CATEGORY) {
-				this.events.add(new GravityPhysicsEvent(contact.getFixtureA().getBody(), contact.getFixtureB()
-						.getBody()));
-			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
-				this.events.add(new GravityPhysicsEvent(contact.getFixtureB().getBody(), contact.getFixtureA()
-						.getBody()));
-			}
-		}
-	}
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
