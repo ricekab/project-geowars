@@ -8,11 +8,9 @@ import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -28,9 +26,10 @@ public class PhysicsSystem extends IteratingSystem {
 	private World world;
 	/** Time elapsed since last update */
 	private float elapsed;
-	private Collection<IPhysicsEvent> eventCollection;
+	private Collection<IPhysicsEvent> eventCollection; // TODO: Collection requirements? Might need change.
 
 	public PhysicsSystem(World world, Collection<IPhysicsEvent> events){
+		// TODO: Think I should introduce a movement component?
 		super(Family.all(TransformComponent.class, BodyComponent.class).get());
 		this.world = world;
 		this.elapsed = 0f;
@@ -38,7 +37,7 @@ public class PhysicsSystem extends IteratingSystem {
 	}
 	
 	public PhysicsSystem(World world) {
-		this(world, new ArrayList<IPhysicsEvent>()); // TODO: Collection requirements? Might need change.
+		this(world, new ArrayList<IPhysicsEvent>());
 	}
 
 	@Override

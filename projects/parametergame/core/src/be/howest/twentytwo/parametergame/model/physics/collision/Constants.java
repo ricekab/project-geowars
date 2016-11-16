@@ -1,5 +1,8 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
+/**
+ * Purely static class to define category and mask bits for physics interactions.
+ */
 public class Constants {
 	// CATEGORY BITS
 	public static final short PLAYER_CATEGORY = 0x0001;
