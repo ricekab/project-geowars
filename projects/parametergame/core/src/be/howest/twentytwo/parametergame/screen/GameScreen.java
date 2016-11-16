@@ -1,5 +1,8 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -79,7 +82,6 @@ public class GameScreen extends BaseScreen {
 
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
 
-
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
@@ -101,10 +103,10 @@ public class GameScreen extends BaseScreen {
 		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(), ship.getComponent(
 		 * BodyComponent.class).getBody()));
 		 */
-		
+
 		// INPUT MAPPING TEST
 		Body shipBody = BodyComponent.MAPPER.get(ship).getBody();
-		
+
 		Map<Integer, IPhysicsEvent> keyMap = new HashMap<Integer, IPhysicsEvent>();
 		keyMap.put(Keys.Z, new LinearForceEvent(shipBody, 1000f));
 		keyMap.put(Keys.S, new LinearForceEvent(shipBody, -500f));
@@ -149,9 +151,11 @@ public class GameScreen extends BaseScreen {
 			short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 			short categoryB = contact.getFixtureB().getFilterData().categoryBits;
 			if(categoryA == Constants.GRAVITY_CATEGORY) {
-				// TODO: REMOVE GRAVITY FROM EVENTS	--> Needs lookup => HashSet?
+				// TODO: REMOVE GRAVITY FROM EVENTS --> Needs lookup => HashSet?
+				Gdx.app.log("ContactListener", "Fixture A is a gravity field");
 			} else if(categoryB == Constants.GRAVITY_CATEGORY) {
 				// TODO: REMOVE GRAVITY FROM EVENTS (See above)
+				Gdx.app.log("ContactListener", "Fixture B is a gravity field");
 			}
 		}
 
@@ -231,7 +235,6 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
 		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
 
-
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
 		// Cleanup
@@ -239,7 +242,6 @@ public class GameScreen extends BaseScreen {
 
 		bodyComponent.setBody(rigidBody);
 		ship.add(bodyComponent);
-
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
@@ -387,7 +389,6 @@ public class GameScreen extends BaseScreen {
 	// //// /ENTITIES //////
 
 	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
-
 
 	@Override
 	public void show() {
