@@ -2,8 +2,8 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.system.GravityPhysicsEvent;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;

@@ -22,7 +22,7 @@ public class PhysicsBodyEntityListener implements EntityListener {
 		 * Is storing a BodyDef useful for anything other than this creation? Cloning perhaps?
 		 * (Prototype object for spawning enemies, objects, ...)
 		 */
-		Gdx.app.log("GS/PhysicsEntityListener", "Entity added");
+		Gdx.app.log("PhysicsBodyEntityListener", "Entity added");
 	}
 
 	@Override

@@ -12,27 +12,35 @@ public abstract class TimedPhysicsEvent implements IPhysicsEvent {
 
 	/**
 	 * Creates a Timed Physics Event with specified number of engine steps. Note that {@link #TimedPhysicsEvent(float)}
-	 * is the preferred method of instantiation since it's directly related to the timestep.
+	 * is the preferred method of instantiation since it's directly related to the time step.
 	 * 
 	 * @param numberOfSteps
 	 *            - Number of Physics engine time steps.
 	 */
 	public TimedPhysicsEvent(int numberOfSteps) {
-
+		this.remainingSteps = numberOfSteps;
 	}
 
+	/**
+	 * Creates a Timed Physics Event with specified duration. There may be some deviation on the duration since physics
+	 * steps are discrete.
+	 * 
+	 * @param timeInSeconds
+	 *            - Time in seconds that this event is active. Gets rounded to nearest engine time step.
+	 */
 	public TimedPhysicsEvent(float timeInSeconds) {
 		// Round to nearest number of physics time steps
 		if(timeInSeconds < PhysicsSystem.PHYSICS_TIMESTEP) {
-			this.remainingSteps = Math.round(timeInSeconds / PhysicsSystem.PHYSICS_TIMESTEP);	// TODO: Maybe want to round up?	
-		} else{
+			this.remainingSteps = Math.round(timeInSeconds / PhysicsSystem.PHYSICS_TIMESTEP); 
+			// TODO: Maybe want to round up?
+		} else {
 			this.remainingSteps = 1;
 		}
 	}
 
 	@Override
 	public boolean isConsumed() {
-		if(remainingSteps <= 0){
+		if(remainingSteps <= 0) {
 			return true;
 		}
 		return false;

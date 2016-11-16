@@ -18,12 +18,11 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 
 	@Override
 	public void execute() {
-		//this.force = 1f;
+		super.execute();
 		Vector2 forceVector = new Vector2(force * MathUtils.cos(unit.getAngle() + MathUtils.PI/2), force
 				* MathUtils.sin(unit.getAngle() + MathUtils.PI/2));
 		Gdx.app.log("LFE", "angle: " + unit.getAngle());
 		Gdx.app.log("LinearForceEvent", "F: " + forceVector.toString());
 		unit.applyForceToCenter(forceVector, true);
-		super.execute();
 	}
 }
