@@ -16,7 +16,7 @@ public class BoxData {
 		setYCoord(yCoord);
 	}
 	
-	public void setWidth(float Width) {
+	public void setWidth(float width) {
 		if(width >= minWidth) {
 			this.width = width;
 		} else {
@@ -24,7 +24,7 @@ public class BoxData {
 		}
 	}
 	
-	public void setHeight(float Height) {
+	public void setHeight(float height) {
 		if(height >= minHeight) {
 			this.height = height;
 		} else {

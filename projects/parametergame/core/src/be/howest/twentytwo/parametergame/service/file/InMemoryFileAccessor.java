@@ -9,7 +9,7 @@ import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolData;
 public class InMemoryFileAccessor implements IFileAccessor{
 
 	@Override
-	public LevelData getLevel(String location) {
+	public LevelData loadLevel(String justPutARandomString) {
 		BoxData world = new BoxData(1000f, 500f, 0f, 0f);
 		BoxData spawnBox = new BoxData(250f, 125f, 500f, 250f);
 		PlanetData planet = new PlanetData(377f, 183f, 125f, "texture.png", 500f, 175f);

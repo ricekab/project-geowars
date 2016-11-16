@@ -1,14 +1,17 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 import java.util.Set;
-import java.util.Map;
-import java.util.Random;
+import java.util.HashSet;
 
 public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cluster, in a random order
 	
 	private Set<ClusterData> clusters;
 	private float spawnTreshold;
 	private float spawnTresholdIncrease;
+	
+	public SpawnPoolData() {
+		clusters = new HashSet<>();
+	}
 	
 	private ClusterData selectRandomCluster() {
 		//TODO initialization so the return doesn't cry. if it actually returns null, it's broken. this needs to be changed.
