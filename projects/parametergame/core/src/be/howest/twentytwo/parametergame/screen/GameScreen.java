@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.input.TestInputProcessor;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
@@ -47,8 +47,8 @@ public class GameScreen extends BaseScreen {
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
 
-	public GameScreen(ParameterGame game) {
-		super(game);
+	public GameScreen(ScreenContext context) {
+		super(context);
 		initWorld();
 		initUI();
 	}
@@ -77,7 +77,7 @@ public class GameScreen extends BaseScreen {
 		 */
 		viewport.getCamera().translate(25f, 25f, 0f);
 
-		RenderSystem renderSys = new RenderSystem(getGame().batch, viewport);
+		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
 
 
 		engine.addSystem(new PhysicsSystem(world, events));
@@ -243,9 +243,9 @@ public class GameScreen extends BaseScreen {
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
-		getGame().assetMgr.load("mrArrow.png", Texture.class);
-		getGame().assetMgr.finishLoading();
-		Texture texture = getGame().assetMgr.get("mrArrow.png", Texture.class);
+		getContext().getAssetManager().load("mrArrow.png", Texture.class);
+		getContext().getAssetManager().finishLoading();
+		Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
 		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a sheet)
 
 		sprite.setRegion(region);

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.ScreenContext;
 
 @Deprecated
 public class GameloopScreen extends BaseScreen {
@@ -37,8 +38,8 @@ public class GameloopScreen extends BaseScreen {
 	private int drawCalls;
 	private int updateCalls;
 
-	public GameloopScreen(ParameterGame game) {
-		super(game);
+	public GameloopScreen(ScreenContext context) {
+		super(context);
 		frameSkipCount = 0;
 		elapsed = 0f;
 		drawCalls = 0;
@@ -63,8 +64,8 @@ public class GameloopScreen extends BaseScreen {
 	}
 
 	private void initScene2DUI() {
-		uiStage = new Stage(viewport, getGame().batch);
-		Skin skin = getGame().assetMgr.get("ui/uiskin.json", Skin.class);
+		uiStage = new Stage(viewport, getContext().getSpriteBatch());
+		Skin skin = getContext().getAssetManager().get("ui/uiskin.json", Skin.class);
 		Table root = new Table();
 	}
 
