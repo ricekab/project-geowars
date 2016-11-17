@@ -1,6 +1,6 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class PlanetData {
+public class PlanetData implements PlanetDataI{
 	
 	private float xCoord;
 	private float yCoord;

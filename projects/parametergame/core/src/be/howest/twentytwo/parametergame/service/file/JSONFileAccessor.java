@@ -49,10 +49,14 @@ public class JSONFileAccessor implements IFileAccessor{
 	}
 	
 	public String validatedLocation(String location) {
-		String[] locationValidator = location.split(".txt");
-		if(locationValidator[locationValidator.length - 1] != ".txt") {
-			//location += "/LevelSave.txt";
+		String[] locationValidator = location.split(".");
+		System.out.println("zegIets!");
+		for(String s : locationValidator) {
+			System.out.println(s);
 		}
+		if(locationValidator.length >= 1 && locationValidator[locationValidator.length - 1] != "txt") {
+			location += "/LevelSave.txt";
+			}
 		return location;
 	}
 

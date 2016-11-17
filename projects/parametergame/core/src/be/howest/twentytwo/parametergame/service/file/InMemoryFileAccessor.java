@@ -28,4 +28,8 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		return data;
 	}
 	
+	public void saveLevel(LevelData data, String saveLocation) {
+		//Nothing actually happens
+	}
+	
 }

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class LevelData {
+public class LevelData implements LevelDataI{
 	
 	private BoxData world;
 	private Set<PlanetData> planets;
@@ -56,7 +56,7 @@ public class LevelData {
 		return spawnBox;
 	}
 	
-	public Queue<SpawnPoolData> getSpawnpools() {
+	public Queue<SpawnPoolData> getSpawnPools() {
 		return spawnpools;
 	}
 

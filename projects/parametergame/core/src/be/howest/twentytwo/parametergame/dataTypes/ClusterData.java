@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class ClusterData {	//a cluster contains only 1 type of enemies. can exist more then once per pool
+public class ClusterData implements ClusterDataI{	
+	//a cluster contains only 1 type of enemies. can exist more then once per pool
 	
 	private float chance;
 	private int amountStored;

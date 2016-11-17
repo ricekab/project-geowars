@@ -3,7 +3,7 @@ package be.howest.twentytwo.parametergame.dataTypes;
 import java.util.Set;
 import java.util.HashSet;
 
-public class SpawnPoolData {	//a collection of enemy clusters. they spawn per cluster, in a random order
+public class SpawnPoolData implements SpawnPoolDataI{	//a collection of enemy clusters. they spawn per cluster, in a random order
 	
 	private Set<ClusterData> clusters;
 	private float spawnTreshold;

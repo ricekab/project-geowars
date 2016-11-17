@@ -1,6 +1,6 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class BoxData {
+public class BoxData implements BoxDataI{
 	
 	private float width;
 	private float height;
