@@ -25,4 +25,30 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 		Gdx.app.log("LinearForceEvent", "F: " + forceVector.toString());
 		unit.applyForceToCenter(forceVector, true);
 	}
+	
+	public Body getUnit(){
+		return unit;
+	}
+	
+	public float getForce(){
+		return force;
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO: This hashcode is bad, doesn't account for isConsumed either.
+		return (int)(getUnit().hashCode() * getForce());	// TODO Float to int => safe cast?
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof LinearForceEvent){
+			LinearForceEvent other = (LinearForceEvent)obj;
+			// TODO: Comparing floats by equality. This is not safe.
+			if(getUnit().equals(other.getUnit()) && getForce() == other.getForce()){
+				return true;
+			}
+		}
+		return false;
+	}
 }

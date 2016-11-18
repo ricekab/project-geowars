@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Kevin CY Tang
  */
 public class PhysicsSystem extends IteratingSystem {
-	
+
 	public static final int PRIORITY = 0;
 
 	public static final float PHYSICS_TIMESTEP = 1 / 30f;
@@ -28,16 +28,17 @@ public class PhysicsSystem extends IteratingSystem {
 	private World world;
 	/** Time elapsed since last update */
 	private float elapsed;
-	private Collection<IPhysicsEvent> eventCollection; // TODO: Collection requirements? Might need change.
+	private Collection<IPhysicsEvent> eventCollection; // TODO: Collection requirements? Might need
+														// change.
 
-	public PhysicsSystem(World world, Collection<IPhysicsEvent> events){
+	public PhysicsSystem(World world, Collection<IPhysicsEvent> events) {
 		// TODO: Think I should introduce a movement component?
 		super(Family.all(TransformComponent.class, BodyComponent.class).get(), PRIORITY);
 		this.world = world;
 		this.elapsed = 0f;
 		this.eventCollection = events;
 	}
-	
+
 	public PhysicsSystem(World world) {
 		this(world, new ArrayList<IPhysicsEvent>());
 	}
@@ -46,22 +47,27 @@ public class PhysicsSystem extends IteratingSystem {
 	public void update(float deltaTime) {
 		elapsed += deltaTime;
 		if(elapsed >= PHYSICS_TIMESTEP) { // World timestep
-			// Process physics events (Collisions and input events)
-			Iterator<IPhysicsEvent> it = eventCollection.iterator();
-			IPhysicsEvent evt;
-			while(it.hasNext()){
-				evt = it.next();
-				if(!evt.isConsumed()){
-					evt.execute();
-				} else{
+			processEvents(); // Process physics events (Collisions and input events)
+			world.step(PHYSICS_TIMESTEP, 6, 3); // Advance simulation
+			elapsed -= PHYSICS_TIMESTEP;
+			super.update(deltaTime); // processEntity below
+		}
+	}
+
+	private void processEvents() {
+		Iterator<IPhysicsEvent> it = eventCollection.iterator();
+		IPhysicsEvent evt;
+		while (it.hasNext()) {
+			evt = it.next();
+			if(!evt.isConsumed()) {
+				evt.execute();
+				if(evt.isConsumed()) {
 					it.remove();
 				}
+			} else {
+				it.remove(); // Not redundant, other systems can affect events.
 			}
-			world.step(PHYSICS_TIMESTEP, 6, 3);		// Advance simulation
-			elapsed -= PHYSICS_TIMESTEP;
-			super.update(deltaTime); 	// processEntity below
 		}
-
 	}
 
 	@Override
