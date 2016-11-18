@@ -1,7 +1,6 @@
 package be.howest.twentytwo.parametergame.desktop;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
-import be.howest.twentytwo.parametergame.injection.DesktopModule;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;

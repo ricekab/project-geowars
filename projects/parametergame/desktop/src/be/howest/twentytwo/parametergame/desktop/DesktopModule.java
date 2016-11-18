@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.injection;
+package be.howest.twentytwo.parametergame.desktop;
 
 import com.google.inject.AbstractModule;
 
