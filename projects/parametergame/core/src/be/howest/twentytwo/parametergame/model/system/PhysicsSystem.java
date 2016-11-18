@@ -32,7 +32,6 @@ public class PhysicsSystem extends IteratingSystem {
 														// change.
 
 	public PhysicsSystem(World world, Collection<IPhysicsEvent> events) {
-		// TODO: Think I should introduce a movement component?
 		super(Family.all(TransformComponent.class, BodyComponent.class).get(), PRIORITY);
 		this.world = world;
 		this.elapsed = 0f;

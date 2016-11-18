@@ -58,7 +58,7 @@ public class GameScreen extends BaseScreen {
 		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
 
 		world = new World(new Vector2(0f, 0f), true); // 0g world
-		//world.setContactListener(createContactListener(events));
+		// world.setContactListener(createContactListener(events));
 		ContactListener collisionListener = new GravityContactProcessor(events);
 		world.setContactListener(collisionListener);
 
@@ -67,12 +67,12 @@ public class GameScreen extends BaseScreen {
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 		viewport = new FitViewport(100f, 100f); // Viewport size (in world units)
 		/*
-		 * B) ScreenViewport = full size without stretching, but shown field is different based on aspect ratio -->
-		 * possible balance concern
+		 * B) ScreenViewport = full size without stretching, but shown field is different based on
+		 * aspect ratio --> possible balance concern
 		 */
 		/*
-		 * ScreenViewport sv = new ScreenViewport(); sv.setUnitsPerPixel(0.2f); // Note: Real value should probably be
-		 * higher? Depends on our units. viewport = sv;
+		 * ScreenViewport sv = new ScreenViewport(); sv.setUnitsPerPixel(0.2f); // Note: Real value
+		 * should probably be higher? Depends on our units. viewport = sv;
 		 */
 		viewport.getCamera().translate(25f, 25f, 0f);
 
@@ -82,7 +82,8 @@ public class GameScreen extends BaseScreen {
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
-		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
+		engine.addEntityListener(Family.all(BodyComponent.class).get(),
+				new PhysicsBodyEntityListener(world));
 
 		Entity ship = createShip();
 		Entity planet = createPlanet();
@@ -96,13 +97,14 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(50f, 50f, 1f));
 
 		/*
-		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(), ship.getComponent(
-		 * BodyComponent.class).getBody()));
+		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
+		 * ship.getComponent( BodyComponent.class).getBody()));
 		 */
 
 		// INPUT MAPPING TEST
 		Body shipBody = BodyComponent.MAPPER.get(ship).getBody();
 
+		// NOTE: This is broken due to changes in event handling. This will be scrapped soon.
 		Map<Integer, IPhysicsEvent> keyMap = new HashMap<Integer, IPhysicsEvent>();
 		keyMap.put(Keys.Z, new LinearForceEvent(shipBody, 1000f));
 		keyMap.put(Keys.S, new LinearForceEvent(shipBody, -500f));
@@ -165,7 +167,8 @@ public class GameScreen extends BaseScreen {
 		getContext().getAssetManager().load("mrArrow.png", Texture.class);
 		getContext().getAssetManager().finishLoading();
 		Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
-		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a sheet)
+		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+															// sheet)
 
 		sprite.setRegion(region);
 		ship.add(sprite);
