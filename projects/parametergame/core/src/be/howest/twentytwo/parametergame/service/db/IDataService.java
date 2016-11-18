@@ -5,9 +5,7 @@ import java.util.Collection;
 import be.howest.twentytwo.parametergame.dataTypes.*;
 
 public interface IDataService {
-	//This is the general class, that communicates with different classes, such as MySQLDataService, T-SQLDataService,....
-
-	public LevelData getLevel(String key);
+	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....
 	
 	public UserData getUser(String serverID);
 	

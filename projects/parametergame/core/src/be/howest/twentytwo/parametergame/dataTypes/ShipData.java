@@ -1,5 +1,5 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class ShipData {
+public class ShipData implements ShipDataI{
 
 }

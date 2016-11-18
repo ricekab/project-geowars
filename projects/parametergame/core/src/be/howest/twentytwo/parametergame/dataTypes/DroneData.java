@@ -1,5 +1,5 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class DroneData {
+public class DroneData implements DroneDataI{
 
 }

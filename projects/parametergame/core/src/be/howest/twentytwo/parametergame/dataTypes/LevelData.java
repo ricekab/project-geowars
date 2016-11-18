@@ -1,64 +1,63 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
-public class LevelData {
+public class LevelData implements LevelDataI{
 	
-	private Box world;
-	private List<PlanetData> planets;
-	private Box spawnBox;
-	private List<SpawnPoolData> spawnpools;
-	private float spawnTreshold;
-	private float spawnTresholdIncrease;
+	private BoxData world;
+	private Set<PlanetData> planets;
+	private BoxData spawnBox;
+	private Queue<SpawnPoolData> spawnpools;
 	
-	public LevelData() {
-		this.planets = new ArrayList<>();
-		this.spawnpools = new ArrayList<>();
+	public LevelData() {	// I feel like we should be able to call this witouth putting data in it. to be reviewed
+		this.planets = new HashSet<>();
+		this.spawnpools = new LinkedList<>();
+	}
+	
+	public LevelData(BoxData world, BoxData spawnBox) {
+		this.planets = new HashSet<>();
+		this.spawnpools = new LinkedList<>();
+		setWorld(world);
+		setSpawnBox(spawnBox);
 	}
 	
 	//	SETTERS
 	
-	public void setWorld(float width, float height) {
-		this.world = new Box(width, height, 0f, 0f);
+	public void setWorld(BoxData world) {
+		this.world = new BoxData(world.getWidth(), world.getHeight(), 0f, 0f);
 	}
 	
-	public void addPlanet(float xCoord, float yCoord, float planetRadius, String texture, float mass, float gravityRadius) {
-		planets.add(new PlanetData( xCoord, yCoord, planetRadius, texture, mass, gravityRadius));
+	public void addPlanet(PlanetData planet) {
+		planets.add(planet);
 	}
 	
-	public void setSpawnBox(float width, float height, float xCoord, float yCoord) {
-		this.spawnBox = new Box(width, height, xCoord, yCoord);
+	public void setSpawnBox(BoxData spawnBox) {
+		this.spawnBox = spawnBox;
 	}
 	
-	public void addSpawnPool() {
-		spawnpools.add(new SpawnPoolData());
+	public void addSpawnPool(SpawnPoolData spawnPool) {
+		spawnpools.offer(spawnPool);
 	}
 	
 	//	GETTERS
 	
-	public Box getWorld() {
+	public BoxData getWorld() {
 		return world;
 	};
 	
-	public List<PlanetData> getPlanets() {
+	public Set<PlanetData> getPlanets() {
 		return planets;
 	}
 	
-	public Box getSpawnBox() {
+	public BoxData getSpawnBox() {
 		return spawnBox;
 	}
 	
-	public List<SpawnPoolData> spawnpools() {
+	public Queue<SpawnPoolData> getSpawnPools() {
 		return spawnpools;
-	}
-	
-	public float getSpawnTreshold() {
-		return spawnTreshold;
-	}
-	
-	public float getSpawnTresholdIncrease() {
-		return spawnTresholdIncrease;
 	}
 
 }

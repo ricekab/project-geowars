@@ -1,6 +1,6 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class Box {
+public class BoxData implements BoxDataI{
 	
 	private float width;
 	private float height;
@@ -9,14 +9,14 @@ public class Box {
 	private final float minWidth = 100f;
 	private final float minHeight = 100f;
 	
-	public Box(float width, float height, float xCoord, float yCoord) {
+	public BoxData(float width, float height, float xCoord, float yCoord) {
 		setWidth(width);
 		setHeight(height);
 		setXCoord(xCoord);
 		setYCoord(yCoord);
 	}
 	
-	public void setWidth(float Width) {
+	public void setWidth(float width) {
 		if(width >= minWidth) {
 			this.width = width;
 		} else {
@@ -24,7 +24,7 @@ public class Box {
 		}
 	}
 	
-	public void setHeight(float Height) {
+	public void setHeight(float height) {
 		if(height >= minHeight) {
 			this.height = height;
 		} else {
