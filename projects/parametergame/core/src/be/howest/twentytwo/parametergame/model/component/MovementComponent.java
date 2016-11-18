@@ -20,9 +20,6 @@ public class MovementComponent implements Component, Poolable {
 	private float maxLinearVelocity; // Limit to linear velocity (units/second)
 	private float maxAngularVelocity; // Limit to angular velocity (in radians)
 
-	private float currentLinearVelocity; // Can be positive or negative (forward / reverse)
-	private float currentAngularVelocity; // Can be positive or negative (Depending on turn direction)
-
 	private float linearAcceleration; // units / s²
 	private float angularAcceleration; // = Turn rate in radians / second
 
@@ -72,22 +69,6 @@ public class MovementComponent implements Component, Poolable {
 
 	public void setMaxAngularVelocity(float maxAngularVelocity) {
 		this.maxAngularVelocity = maxAngularVelocity;
-	}
-
-	public float getCurrentLinearVelocity() {
-		return currentLinearVelocity;
-	}
-
-	public void setCurrentLinearVelocity(float currentLinearVelocity) {
-		this.currentLinearVelocity = currentLinearVelocity;
-	}
-
-	public float getCurrentAngularVelocity() {
-		return currentAngularVelocity;
-	}
-
-	public void setCurrentAngularVelocity(float currentAngularVelocity) {
-		this.currentAngularVelocity = currentAngularVelocity;
 	}
 
 	public float getLinearAcceleration() {
