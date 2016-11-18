@@ -20,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Kevin CY Tang
  */
 public class PhysicsSystem extends IteratingSystem {
+	
+	public static final int PRIORITY = 0;
 
 	public static final float PHYSICS_TIMESTEP = 1 / 30f;
 
@@ -30,7 +32,7 @@ public class PhysicsSystem extends IteratingSystem {
 
 	public PhysicsSystem(World world, Collection<IPhysicsEvent> events){
 		// TODO: Think I should introduce a movement component?
-		super(Family.all(TransformComponent.class, BodyComponent.class).get());
+		super(Family.all(TransformComponent.class, BodyComponent.class).get(), PRIORITY);
 		this.world = world;
 		this.elapsed = 0f;
 		this.eventCollection = events;

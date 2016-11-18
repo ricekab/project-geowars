@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class RenderSystem extends IteratingSystem {
 
+	public final static int PRIORITY = 0;
+	
 	public final static float PIXELS_PER_METER = 16f;
 	public final static float METERS_PER_PIXEL = 1f / PIXELS_PER_METER;
 
@@ -26,7 +28,7 @@ public class RenderSystem extends IteratingSystem {
 	private SpriteBatch batch;
 	
 	public RenderSystem(SpriteBatch batch, Viewport viewport) {
-		super(Family.all(TransformComponent.class, SpriteComponent.class).get());
+		super(Family.all(TransformComponent.class, SpriteComponent.class).get(), PRIORITY);
 		this.batch = batch;
 		this.viewport = viewport;
 	}

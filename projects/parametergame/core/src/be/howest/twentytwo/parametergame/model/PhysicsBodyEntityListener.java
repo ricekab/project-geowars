@@ -4,15 +4,18 @@ import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class PhysicsBodyEntityListener implements EntityListener {
 
 	private World world;
+	private Family fam;
 
 	public PhysicsBodyEntityListener(World world) {
 		this.world = world;
+		fam = Family.all(BodyComponent.class).get();
 	}
 
 	@Override
@@ -23,11 +26,16 @@ public class PhysicsBodyEntityListener implements EntityListener {
 		 * (Prototype object for spawning enemies, objects, ...)
 		 */
 		Gdx.app.log("PhysicsBodyEntityListener", "Entity added");
+		if(fam.matches(entity)){
+			//world.createBody(def)
+		}
 	}
 
 	@Override
 	public void entityRemoved(Entity entity) {
-		world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
+		if(fam.matches(entity)){
+			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
+		}
 	}
 
 }

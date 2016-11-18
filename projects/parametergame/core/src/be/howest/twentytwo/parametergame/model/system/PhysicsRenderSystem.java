@@ -15,13 +15,15 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Kevin CY Tang
  */
 public class PhysicsRenderSystem extends IteratingSystem {
+	
+	public final static int PRIORITY = 0;
 
 	private Box2DDebugRenderer renderer;
 	private World world;
 	private Camera cam;
 	
 	public PhysicsRenderSystem(World world, Camera cam) {
-		super(Family.all(BodyComponent.class).get());
+		super(Family.all(BodyComponent.class).get(), PRIORITY);
 		this.world = world;
 		this.cam = cam;
 		renderer = new Box2DDebugRenderer();
