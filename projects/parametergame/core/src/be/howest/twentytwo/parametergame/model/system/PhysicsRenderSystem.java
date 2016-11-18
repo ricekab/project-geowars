@@ -1,12 +1,11 @@
 package be.howest.twentytwo.parametergame.model.system;
 
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -22,7 +21,7 @@ public class PhysicsRenderSystem extends IteratingSystem {
 	private Camera cam;
 	
 	public PhysicsRenderSystem(World world, Camera cam) {
-		super(Family.all().get());	// Do I need any components? Don't need any to render the world.
+		super(Family.all(BodyComponent.class).get());
 		this.world = world;
 		this.cam = cam;
 		renderer = new Box2DDebugRenderer();
@@ -30,7 +29,7 @@ public class PhysicsRenderSystem extends IteratingSystem {
 
 	@Override
 	public void update(float deltaTime) {
-		super.update(deltaTime);
+		//super.update(deltaTime); // Don't need to iterate
 		renderer.render(world, cam.combined);
 	}
 	

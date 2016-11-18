@@ -9,6 +9,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -33,7 +34,7 @@ public class RenderSystem extends IteratingSystem {
 	@Override
 	public void update(float deltaTime) {
 		Gdx.gl.glClearColor(255f, 255f, 255f, 1f);
-		Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		super.update(deltaTime);
 	}
