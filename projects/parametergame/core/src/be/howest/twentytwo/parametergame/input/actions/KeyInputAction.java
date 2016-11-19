@@ -1,16 +1,16 @@
 package be.howest.twentytwo.parametergame.input.actions;
 
-public interface InputAction {
+public interface KeyInputAction {
 
 	// TODO: Method names can be confusing.
 
 	/**
-	 * Called on key/touch down
+	 * Called on key down
 	 */
 	public void start();
 
 	/**
-	 * Called on key/touch up.
+	 * Called on key up.
 	 */
 	public void stop();
 }

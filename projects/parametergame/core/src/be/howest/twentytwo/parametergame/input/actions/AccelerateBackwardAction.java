@@ -2,22 +2,22 @@ package be.howest.twentytwo.parametergame.input.actions;
 
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 
-public class AccelerateForwardAction implements KeyInputAction {
-
+public class AccelerateBackwardAction implements KeyInputAction {
+	
 	private MovementComponent moveComponent;
 
-	public AccelerateForwardAction(MovementComponent mc) {
+	public AccelerateBackwardAction(MovementComponent mc) {
 		this.moveComponent = mc;
 	}
 
 	@Override
 	public void start() {
-		moveComponent.setAccelerateForward(true);
+		moveComponent.setAccelerateBackward(true);
 	}
 
 	@Override
 	public void stop() {
-		moveComponent.setAccelerateForward(false);
+		moveComponent.setAccelerateBackward(false);
 	}
 
 }
