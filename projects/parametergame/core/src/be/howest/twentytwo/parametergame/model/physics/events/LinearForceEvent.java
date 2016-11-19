@@ -38,8 +38,7 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 		body.applyForceToCenter(forceVector, true);
 	}
 
-	@Override
-	public Body getSourceBody() {
+	public Body getBody() {
 		return body;
 	}
 
@@ -53,14 +52,14 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 
 	@Override
 	public int hashCode() {
-		return getSourceBody().hashCode() * getForceVector().hashCode();
+		return getBody().hashCode() * getForceVector().hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if(obj != null && obj instanceof LinearForceEvent) {
 			LinearForceEvent other = (LinearForceEvent) obj;
-			if(getSourceBody().equals(other.getSourceBody()) && getForceVector() == other.getForceVector()) {
+			if(getBody().equals(other.getBody()) && getForceVector() == other.getForceVector()) {
 				return true;
 			}
 		}

@@ -40,7 +40,6 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 		targetBody.applyForceToCenter(gravityVector, true);
 	}
 
-	@Override
 	public Body getSourceBody() {
 		return sourceBody;
 	}

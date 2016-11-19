@@ -4,25 +4,24 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class TorqueEvent extends SinglePhysicsEvent {
 
-	private Body unit;
+	private Body body;
 	private float force;
 
 	// TODO: Data passed as param or smth? (See GravityPhysicsEvent)
-	public TorqueEvent(Body unit, float force) {
+	public TorqueEvent(Body body, float force) {
 		super();
-		this.unit = unit;
+		this.body = body;
 		this.force = force;
 	}
 
 	@Override
 	public void execute() {
-		unit.applyTorque(force ,true);
+		body.applyTorque(force ,true);
 		super.execute();
 	}
 	
-	@Override
-	public Body getSourceBody(){
-		return unit;
+	public Body getBody(){
+		return body;
 	}
 	
 	public float getForce(){
@@ -32,14 +31,14 @@ public class TorqueEvent extends SinglePhysicsEvent {
 	@Override
 	public int hashCode() {
 		int prime = 41;
-		return getSourceBody().hashCode() * Math.round(getForce()) * prime;
+		return getBody().hashCode() * Math.round(getForce()) * prime;
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj != null && obj instanceof TorqueEvent) {
 			TorqueEvent other = (TorqueEvent) obj;
-			if(getSourceBody().equals(other.getSourceBody()) && getForce() == other.getForce()) {
+			if(getBody().equals(other.getBody()) && getForce() == other.getForce()) {
 				return true;
 			}
 		}

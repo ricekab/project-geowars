@@ -28,8 +28,7 @@ public class PhysicsSystem extends IteratingSystem {
 	private World world;
 	/** Time elapsed since last update */
 	private float elapsed;
-	private Collection<IPhysicsEvent> eventCollection; // TODO: Collection requirements? Might need
-														// change.
+	private Collection<IPhysicsEvent> eventCollection;
 
 	public PhysicsSystem(World world, Collection<IPhysicsEvent> events) {
 		super(Family.all(TransformComponent.class, BodyComponent.class).get(), PRIORITY);
@@ -45,8 +44,9 @@ public class PhysicsSystem extends IteratingSystem {
 	@Override
 	public void update(float deltaTime) {
 		elapsed += deltaTime;
-		if(elapsed >= PHYSICS_TIMESTEP) { // World timestep
-			processEvents(); // Process physics events (Collisions and input events)
+		if (elapsed >= PHYSICS_TIMESTEP) { // World timestep
+			processEvents(); // Process physics events (Collisions and input
+								// events)
 			world.step(PHYSICS_TIMESTEP, 6, 3); // Advance simulation
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime); // processEntity below
@@ -58,9 +58,10 @@ public class PhysicsSystem extends IteratingSystem {
 		IPhysicsEvent evt;
 		while (it.hasNext()) {
 			evt = it.next();
-			if(!evt.isConsumed()) {
+			if (!evt.isConsumed()) {
 				evt.execute();
-				if(evt.isConsumed()) {
+				// Could remove this check -- Would be removed on the next pass.
+				if (evt.isConsumed()) {
 					it.remove();
 				}
 			} else {

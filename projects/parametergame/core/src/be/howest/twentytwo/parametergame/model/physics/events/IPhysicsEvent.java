@@ -12,11 +12,6 @@ public interface IPhysicsEvent {
 	 * supplied at construction.
 	 */
 	public void execute();
-	
-	/**
-	 * Return the source of this {@link IPhysicsEvent}.
-	 */
-	public Body getSourceBody();
 
 	/**
 	 * Must return true when this event had been consumed and should no longer be executed. Return false when this event
