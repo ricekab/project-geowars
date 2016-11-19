@@ -1,11 +1,14 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -13,11 +16,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class GravityContactProcessor extends ContactProcessor {
 	
+	/** TODO: TEMP? -- This is the remote event collection */
 	private Collection<IPhysicsEvent> events;
+	private Collection<GravityPhysicsEvent> gravityEvents;
 	
 	public GravityContactProcessor(ContactListener next, Collection<IPhysicsEvent> events) {
 		super(next);
 		this.events = events;
+		this.gravityEvents = new ArrayList<GravityPhysicsEvent>();
 	}
 
 	public GravityContactProcessor(Collection<IPhysicsEvent> events) {
@@ -41,6 +47,12 @@ public class GravityContactProcessor extends ContactProcessor {
 		}
 		return false;
 	}
+	
+	private void addEvent(Body planet, Body target){
+		GravityPhysicsEvent evt = new GravityPhysicsEvent(planet, target); 
+		this.events.add(evt);
+		this.gravityEvents.add(evt);
+	}
 
 	@Override
 	protected boolean handleEndContact(Contact contact) {
@@ -57,6 +69,22 @@ public class GravityContactProcessor extends ContactProcessor {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Remove the {@link GravityPhysicsEvent} from the event list and sets it to consumed.
+	 */
+	private void removeEvent(Body planet, Body target){
+		Iterator<GravityPhysicsEvent> it = gravityEvents.iterator();
+		GravityPhysicsEvent evt;
+		while(it.hasNext()){
+			evt = it.next();
+			if(evt.getSourceBody().equals(planet) && evt.getTargetBody().equals(target)){
+				evt.setConsumed();	// Notifies the event system that this event is completed.
+				it.remove();
+				return;
+			}
+		}
 	}
 
 	@Override

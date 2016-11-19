@@ -20,7 +20,8 @@ public class PlanetFactory {
 	public Entity createPlanet(PlanetData data, PooledEngine engine) {
 		Entity planet = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
-		transform.setPos(data.getXCoord(), data.getYCoord());	// TODO: Could refactor to builder, necessary?
+		transform.setPos(data.getXCoord(), data.getYCoord());
+		transform.setRotation((float)Math.random() * 360f);	// Random rotation
 		planet.add(transform);
 		
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);

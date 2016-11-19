@@ -1,10 +1,9 @@
 package be.howest.twentytwo.parametergame.model.physics.events;
 
-import be.howest.twentytwo.parametergame.utils.VectorMath;
-
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+
+import be.howest.twentytwo.parametergame.utils.VectorMath;
 
 /**
  * Describes a force event that is applied on the target body's center of mass.
@@ -39,26 +38,29 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 		body.applyForceToCenter(forceVector, true);
 	}
 
-	public Body getUnit() {
+	@Override
+	public Body getSourceBody() {
 		return body;
 	}
 
 	public float getForce() {
 		return force;
 	}
+	
+	public Vector2 getForceVector(){
+		return forceVector;
+	}
 
 	@Override
 	public int hashCode() {
-		// TODO: This hashcode is bad, doesn't account for isConsumed either.
-		return (int) (getUnit().hashCode() * getForce()); // TODO Float to int => safe cast?
+		return getSourceBody().hashCode() * getForceVector().hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if(obj != null && obj instanceof LinearForceEvent) {
 			LinearForceEvent other = (LinearForceEvent) obj;
-			// TODO: Comparing floats by equality. This is not safe.
-			if(getUnit().equals(other.getUnit()) && getForce() == other.getForce()) {
+			if(getSourceBody().equals(other.getSourceBody()) && getForceVector() == other.getForceVector()) {
 				return true;
 			}
 		}
