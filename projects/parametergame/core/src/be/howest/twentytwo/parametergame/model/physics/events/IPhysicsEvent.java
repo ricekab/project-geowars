@@ -1,7 +1,5 @@
 package be.howest.twentytwo.parametergame.model.physics.events;
 
-import com.badlogic.gdx.physics.box2d.Body;
-
 /**
  * Describes an event between 1 or more bodies in the physics world.
  */

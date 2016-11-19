@@ -42,5 +42,6 @@ public class MovementSystem extends IntervalIteratingSystem {
 			
 			events.add(new LinearForceEvent(body, addForceVector));
 		}
+		
 	}
 }
