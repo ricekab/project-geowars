@@ -151,10 +151,9 @@ public class GameScreen extends BaseScreen {
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
 
-		bodyDef.position.set(40f, 45f);
+		bodyDef.position.set(10f, 10f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
-		rigidBody.applyForceToCenter(new Vector2(0f, -500), true);
 
 		rigidBody.setLinearDamping(0.25f); // Air resistance type effect
 		rigidBody.setAngularDamping(1f);
@@ -228,7 +227,7 @@ public class GameScreen extends BaseScreen {
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
 		// Gravity fixture --> use with contact listener above
-		circle.setRadius(12f);
+		circle.setRadius(20f);
 		fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;
 		fixtureDef.density = 0f;

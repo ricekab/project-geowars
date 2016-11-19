@@ -34,9 +34,9 @@ public class MovementSystem extends IntervalIteratingSystem {
 		// TODO: Extract this into a group of state classes to composite
 		// MovementComponent
 		if (mc.isAccelerateForward()) {
-			// Split into forward and side.
-			// for both forward and side do:
-			//
+			// TODO: Not quite working as designed.
+			// Should be working towards the current forward facing, right now
+			// this locks when max speed is reached.
 			float addedVelocity = mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
 			float maxAddedVelocity = mc.getMaxLinearVelocity() - body.getLinearVelocity().len();
 			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);

@@ -27,12 +27,12 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 
 	@Override
 	public void execute() {
-		float distance = targetBody.getPosition().dst(sourceBody.getPosition());
+		float distanceSquared = targetBody.getPosition().dst2(sourceBody.getPosition());
 		Vector2 gravityVector = sourceBody.getPosition().sub(targetBody.getPosition());
 
 		/* Turns out static bodies have 0 mass. So simulate it (pass by data) */
-		gravityVector.scl(GRAVITATIONAL_CONSTANT).scl(1f / distance * 2f);
-		gravityVector.scl(5f); // Simulate planet mass
+		gravityVector.scl(GRAVITATIONAL_CONSTANT).scl(1f / distanceSquared);
+		gravityVector.scl(1000f); // Simulate planet mass
 		// Fg = m(planet) * G(constant) / (r*r)
 
 		Gdx.app.log("GravityPhysxEvt", gravityVector.toString());
