@@ -2,22 +2,26 @@ package be.howest.twentytwo.parametergame.model.physics.events;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class AngularImpulseEvent extends SinglePhysicsEvent {
+/**
+ * Describes a torque event that is applied on the target body.
+ */
+public class AngularForceEvent extends SinglePhysicsEvent {
 
 	private Body body;
-	private float impulse;
+	private float torque;
 
 	// TODO: Data passed as param or smth? (See GravityPhysicsEvent)
-	public AngularImpulseEvent(Body body, float impulse) {
+	public AngularForceEvent(Body body, float torque) {
 		super();
 		this.body = body;
-		this.impulse = impulse;
+		this.torque = torque;
 	}
 
 	@Override
 	public void execute() {
 		super.execute();
-		body.applyAngularImpulse(impulse, true);
+		//body.applyAngularImpulse(impulse, true);
+		body.applyTorque(torque, true);
 	}
 	
 	public Body getBody(){
@@ -25,7 +29,7 @@ public class AngularImpulseEvent extends SinglePhysicsEvent {
 	}
 	
 	public float getImpulse(){
-		return impulse;
+		return torque;
 	}
 	
 	@Override
@@ -36,8 +40,8 @@ public class AngularImpulseEvent extends SinglePhysicsEvent {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj != null && obj instanceof AngularImpulseEvent) {
-			AngularImpulseEvent other = (AngularImpulseEvent) obj;
+		if(obj != null && obj instanceof AngularForceEvent) {
+			AngularForceEvent other = (AngularForceEvent) obj;
 			if(getBody().equals(other.getBody()) && getImpulse() == other.getImpulse()) {
 				return true;
 			}

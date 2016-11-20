@@ -149,7 +149,7 @@ public class GameScreen extends BaseScreen {
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 
-		rigidBody.setLinearDamping(0.25f); // Air resistance type effect
+		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
 		rigidBody.setAngularDamping(1f);
 
 		CircleShape circle = new CircleShape();

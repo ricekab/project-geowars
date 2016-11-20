@@ -13,7 +13,7 @@ import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.AngularImpulseEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.AngularForceEvent;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
 public class MovementSystem extends IntervalIteratingSystem {
@@ -42,6 +42,9 @@ public class MovementSystem extends IntervalIteratingSystem {
 			 * TODO: Make a diagram for documents to help explain the concept.
 			 * 
 			 * Proof of concept (Only for forward)
+			 * 
+			 * TODO: This is still slightly broken, doesn't apply maximal force when reaching max speed.
+			 * Clamping needs to be moved somewhere else?
 			 */
 			Gdx.app.log("MoveSys", String.format("Current linear velocity: %f", body.getLinearVelocity().len()));
 			
@@ -94,20 +97,20 @@ public class MovementSystem extends IntervalIteratingSystem {
 
 		if (mc.isTurnLeft()) {
 			float maxAddedVelocity = mc.getMaxAngularVelocity() - body.getAngularVelocity();
-			float addedVelocity = mc.getAngularAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
+			float addedVelocity = mc.getAngularAcceleration();
 			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);
 
 			float force = body.getMass() * actualAddedVelocity;
 
-			events.add(new AngularImpulseEvent(body, force));
+			events.add(new AngularForceEvent(body, force));
 		} else if (mc.isTurnRight()) {
 			float maxAddedVelocity = mc.getMaxAngularVelocity() - body.getAngularVelocity();
-			float addedVelocity = mc.getAngularAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
+			float addedVelocity = mc.getAngularAcceleration();
 			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);
 
 			float force = body.getMass() * actualAddedVelocity;
 			force *= -1;
-			events.add(new AngularImpulseEvent(body, force));
+			events.add(new AngularForceEvent(body, force));
 		}
 
 	}
