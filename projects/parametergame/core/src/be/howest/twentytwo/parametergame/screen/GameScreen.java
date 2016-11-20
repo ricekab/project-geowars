@@ -2,32 +2,11 @@ package be.howest.twentytwo.parametergame.screen;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
-import be.howest.twentytwo.parametergame.input.TestInputProcessor;
-import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
-import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.LinearImpulseEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.AngularImpulseEvent;
-import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
-import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -40,6 +19,21 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
+import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.system.MovementSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
+import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 public class GameScreen extends BaseScreen {
 
@@ -142,7 +136,7 @@ public class GameScreen extends BaseScreen {
 		MovementComponent moveComponent = engine.createComponent(MovementComponent.class);
 		moveComponent.setMaxLinearVelocity(25f);
 		moveComponent.setMaxAngularVelocity(20f);
-		moveComponent.setLinearAcceleration(5f);
+		moveComponent.setLinearAcceleration(7.5f);
 		moveComponent.setAngularAcceleration(10f);
 		ship.add(moveComponent);
 

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
+
 /**
  * Physics Event describing a body being attracted towards another body.
  */
@@ -36,7 +38,7 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 		// Fg = m(planet) * G(constant) / (r*r)
 
 		Gdx.app.log("GravityPhysxEvt", gravityVector.toString());
-
+		Gdx.app.log("GravityPhysxEvt", "Scaled: " + new Vector2(gravityVector).scl(PhysicsSystem.PHYSICS_TIMESTEP).toString());
 		targetBody.applyForceToCenter(gravityVector, true);
 	}
 

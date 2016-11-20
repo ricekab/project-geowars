@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.LinearImpulseEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.AngularImpulseEvent;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
@@ -36,7 +36,7 @@ public class MovementSystem extends IntervalIteratingSystem {
 		// MovementComponent
 		if (mc.isAccelerateForward()) {
 			/*
-			 * Design decision - Apply impulse to reach max speed forward.
+			 * Design decision - Apply force to reach max speed forward.
 			 * This means force is not applied directly forward but towards the maximum forward vector.
 			 * 
 			 * TODO: Make a diagram for documents to help explain the concept.
@@ -45,26 +45,26 @@ public class MovementSystem extends IntervalIteratingSystem {
 			 */
 			Gdx.app.log("MoveSys", String.format("Current linear velocity: %f", body.getLinearVelocity().len()));
 			
-			Vector2 facingVec = body.getWorldVector(Vector2.Y);
-			Vector2 moveDirVec = body.getLinearVelocity();
-			Vector2 maxForwardVec = new Vector2(facingVec).scl(mc.getMaxLinearVelocity());
+			Vector2 bodyForwardUnitVector = body.getWorldVector(Vector2.Y);
+			Vector2 moveForwardVelocity = body.getLinearVelocity();
+			Vector2 maxBodyForwardVec = new Vector2(bodyForwardUnitVector).scl(mc.getMaxLinearVelocity());
 			
 			
-			Gdx.app.log("MoveSys", String.format("Direction vector %s", facingVec.toString()));
-			Gdx.app.log("MoveSys", String.format("Direction vector scaled %s", maxForwardVec.toString()));
-			Gdx.app.log("MoveSys", String.format("Linear v %s", moveDirVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Direction vector %s", bodyForwardUnitVector.toString()));
+			Gdx.app.log("MoveSys", String.format("Direction vector scaled %s", maxBodyForwardVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Linear v %s", moveForwardVelocity.toString()));
 			
-			maxForwardVec.sub(moveDirVec).clamp(0f, mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP);
+			Vector2 resultVector = maxBodyForwardVec.sub(moveForwardVelocity).clamp(0f, mc.getLinearAcceleration());
 			
-			Gdx.app.log("MoveSys", String.format("Result acceleration vector %s", maxForwardVec.toString()));
-			Gdx.app.log("MoveSys", String.format("Result acceleration length %f", maxForwardVec.len()));
+			Gdx.app.log("MoveSys", String.format("Result acceleration vector %s", maxBodyForwardVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Result acceleration length %f", maxBodyForwardVec.len()));
 			
-			maxForwardVec.scl(body.getMass());
+			resultVector.scl(body.getMass());	// F = ma
 			
-			Gdx.app.log("MoveSys", String.format("Result impulse vector %s", maxForwardVec.toString()));
-			Gdx.app.log("MoveSys", String.format("Result impulse length %f", maxForwardVec.len()));
+			Gdx.app.log("MoveSys", String.format("Result force vector %s", maxBodyForwardVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Result force length %f", maxBodyForwardVec.len()));
 			
-			events.add(new LinearImpulseEvent(body, maxForwardVec));
+			events.add(new LinearForceEvent(body, resultVector));
 			
 			Gdx.app.log("MoveSys", "===");
 			
@@ -80,6 +80,7 @@ public class MovementSystem extends IntervalIteratingSystem {
 			events.add(new LinearImpulseEvent(body, addImpulseVector));
 			*/
 		} else if (mc.isAccelerateBackward()) {
+			// TODO: From here on down code is faulty. See above.
 			float addedVelocity = mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
 			float maxAddedVelocity = mc.getMaxLinearVelocity() - body.getLinearVelocity().len();
 			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);
@@ -88,7 +89,7 @@ public class MovementSystem extends IntervalIteratingSystem {
 			float addImpulse = body.getMass() * actualAddedVelocity;
 			Vector2 addImpulseVector = VectorMath.forceToForwardVector(addImpulse, body.getAngle()).scl(-1f, -1f);
 
-			events.add(new LinearImpulseEvent(body, addImpulseVector));
+			events.add(new LinearForceEvent(body, addImpulseVector));
 		}
 
 		if (mc.isTurnLeft()) {
