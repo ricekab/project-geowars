@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.utils;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public final class VectorMath {
 
@@ -28,5 +29,13 @@ public final class VectorMath {
 	public static Vector2 forceToForwardVector(float force, float angle) {
 		return new Vector2(force * MathUtils.cos(angle + MathUtils.PI / 2),
 				force * MathUtils.sin(angle + MathUtils.PI / 2));
+	}
+	
+	/**
+	 * Calculates the forward force vector for the given (box2d) body with
+	 * given force or impulse.
+	 */
+	public static Vector2 forceToForwardVector(float force, Body body) {
+		return new Vector2(body.getWorldVector(Vector2.Y)).scl(force);
 	}
 }

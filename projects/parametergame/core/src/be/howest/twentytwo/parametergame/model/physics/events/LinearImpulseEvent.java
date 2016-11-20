@@ -29,7 +29,7 @@ public class LinearImpulseEvent extends SinglePhysicsEvent {
 	 * body is facing (forward).
 	 */
 	public LinearImpulseEvent(Body body, float force) {
-		this(body, VectorMath.forceToForwardVector(force, body.getAngle()));
+		this(body, VectorMath.forceToForwardVector(force, body));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalIteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -34,9 +35,40 @@ public class MovementSystem extends IntervalIteratingSystem {
 		// TODO: Extract this into a group of state classes to composite
 		// MovementComponent
 		if (mc.isAccelerateForward()) {
-			// TODO: Not quite working as designed.
-			// Should be working towards the current forward facing, right now
-			// this locks when max speed is reached.
+			/*
+			 * Design decision - Apply impulse to reach max speed forward.
+			 * This means force is not applied directly forward but towards the maximum forward vector.
+			 * 
+			 * TODO: Make a diagram for documents to help explain the concept.
+			 * 
+			 * Proof of concept (Only for forward)
+			 */
+			Gdx.app.log("MoveSys", String.format("Current linear velocity: %f", body.getLinearVelocity().len()));
+			
+			Vector2 facingVec = body.getWorldVector(Vector2.Y);
+			Vector2 moveDirVec = body.getLinearVelocity();
+			Vector2 maxForwardVec = new Vector2(facingVec).scl(mc.getMaxLinearVelocity());
+			
+			
+			Gdx.app.log("MoveSys", String.format("Direction vector %s", facingVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Direction vector scaled %s", maxForwardVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Linear v %s", moveDirVec.toString()));
+			
+			maxForwardVec.sub(moveDirVec).clamp(0f, mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP);
+			
+			Gdx.app.log("MoveSys", String.format("Result acceleration vector %s", maxForwardVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Result acceleration length %f", maxForwardVec.len()));
+			
+			maxForwardVec.scl(body.getMass());
+			
+			Gdx.app.log("MoveSys", String.format("Result impulse vector %s", maxForwardVec.toString()));
+			Gdx.app.log("MoveSys", String.format("Result impulse length %f", maxForwardVec.len()));
+			
+			events.add(new LinearImpulseEvent(body, maxForwardVec));
+			
+			Gdx.app.log("MoveSys", "===");
+			
+			/*
 			float addedVelocity = mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
 			float maxAddedVelocity = mc.getMaxLinearVelocity() - body.getLinearVelocity().len();
 			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);
@@ -44,8 +76,9 @@ public class MovementSystem extends IntervalIteratingSystem {
 			// F = ma
 			float addImpulse = body.getMass() * actualAddedVelocity;
 			Vector2 addImpulseVector = VectorMath.forceToForwardVector(addImpulse, body.getAngle());
-
+			
 			events.add(new LinearImpulseEvent(body, addImpulseVector));
+			*/
 		} else if (mc.isAccelerateBackward()) {
 			float addedVelocity = mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
 			float maxAddedVelocity = mc.getMaxLinearVelocity() - body.getLinearVelocity().len();

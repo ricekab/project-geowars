@@ -12,7 +12,7 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 	// TODO: This might be overkill? Real life value is quite small and will be
 	// inaccurate as a float.
 	// Real life value = 6.674E-11
-	public static final float GRAVITATIONAL_CONSTANT = 1f; // 6.674E-3f
+	public static final float GRAVITATIONAL_CONSTANT = 2f; // 6.674E-3f
 
 	private Body sourceBody;
 	private Body targetBody;
