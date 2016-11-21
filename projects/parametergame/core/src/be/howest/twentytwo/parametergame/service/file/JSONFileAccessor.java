@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 
@@ -15,6 +16,7 @@ public class JSONFileAccessor implements IFileAccessor{
 	
 	public JSONFileAccessor() {
 		json = new Json();
+		json.setOutputType(OutputType.minimal);
 	}
 
 	@Override
@@ -25,7 +27,6 @@ public class JSONFileAccessor implements IFileAccessor{
 		while(s.hasNext()){
 			jsonData += s.next();
 		}
-		System.out.println(json.fromJson(LevelData.class, jsonData));	//TODO study how the fromJson works, and fix this
 		LevelData levelData = json.fromJson(LevelData.class, jsonData);
 		s.close();
 		return levelData;
@@ -38,9 +39,7 @@ public class JSONFileAccessor implements IFileAccessor{
 			File f = new File(location);
 			FileOutputStream fos = new FileOutputStream(f);
 			PrintStream ps = new PrintStream(fos);
-			//System.out.println(jsonData);
 			ps.print(jsonData);
-			//System.out.println("succes writing your file to " + location);
 			ps.close();
 			fos.close();
 		} catch(Exception e) {
@@ -49,14 +48,16 @@ public class JSONFileAccessor implements IFileAccessor{
 	}
 	
 	public String validatedLocation(String location) {
+		//TODO
+		/*
 		String[] locationValidator = location.split(".");
-		System.out.println("zegIets!");
 		for(String s : locationValidator) {
 			System.out.println(s);
 		}
 		if(locationValidator.length >= 1 && locationValidator[locationValidator.length - 1] != "txt") {
-			location += "/LevelSave.txt";
-			}
+			location += ".txt";
+		}
+		*/
 		return location;
 	}
 
