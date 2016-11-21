@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.model.component;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
@@ -47,7 +48,5 @@ public class TransformComponent implements Component, Poolable {
 		setScale(null);
 		// Need to reset? Should be set by factory anyway.
 	}
-	
-	
 
 }

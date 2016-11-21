@@ -3,10 +3,28 @@ package be.howest.twentytwo.parametergame.screen;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
+import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.CameraComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.system.CameraSystem;
+import be.howest.twentytwo.parametergame.model.system.MovementSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
+import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -19,21 +37,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
-import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
-import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
-import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 public class GameScreen extends BaseScreen {
 
@@ -62,21 +65,26 @@ public class GameScreen extends BaseScreen {
 		// ECS systems
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
+
 		viewport = new FitViewport(240f, 135f); // Viewport size (in world units)
+
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on
 		 * aspect ratio --> possible balance concern
 		 */
-		/*
-		 * ScreenViewport sv = new ScreenViewport(); sv.setUnitsPerPixel(0.2f); // Note: Real value
-		 * should probably be higher? Depends on our units. viewport = sv;
-		 */
-		viewport.getCamera().translate(25f, 25f, 0f);
 
+		// ScreenViewport sv = new ScreenViewport();
+		// sv.setUnitsPerPixel(0.25f);
+		// viewport = sv;
+		
+		viewport.getCamera().position.x = 50f;
+		viewport.getCamera().position.y = 50f;
+		
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
 
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
+		engine.addSystem(new CameraSystem());
 		engine.addSystem(renderSys);
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
@@ -85,6 +93,7 @@ public class GameScreen extends BaseScreen {
 
 		Entity ship = createShip();
 		Entity planet = createPlanet();
+		Entity camEntity = createCameraEntity(ship, viewport.getCamera());
 
 		engine.addEntity(ship);
 		engine.addEntity(planet);
@@ -93,6 +102,7 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(0, 0, 1f));
 		engine.addEntity(createStaticCircle(5f, 5f, 1f));
 		engine.addEntity(createStaticCircle(50f, 50f, 1f));
+		engine.addEntity(camEntity);
 
 		/*
 		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
@@ -102,20 +112,7 @@ public class GameScreen extends BaseScreen {
 		// INPUT MAPPING 2
 		MovementComponent shipMC = MovementComponent.MAPPER.get(ship);
 		Gdx.input.setInputProcessor(new PlayerInputProcessor(shipMC));
-		
-		// INPUT MAPPING TEST 1 (Now broken)
-		/*
-		Body shipBody = BodyComponent.MAPPER.get(ship).getBody();
 
-		
-		// NOTE: This is broken due to changes in event handling. This will be scrapped soon.
-		Map<Integer, IPhysicsEvent> keyMap = new HashMap<Integer, IPhysicsEvent>();
-		keyMap.put(Keys.Z, new LinearForceEvent(shipBody, 1000f));
-		keyMap.put(Keys.S, new LinearForceEvent(shipBody, -500f));
-		keyMap.put(Keys.Q, new TorqueEvent(shipBody, 500f));
-		keyMap.put(Keys.D, new TorqueEvent(shipBody, -500f));
-		Gdx.input.setInputProcessor(new TestInputProcessor(keyMap));
-		*/
 	}
 
 	private void initUI() {
@@ -132,7 +129,7 @@ public class GameScreen extends BaseScreen {
 		transform.setScale(new Vector2(1f, 1f));
 		transform.setRotation(0f);
 		ship.add(transform);
-		
+
 		MovementComponent moveComponent = engine.createComponent(MovementComponent.class);
 		moveComponent.setMaxLinearVelocity(25f);
 		moveComponent.setMaxAngularVelocity(20f);
@@ -317,6 +314,19 @@ public class GameScreen extends BaseScreen {
 
 		return circleEntity;
 	}
+	
+	private Entity createCameraEntity(Entity ship, Camera camera){
+		Entity cameraEntity = engine.createEntity();
+		
+		CameraComponent camComp = engine.createComponent(CameraComponent.class);
+		camComp.setCamera(camera);
+		camComp.addTrackPoint(ship, 1);
+		
+		
+		cameraEntity.add(camComp);
+		
+		return cameraEntity;
+	}
 
 	// //// /ENTITIES //////
 
@@ -357,7 +367,7 @@ public class GameScreen extends BaseScreen {
 	public void dispose() {
 		super.dispose();
 		world.dispose();
-		
+
 	}
 
 }
