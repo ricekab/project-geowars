@@ -1,6 +1,8 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class BoxData implements BoxDataI{
+import java.io.Serializable;
+
+public class BoxData implements BoxDataI, Serializable{
 	
 	private float width;
 	private float height;

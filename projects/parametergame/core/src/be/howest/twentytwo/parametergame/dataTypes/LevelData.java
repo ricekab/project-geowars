@@ -1,11 +1,12 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class LevelData implements LevelDataI{
+public class LevelData implements LevelDataI, Serializable{
 	
 	private BoxData world;
 	private Set<PlanetData> planets;

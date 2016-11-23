@@ -1,6 +1,8 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class PlanetData implements PlanetDataI{
+import java.io.Serializable;
+
+public class PlanetData implements PlanetDataI, Serializable{
 	
 	private float xCoord;
 	private float yCoord;
