@@ -27,7 +27,7 @@ public class PhysicsBodyEntityListener implements EntityListener {
 		 */
 		Gdx.app.log("PhysicsBodyEntityListener", "Entity added");
 		if(fam.matches(entity)){
-			//world.createBody(def)
+			//world.createBody(BC.Mapper.get(entity).getBodyDef)
 		}
 	}
 

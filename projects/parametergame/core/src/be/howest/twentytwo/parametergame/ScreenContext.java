@@ -62,6 +62,7 @@ public class ScreenContext {
 	}
 	
 	public void dispose(){
+		getAssetManager().clear();
 		getAssetManager().dispose();
 		getSpriteBatch().dispose();
 		getShapeRenderer().dispose();

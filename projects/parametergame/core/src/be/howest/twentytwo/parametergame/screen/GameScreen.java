@@ -44,6 +44,13 @@ public class GameScreen extends BaseScreen {
 	private World world;
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
+	
+	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp){
+		super(context);
+		this.engine = engine;
+		this.viewport = vp;
+		// TODO: Don't need world?
+	}
 
 	public GameScreen(ScreenContext context) {
 		super(context);
@@ -148,7 +155,7 @@ public class GameScreen extends BaseScreen {
 		bodyComponent.setBody(rigidBody);
 
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
-		rigidBody.setAngularDamping(1f);
+		rigidBody.setAngularDamping(0.5f);
 
 		CircleShape circle = new CircleShape();
 		circle.setRadius(4f);
