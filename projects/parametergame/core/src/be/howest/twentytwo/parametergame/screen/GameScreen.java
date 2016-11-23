@@ -26,6 +26,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -76,10 +77,10 @@ public class GameScreen extends BaseScreen {
 		// ScreenViewport sv = new ScreenViewport();
 		// sv.setUnitsPerPixel(0.25f);
 		// viewport = sv;
-		
+
 		viewport.getCamera().position.x = 50f;
 		viewport.getCamera().position.y = 50f;
-		
+
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
 
 		engine.addSystem(new MovementSystem(events));
@@ -150,13 +151,13 @@ public class GameScreen extends BaseScreen {
 		rigidBody.setAngularDamping(1f);
 
 		CircleShape circle = new CircleShape();
-		circle.setRadius(2.5f);
+		circle.setRadius(4f);
 
 		// Fixture def with circle
 		FixtureDef fixtureDef = new FixtureDef();
 
 		fixtureDef.shape = circle;
-		fixtureDef.density = 1f;
+		fixtureDef.density = 0.25f;
 		fixtureDef.friction = 0.1f;
 		fixtureDef.restitution = 0.75f; // = Bounciness
 
@@ -173,11 +174,18 @@ public class GameScreen extends BaseScreen {
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
-		getContext().getAssetManager().load("mrArrow.png", Texture.class);
+		// getContext().getAssetManager().load("mrArrow.png", Texture.class);
+
+		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
 		getContext().getAssetManager().finishLoading();
-		Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
-		TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
-															// sheet)
+
+		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
+		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+		// sheet)
+
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack",
+				TextureAtlas.class);
+		TextureRegion region = spritesheet.findRegion("recon");
 
 		sprite.setRegion(region);
 		ship.add(sprite);
@@ -314,17 +322,16 @@ public class GameScreen extends BaseScreen {
 
 		return circleEntity;
 	}
-	
-	private Entity createCameraEntity(Entity ship, Camera camera){
+
+	private Entity createCameraEntity(Entity ship, Camera camera) {
 		Entity cameraEntity = engine.createEntity();
-		
+
 		CameraComponent camComp = engine.createComponent(CameraComponent.class);
 		camComp.setCamera(camera);
 		camComp.addTrackPoint(ship, 1);
-		
-		
+
 		cameraEntity.add(camComp);
-		
+
 		return cameraEntity;
 	}
 
