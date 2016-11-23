@@ -94,6 +94,11 @@ public class Writer {	//Temporary test file
 		}
 		*/
 		
+		JSONFileAccessor jfa = new JSONFileAccessor();
+		InMemoryFileAccessor imfa = new InMemoryFileAccessor();
+		LevelData testData = imfa.loadLevel("someString");
+		
+		
 	}
 	
 }
