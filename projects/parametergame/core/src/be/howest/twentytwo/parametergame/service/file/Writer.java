@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
-import be.howest.twentytwo.parametergame.dataTypes.TestData;
 
 public class Writer {	//Temporary test file
 
@@ -95,9 +94,13 @@ public class Writer {	//Temporary test file
 		*/
 		
 		JSONFileAccessor jfa = new JSONFileAccessor();
+		Json json = new Json();
 		InMemoryFileAccessor imfa = new InMemoryFileAccessor();
 		LevelData testData = imfa.loadLevel("someString");
-		
+		jfa.saveLevel(testData, "jsontest.txt");
+		LevelData levelData = jfa.loadLevel("jsontest.txt");
+		System.out.println(json.toJson(testData));
+		System.out.println(json.toJson(levelData));
 		
 	}
 	

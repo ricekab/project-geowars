@@ -140,9 +140,9 @@ public class GameScreen extends BaseScreen {
 
 		MovementComponent moveComponent = engine.createComponent(MovementComponent.class);
 		moveComponent.setMaxLinearVelocity(25f);
-		moveComponent.setMaxAngularVelocity(20f);
+		moveComponent.setMaxAngularVelocity(30f);
 		moveComponent.setLinearAcceleration(7.5f);
-		moveComponent.setAngularAcceleration(10f);
+		moveComponent.setAngularAcceleration(15f);
 		ship.add(moveComponent);
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
@@ -155,7 +155,7 @@ public class GameScreen extends BaseScreen {
 		bodyComponent.setBody(rigidBody);
 
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
-		rigidBody.setAngularDamping(0.5f);
+		rigidBody.setAngularDamping(2.5f);
 
 		CircleShape circle = new CircleShape();
 		circle.setRadius(4f);
