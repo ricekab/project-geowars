@@ -15,5 +15,5 @@ public interface WeaponDataI {
 	public float getSpeed();	// Bullet speed
 	public float getRange();	// Bullet fizzle range
 	
-	public String getTrigger();	// Possibility of special weapon triggers
+	public float getTimeDelay();	// Delay after collision with enemy before the Object triggers. bullet will be 0, mine will have a delay.
 }

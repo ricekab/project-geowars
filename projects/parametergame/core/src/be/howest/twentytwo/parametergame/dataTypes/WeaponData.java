@@ -57,9 +57,9 @@ public class WeaponData implements WeaponDataI{
 	}
 
 	@Override
-	public String getTrigger() {
+	public float getTimeDelay() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0f;
 	}
 
 }
