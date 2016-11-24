@@ -1,17 +1,23 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import be.howest.twentytwo.parametergame.ParameterGame;
 import com.badlogic.gdx.Screen;
+
+import be.howest.twentytwo.parametergame.ScreenContext;
 
 public abstract class BaseScreen implements Screen {
 	
-	private final ParameterGame game;
+	private final ScreenContext context;
 
-	public BaseScreen(ParameterGame game){
-		this.game = game;
+	public BaseScreen(ScreenContext context){
+		this.context = context;
 	}
 	
-	protected ParameterGame getGame(){
-		return this.game;
+	protected ScreenContext getContext(){
+		return this.context;
+	}
+	
+	@Override
+	public void dispose() {
+		context.dispose();
 	}
 }

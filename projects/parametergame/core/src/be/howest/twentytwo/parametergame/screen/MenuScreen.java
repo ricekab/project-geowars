@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.screen;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.ScreenContext;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -18,18 +19,18 @@ public class MenuScreen extends BaseScreen {
 
 	private Stage uiStage;
 
-	public MenuScreen(ParameterGame game) {
-		super(game);
+	public MenuScreen(ScreenContext context) {
+		super(context);
 	}
 
 	@Override
 	public void show() {
 		// Loading ui skin
-		getGame().assetMgr.load("ui/uiskin.json", Skin.class);
-		getGame().assetMgr.finishLoading();
-		Skin skin = getGame().assetMgr.get("ui/uiskin.json", Skin.class);
+		getContext().getAssetManager().load("ui/uiskin.json", Skin.class);
+		getContext().getAssetManager().finishLoading();
+		Skin skin = getContext().getAssetManager().get("ui/uiskin.json", Skin.class);
 		// Create main menu stage
-		uiStage = new Stage(new ScreenViewport(), getGame().batch);
+		uiStage = new Stage(new ScreenViewport(), getContext().getSpriteBatch());
 		Table root = new Table();
 		root.setFillParent(true);
 		uiStage.addActor(root);
@@ -40,7 +41,7 @@ public class MenuScreen extends BaseScreen {
 		startBtn.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				getGame().setScreen(new GameScreen(getGame()));
+				getContext().setScreen(new GameScreen(getContext()));	// TODO: Set screen - Loading screen
 				dispose();
 			}
 		});

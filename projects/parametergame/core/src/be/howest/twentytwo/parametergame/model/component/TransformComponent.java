@@ -1,7 +1,9 @@
 package be.howest.twentytwo.parametergame.model.component;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
@@ -10,15 +12,22 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * {@link BodyComponent}.
  */
 public class TransformComponent implements Component, Poolable {
+	
+	public static final ComponentMapper<TransformComponent> MAPPER = ComponentMapper
+			.getFor(TransformComponent.class);
+	
 	private Vector2 position;
 	private Vector2 scale;
 	private float rotation; // 0 - 360
 	
-	public Vector2 getPosition() {
+	public Vector2 getPos() {
 		return position;
 	}
-	public void setPosition(Vector2 position) {
+	public void setPos(Vector2 position) {
 		this.position = position;
+	}
+	public void setPos(float x, float y){
+		this.position = new Vector2(x, y);
 	}
 	public Vector2 getScale() {
 		return scale;
@@ -35,9 +44,9 @@ public class TransformComponent implements Component, Poolable {
 	
 	@Override
 	public void reset() {
+		setPos(null);
+		setScale(null);
 		// Need to reset? Should be set by factory anyway.
 	}
-	
-	
 
 }
