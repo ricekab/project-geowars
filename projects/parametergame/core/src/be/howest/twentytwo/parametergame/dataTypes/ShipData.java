@@ -51,7 +51,7 @@ public class ShipData implements ShipDataI{
 	}
 
 	@Override
-	public float getAngularDampoing() {
+	public float getAngularDamping() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

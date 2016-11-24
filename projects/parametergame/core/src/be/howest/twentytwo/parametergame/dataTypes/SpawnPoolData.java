@@ -1,12 +1,12 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.util.Set;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Set;
 
 public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collection of enemy clusters. they spawn per cluster, in a random order
 	
-	private Set<ClusterData> clusters;
+	private Set<ClusterDataI> clusters;
 	private float spawnTreshold;
 	private float spawnTresholdIncrease;
 	
@@ -14,11 +14,11 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 		clusters = new HashSet<>();
 	}
 	
-	private ClusterData selectRandomCluster() {
+	private ClusterDataI selectRandomCluster() {
 		//TODO initialization so the return doesn't cry. if it actually returns null, it's broken. this needs to be changed.
-		ClusterData selectedCluster = null;
+		ClusterDataI selectedCluster = null;
 		float totalChance = 0f;
-		for(ClusterData c : clusters) {
+		for(ClusterDataI c : clusters) {
 			totalChance += c.getChance();	//total chance will be calculated, by adding each cluster's chance.
 		}
 		
@@ -27,7 +27,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 		
 		float cumulativeChance = 0f;			//This is the lower bound of the range we'll check.
 		
-		for(ClusterData c : clusters) {
+		for(ClusterDataI c : clusters) {
 			if(random < cumulativeChance + c.getChance()) {	//here we check if the random value is inbetween the boundaries. random will always be larger then the cumulativeChance value.
 				selectedCluster = c;	//if random is lesser then cummulativeChance + chance of c, we got this one as the random cluster.
 			} else {
@@ -37,7 +37,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 		return selectedCluster;
 	}
 	
-	private void reduceAmount(ClusterData cluster) {
+	private void reduceAmount(ClusterDataI cluster) {
 		cluster.takeOne();
 		if(cluster.getAmountStored() < 1) {
 			clusters.remove(cluster);
@@ -46,8 +46,8 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 	
 	//	GETTERS
 	
-	public ClusterData getRandomCluster() {
-		ClusterData randomCluster = selectRandomCluster();
+	public ClusterDataI getRandomCluster() {
+		ClusterDataI randomCluster = selectRandomCluster();
 		reduceAmount(randomCluster);
 		return randomCluster;
 	}
@@ -62,7 +62,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 	
 	//	SETTERS
 	
-	public void addCluster(ClusterData cluster) {
+	public void addCluster(ClusterDataI cluster) {
 		clusters.add(cluster);
 	}
 	

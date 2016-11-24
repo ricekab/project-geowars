@@ -8,17 +8,17 @@ import java.util.Set;
 
 public class LevelData implements LevelDataI, Serializable{
 	
-	private BoxData world;
-	private Set<PlanetData> planets;
-	private BoxData spawnBox;
-	private Queue<SpawnPoolData> spawnpools;
+	private BoxDataI world;
+	private Set<PlanetDataI> planets;
+	private BoxDataI spawnBox;
+	private Queue<SpawnPoolDataI> spawnpools;
 	
 	public LevelData() {	// I feel like we should be able to call this witouth putting data in it. to be reviewed
 		this.planets = new HashSet<>();
 		this.spawnpools = new LinkedList<>();
 	}
 	
-	public LevelData(BoxData world, BoxData spawnBox) {
+	public LevelData(BoxDataI world, BoxDataI spawnBox) {
 		this.planets = new HashSet<>();
 		this.spawnpools = new LinkedList<>();
 		setWorld(world);
@@ -27,37 +27,37 @@ public class LevelData implements LevelDataI, Serializable{
 	
 	//	SETTERS
 	
-	public void setWorld(BoxData world) {
+	public void setWorld(BoxDataI world) {
 		this.world = new BoxData(world.getWidth(), world.getHeight(), 0f, 0f);
 	}
 	
-	public void addPlanet(PlanetData planet) {
+	public void addPlanet(PlanetDataI planet) {
 		planets.add(planet);
 	}
 	
-	public void setSpawnBox(BoxData spawnBox) {
+	public void setSpawnBox(BoxDataI spawnBox) {
 		this.spawnBox = spawnBox;
 	}
 	
-	public void addSpawnPool(SpawnPoolData spawnPool) {
+	public void addSpawnPool(SpawnPoolDataI spawnPool) {
 		spawnpools.offer(spawnPool);
 	}
 	
 	//	GETTERS
 	
-	public BoxData getWorld() {
+	public BoxDataI getWorld() {
 		return world;
 	};
 	
-	public Set<PlanetData> getPlanets() {
+	public Set<PlanetDataI> getPlanets() {
 		return planets;
 	}
 	
-	public BoxData getSpawnBox() {
+	public BoxDataI getSpawnBox() {
 		return spawnBox;
 	}
 	
-	public Queue<SpawnPoolData> getSpawnPools() {
+	public Queue<SpawnPoolDataI> getSpawnPools() {
 		return spawnpools;
 	}
 

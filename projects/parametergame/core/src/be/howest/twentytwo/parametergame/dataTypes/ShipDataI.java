@@ -13,7 +13,7 @@ public interface ShipDataI {
 	public float getLinearAcceleration();
 	public float getAngularAcceleration();
 	public float getLinearDamping();
-	public float getAngularDampoing();
+	public float getAngularDamping();
 	
 	public Collection<WeaponDataI> getWeapons();
 	

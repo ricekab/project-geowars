@@ -4,15 +4,16 @@ import java.util.Queue;
 import java.util.Set;
 
 public interface LevelDataI {
+
+	public BoxDataI getWorld();
+	public Set<PlanetDataI> getPlanets();
+	public BoxDataI getSpawnBox();
+	public Queue<SpawnPoolDataI> getSpawnPools();
 	
-	public void setWorld(BoxData world);
-	public void addPlanet(PlanetData planet);
-	public void setSpawnBox(BoxData spawnBox);
-	public void addSpawnPool(SpawnPoolData spawnPool);
+	public void setWorld(BoxDataI world);
+	public void addPlanet(PlanetDataI planet);
+	public void setSpawnBox(BoxDataI spawnBox);
+	public void addSpawnPool(SpawnPoolDataI spawnPool);
 	
-	public BoxData getWorld();
-	public Set<PlanetData> getPlanets();
-	public BoxData getSpawnBox();
-	public Queue<SpawnPoolData> getSpawnPools();
 
 }
