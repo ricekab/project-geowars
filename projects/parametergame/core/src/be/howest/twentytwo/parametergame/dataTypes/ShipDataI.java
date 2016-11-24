@@ -1,12 +1,21 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.util.Set;
-
-import com.badlogic.gdx.math.Vector2;
+import java.util.Collection;
 
 public interface ShipDataI {
+
+	public String getName();	// Used to retrieve sprites
 	
-	public Set<Vector2> getWeaponPositions();	//ship has multiple positions weapons can be fired from
-	public void addWeaponPosition(Vector2 pos);
+	public int getHealth();
 	
+	public float getMaxLinearSpeed();
+	public float getMaxAngularSpeed();
+	public float getLinearAcceleration();
+	public float getAngularAcceleration();
+	public float getLinearDamping();
+	public float getAngularDampoing();
+	
+	public Collection<WeaponDataI> getWeapons();
+	
+	public PhysicsDataI getPhysicsData();
 }

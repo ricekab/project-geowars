@@ -155,7 +155,7 @@ public class GameScreen extends BaseScreen {
 		bodyComponent.setBody(rigidBody);
 
 		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
-		rigidBody.setAngularDamping(0.5f);
+		rigidBody.setAngularDamping(1f);
 
 		CircleShape circle = new CircleShape();
 		circle.setRadius(4f);
