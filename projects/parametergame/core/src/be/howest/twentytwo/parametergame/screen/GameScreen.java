@@ -140,9 +140,9 @@ public class GameScreen extends BaseScreen {
 
 		MovementComponent moveComponent = engine.createComponent(MovementComponent.class);
 		moveComponent.setMaxLinearVelocity(25f);
-		moveComponent.setMaxAngularVelocity(20f);
+		moveComponent.setMaxAngularVelocity(30f);
 		moveComponent.setLinearAcceleration(7.5f);
-		moveComponent.setAngularAcceleration(10f);
+		moveComponent.setAngularAcceleration(15f);
 		ship.add(moveComponent);
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
