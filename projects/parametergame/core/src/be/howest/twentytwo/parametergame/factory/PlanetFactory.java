@@ -30,6 +30,7 @@ public class PlanetFactory {
 		
 		BodyComponent body = engine.createComponent(BodyComponent.class);
 		
+		
 		planet.add(body);
 		
 		return planet;

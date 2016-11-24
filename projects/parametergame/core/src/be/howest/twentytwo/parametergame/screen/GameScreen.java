@@ -6,6 +6,7 @@ import java.util.Collection;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
+import be.howest.twentytwo.parametergame.model.component.AIComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
@@ -14,6 +15,7 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.system.AISystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
@@ -94,6 +96,7 @@ public class GameScreen extends BaseScreen {
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(renderSys);
+		engine.addSystem(new AISystem());
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(),
@@ -102,8 +105,10 @@ public class GameScreen extends BaseScreen {
 		Entity ship = createShip();
 		Entity planet = createPlanet();
 		Entity camEntity = createCameraEntity(ship, viewport.getCamera());
+		Entity aiShip = createAIShip(BodyComponent.MAPPER.get(ship).getBody());
 
 		engine.addEntity(ship);
+		engine.addEntity(aiShip);
 		engine.addEntity(planet);
 		engine.addEntity(createFloor());
 		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
@@ -198,6 +203,82 @@ public class GameScreen extends BaseScreen {
 		ship.add(sprite);
 		return ship;
 	}
+	
+	private Entity createAIShip(Body target) {
+		Entity ship = engine.createEntity();
+		TransformComponent transform = engine.createComponent(TransformComponent.class);
+		transform.setPos(new Vector2(0f, 0f));
+		transform.setScale(new Vector2(1f, 1f));
+		transform.setRotation(180f);
+		ship.add(transform);
+
+		MovementComponent moveComponent = engine.createComponent(MovementComponent.class);
+		moveComponent.setMaxLinearVelocity(10f);
+		moveComponent.setMaxAngularVelocity(10f);
+		moveComponent.setLinearAcceleration(10f);
+		moveComponent.setAngularAcceleration(10f);
+		ship.add(moveComponent);
+
+		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
+
+		bodyDef.position.set(-15f, -15f);
+		bodyDef.angle = (float)Math.PI;
+		Body rigidBody = world.createBody(bodyDef); // Put in world
+		bodyComponent.setBody(rigidBody);
+
+		rigidBody.setLinearDamping(0.1f); // Air resistance type effect
+		rigidBody.setAngularDamping(0.5f);
+
+		CircleShape circle = new CircleShape();
+		circle.setRadius(2f);
+
+		// Fixture def with circle
+		FixtureDef fixtureDef = new FixtureDef();
+
+		fixtureDef.shape = circle;
+		fixtureDef.density = 0.25f;
+		fixtureDef.friction = 0.1f;
+		fixtureDef.restitution = 0.75f; // = Bounciness
+
+		fixtureDef.filter.categoryBits = Constants.ENEMY_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.ENEMY_MASK;
+
+		rigidBody.createFixture(fixtureDef); // Attach fixture to body
+
+		// Cleanup
+		circle.dispose();
+
+		bodyComponent.setBody(rigidBody);
+		ship.add(bodyComponent);
+
+		AIComponent ai = engine.createComponent(AIComponent.class);
+		ai.setTarget(target);
+		
+		ship.add(ai);
+		
+		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
+
+		// getContext().getAssetManager().load("mrArrow.png", Texture.class);
+
+		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
+		getContext().getAssetManager().finishLoading();
+
+		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
+		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+		// sheet)
+
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack",
+				TextureAtlas.class);
+		TextureRegion region = spritesheet.findRegion("drone");
+
+		sprite.setRegion(region);
+		ship.add(sprite);
+		return ship;
+	}
+
 
 	private Entity createPlanet() {
 		Entity planet = engine.createEntity();
@@ -267,7 +348,7 @@ public class GameScreen extends BaseScreen {
 		// Planet should be static
 		bodyDef.type = BodyDef.BodyType.StaticBody;
 
-		bodyDef.position.set(10f, 10f);
+		bodyDef.position.set(-20f, -20f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 
