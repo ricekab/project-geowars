@@ -58,7 +58,7 @@ public class PlanetData implements PlanetDataI, Serializable{
 	}
 	
 	public void setGravityRadius(float gravityRadius) {
-		// Add a minimum gravity radius? YES -> minimum gravity radius assured NO -> planet w/o gravity as an obstacle
+		// Add a minimum gravity radius? YES -> minimum gravity radius assured NO -> planet w/o gravity can be used as an obstacle
 		if(gravityRadius >= planetRadius) {
 			this.gravityRadius = gravityRadius;
 		} else {

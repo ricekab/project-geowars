@@ -18,6 +18,8 @@ public class BoxData implements BoxDataI, Serializable{
 		setYCoord(yCoord);
 	}
 	
+	//	SETTERS
+	
 	public void setWidth(float width) {
 		if(width >= minWidth) {
 			this.width = width;
@@ -41,6 +43,8 @@ public class BoxData implements BoxDataI, Serializable{
 	public void setYCoord(float yCoord) {
 		this.yCoord = yCoord;
 	}
+	
+	//	GETTERS
 	
 	public float getWidth(){
 		return width;

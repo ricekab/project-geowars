@@ -18,17 +18,10 @@ import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 public class Writer {	//Temporary test file
 
 	public static void main(String[] args){
-		/*
-		->	This works	<-
-		Json json = new Json();
-		List<Integer> original = new ArrayList<>();
-		for(int i = 1; i <= 10; i++){original.add(i);}
-		System.out.println(original);
-		String jsonString = json.toJson(original);
-		List<Integer> loaded = json.fromJson(List.class, jsonString);
-		System.out.println(loaded);
-		System.out.println(loaded.equals(original)); 
-		 */
+		
+		
+
+		 
 		/*
 		 * TODO fix the reading
 		JSONFileAccessor jfa = new JSONFileAccessor();
@@ -67,32 +60,23 @@ public class Writer {	//Temporary test file
 		}
 		*/
 		
-		/*
+		
 		try {
 		
-		==> IT WORKS!!
-		
-			POJOFileAccessor pfa = new POJOFileAccessor();
+			JSONFileAccessor jfa = new JSONFileAccessor();
 			InMemoryFileAccessor imfa = new InMemoryFileAccessor();
 			LevelData testData = imfa.loadLevel("someString");
-			String location = "POJOTest.txt";
+			String location = "jsontest.txt";			
+			jfa.saveLevel(testData, location);
 			
-			pfa.saveLevel(testData, location);
-			LevelData loadedData = pfa.loadLevel(location);
-			
-			System.out.println("equal: " + testData.equals(loadedData));	//.equals needs to be overridden
-			
-			//Writing stuff as text to make it readable
-			
-			Json json = new Json();
-			System.out.println(json.toJson(testData));
-			System.out.println(json.toJson(loadedData));
+			String file = jfa.readFile(location);
+			System.out.println(file);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		*/
 		
+		/*
 		JSONFileAccessor jfa = new JSONFileAccessor();
 		Json json = new Json();
 		InMemoryFileAccessor imfa = new InMemoryFileAccessor();
@@ -101,7 +85,7 @@ public class Writer {	//Temporary test file
 		LevelData levelData = jfa.loadLevel("jsontest.txt");
 		System.out.println(json.toJson(testData));
 		System.out.println(json.toJson(levelData));
-		
+		*/
 	}
 	
 }

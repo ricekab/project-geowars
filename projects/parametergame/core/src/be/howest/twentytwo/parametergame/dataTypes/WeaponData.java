@@ -1,65 +1,77 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 public class WeaponData implements WeaponDataI{
+	
+	private String id;
+	private float offsetX;
+	private float offsetY;
+	private float fireRate;
+	private int bulletsPerShot;
+	private float shotConeAngle;
+	private float bulletDamage;
+	private float bulletSpeed;
+	private float range;
+	private float timeDelay;
+	private float turnSpeed;
+	
+	public WeaponData(String id, float offsetX, float offsetY, float fireRate, int bulletsPerShot, float shotConeAngle, float damage, float bulletSpeed, float range, float timeDelay, float turnSpeed) {
+		this.id = id;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
+		this.fireRate = fireRate;
+		this.bulletsPerShot = bulletsPerShot;
+		this.shotConeAngle = shotConeAngle;
+		this.bulletDamage = damage;
+		this.bulletSpeed = bulletSpeed;
+		this.range = range;
+		this.timeDelay = timeDelay;
+		this.turnSpeed = turnSpeed;
+	}
+	
+	//	GETTERS
 
-	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
-		return null;
+		return id;
 	}
 
-	@Override
 	public float getOffsetX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return offsetX;
 	}
 
-	@Override
 	public float getOffsetY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return offsetY;
 	}
 
-	@Override
 	public float getFireRate() {
-		// TODO Auto-generated method stub
-		return 0;
+		return fireRate;
 	}
 
-	@Override
 	public int getBulletsPerShot() {
-		// TODO Auto-generated method stub
-		return 0;
+		return bulletsPerShot;
 	}
 
-	@Override
 	public float getShotConeAngle() {
-		// TODO Auto-generated method stub
-		return 0;
+		return shotConeAngle;
 	}
 
-	@Override
-	public float getDamage() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getBulletDamage() {
+		return bulletDamage;
 	}
 
-	@Override
-	public float getSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getBulletSpeed() {
+		return bulletSpeed;
 	}
 
-	@Override
 	public float getRange() {
-		// TODO Auto-generated method stub
-		return 0;
+		return range;
 	}
 
-	@Override
 	public float getTimeDelay() {
-		// TODO Auto-generated method stub
-		return 0f;
+		return timeDelay;
+	}
+	
+	public float getTurnSpeed() {
+		return turnSpeed;
 	}
 
 }

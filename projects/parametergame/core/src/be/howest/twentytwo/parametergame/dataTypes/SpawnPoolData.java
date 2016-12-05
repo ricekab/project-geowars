@@ -44,6 +44,20 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 		}
 	}
 	
+	//	SETTERS
+	
+	public void addCluster(ClusterDataI cluster) {
+		clusters.add(cluster);
+	}
+	
+	public void setSpawnTreshold(float spawnTreshold) {
+		this.spawnTreshold = spawnTreshold;
+	}
+	
+	public void setSpawnTresholdIncrease(float spawnTresholdIncrease) {
+		this.spawnTresholdIncrease = spawnTresholdIncrease;
+	}
+	
 	//	GETTERS
 	
 	public ClusterDataI getRandomCluster() {
@@ -58,20 +72,6 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 	
 	public float getSpawnTresholdIncrease() {
 		return spawnTresholdIncrease;
-	}
-	
-	//	SETTERS
-	
-	public void addCluster(ClusterDataI cluster) {
-		clusters.add(cluster);
-	}
-	
-	public void setSpawnTreshold(float spawnTreshold) {
-		this.spawnTreshold = spawnTreshold;
-	}
-	
-	public void setSpawnTresholdIncrease(float spawnTresholdIncrease) {
-		this.spawnTresholdIncrease = spawnTresholdIncrease;
 	}
 
 }

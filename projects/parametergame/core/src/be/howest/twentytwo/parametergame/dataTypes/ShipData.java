@@ -1,71 +1,74 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.badlogic.gdx.math.Vector2;
+import java.util.List;
 
 public class ShipData implements ShipDataI{
+	
+	private String name;
+	private int health;
+	private float maxLinearSpeed;
+	private float maxAngularSpeed;
+	private float linearAcceleration;
+	private float angularAcceleration;
+	private float linearDamping;
+	private float angularDamping;
+	private List<WeaponDataI> weapons;
+	private PhysicsDataI physicsData;
+	
+	public ShipData(String name, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, PhysicsDataI physicsData){
+		this.name = name;
+		this.maxLinearSpeed = maxLinearSpeed;
+		this.maxAngularSpeed = maxAngularSpeed;
+		this.linearAcceleration = linearAcceleration;
+		this.angularAcceleration = angularAcceleration;
+		this.linearDamping = linearDamping;
+		this.angularDamping = angularDamping;
+		weapons = new ArrayList<>();
+		this.physicsData = physicsData;
+	}
+	
+	//	GETTERS
 
-	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
-	@Override
 	public int getHealth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return health;
 	}
 
-	@Override
 	public float getMaxLinearSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+		return maxLinearSpeed;
 	}
 
-	@Override
 	public float getMaxAngularSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+		return maxAngularSpeed;
 	}
 
-	@Override
 	public float getLinearAcceleration() {
-		// TODO Auto-generated method stub
-		return 0;
+		return linearAcceleration;
 	}
 
-	@Override
 	public float getAngularAcceleration() {
-		// TODO Auto-generated method stub
-		return 0;
+		return angularAcceleration;
 	}
 
-	@Override
 	public float getLinearDamping() {
-		// TODO Auto-generated method stub
-		return 0;
+		return linearDamping;
 	}
 
-	@Override
 	public float getAngularDamping() {
-		// TODO Auto-generated method stub
-		return 0;
+		return angularDamping;
 	}
 
-	@Override
 	public Collection<WeaponDataI> getWeapons() {
-		// TODO Auto-generated method stub
-		return null;
+		return weapons;
 	}
 
-	@Override
 	public PhysicsDataI getPhysicsData() {
-		// TODO Auto-generated method stub
-		return null;
+		return physicsData;
 	}
 
 }

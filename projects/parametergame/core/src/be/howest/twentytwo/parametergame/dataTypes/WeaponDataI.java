@@ -11,9 +11,10 @@ public interface WeaponDataI {
 	public int getBulletsPerShot();
 	public float getShotConeAngle();
 	
-	public float getDamage();	// Per bullet
-	public float getSpeed();	// Bullet speed
+	public float getBulletDamage();	// Per bullet
+	public float getBulletSpeed();	// Bullet speed
 	public float getRange();	// Bullet fizzle range
+	public float getTurnSpeed();	//How fast you can reposition the turret
 	
 	public float getTimeDelay();	// Delay after collision with enemy before the Object triggers. bullet will be 0, mine will have a delay.
 }

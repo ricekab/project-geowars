@@ -4,7 +4,7 @@ public interface DroneDataI {
 	
 	public String getID();
 	
-	public int getOffenseLevel();
-	public int getUtilityLevel();
+	public int getOffenseUpgradeLevel();
+	public int getUtilityUpgradeLevel();
 
 }

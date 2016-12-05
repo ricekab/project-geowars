@@ -11,18 +11,8 @@ public class TestData {
 		letter = "a";
 		bool = true;
 	}
-
-	public int getNumber() {
-		return number;
-	}
-
-	public String getLetter() {
-		return letter;
-	}
-
-	public boolean getBool() {
-		return bool;
-	}
+	
+	//	SETTERS
 
 	public void setNumber(int number) {
 		this.number = number;
@@ -34,6 +24,20 @@ public class TestData {
 
 	public void setBool(boolean bool) {
 		this.bool = bool;
+	}
+	
+	//	GETTERS
+
+	public int getNumber() {
+		return number;
+	}
+
+	public String getLetter() {
+		return letter;
+	}
+
+	public boolean getBool() {
+		return bool;
 	}
 
 }

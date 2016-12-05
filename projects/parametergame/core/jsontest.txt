@@ -1,1 +1,59 @@
-{world:{width:1000,height:500,xCoord:0,yCoord:0,minWidth:100,minHeight:100},planets:{class:java.util.HashSet,items:[{xCoord:377,yCoord:183,planetRadius:125,texture:texture.png,mass:500,gravityRadius:175,minPlanetRadius:25}]},spawnBox:{width:250,height:125,xCoord:500,yCoord:250,minWidth:100,minHeight:100},spawnpools:{class:java.util.LinkedList,items:[{clusters:{class:java.util.HashSet,items:[{chance:1,amountStored:1,delay:0,groups:1,enemies:1,weight:1}]},spawnTreshold:3,spawnTresholdIncrease:0.5}]}}
+{
+world: {
+	class: be.howest.twentytwo.parametergame.dataTypes.BoxData
+	width: 1000
+	height: 500
+	xCoord: 0
+	yCoord: 0
+	minWidth: 100
+	minHeight: 100
+}
+planets: {
+	class: java.util.HashSet
+	items: [
+		{
+			class: be.howest.twentytwo.parametergame.dataTypes.PlanetData
+			xCoord: 377
+			yCoord: 183
+			planetRadius: 125
+			texture: texture.png
+			mass: 500
+			gravityRadius: 175
+			minPlanetRadius: 25
+		}
+	]
+}
+spawnBox: {
+	class: be.howest.twentytwo.parametergame.dataTypes.BoxData
+	width: 250
+	height: 125
+	xCoord: 500
+	yCoord: 250
+	minWidth: 100
+	minHeight: 100
+}
+spawnpools: {
+	class: java.util.LinkedList
+	items: [
+		{
+			class: be.howest.twentytwo.parametergame.dataTypes.SpawnPoolData
+			clusters: {
+				class: java.util.HashSet
+				items: [
+					{
+						class: be.howest.twentytwo.parametergame.dataTypes.ClusterData
+						chance: 1
+						amountStored: 1
+						delay: 0
+						groups: 1
+						enemies: 1
+						weight: 1
+					}
+				]
+			}
+			spawnTreshold: 3
+			spawnTresholdIncrease: 0.5
+		}
+	]
+}
+}

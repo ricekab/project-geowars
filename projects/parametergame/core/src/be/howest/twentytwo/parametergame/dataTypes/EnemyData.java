@@ -1,11 +1,15 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 public class EnemyData implements EnemyDataI{
+	
+	private ShipDataI shipData;
+	
+	public EnemyData(ShipDataI shipData) {
+		this.shipData = shipData;
+	}
 
-	@Override
 	public ShipDataI getShipData() {
-		// TODO Auto-generated method stub
-		return null;
+		return shipData;
 	}
 
 }

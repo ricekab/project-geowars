@@ -8,9 +8,10 @@ import java.util.Scanner;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
+import be.howest.twentytwo.parametergame.dataTypes.BoxData;
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 
-public class JSONFileAccessor implements IFileAccessor{
+public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	
 	private Json json;
 	
@@ -21,19 +22,30 @@ public class JSONFileAccessor implements IFileAccessor{
 
 	@Override
 	public LevelData loadLevel(String location) {
-		String jsonData = "";
-		location = validatedLocation(location);
-		Scanner s = new Scanner(location);
-		while(s.hasNext()){
-			jsonData += s.next();
-		}
-		LevelData levelData = json.fromJson(LevelData.class, jsonData);
-		s.close();
+		LevelData levelData = null;
+		
 		return levelData;
 	}
 	
+	public String[] splitString(String sign) {
+		String file = readFile("jsontest.txt");
+		String[] pieces = file.split(sign);
+		return pieces;
+	}
+	
+	public String readFile(String location) {	//TODO MAKE PRIVATE
+		String jsonData = "";
+		//location = validatedLocation(location);
+		Scanner s = new Scanner(location);
+		while(s.hasNext()) {
+			jsonData += s.next();
+		}
+		s.close();
+		return jsonData;
+	}
+	
 	public void saveLevel(LevelData data, String location) {
-		String jsonData = json.toJson(data, LevelData.class);
+		String jsonData = json.prettyPrint(data);
 		location = validatedLocation(location);
 		try{
 			File f = new File(location);

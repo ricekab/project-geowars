@@ -25,32 +25,6 @@ public class ClusterData implements ClusterDataI, Serializable{
 		amountStored--;
 	}
 	
-	//	GETTERS
-	
-	public float getChance() {
-		return chance;
-	}
-	
-	public int getAmountStored() {
-		return amountStored;
-	}
-	
-	public float getDelay() {
-		return delay;
-	}
-	
-	public int getGroups() {
-		return groups;
-	}
-	
-	public int getEnemies() {
-		return enemies;
-	}
-	
-	public float getWeight() {
-		return weight;
-	}
-	
 	//	SETTERS	
 	
 	public void setChance(float chance) {
@@ -75,6 +49,32 @@ public class ClusterData implements ClusterDataI, Serializable{
 	
 	private void setWeight() {
 		this.weight = 1 / (groups * enemies);
+	}
+	
+	//	GETTERS
+	
+	public float getChance() {
+		return chance;
+	}
+	
+	public int getAmountStored() {
+		return amountStored;
+	}
+	
+	public float getDelay() {
+		return delay;
+	}
+	
+	public int getGroups() {
+		return groups;
+	}
+	
+	public int getEnemies() {
+		return enemies;
+	}
+	
+	public float getWeight() {
+		return weight;
 	}
 
 }

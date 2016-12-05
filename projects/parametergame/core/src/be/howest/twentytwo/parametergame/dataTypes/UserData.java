@@ -1,17 +1,29 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 public class UserData implements UserDataI{
-
-	@Override
-	public String getUser() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private String id;
+	private String user;
+	private String passwordHash;
+	
+	public UserData(String user, String passwordHash) {
+		this.id = id;
+		this.user = user;
+		this.passwordHash = passwordHash;
+	}
+	
+	//	GETTERS
+	
+	public String getID() {
+		return id;
 	}
 
-	@Override
+	public String getUser() {
+		return user;
+	}
+
 	public String getPasswordHashed() {
-		// TODO Auto-generated method stub
-		return null;
+		return passwordHash;
 	}
 
 }

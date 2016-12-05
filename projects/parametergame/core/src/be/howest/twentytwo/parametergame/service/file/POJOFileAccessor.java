@@ -11,7 +11,7 @@ import java.io.OutputStream;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 
-public class POJOFileAccessor implements IFileAccessor {
+public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 
 	/*
 	 * (non-Javadoc)
