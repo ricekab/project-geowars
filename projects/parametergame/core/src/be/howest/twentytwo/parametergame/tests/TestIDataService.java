@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.tests;
+/*package be.howest.twentytwo.parametergame.tests;
 
 import org.junit.*;
 
@@ -21,3 +21,4 @@ public class TestIDataService {
 	}
 	
 }
+*/

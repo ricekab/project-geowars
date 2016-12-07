@@ -38,4 +38,9 @@ public final class VectorMath {
 	public static Vector2 forceToForwardVector(float force, Body body) {
 		return new Vector2(body.getWorldVector(Vector2.Y)).scl(force);
 	}
+        
+        public static Vector2 subtract(Vector2 a, Vector2 b)        {
+            return new Vector2(a.x - b.x, a.y - b.y);
+        }
+        
 }
