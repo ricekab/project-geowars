@@ -17,7 +17,7 @@ public class TransformComponent implements Component, Poolable {
 			.getFor(TransformComponent.class);
 	
 	private Vector2 position;
-	private Vector2 scale;
+	private Vector2 worldSize;
 	private float rotation; // 0 - 360
 	
 	public Vector2 getPos() {
@@ -29,11 +29,11 @@ public class TransformComponent implements Component, Poolable {
 	public void setPos(float x, float y){
 		this.position = new Vector2(x, y);
 	}
-	public Vector2 getScale() {
-		return scale;
+	public Vector2 getWorldSize() {
+		return worldSize;
 	}
-	public void setScale(Vector2 scale) {
-		this.scale = scale;
+	public void setWorldSize(Vector2 worldSize) {
+		this.worldSize = worldSize;
 	}
 	public float getRotation() {
 		return rotation;
@@ -45,7 +45,7 @@ public class TransformComponent implements Component, Poolable {
 	@Override
 	public void reset() {
 		setPos(null);
-		setScale(null);
+		setWorldSize(null);
 		// Need to reset? Should be set by factory anyway.
 	}
 

@@ -139,7 +139,7 @@ public class GameScreen extends BaseScreen {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(new Vector2(40f, 40f));
-		transform.setScale(new Vector2(1f, 1f));
+		transform.setWorldSize(new Vector2(8f, 8f));
 		transform.setRotation(0f);
 		ship.add(transform);
 
@@ -208,7 +208,7 @@ public class GameScreen extends BaseScreen {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(new Vector2(0f, 0f));
-		transform.setScale(new Vector2(1f, 1f));
+		transform.setWorldSize(new Vector2(4f, 4f));
 		transform.setRotation(180f);
 		ship.add(transform);
 
@@ -285,7 +285,7 @@ public class GameScreen extends BaseScreen {
 
 		TransformComponent transform = new TransformComponent();
 		transform.setPos(new Vector2(0f, 0f));
-		transform.setScale(new Vector2(1f, 1f));
+		transform.setWorldSize(new Vector2(40f, 40f));
 		transform.setRotation(0f);
 		planet.add(transform);
 
@@ -338,7 +338,7 @@ public class GameScreen extends BaseScreen {
 
 		TransformComponent transform = new TransformComponent();
 		transform.setPos(new Vector2(0f, 0f));
-		transform.setScale(new Vector2(1f, 1f));
+		transform.setWorldSize(new Vector2(100f, 5f));
 		transform.setRotation(0f);
 		floor.add(transform);
 
@@ -378,7 +378,7 @@ public class GameScreen extends BaseScreen {
 
 		TransformComponent transform = new TransformComponent();
 		transform.setPos(new Vector2(x, y));
-		transform.setScale(new Vector2(1f, 1f));
+		transform.setWorldSize(new Vector2(2*radius, 2*radius));
 		transform.setRotation(0f);
 		circleEntity.add(transform);
 
@@ -411,12 +411,12 @@ public class GameScreen extends BaseScreen {
 		return circleEntity;
 	}
 
-	private Entity createCameraEntity(Entity ship, Camera camera) {
+	private Entity createCameraEntity(Entity trackTarget, Camera camera) {
 		Entity cameraEntity = engine.createEntity();
 
 		CameraComponent camComp = engine.createComponent(CameraComponent.class);
 		camComp.setCamera(camera);
-		camComp.addTrackPoint(ship, 1);
+		camComp.addTrackPoint(trackTarget, 1);
 
 		cameraEntity.add(camComp);
 

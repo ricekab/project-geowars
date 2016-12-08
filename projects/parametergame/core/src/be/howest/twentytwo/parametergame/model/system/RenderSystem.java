@@ -60,16 +60,16 @@ public class RenderSystem extends IteratingSystem {
 		float offsetX = width / 2;
 		float offsetY = height / 2;
 		/*
-		 * TODO: Should I just force scale. So this would result in something
-		 * like 512x512 --> scaled to 4x4 (or whatever transform has set) 64x64
-		 * --> scaled to 4x4 instead of the current 512x512 --> 32x32 64x64 -->
-		 * 4x4
+		 * TODO: Should I just force scale. So this would result in something like 512x512 -->
+		 * scaled to 4x4 (or whatever transform has set) 64x64 --> scaled to 4x4 instead of the
+		 * current 512x512 --> 32x32 64x64 --> 4x4
 		 */
-		float scaleX = METERS_PER_PIXEL; // Scale to world size to match physics
-											// object
-		float scaleY = METERS_PER_PIXEL;
-		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX, offsetY, width,
-				height, scaleX, scaleY, transform.getRotation());
+		//float scaleX = METERS_PER_PIXEL; // Scale to world size to match physics object
+		//float scaleY = METERS_PER_PIXEL;
+		float scaleX = transform.getWorldSize().x / region.getRegionWidth();
+		float scaleY = transform.getWorldSize().y / region.getRegionHeight();
+		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX,
+				offsetY, width, height, scaleX, scaleY, transform.getRotation());
 		batch.end();
 	}
 
