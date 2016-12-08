@@ -6,6 +6,8 @@ import java.util.Collection;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
+import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
+import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
 import be.howest.twentytwo.parametergame.model.component.AISuiciderComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
@@ -119,11 +121,31 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(50f, 50f, 1f));
 		engine.addEntity(camEntity);
                 
-                int numberOfEnemies = 10;
-                for(int x = 0; x < numberOfEnemies; x++)
+                int numberOfScoutEnemies = 4;
+                for(int x = 0; x < numberOfScoutEnemies; x++)
                 {
-                    Entity aiShip = createAIShip((x - numberOfEnemies/2)* 20, 2);
+                    Entity scoutShip = createAIShip((x - numberOfScoutEnemies/2)* 20, 100, "scouter");
+                    AIScoutComponent scoutComponent = engine.createComponent(AIScoutComponent.class);
+                    scoutShip.add(scoutComponent);
+                    engine.addEntity(scoutShip);           
+                }
+                
+                int numberOfSuiciderEnemies = 4;
+                for(int x = 0; x < numberOfSuiciderEnemies; x++)
+                {
+                    Entity aiShip = createAIShip((x - numberOfSuiciderEnemies/2)* 20, 2, "suicider");
+                    AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
+                    aiShip.add(suiciderComponent);
                     engine.addEntity(aiShip);           
+                }
+                
+                int numberOfBrutalizerEnemies = 4;
+                for(int x = 0; x < numberOfBrutalizerEnemies; x++)
+                {
+                    Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies/2)* 20, -100, "brutalizer");
+                    AIBrutalizerComponent brutalizerComponent = engine.createComponent(AIBrutalizerComponent.class);
+                    brutalizerShip.add(brutalizerComponent);
+                    engine.addEntity(brutalizerShip);           
                 }
                 
 
@@ -357,11 +379,11 @@ public class GameScreen extends BaseScreen {
 		return cameraEntity;
 	}
         
-        private Entity createAIShip(float posx, float posy) {
+        private Entity createAIShip(float posx, float posy, String textureRegion) {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(new Vector2(posx, posy));
-		transform.setScale(new Vector2(1f, 1f));
+		transform.setScale(new Vector2(0.25f, 0.25f));
 		transform.setRotation(0f);
 		ship.add(transform);
 
@@ -372,8 +394,7 @@ public class GameScreen extends BaseScreen {
 		moveComponent.setAngularAcceleration(10f);
 		ship.add(moveComponent);
                 
-                AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
-                ship.add(suiciderComponent);
+                
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
@@ -413,16 +434,16 @@ public class GameScreen extends BaseScreen {
 
 		// getContext().getAssetManager().load("mrArrow.png", Texture.class);
 
-		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
+		getContext().getAssetManager().load("sprites/AI.pack", TextureAtlas.class);
 		getContext().getAssetManager().finishLoading();
 
 		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
 		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
 		// sheet)
 
-		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack",
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/AI.pack",
 				TextureAtlas.class);
-		TextureRegion region = spritesheet.findRegion("fighter_wip");
+		TextureRegion region = spritesheet.findRegion(textureRegion);
 
 		sprite.setRegion(region);
 		ship.add(sprite);
