@@ -53,21 +53,15 @@ public class RenderSystem extends IteratingSystem {
 
 		float width = region.getRegionWidth();
 		float height = region.getRegionHeight();
-		// float originX = -1 * width*METERS_PER_PIXEL / 2f; // Offset
-		// float originY = -1 * height*METERS_PER_PIXEL / 2f;
-		// float offsetX = * METERS_PER_PIXEL;
-		// float offsetY = * METERS_PER_PIXEL;
+
 		float offsetX = width / 2;
 		float offsetY = height / 2;
-		/*
-		 * TODO: Should I just force scale. So this would result in something like 512x512 -->
-		 * scaled to 4x4 (or whatever transform has set) 64x64 --> scaled to 4x4 instead of the
-		 * current 512x512 --> 32x32 64x64 --> 4x4
-		 */
+		
 		//float scaleX = METERS_PER_PIXEL; // Scale to world size to match physics object
 		//float scaleY = METERS_PER_PIXEL;
 		float scaleX = transform.getWorldSize().x / region.getRegionWidth();
 		float scaleY = transform.getWorldSize().y / region.getRegionHeight();
+		// TODO: Images are rotated here as sprites are all assumed to face north.
 		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX,
 				offsetY, width, height, scaleX, scaleY, transform.getRotation() - 90);
 		batch.end();
