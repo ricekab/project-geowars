@@ -2,7 +2,10 @@ package be.howest.twentytwo.parametergame.service.db;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import be.howest.twentytwo.parametergame.dataTypes.*;
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
 public class InMemoryDataService implements IDataService {
 //for the time being, this will have hard-coded data, and is later DELETED
@@ -10,28 +13,33 @@ public class InMemoryDataService implements IDataService {
 
 	@Override
 	public UserData getUser(String serverID) {
-		UserData data = new UserData();
+		UserData data = new UserData("user", "USER");
 		return data;
 	}
 
 	@Override
 	public List<ShipData> getShips(UserData user) {
 		List<ShipData> data = new ArrayList<>();
-		data.add(new ShipData());
+		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_MASK);
+		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
+		data.add(new ShipData("recon", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, physicsData));
 		return data;
 	}
 
 	@Override
 	public List<DroneData> getDrones(UserData user) {
 		List<DroneData> data = new ArrayList<>();
-		data.add(new DroneData());
+		data.add(new DroneData("dumbDrone", 0, 0));
 		return data;
 	}
 
 	@Override
 	public List<EnemyData> getEnemies(String... name) {
 		List<EnemyData> data = new ArrayList<>();
-		data.add(new EnemyData());
+		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_MASK);
+		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
+		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, physicsData);
+		data.add(new EnemyData(shipData));
 		return data;
 	}
 

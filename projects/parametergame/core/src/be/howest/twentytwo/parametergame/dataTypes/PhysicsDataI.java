@@ -8,5 +8,7 @@ public interface PhysicsDataI {
 	public short getPhysicsMask();
 	
 	public Collection<FixtureDataI> getFixtures();
+	
+	public void addFixture(FixtureDataI fixture);
 
 }

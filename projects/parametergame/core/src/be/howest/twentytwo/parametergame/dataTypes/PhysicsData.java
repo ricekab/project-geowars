@@ -10,15 +10,19 @@ public class PhysicsData implements PhysicsDataI{
 	private short physicsMask;
 	private List<FixtureDataI> fixtures;
 	
-	public PhysicsData(short physicsCategory, short physicsMask) {
+	public PhysicsData(short physicsCategory, short physicsMask, List<FixtureDataI> fixtures) {
 		this.physicsCategory = physicsCategory;
 		this.physicsMask = physicsMask;
-		fixtures = new ArrayList<>();
+		this.fixtures = fixtures;
+	}
+	
+	public PhysicsData(short physicsCategory, short physicsMask) {
+		this(physicsCategory, physicsMask, new ArrayList<FixtureDataI>());
 	}
 	
 	//	SETTERS
-	
-	private void addFixture(FixtureDataI fixture) {
+	@Override
+	public void addFixture(FixtureDataI fixture) {
 		fixtures.add(fixture);
 	}
 	
