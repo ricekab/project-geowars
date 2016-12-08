@@ -36,19 +36,19 @@ moeten doorvoeren. Zorg ervoor dat je nog niet té veel geprogrammeerd hebt tege
 
 Een uurregeling wordt opgemaakt
 
-#### Projectweek 1 (7-10 november)
+#### ~~Projectweek 1 (7-10 november)~~
 *Wat*: Op verschillende momenten technische alsook conceptuele / analytische feedback beschikbaar. Zie planning voor wie wanneer beschikbaar is. **Geen feedback gegeven per email**!
 
 *Verplicht*: Nee
 
-#### Tussen 7 en 20 november (exacte deadline volgt)
+#### ~~Tussen 7 en 20 november (exacte deadline volgt)~~
 *Wat*: Indienen definitieve versie analyse.
 
 *Indienen*: Digitaal projectdossier analyse volledig afgewerkt (dus ook mapping naar relationeel model), ontwikkelingstraject aangevuld waar nodig. Gegeven feedback is duidelijk geïmplementeerd.
 
 *Naamgeving*: zie verder + instructies Leho
 
-#### Zondag 13 november 23:59
+#### ~~Zondag 13 november 23:59~~
 *Wat*: Indienen eerste versie werkende proof of concept
 
 *Indienen*:
@@ -56,7 +56,7 @@ Een uurregeling wordt opgemaakt
 leggen geen tussentijdse verloopsverwachting op. Hiervoor dient je eigen planning.
 - Projectdossier met eventuele aanvulling / aanpassingen van de planning en/of projectverdeling
 
-#### Zondag 9 december 23:59
+#### Zondag 11 december 23:59
 *Wat*: Indienen alpha versie game
 
 *Indienen*:
@@ -101,13 +101,5 @@ vertrouwelijk.
 **Opgelet**: Lokalen per sessie en eventuele wijzigingen in de planning worden via Leho
 gecommuniceerd.
 
-## Project Structure
-**documents** - Analysis documents and the like.
-**[gamename]-java** - Game source code
-
 ## Dependencies
-libgdx? (+ gradle)
-lwjgl?
-artemis / ashley? (ECS system)
-
-TODO: Ask project lectors library usage
+Built using LibGDX and Ashley. Includes Box2D physics.
