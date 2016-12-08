@@ -69,7 +69,7 @@ public class RenderSystem extends IteratingSystem {
 		float scaleX = transform.getWorldSize().x / region.getRegionWidth();
 		float scaleY = transform.getWorldSize().y / region.getRegionHeight();
 		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX,
-				offsetY, width, height, scaleX, scaleY, transform.getRotation());
+				offsetY, width, height, scaleX, scaleY, transform.getRotation() - 90);
 		batch.end();
 	}
 

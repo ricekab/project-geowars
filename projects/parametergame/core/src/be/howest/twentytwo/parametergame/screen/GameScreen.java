@@ -96,7 +96,7 @@ public class GameScreen extends BaseScreen {
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(renderSys);
-		engine.addSystem(new AISystem());
+		//engine.addSystem(new AISystem());
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(),

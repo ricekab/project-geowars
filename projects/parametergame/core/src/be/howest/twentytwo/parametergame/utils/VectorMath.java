@@ -36,6 +36,6 @@ public final class VectorMath {
 	 * given force or impulse.
 	 */
 	public static Vector2 forceToForwardVector(float force, Body body) {
-		return new Vector2(body.getWorldVector(Vector2.Y)).scl(force);
+		return new Vector2(body.getWorldVector(Vector2.X)).scl(force);
 	}
 }

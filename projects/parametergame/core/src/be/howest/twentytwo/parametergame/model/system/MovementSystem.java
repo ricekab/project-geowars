@@ -48,7 +48,7 @@ public class MovementSystem extends IntervalIteratingSystem {
 			 */
 			Gdx.app.log("MoveSys", String.format("Current linear velocity: %f", body.getLinearVelocity().len()));
 			
-			Vector2 bodyForwardUnitVector = body.getWorldVector(Vector2.Y);
+			Vector2 bodyForwardUnitVector = body.getWorldVector(Vector2.X);
 			Vector2 moveForwardVelocity = body.getLinearVelocity();
 			Vector2 maxBodyForwardVec = new Vector2(bodyForwardUnitVector).scl(mc.getMaxLinearVelocity());
 			
