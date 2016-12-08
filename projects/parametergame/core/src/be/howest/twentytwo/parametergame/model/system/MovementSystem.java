@@ -83,16 +83,16 @@ public class MovementSystem extends IntervalIteratingSystem {
 			events.add(new LinearImpulseEvent(body, addImpulseVector));
 			*/
 		} else if (mc.isAccelerateBackward()) {
-			// TODO: From here on down code is faulty. See above.
-			float addedVelocity = mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
-			float maxAddedVelocity = mc.getMaxLinearVelocity() - body.getLinearVelocity().len();
-			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);
-
-			// F = ma
-			float addImpulse = body.getMass() * actualAddedVelocity;
-			Vector2 addImpulseVector = VectorMath.forceToForwardVector(addImpulse, body.getAngle()).scl(-1f, -1f);
-
-			events.add(new LinearForceEvent(body, addImpulseVector));
+			Vector2 bodyBackwardUnitVector = body.getWorldVector(Vector2.X).scl(-1);
+			Vector2 moveForwardVelocity = body.getLinearVelocity();
+			Vector2 maxBodyBackwardVec = new Vector2(bodyBackwardUnitVector).scl(mc.getMaxLinearVelocity());
+			
+			Vector2 resultVector = maxBodyBackwardVec.sub(moveForwardVelocity).clamp(0f, mc.getLinearAcceleration());
+		
+			resultVector.scl(body.getMass());	// F = ma
+			
+			events.add(new LinearForceEvent(body, resultVector));
+			
 		}
 
 		if (mc.isTurnLeft()) {
