@@ -1,0 +1,376 @@
+
+geowars.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+emp_ammo
+  rotate: false
+  xy: 1, 1444
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+laser_transparent
+  rotate: false
+  xy: 1, 802
+  size: 640, 640
+  orig: 640, 640
+  offset: 0, 0
+  index: -1
+scouter_minimal
+  rotate: false
+  xy: 1, 181
+  size: 647, 619
+  orig: 647, 619
+  offset: 0, 0
+  index: -1
+suicider_v5_minimal
+  rotate: false
+  xy: 803, 1436
+  size: 614, 608
+  orig: 614, 608
+  offset: 0, 0
+  index: -1
+obstacle_v2_minimal
+  rotate: false
+  xy: 1419, 1452
+  size: 586, 592
+  orig: 586, 592
+  offset: 0, 0
+  index: -1
+encloser_v2
+  rotate: false
+  xy: 2007, 1487
+  size: 474, 557
+  orig: 474, 557
+  offset: 0, 0
+  index: -1
+missile_ammo
+  rotate: false
+  xy: 2483, 1532
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+geom
+  rotate: false
+  xy: 2997, 1575
+  size: 488, 469
+  orig: 488, 469
+  offset: 0, 0
+  index: -1
+fake_1-up_colorized
+  rotate: false
+  xy: 3487, 1619
+  size: 419, 425
+  orig: 419, 425
+  offset: 0, 0
+  index: -1
+shield
+  rotate: false
+  xy: 643, 1020
+  size: 419, 414
+  orig: 419, 414
+  offset: 0, 0
+  index: -1
+juggernaught
+  rotate: false
+  xy: 1064, 999
+  size: 369, 435
+  orig: 369, 435
+  offset: 0, 0
+  index: -1
+space gun sprite
+  rotate: false
+  xy: 1435, 977
+  size: 300, 473
+  orig: 300, 473
+  offset: 0, 0
+  index: -1
+bomber_minimal
+  rotate: false
+  xy: 1737, 1168
+  size: 286, 282
+  orig: 286, 282
+  offset: 0, 0
+  index: -1
+space
+  rotate: false
+  xy: 2025, 1229
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 0
+bullet-4-clip-art
+  rotate: false
+  xy: 1, 20
+  size: 300, 159
+  orig: 300, 159
+  offset: 0, 0
+  index: -1
+space
+  rotate: false
+  xy: 2283, 1229
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 1
+space
+  rotate: false
+  xy: 2541, 1274
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 10
+space
+  rotate: false
+  xy: 2799, 1274
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 11
+space
+  rotate: false
+  xy: 3057, 1317
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 12
+space
+  rotate: false
+  xy: 1737, 910
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 13
+space
+  rotate: false
+  xy: 3315, 1317
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 14
+space
+  rotate: false
+  xy: 3573, 1361
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 15
++1_gun
+  rotate: false
+  xy: 643, 818
+  size: 206, 200
+  orig: 206, 200
+  offset: 0, 0
+  index: -1
+space
+  rotate: false
+  xy: 650, 560
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 16
+space
+  rotate: false
+  xy: 650, 302
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 17
+-1_gun
+  rotate: false
+  xy: 851, 818
+  size: 206, 200
+  orig: 206, 200
+  offset: 0, 0
+  index: -1
+space
+  rotate: false
+  xy: 1059, 741
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 18
+space
+  rotate: false
+  xy: 650, 44
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 19
+space
+  rotate: false
+  xy: 1317, 719
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 2
+space
+  rotate: false
+  xy: 908, 483
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 20
+space
+  rotate: false
+  xy: 908, 225
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 3
+disable_weapons
+  rotate: false
+  xy: 908, 23
+  size: 206, 200
+  orig: 206, 200
+  offset: 0, 0
+  index: -1
+space
+  rotate: false
+  xy: 1166, 461
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 4
+space
+  rotate: false
+  xy: 1166, 203
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 5
+space
+  rotate: false
+  xy: 1424, 461
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 6
+space
+  rotate: false
+  xy: 1424, 203
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 7
+space
+  rotate: false
+  xy: 3831, 1361
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 8
+bomb
+  rotate: false
+  xy: 1116, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+space
+  rotate: false
+  xy: 2025, 971
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 9
+fighter
+  rotate: false
+  xy: 2283, 975
+  size: 223, 252
+  orig: 223, 252
+  offset: 0, 0
+  index: -1
+recon
+  rotate: false
+  xy: 303, 51
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ammo
+  rotate: false
+  xy: 1575, 839
+  size: 106, 136
+  orig: 106, 136
+  offset: 0, 0
+  index: -1
+drone
+  rotate: false
+  xy: 908, 752
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+drone_geom_collector
+  rotate: false
+  xy: 3908, 1979
+  size: 60, 65
+  orig: 60, 65
+  offset: 0, 0
+  index: -1
+drone_gravitator
+  rotate: false
+  xy: 1318, 136
+  size: 60, 65
+  orig: 60, 65
+  offset: 0, 0
+  index: -1
+drone_minigun
+  rotate: false
+  xy: 433, 114
+  size: 60, 65
+  orig: 60, 65
+  offset: 0, 0
+  index: -1
+bomber_bullet_projectile
+  rotate: false
+  xy: 1575, 787
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+bomb_projectile
+  rotate: false
+  xy: 1683, 927
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+missile_projectile
+  rotate: false
+  xy: 1995, 1104
+  size: 26, 62
+  orig: 26, 62
+  offset: 0, 0
+  index: -1
+laser_projectile
+  rotate: false
+  xy: 2483, 1500
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+basic_bullet
+  rotate: false
+  xy: 2541, 1233
+  size: 10, 39
+  orig: 10, 39
+  offset: 0, 0
+  index: -1
+minigun_drone_bullet
+  rotate: false
+  xy: 2007, 1460
+  size: 6, 25
+  orig: 6, 25
+  offset: 0, 0
+  index: -1
+shooter_bullet_projectile
+  rotate: false
+  xy: 2997, 1548
+  size: 5, 25
+  orig: 5, 25
+  offset: 0, 0
+  index: -1
