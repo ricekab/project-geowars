@@ -397,7 +397,7 @@ public class GameScreen extends BaseScreen {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(new Vector2(posx, posy));
-		transform.setWorldSize(new Vector2(50f, 50f));
+		transform.setWorldSize(new Vector2(8f, 8f));
 		transform.setRotation(0f);
 		ship.add(transform);
 
