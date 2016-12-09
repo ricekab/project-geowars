@@ -35,8 +35,6 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 	@Override
 	public void execute() {
 		super.execute();
-		Gdx.app.log("LinearForceEvt", forceVector.toString());
-
 		body.applyForceToCenter(forceVector, true);
 	}
 

@@ -46,42 +46,33 @@ public class MovementSystem extends IntervalIteratingSystem {
 			 * TODO: This is still slightly broken, doesn't apply maximal force when reaching max speed.
 			 * Clamping needs to be moved somewhere else?
 			 */
+			/*
 			Gdx.app.log("MoveSys", String.format("Current linear velocity: %f", body.getLinearVelocity().len()));
-			
+			*/
 			Vector2 bodyForwardUnitVector = body.getWorldVector(Vector2.X);
 			Vector2 moveForwardVelocity = body.getLinearVelocity();
 			Vector2 maxBodyForwardVec = new Vector2(bodyForwardUnitVector).scl(mc.getMaxLinearVelocity());
 			
-			
+			/*
 			Gdx.app.log("MoveSys", String.format("Direction vector %s", bodyForwardUnitVector.toString()));
 			Gdx.app.log("MoveSys", String.format("Direction vector scaled %s", maxBodyForwardVec.toString()));
 			Gdx.app.log("MoveSys", String.format("Linear v %s", moveForwardVelocity.toString()));
-			
+			*/
 			Vector2 resultVector = maxBodyForwardVec.sub(moveForwardVelocity).clamp(0f, mc.getLinearAcceleration());
-			
+			/*
 			Gdx.app.log("MoveSys", String.format("Result acceleration vector %s", maxBodyForwardVec.toString()));
 			Gdx.app.log("MoveSys", String.format("Result acceleration length %f", maxBodyForwardVec.len()));
-			
+			*/
 			resultVector.scl(body.getMass());	// F = ma
-			
+			/*
 			Gdx.app.log("MoveSys", String.format("Result force vector %s", maxBodyForwardVec.toString()));
 			Gdx.app.log("MoveSys", String.format("Result force length %f", maxBodyForwardVec.len()));
-			
-			events.add(new LinearForceEvent(body, resultVector));
-			
-			Gdx.app.log("MoveSys", "===");
-			
-			/*
-			float addedVelocity = mc.getLinearAcceleration() * PhysicsSystem.PHYSICS_TIMESTEP;
-			float maxAddedVelocity = mc.getMaxLinearVelocity() - body.getLinearVelocity().len();
-			float actualAddedVelocity = Math.min(addedVelocity, maxAddedVelocity);
-
-			// F = ma
-			float addImpulse = body.getMass() * actualAddedVelocity;
-			Vector2 addImpulseVector = VectorMath.forceToForwardVector(addImpulse, body.getAngle());
-			
-			events.add(new LinearImpulseEvent(body, addImpulseVector));
 			*/
+			events.add(new LinearForceEvent(body, resultVector));
+			/*
+			Gdx.app.log("MoveSys", "===");
+			*/
+			
 		} else if (mc.isAccelerateBackward()) {
 			Vector2 bodyBackwardUnitVector = body.getWorldVector(Vector2.X).scl(-1);
 			Vector2 moveForwardVelocity = body.getLinearVelocity();

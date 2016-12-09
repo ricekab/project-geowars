@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.BackgroundComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
@@ -16,6 +17,7 @@ import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.AISystem;
+import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
@@ -30,6 +32,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -46,8 +49,8 @@ public class GameScreen extends BaseScreen {
 	private World world;
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
-	
-	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp){
+
+	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp) {
 		super(context);
 		this.engine = engine;
 		this.viewport = vp;
@@ -91,16 +94,27 @@ public class GameScreen extends BaseScreen {
 		viewport.getCamera().position.y = 50f;
 
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
-
+		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext()
+				.getSpriteBatch(), getContext().getAssetManager(), viewport);
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(new CameraSystem());
+		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
-		//engine.addSystem(new AISystem());
+		// engine.addSystem(new AISystem());
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(),
 				new PhysicsBodyEntityListener(world));
+
+		// Asset loading here for now
+		Gdx.app.log("GameScreen", "Loading assets...");
+		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
+		getContext().getAssetManager().load("sprites/geowars.pack", TextureAtlas.class);
+		// getContext().getAssetManager().load("sprites/tiles.pack", TextureAtlas.class);
+		// This is done in BackgroundRenderSystem
+		getContext().getAssetManager().finishLoading();
+		Gdx.app.log("GameScreen", "Asset loading finished!");
 
 		Entity ship = createShip();
 		Entity planet = createPlanet();
@@ -115,7 +129,10 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(0, 0, 1f));
 		engine.addEntity(createStaticCircle(5f, 5f, 1f));
 		engine.addEntity(createStaticCircle(50f, 50f, 1f));
+		engine.addEntity(createStaticCircle(100f, 50f, 1f));
+		engine.addEntity(createStaticCircle(150f, 50f, 1f));
 		engine.addEntity(camEntity);
+		engine.addEntity(createBackgroundEntity());
 
 		/*
 		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
@@ -186,11 +203,6 @@ public class GameScreen extends BaseScreen {
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
-		// getContext().getAssetManager().load("mrArrow.png", Texture.class);
-
-		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
-		getContext().getAssetManager().finishLoading();
-
 		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
 		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
 		// sheet)
@@ -203,7 +215,7 @@ public class GameScreen extends BaseScreen {
 		ship.add(sprite);
 		return ship;
 	}
-	
+
 	private Entity createAIShip(Body target) {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
@@ -225,7 +237,7 @@ public class GameScreen extends BaseScreen {
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
 
 		bodyDef.position.set(-15f, -15f);
-		bodyDef.angle = (float)Math.PI;
+		bodyDef.angle = (float) Math.PI;
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 
@@ -256,9 +268,9 @@ public class GameScreen extends BaseScreen {
 
 		AIComponent ai = engine.createComponent(AIComponent.class);
 		ai.setTarget(target);
-		
+
 		ship.add(ai);
-		
+
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
 		// getContext().getAssetManager().load("mrArrow.png", Texture.class);
@@ -278,7 +290,6 @@ public class GameScreen extends BaseScreen {
 		ship.add(sprite);
 		return ship;
 	}
-
 
 	private Entity createPlanet() {
 		Entity planet = engine.createEntity();
@@ -378,7 +389,7 @@ public class GameScreen extends BaseScreen {
 
 		TransformComponent transform = new TransformComponent();
 		transform.setPos(new Vector2(x, y));
-		transform.setWorldSize(new Vector2(2*radius, 2*radius));
+		transform.setWorldSize(new Vector2(2 * radius, 2 * radius));
 		transform.setRotation(0f);
 		circleEntity.add(transform);
 
@@ -421,6 +432,14 @@ public class GameScreen extends BaseScreen {
 		cameraEntity.add(camComp);
 
 		return cameraEntity;
+	}
+
+	private Entity createBackgroundEntity() {
+		Entity bgEntity = engine.createEntity();
+
+		bgEntity.add(new BackgroundComponent(MathUtils.random(Long.MAX_VALUE)));
+
+		return bgEntity;
 	}
 
 	// //// /ENTITIES //////
