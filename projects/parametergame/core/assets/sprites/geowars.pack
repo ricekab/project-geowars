@@ -1,0 +1,396 @@
+
+geowars.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+enemies/scouter_minimal
+  rotate: false
+  xy: 1, 1170
+  size: 647, 619
+  orig: 647, 619
+  offset: 0, 0
+  index: -1
+enemies/suicider_v5_minimal
+  rotate: false
+  xy: 1, 560
+  size: 614, 608
+  orig: 614, 608
+  offset: 0, 0
+  index: -1
+enemies/obstacle_v2_minimal
+  rotate: false
+  xy: 650, 1197
+  size: 586, 592
+  orig: 586, 592
+  offset: 0, 0
+  index: -1
+enemies/encloser_v2
+  rotate: false
+  xy: 1, 1
+  size: 474, 557
+  orig: 474, 557
+  offset: 0, 0
+  index: -1
+enemies/bomber_minimal
+  rotate: false
+  xy: 1238, 1507
+  size: 286, 282
+  orig: 286, 282
+  offset: 0, 0
+  index: -1
+
+geowars2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+icons/emp_ammo
+  rotate: false
+  xy: 1, 1380
+  size: 800, 600
+  orig: 800, 600
+  offset: 0, 0
+  index: -1
+icons/laser_transparent
+  rotate: false
+  xy: 1, 738
+  size: 640, 640
+  orig: 640, 640
+  offset: 0, 0
+  index: -1
+icons/missile_ammo
+  rotate: false
+  xy: 803, 1468
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+icons/geom
+  rotate: false
+  xy: 1, 267
+  size: 488, 469
+  orig: 488, 469
+  offset: 0, 0
+  index: -1
+icons/fake_1-up_colorized
+  rotate: false
+  xy: 1317, 1555
+  size: 419, 425
+  orig: 419, 425
+  offset: 0, 0
+  index: -1
+icons/shield
+  rotate: false
+  xy: 643, 964
+  size: 419, 414
+  orig: 419, 414
+  offset: 0, 0
+  index: -1
+icons/+1_gun
+  rotate: false
+  xy: 1, 65
+  size: 206, 200
+  orig: 206, 200
+  offset: 0, 0
+  index: -1
+icons/-1_gun
+  rotate: false
+  xy: 1738, 1780
+  size: 206, 200
+  orig: 206, 200
+  offset: 0, 0
+  index: -1
+icons/disable_weapons
+  rotate: false
+  xy: 643, 762
+  size: 206, 200
+  orig: 206, 200
+  offset: 0, 0
+  index: -1
+icons/bomb
+  rotate: false
+  xy: 209, 65
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+icons/ammo
+  rotate: false
+  xy: 491, 600
+  size: 106, 136
+  orig: 106, 136
+  offset: 0, 0
+  index: -1
+icons/bomber_bullet_projectile
+  rotate: false
+  xy: 1317, 1503
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+icons/bomb_projectile
+  rotate: false
+  xy: 803, 1418
+  size: 46, 48
+  orig: 46, 48
+  offset: 0, 0
+  index: -1
+icons/missile_projectile
+  rotate: false
+  xy: 1, 1
+  size: 26, 62
+  orig: 26, 62
+  offset: 0, 0
+  index: -1
+icons/laser_projectile
+  rotate: false
+  xy: 1738, 1748
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+icons/basic_bullet
+  rotate: false
+  xy: 1946, 1941
+  size: 10, 39
+  orig: 10, 39
+  offset: 0, 0
+  index: -1
+icons/minigun_drone_bullet
+  rotate: false
+  xy: 851, 937
+  size: 6, 25
+  orig: 6, 25
+  offset: 0, 0
+  index: -1
+icons/shooter_bullet_projectile
+  rotate: false
+  xy: 411, 240
+  size: 5, 25
+  orig: 5, 25
+  offset: 0, 0
+  index: -1
+
+geowars3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+icons/sprites/space gun sprite
+  rotate: false
+  xy: 1, 1
+  size: 300, 473
+  orig: 300, 473
+  offset: 0, 0
+  index: -1
+icons/sprites/bullet-4-clip-art
+  rotate: false
+  xy: 303, 315
+  size: 300, 159
+  orig: 300, 159
+  offset: 0, 0
+  index: -1
+
+geowars4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ships/juggernaught
+  rotate: false
+  xy: 1, 67
+  size: 369, 435
+  orig: 369, 435
+  offset: 0, 0
+  index: -1
+ships/fighter
+  rotate: false
+  xy: 372, 250
+  size: 223, 252
+  orig: 223, 252
+  offset: 0, 0
+  index: -1
+ships/recon
+  rotate: false
+  xy: 372, 120
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ships/drone
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+ships/drone_geom_collector
+  rotate: false
+  xy: 597, 437
+  size: 60, 65
+  orig: 60, 65
+  offset: 0, 0
+  index: -1
+ships/drone_gravitator
+  rotate: false
+  xy: 502, 183
+  size: 60, 65
+  orig: 60, 65
+  offset: 0, 0
+  index: -1
+ships/drone_minigun
+  rotate: false
+  xy: 597, 370
+  size: 60, 65
+  orig: 60, 65
+  offset: 0, 0
+  index: -1
+
+geowars5.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tiles/space
+  rotate: false
+  xy: 1, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 0
+tiles/space
+  rotate: false
+  xy: 1, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 1
+tiles/space
+  rotate: false
+  xy: 259, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 10
+tiles/space
+  rotate: false
+  xy: 1, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 11
+tiles/space
+  rotate: false
+  xy: 259, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 12
+tiles/space
+  rotate: false
+  xy: 517, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 13
+tiles/space
+  rotate: false
+  xy: 259, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 14
+tiles/space
+  rotate: false
+  xy: 517, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 15
+tiles/space
+  rotate: false
+  xy: 775, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 16
+tiles/space
+  rotate: false
+  xy: 517, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 17
+tiles/space
+  rotate: false
+  xy: 775, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 18
+tiles/space
+  rotate: false
+  xy: 1033, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 19
+tiles/space
+  rotate: false
+  xy: 775, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 2
+tiles/space
+  rotate: false
+  xy: 1033, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 20
+tiles/space
+  rotate: false
+  xy: 1291, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 3
+tiles/space
+  rotate: false
+  xy: 1033, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 4
+tiles/space
+  rotate: false
+  xy: 1291, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 5
+tiles/space
+  rotate: false
+  xy: 1549, 517
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 6
+tiles/space
+  rotate: false
+  xy: 1291, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 7
+tiles/space
+  rotate: false
+  xy: 1549, 259
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 8
+tiles/space
+  rotate: false
+  xy: 1549, 1
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 9
