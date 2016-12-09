@@ -43,3 +43,4 @@ nb-configuration.xml
 ## Maven
 #*/target/
 # TODO: Potentially netbean specific files?
+/projects/parametergame/.nb-gradle/

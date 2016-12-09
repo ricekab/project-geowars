@@ -1,0 +1,55 @@
+
+AI.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+scouter
+  rotate: false
+  xy: 1, 285
+  size: 647, 619
+  orig: 647, 619
+  offset: 0, 0
+  index: -1
+brutalizer
+  rotate: false
+  xy: 1, 1
+  size: 286, 282
+  orig: 286, 282
+  offset: 0, 0
+  index: -1
+
+AI2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+suicider
+  rotate: false
+  xy: 1, 1
+  size: 614, 608
+  orig: 614, 608
+  offset: 0, 0
+  index: -1
+
+AI3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+obstacle
+  rotate: false
+  xy: 1, 1
+  size: 586, 592
+  orig: 586, 592
+  offset: 0, 0
+  index: -1
+
+AI4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+suicideSquad
+  rotate: false
+  xy: 1, 1
+  size: 474, 557
+  orig: 474, 557
+  offset: 0, 0
+  index: -1
