@@ -2,19 +2,17 @@ package be.howest.twentytwo.parametergame.model.system;
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.physics.events.AngularForceEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalIteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.AngularForceEvent;
-import be.howest.twentytwo.parametergame.utils.VectorMath;
 
 public class MovementSystem extends IntervalIteratingSystem {
 

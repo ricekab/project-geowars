@@ -2,19 +2,21 @@ package be.howest.twentytwo.parametergame;
 
 import javax.inject.Inject;
 
-import be.howest.twentytwo.parametergame.screen.MenuScreen;
 import be.howest.twentytwo.parametergame.screen.GameScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * Creates necessary globals and initializes the first screen. Access point for global objects for now.
+ * Creates necessary globals and initializes the first screen. Access point for global objects for
+ * now.
  */
 public class ParameterGame extends Game {
 
@@ -32,13 +34,15 @@ public class ParameterGame extends Game {
 
 	@Override
 	public void create() {
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
 		// Has to be created here since this is libgdx tied
-		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(), new ShapeRenderer(), platformService,
-				dataService);
+		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(),
+				new ShapeRenderer(), platformService, dataService);
 
 		Texture.setAssetManager(context.getAssetManager());
 
-                // For testing it's easier to not have the menu pop up
+		// For testing it's easier to not have the menu pop up
 		setScreen(new GameScreen(context));
 	}
 

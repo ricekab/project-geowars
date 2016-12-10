@@ -18,7 +18,7 @@ public class BackgroundRenderSystem extends EntitySystem {
 	private SpriteBatch batch;
 	private AssetManager assets;
 
-	private long seed;
+	// private long seed;
 	private TextureAtlas spritesheet;
 	private TextureRegion[][] tiles;
 	private float tileWidth;

@@ -9,6 +9,7 @@ import com.google.inject.Injector;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		// Debug level
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		// Hard coded 1280x720 (16:9) for now
 		config.width = 1280;
