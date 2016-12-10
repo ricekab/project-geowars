@@ -17,40 +17,35 @@ public class AiSystem extends IteratingSystem {
 	public final static int PRIORITY = 1;
 
 	public Collection<IPhysicsEvent> events;
-        
+
 	public AiSystem(Collection<IPhysicsEvent> events) {
 		super(Family.all(AIScoutComponent.class).get(), PRIORITY);
 		this.events = events;
 	}
 
-    @Override
-    protected void processEntity(Entity entity, float f) {
-        //Gdx.app.log("AISystem", String.format(""));
-        
-            
-            if(AISuiciderComponent.MAPPER.has(entity))
-            {
-                AISuiciderComponent suiciderComp = AISuiciderComponent.MAPPER.get(entity);
-                suiciderComp.ProcessAI(entity, events);
-            }
-            
-            if(AIScoutComponent.MAPPER.has(entity))
-            {
-                AIScoutComponent scoutComp = AIScoutComponent.MAPPER.get(entity);
-                scoutComp.ProcessAI(entity, events);
-            }
-            
-            if(AIBrutalizerComponent.MAPPER.has(entity))
-            {
-                AIBrutalizerComponent brutalizerComp = AIBrutalizerComponent.MAPPER.get(entity);
-                brutalizerComp.ProcessAI(entity, events);
-            }
-            
-            if(AIObstacleComponent.MAPPER.has(entity))
-            {
-                AIObstacleComponent obstacleComp = AIObstacleComponent.MAPPER.get(entity);
-                obstacleComp.ProcessAI(entity, events);
-            }
-            
-    }
+	@Override
+	protected void processEntity(Entity entity, float f) {
+		// Gdx.app.log("AISystem", String.format(""));
+
+		if(AISuiciderComponent.MAPPER.has(entity)) {
+			AISuiciderComponent suiciderComp = AISuiciderComponent.MAPPER.get(entity);
+			suiciderComp.ProcessAI(entity, events);
+		}
+
+		if(AIScoutComponent.MAPPER.has(entity)) {
+			AIScoutComponent scoutComp = AIScoutComponent.MAPPER.get(entity);
+			scoutComp.ProcessAI(entity, events);
+		}
+
+		if(AIBrutalizerComponent.MAPPER.has(entity)) {
+			AIBrutalizerComponent brutalizerComp = AIBrutalizerComponent.MAPPER.get(entity);
+			brutalizerComp.ProcessAI(entity, events);
+		}
+
+		if(AIObstacleComponent.MAPPER.has(entity)) {
+			AIObstacleComponent obstacleComp = AIObstacleComponent.MAPPER.get(entity);
+			obstacleComp.ProcessAI(entity, events);
+		}
+
+	}
 }

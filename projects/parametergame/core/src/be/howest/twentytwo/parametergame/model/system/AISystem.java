@@ -1,61 +1,51 @@
 package be.howest.twentytwo.parametergame.model.system;
 
+import java.util.Collection;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+
+import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
+import be.howest.twentytwo.parametergame.model.component.AIObstacleComponent;
+import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
+import be.howest.twentytwo.parametergame.model.component.AISuiciderComponent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 
-import be.howest.twentytwo.parametergame.model.component.AIComponent;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+public class AiSystem extends IteratingSystem {
 
-public class AISystem extends IteratingSystem {
-	
-	public static final int PRIORITY = 0;
+	public final static int PRIORITY = 1;
 
-	public AISystem() {
-		super(Family.all(AIComponent.class, BodyComponent.class, MovementComponent.class).get(), PRIORITY);
+	public Collection<IPhysicsEvent> events;
+
+	public AiSystem(Collection<IPhysicsEvent> events) {
+		super(Family.all(AIScoutComponent.class).get(), PRIORITY);
+		this.events = events;
 	}
 
 	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
-		AIComponent aic = AIComponent.MAPPER.get(entity);
-		BodyComponent bc = BodyComponent.MAPPER.get(entity);
-		MovementComponent mc = MovementComponent.MAPPER.get(entity);
-		
-		Body self = bc.getBody();
-		Body target = aic.getTarget();
-		
-		Vector2 direction = target.getPosition().cpy().sub(self.getPosition()).nor();
-		
-		Vector2 forward = new Vector2(self.getLinearVelocity().nor());
-		
-		float angle = self.getAngle() - MathUtils.cos(direction.dot(Vector2.X));
-		
-		Gdx.app.log("AISys", "Direction Vec" + direction.toString());
-		Gdx.app.log("AISys", "Forward Vec" + forward.toString());
-		// TURNING LOGIC
-		Gdx.app.log("AISys", String.format("Angle is %f", angle));
-		if(angle > MathUtils.degreesToRadians*10f){
-			mc.setTurnRight(true);
-			mc.setTurnLeft(false);
-		} else if (angle < MathUtils.degreesToRadians*-10f){
-			mc.setTurnLeft(true);
-			mc.setTurnRight(false);
-		} else {
-			mc.setTurnLeft(false);
-			mc.setTurnRight(false);
-		}
-		
-		// FORWARD LOGIC
-		if(Math.abs(angle) < MathUtils.degreesToRadians*30f){
-			mc.setAccelerateForward(true);
-		} else {
-			mc.setAccelerateForward(false);
-		}
-	}
+	protected void processEntity(Entity entity, float f) {
+		// Gdx.app.log("AISystem", String.format(""));
 
+		if(AISuiciderComponent.MAPPER.has(entity)) {
+			AISuiciderComponent suiciderComp = AISuiciderComponent.MAPPER.get(entity);
+			suiciderComp.ProcessAI(entity, events);
+		}
+
+		if(AIScoutComponent.MAPPER.has(entity)) {
+			AIScoutComponent scoutComp = AIScoutComponent.MAPPER.get(entity);
+			scoutComp.ProcessAI(entity, events);
+		}
+
+		if(AIBrutalizerComponent.MAPPER.has(entity)) {
+			AIBrutalizerComponent brutalizerComp = AIBrutalizerComponent.MAPPER.get(entity);
+			brutalizerComp.ProcessAI(entity, events);
+		}
+
+		if(AIObstacleComponent.MAPPER.has(entity)) {
+			AIObstacleComponent obstacleComp = AIObstacleComponent.MAPPER.get(entity);
+			obstacleComp.ProcessAI(entity, events);
+		}
+
+	}
 }
