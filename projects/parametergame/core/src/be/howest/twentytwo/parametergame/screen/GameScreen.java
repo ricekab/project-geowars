@@ -9,7 +9,6 @@ import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
 import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
 import be.howest.twentytwo.parametergame.model.component.AISuiciderComponent;
-import be.howest.twentytwo.parametergame.model.component.BackgroundComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
@@ -18,8 +17,8 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
+import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
@@ -31,17 +30,14 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -137,7 +133,6 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(100f, 50f, 1f));
 		engine.addEntity(createStaticCircle(150f, 50f, 1f));
 		engine.addEntity(camEntity);
-		engine.addEntity(createBackgroundEntity());
                 
         int numberOfScoutEnemies = 4;
         for(int x = 0; x < numberOfScoutEnemies; x++)
@@ -303,46 +298,6 @@ public class GameScreen extends BaseScreen {
 		return planet;
 	}
 
-	private Entity createFloor() {
-		Entity floor = engine.createEntity();
-
-		TransformComponent transform = new TransformComponent();
-		transform.setPos(new Vector2(0f, 0f));
-		transform.setWorldSize(new Vector2(100f, 5f));
-		transform.setRotation(0f);
-		floor.add(transform);
-
-		BodyComponent bodyComponent = new BodyComponent();
-
-		BodyDef bodyDef = new BodyDef();
-		// Planet should be static
-		bodyDef.type = BodyDef.BodyType.StaticBody;
-
-		bodyDef.position.set(-20f, -20f);
-		Body rigidBody = world.createBody(bodyDef); // Put in world
-		bodyComponent.setBody(rigidBody);
-
-		PolygonShape box = new PolygonShape();
-		box.setAsBox(100f, 5f);
-
-		// Fixture def with circle
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = box;
-		fixtureDef.density = 5f;
-		fixtureDef.friction = 0.5f;
-		fixtureDef.restitution = 0.5f; // = Bounciness
-
-		rigidBody.createFixture(fixtureDef); // Attach fixture to body
-
-		// Cleanup
-		box.dispose();
-
-		bodyComponent.setBody(rigidBody);
-		floor.add(bodyComponent);
-
-		return floor;
-	}
-
 	private Entity createStaticCircle(float x, float y, float radius) {
 		Entity circleEntity = engine.createEntity();
 
@@ -462,14 +417,6 @@ public class GameScreen extends BaseScreen {
 		sprite.setRegion(region);
 		ship.add(sprite);
 		return ship;
-	}
-
-	private Entity createBackgroundEntity() {
-		Entity bgEntity = engine.createEntity();
-
-		bgEntity.add(new BackgroundComponent(MathUtils.random(Long.MAX_VALUE)));
-
-		return bgEntity;
 	}
 
 	// //// /ENTITIES //////

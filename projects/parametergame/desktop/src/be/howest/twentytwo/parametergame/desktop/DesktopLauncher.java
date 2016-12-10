@@ -2,8 +2,6 @@ package be.howest.twentytwo.parametergame.desktop;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.google.inject.Guice;

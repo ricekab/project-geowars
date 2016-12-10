@@ -8,7 +8,6 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 
 public class CameraSystem extends IteratingSystem {

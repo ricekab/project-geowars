@@ -1,10 +1,9 @@
 package be.howest.twentytwo.parametergame.model.physics.events;
 
-import com.badlogic.gdx.Gdx;
+import be.howest.twentytwo.parametergame.utils.VectorMath;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-
-import be.howest.twentytwo.parametergame.utils.VectorMath;
 
 /**
  * Describes a force event that is applied on the target body's center of mass.
