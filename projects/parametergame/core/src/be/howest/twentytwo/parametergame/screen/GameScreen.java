@@ -84,7 +84,7 @@ public class GameScreen extends BaseScreen {
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 
-		viewport = new FitViewport(240f, 135f); // Viewport size (in world units)
+		viewport = new FitViewport(320f, 180f); // Viewport size (in world units)
 
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on
@@ -433,8 +433,8 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.friction = 0.1f;
 		fixtureDef.restitution = 0.75f; // = Bounciness
 
-		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
+		fixtureDef.filter.categoryBits = Constants.ENEMY_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.ENEMY_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
