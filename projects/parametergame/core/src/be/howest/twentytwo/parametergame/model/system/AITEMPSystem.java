@@ -15,17 +15,17 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
-public class AiSystem extends IteratingSystem {
+public class AITEMPSystem extends IteratingSystem {
 	
 	public static final int PRIORITY = 0;
 
-	public AiSystem() {
+	public AITEMPSystem() {
 		super(Family.all(AIComponent.class, BodyComponent.class, MovementComponent.class).get(), PRIORITY);
 	}
 
 	public Collection<IPhysicsEvent> events;
 
-	public AiSystem(Collection<IPhysicsEvent> events) {
+	public AITEMPSystem(Collection<IPhysicsEvent> events) {
 		super(Family.all(AIScoutComponent.class).get(), PRIORITY);
 		this.events = events;
 	}
