@@ -285,7 +285,7 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.density = 0f;
 		fixtureDef.isSensor = true;
 		fixtureDef.filter.categoryBits = Constants.GRAVITY_CATEGORY;
-		// fixtureDef.filter.maskBits = Constants.PLANET_CATEGORY; // Breaks the sensor somehow
+		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
 
 		rigidBody.createFixture(fixtureDef);
 

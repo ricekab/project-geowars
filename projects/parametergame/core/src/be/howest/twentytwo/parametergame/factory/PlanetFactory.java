@@ -50,18 +50,19 @@ public class PlanetFactory {
 
 		FixtureFactory fixtureFactory = new FixtureFactory();
 
-		// GRAVITY
-		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle", pdata.getGravityRadius() * 2f,
-				pdata.getGravityRadius() * 2f, 0f, 0f, 1f, 1f, 0f);
-		fixtureDef.isSensor = true;
-		fixtureDef.filter.categoryBits = Constants.GRAVITY_CATEGORY;
+		// PLANET
+		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle",
+				pdata.getPlanetRadius() * 2, pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
+		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
+		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
 		rigidBody.createFixture(fixtureDef);
 		fixtureDef.shape.dispose();
 
-		// PLANET
-		fixtureDef = fixtureFactory.createFixtureDef("circle",
-				pdata.getPlanetRadius() * 2, pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
-		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
+		// GRAVITY
+		fixtureDef = fixtureFactory.createFixtureDef("circle", pdata.getGravityRadius() * 2f,
+				pdata.getGravityRadius() * 2f, 0f, 0f, 1f, 1f, 0f);
+		fixtureDef.isSensor = true;
+		fixtureDef.filter.categoryBits = Constants.GRAVITY_CATEGORY;
 		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
 		rigidBody.createFixture(fixtureDef);
 		fixtureDef.shape.dispose();
