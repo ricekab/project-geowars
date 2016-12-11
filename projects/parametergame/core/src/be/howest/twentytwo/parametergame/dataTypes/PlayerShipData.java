@@ -21,7 +21,7 @@ public class PlayerShipData implements PlayerShipDataI{
 	//	SETTERS
 
 	public void setShipData(ShipDataI shipdata) {
-		this.shipData = shipData;
+		this.shipData = shipdata;
 	}
 
 	public void setDrones(Collection<DroneDataI> droneCollection) {

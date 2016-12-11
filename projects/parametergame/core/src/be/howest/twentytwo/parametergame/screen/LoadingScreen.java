@@ -65,8 +65,10 @@ public class LoadingScreen extends BaseScreen {
 		while (getContext().getAssetManager().update() == false) { // Still loading
 			float progress = getContext().getAssetManager().getProgress();
 			// Update loading bar
-			Gdx.app.log("LoadingScreen", String.format("Loading: %f", progress));
+			// Gdx.app.log("LoadingScreen", String.format("Loading: %f", progress));
 		}
+		long start = System.nanoTime();
+		Gdx.app.log("LoadingScreen", "Building universe...");
 		// ENGINE
 		PooledEngine engine = new PooledEngine();
 
@@ -123,6 +125,8 @@ public class LoadingScreen extends BaseScreen {
 
 		engine.addEntity(playerShip);
 
+		Gdx.app.log("LoadingScreen", String.format("Loading done - %f", System.nanoTime() - start));
+		getContext().setScreen(new GameScreen(getContext(), engine, viewport));
 	}
 
 	@Override

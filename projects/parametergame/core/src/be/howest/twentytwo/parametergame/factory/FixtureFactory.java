@@ -14,33 +14,31 @@ public class FixtureFactory {
 			float offsetX, float offsetY, float density, float friction, float restitution) {
 		FixtureDef fix = new FixtureDef();
 
-		Shape shape = null;
 		switch (shapeString) {
 			case "circle":
 				CircleShape circle = new CircleShape();
 				circle.setRadius(width);
-				shape = circle;
+				fix.shape = circle;
+				circle.dispose();
 				break;
 			case "rect":
 			case "rectangle":
 				PolygonShape box = new PolygonShape();
 				box.setAsBox(width, height);
+				fix.shape = box;
+				box.dispose();
 				break;
 			default:
 				Gdx.app.error("FixtureFact",
 						String.format("ERR: Unknown fixture shape: %s", shapeString));
 		}
 
-		fix.shape = shape;
 		fix.density = density;
 		fix.friction = friction;
 		fix.restitution = restitution;
 
 		fix.filter.categoryBits = Constants.PLAYER_CATEGORY;
 		fix.filter.maskBits = Constants.PLAYER_MASK;
-
-		// Cleanup
-		shape.dispose();
 
 		return fix;
 	}

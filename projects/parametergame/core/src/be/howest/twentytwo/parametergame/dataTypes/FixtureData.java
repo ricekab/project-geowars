@@ -21,39 +21,40 @@ public class FixtureData implements FixtureDataI{
 		this.friction = friction;
 		this.restitution = restitution;
 	}
-	
+
 	//	GETTERS
 
 	public String getShape() {
-		return null;
+		return shape;
 	}
 
 	public float getWidth() {
-		return 0;
+		return width;
 	}
 
 	public float getHeight() {
-		return 0;
+		return height;
 	}
 
 	public float getOffsetX() {
-		return 0;
+		return offsetX;
 	}
 
 	public float getOffsetY() {
-		return 0;
+		return offsetY;
 	}
 
 	public float getDensity() {
-		return 0;
+		return density;
 	}
 
 	public float getFriction() {
-		return 0;
+		return friction;
 	}
 
 	public float getRestitution() {
-		return 0;
+		return restitution;
 	}
+	
 
 }
