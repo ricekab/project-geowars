@@ -1,6 +1,5 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 
 public class SplashScreen extends BaseScreen{

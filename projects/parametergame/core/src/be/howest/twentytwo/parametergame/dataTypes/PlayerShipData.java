@@ -1,6 +1,5 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Collection;
 

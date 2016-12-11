@@ -1,12 +1,13 @@
 package be.howest.twentytwo.parametergame.service.db;
 
 import java.util.Collection;
-
 /*
  * Reads all data regarding the game, but not the level. This contains data about users, ships, drones & enemies
  */
-
-import be.howest.twentytwo.parametergame.dataTypes.*;
+import be.howest.twentytwo.parametergame.dataTypes.DroneData;
+import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
+import be.howest.twentytwo.parametergame.dataTypes.ShipData;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
 
 public interface IDataService {
 	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....

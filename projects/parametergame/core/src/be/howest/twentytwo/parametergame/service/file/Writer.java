@@ -1,18 +1,5 @@
 package be.howest.twentytwo.parametergame.service.file;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
-
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 
 public class Writer {	//Temporary test file

@@ -3,15 +3,15 @@ package be.howest.twentytwo.parametergame.input;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Input.Keys;
-
 import be.howest.twentytwo.parametergame.input.actions.AccelerateBackwardAction;
 import be.howest.twentytwo.parametergame.input.actions.AccelerateForwardAction;
 import be.howest.twentytwo.parametergame.input.actions.KeyInputAction;
 import be.howest.twentytwo.parametergame.input.actions.TurnLeftAction;
 import be.howest.twentytwo.parametergame.input.actions.TurnRightAction;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 
 public class PlayerInputProcessor extends InputAdapter {
 	

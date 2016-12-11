@@ -2,9 +2,6 @@ package be.howest.twentytwo.parametergame;
 
 import javax.inject.Inject;
 
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.UserData;
-import be.howest.twentytwo.parametergame.screen.GameScreen;
 import be.howest.twentytwo.parametergame.screen.LoadingScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
