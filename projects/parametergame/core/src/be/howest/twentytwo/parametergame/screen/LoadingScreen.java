@@ -3,29 +3,16 @@ package be.howest.twentytwo.parametergame.screen;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.factory.PlanetFactory;
 import be.howest.twentytwo.parametergame.factory.PlayerShipFactory;
-import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
@@ -37,6 +24,17 @@ import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * An intermediary screen shown during loading of levels.
@@ -63,8 +61,9 @@ public class LoadingScreen extends BaseScreen {
 
 	@Override
 	public void render(float delta) {
-		while (getContext().getAssetManager().update() == false) { // Still loading
-			float progress = getContext().getAssetManager().getProgress();
+		AssetManager assets = getContext().getAssetManager();
+		while (assets.update() == false) { // Still loading
+			float progress = assets.getProgress();
 			// Update loading bar
 			// Gdx.app.log("LoadingScreen", String.format("Loading: %f", progress));
 		}
@@ -97,11 +96,12 @@ public class LoadingScreen extends BaseScreen {
 
 		// ENTITY FACTORIES
 		PlayerShipFactory playerFactory = new PlayerShipFactory();
+		PlanetFactory planetFactory = new PlanetFactory();
 
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext()
-				.getSpriteBatch(), getContext().getAssetManager(), viewport);
+				.getSpriteBatch(), assets, viewport);
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(new AiSystem(events));
@@ -123,11 +123,17 @@ public class LoadingScreen extends BaseScreen {
 		}
 		PlayerShipDataI psData = new PlayerShipData(ships.iterator().next());
 
-		// TODO: WORLD SIZE from where?
-		Entity playerShip = playerFactory.createPlayerShip(engine, world, getContext()
-				.getAssetManager(), psData, 8.0f, 8.0f, 5.0f, 5.0f);
+		// TODO: SHIP WORLD SIZE from where?
+		Entity playerShip = playerFactory.createPlayerShip(engine, world, assets, psData, 8.0f,
+				8.0f, 5.0f, 5.0f);
 
 		engine.addEntity(playerShip);
+
+		engine.addEntity(planetFactory.createPlanet(engine, world, assets, new PlanetData(60.0f,
+				80.0f, 4f, "NOPE", 10f, 40f)));
+	
+		engine.addEntity(planetFactory.createPlanet(engine, world, assets, new PlanetData(-15.0f,
+				30.0f, 2f, "NOPE", 10f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();

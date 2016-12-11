@@ -46,6 +46,8 @@ public class ParameterGame extends Game {
 		Texture.setAssetManager(context.getAssetManager());
 
 		// For testing it's easier to not have the menu pop up
+		// setScreen(new GameScreen(context));
+		
 		setScreen(new LoadingScreen(context));
 	}
 

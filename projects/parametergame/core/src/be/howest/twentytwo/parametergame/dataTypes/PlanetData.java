@@ -10,7 +10,7 @@ public class PlanetData implements PlanetDataI, Serializable{
 	private String texture;
 	private float mass;
 	private float gravityRadius;
-	private final float minPlanetRadius = 25f;
+	private final float minPlanetRadius = 1f;
 	
 	public PlanetData(float xCoord, float yCoord, float planetRadius, String texture, float mass, float gravityRadius) {
 		setXCoord(xCoord);
@@ -24,21 +24,26 @@ public class PlanetData implements PlanetDataI, Serializable{
 	//	SETTERS
 	
 	public void setXCoord(float xCoord) {
-		float minXCoord = planetRadius / 2;
-		if(xCoord >= minXCoord) {
-			this.xCoord = xCoord;
-		} else {
-			this.xCoord = minXCoord;
-		}
+		// @NICK: World can go into negative coordinates.
+//		float minXCoord = planetRadius / 2;
+//		if(xCoord >= minXCoord) {
+//			this.xCoord = xCoord;
+//			} else {
+//			this.xCoord = minXCoord;
+//		}	
+		
+		this.xCoord = xCoord;
 	}
 	
 	public void setYCoord (float yCoord) {
-		float minYCoord = planetRadius / 2;
-		if(yCoord >= minYCoord) {
-			this.yCoord = yCoord;
-		} else {
-			this.yCoord = minYCoord;
-		}
+//		float minYCoord = planetRadius / 2;
+//		if(yCoord >= minYCoord) {
+//			this.yCoord = yCoord;
+//		} else {
+//			this.yCoord = minYCoord;
+//		}
+		
+		this.yCoord = yCoord;
 	}
 	
 	public void setPlanetRadius(float planetRadius) {
@@ -80,7 +85,7 @@ public class PlanetData implements PlanetDataI, Serializable{
 		return planetRadius;
 	};
 	
-	public String getTexture() {
+	public String getTextureString() {
 		return texture;
 	};
 	

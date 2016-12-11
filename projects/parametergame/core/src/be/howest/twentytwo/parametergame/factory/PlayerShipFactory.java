@@ -93,7 +93,7 @@ public class PlayerShipFactory {
 		TextureAtlas spritesheet = assets.get("sprites/ships.pack", TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(shipData.getName());
 		sprite.setRegion(region);
-		
+
 		player.add(sprite);
 
 		return player;
