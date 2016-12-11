@@ -83,6 +83,7 @@ public class PlayerShipFactory {
 			fixtureDef.filter.categoryBits = physicsData.getPhysicsCategory();
 			fixtureDef.filter.maskBits = physicsData.getPhysicsMask();
 			rigidBody.createFixture(fixtureDef);
+			fixtureDef.shape.dispose();
 		}
 		player.add(bodyComponent);
 

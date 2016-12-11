@@ -24,6 +24,7 @@ import be.howest.twentytwo.parametergame.factory.PlayerShipFactory;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
@@ -94,6 +95,9 @@ public class LoadingScreen extends BaseScreen {
 		// sv.setUnitsPerPixel(0.25f);
 		// viewport = sv;
 
+		// ENTITY FACTORIES
+		PlayerShipFactory playerFactory = new PlayerShipFactory();
+
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext()
@@ -110,7 +114,7 @@ public class LoadingScreen extends BaseScreen {
 		engine.addEntityListener(Family.all(BodyComponent.class).get(),
 				new PhysicsBodyEntityListener(world));
 
-		// ENTITY FACTORIES
+		// ENTITY CREATION
 		IDataService dataService = getContext().getDataService();
 
 		Collection<ShipData> ships = dataService.getShips(dataService.getUser("TEST"));
@@ -119,13 +123,25 @@ public class LoadingScreen extends BaseScreen {
 		}
 		PlayerShipDataI psData = new PlayerShipData(ships.iterator().next());
 
-		PlayerShipFactory playerFactory = new PlayerShipFactory();
+		// TODO: WORLD SIZE from where?
 		Entity playerShip = playerFactory.createPlayerShip(engine, world, getContext()
-				.getAssetManager(), psData, 10.0f, 10.0f, 5.0f, 5.0f);
+				.getAssetManager(), psData, 8.0f, 8.0f, 5.0f, 5.0f);
 
 		engine.addEntity(playerShip);
 
-		Gdx.app.log("LoadingScreen", String.format("Loading done - %f", System.nanoTime() - start));
+		// ENTITY CREATION - CAMERA
+		Entity cameraEntity = engine.createEntity();
+
+		CameraComponent camComp = engine.createComponent(CameraComponent.class);
+		camComp.setCamera(viewport.getCamera());
+		camComp.addTrackPoint(playerShip, 1);
+
+		cameraEntity.add(camComp);
+
+		engine.addEntity(cameraEntity);
+
+		Gdx.app.log("LoadingScreen",
+				String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
 		getContext().setScreen(new GameScreen(getContext(), engine, viewport));
 	}
 

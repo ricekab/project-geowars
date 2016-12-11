@@ -17,16 +17,14 @@ public class FixtureFactory {
 		switch (shapeString) {
 			case "circle":
 				CircleShape circle = new CircleShape();
-				circle.setRadius(width);
+				circle.setRadius(width/2f);
 				fix.shape = circle;
-				circle.dispose();
 				break;
 			case "rect":
 			case "rectangle":
 				PolygonShape box = new PolygonShape();
 				box.setAsBox(width, height);
 				fix.shape = box;
-				box.dispose();
 				break;
 			default:
 				Gdx.app.error("FixtureFact",
