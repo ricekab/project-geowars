@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.service.db;
 
 import java.util.Collection;
+
 /*
  * Reads all data regarding the game, but not the level. This contains data about users, ships, drones & enemies
  */
