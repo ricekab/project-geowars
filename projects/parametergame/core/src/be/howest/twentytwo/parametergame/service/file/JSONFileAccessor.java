@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -20,7 +21,7 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	}
 
 	@Override
-	public LevelData loadLevel(String location) {
+	public LevelDataI loadLevel(String location) {
 		LevelData levelData = null;
 		
 		return levelData;
@@ -43,7 +44,7 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		return jsonData;
 	}
 	
-	public void saveLevel(LevelData data, String location) {
+	public void saveLevel(LevelDataI data, String location) {
 		String jsonData = json.prettyPrint(data);
 		location = validatedLocation(location);
 		try{

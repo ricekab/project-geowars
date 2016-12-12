@@ -1,6 +1,6 @@
 package be.howest.twentytwo.parametergame.service.file;
 
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 
 public class Writer {	//Temporary test file
 
@@ -53,7 +53,7 @@ public class Writer {	//Temporary test file
 			JSONFileAccessor jfa = new JSONFileAccessor();
 			POJOFileAccessor pfa = new POJOFileAccessor();
 			InMemoryFileAccessor imfa = new InMemoryFileAccessor();
-			LevelData testData = imfa.loadLevel("someString");
+			LevelDataI testData = imfa.loadLevel("someString");
 			String location = "jsontest.txt";			
 			jfa.saveLevel(testData, location);
 			pfa.saveLevel(testData, location);

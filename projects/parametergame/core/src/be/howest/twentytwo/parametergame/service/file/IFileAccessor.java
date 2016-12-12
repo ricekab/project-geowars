@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.service.file;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 
 /*
  * Reads and saves files with all data regarding the level design.
@@ -9,8 +10,8 @@ import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 public interface IFileAccessor {
 	//This is the general blueprint for different classes, such as InMemoryFileAccessor, JSONFileAccessor,....	
 
-	public LevelData loadLevel(String location);
+	public LevelDataI loadLevel(String location);
 	
-	public void saveLevel(LevelData data, String location);
+	public void saveLevel(LevelDataI data, String location);
 
 }
