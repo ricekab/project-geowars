@@ -60,6 +60,7 @@ public class LevelFactory {
 	}
 
 	public PooledEngine createWorld(ScreenContext context, Viewport viewport, String levelName) {
+		context.getFileService().loadLevel(levelName);
 		AssetManager assets = context.getAssetManager();
 
 		// ENGINE
@@ -99,7 +100,7 @@ public class LevelFactory {
 
 		Collection<ShipData> ships = dataService.getShips(dataService.getUser("TEST"));
 		if (ships.isEmpty()) {
-			Gdx.app.error("LoadingScr", "ERR: NO SHIPS FOR USER");
+			Gdx.app.error("LevelFactory", "ERR: NO SHIPS FOR USER");
 		}
 		PlayerShipDataI psData = new PlayerShipData(ships.iterator().next());
 
@@ -108,11 +109,11 @@ public class LevelFactory {
 
 		engine.addEntity(playerShip);
 
-		engine.addEntity(
-				planetFactory.createPlanet(engine, world, assets, new PlanetData(60.0f, 80.0f, 4f, "NOPE", 10f, 40f)));
+		engine.addEntity(planetFactory.createPlanet(engine, world, assets,
+				new PlanetData(60.0f, 80.0f, 4f, "planet01", 10f, 40f)));
 
-		engine.addEntity(
-				planetFactory.createPlanet(engine, world, assets, new PlanetData(-15.0f, 30.0f, 2f, "NOPE", 10f, 24f)));
+		engine.addEntity(planetFactory.createPlanet(engine, world, assets,
+				new PlanetData(-15.0f, 30.0f, 2f, "planet02", 10f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();

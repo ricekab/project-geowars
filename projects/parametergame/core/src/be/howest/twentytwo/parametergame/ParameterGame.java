@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import be.howest.twentytwo.parametergame.screen.MenuScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 
 import com.badlogic.gdx.Application;
@@ -24,12 +25,14 @@ public class ParameterGame extends Game {
 
 	private final IPlatformService platformService;
 	private final IDataService dataService;
+	private final IFileAccessor fileService;
 	private ScreenContext context;
 
 	@Inject
-	public ParameterGame(IPlatformService platform, IDataService dataService) {
+	public ParameterGame(IPlatformService platform, IDataService dataService, IFileAccessor fileService) {
 		this.platformService = platform;
 		this.dataService = dataService;
+		this.fileService = fileService;
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class ParameterGame extends Game {
 
 		// Has to be created here since this is libgdx tied
 		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(),
-				new ShapeRenderer(), platformService, dataService);
+				new ShapeRenderer(), platformService, dataService, fileService);
 
 		Texture.setAssetManager(context.getAssetManager());
 
