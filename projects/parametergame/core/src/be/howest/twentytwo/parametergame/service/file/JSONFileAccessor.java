@@ -20,20 +20,13 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		json.setOutputType(OutputType.minimal);
 	}
 
-	@Override
 	public LevelDataI loadLevel(String location) {
 		LevelData levelData = null;
-		
+		//TODO
 		return levelData;
 	}
 	
-	public String[] splitString(String sign) {
-		String file = readFile("jsontest.txt");
-		String[] pieces = file.split(sign);
-		return pieces;
-	}
-	
-	public String readFile(String location) {	//TODO MAKE PRIVATE
+	private String readFile(String location) {
 		String jsonData = "";
 		//location = validatedLocation(location);
 		Scanner s = new Scanner(location);
@@ -57,6 +50,12 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String[] splitString(String sign) {
+		String file = readFile("jsontest.txt");
+		String[] pieces = file.split(sign);
+		return pieces;
 	}
 	
 	public String validatedLocation(String location) {

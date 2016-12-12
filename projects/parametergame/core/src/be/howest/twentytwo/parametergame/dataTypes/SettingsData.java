@@ -1,9 +1,10 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SettingsData implements SettingsDataI{
+public class SettingsData implements SettingsDataI, Serializable{
 	
 	private boolean volume;
 	private float volumeLevel;
