@@ -22,6 +22,8 @@ public class AIScoutComponent implements Component, Poolable {
     
     public static final ComponentMapper<AIScoutComponent> MAPPER = ComponentMapper.getFor(AIScoutComponent.class);
     public float Speed = 200.0f;
+    private float minDistance = 30.0f;
+    private float maxDistance = 40.0f;
     
     
     @Override
@@ -46,8 +48,6 @@ public class AIScoutComponent implements Component, Poolable {
         body.setTransform(body.getPosition(), (float)Math.atan2(-normalizedDirectionToPlayer.x, normalizedDirectionToPlayer.y));
         
         //Move toward player if within minimum distance
-        float minDistance = 30.0f;
-        float maxDistance = 40.0f;
         float distance = (directionToPlayer.add(new Vector2(-normalizedDirectionToPlayer.x * maxDistance,-normalizedDirectionToPlayer.y * maxDistance))).cpy().len()/40.0f;
         //To close
         if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y < minDistance * minDistance )
@@ -56,8 +56,7 @@ public class AIScoutComponent implements Component, Poolable {
         }
         //To far
         else if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y > maxDistance * maxDistance )
-        {
-            
+        { 
             events.add(new LinearForceEvent(body, normalizedDirectionToPlayer.scl(Speed*distance)));
         }
                 

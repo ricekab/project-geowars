@@ -21,7 +21,9 @@ public class AIBrutalizerComponent implements Component, Poolable {
 
     
     public static final ComponentMapper<AIBrutalizerComponent> MAPPER = ComponentMapper.getFor(AIBrutalizerComponent.class);
-    public float Speed = 200.0f;
+    public float Speed = 225.0f;
+    private float minDistance = 20.0f;
+    private float maxDistance = 25.0f;
     
     
     @Override
@@ -46,8 +48,6 @@ public class AIBrutalizerComponent implements Component, Poolable {
         body.setTransform(body.getPosition(), (float)Math.atan2(-normalizedDirectionToPlayer.x, normalizedDirectionToPlayer.y));
         
         //Move toward player if within minimum distance
-        float minDistance = 10.0f;
-        float maxDistance = 20.0f;
         //To close
         if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y < minDistance * minDistance )
         {            

@@ -7,8 +7,10 @@ import be.howest.twentytwo.parametergame.model.component.AIComponent;
 import be.howest.twentytwo.parametergame.model.component.AIObstacleComponent;
 import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
 import be.howest.twentytwo.parametergame.model.component.AISuiciderComponent;
+import be.howest.twentytwo.parametergame.model.component.AISuiciderSquadComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
 import com.badlogic.ashley.core.Entity;
@@ -26,7 +28,9 @@ public class AiSystem extends IteratingSystem {
 	public Collection<IPhysicsEvent> events;
 
 	public AiSystem(Collection<IPhysicsEvent> events) {
-		super(Family.all(AIScoutComponent.class).get(), PRIORITY);
+		super(Family.all(TransformComponent.class)
+                        .one(AIScoutComponent.class, AISuiciderComponent.class, AIBrutalizerComponent.class, AIObstacleComponent.class, AISuiciderSquadComponent.class)
+                        .get(), PRIORITY);
 		this.events = events;
 	}
 
