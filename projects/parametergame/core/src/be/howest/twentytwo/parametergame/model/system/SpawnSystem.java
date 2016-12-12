@@ -15,5 +15,3 @@ public class SpawnSystem extends IntervalSystem{
 	protected void updateInterval() {
 		// TODO: Process spawn messages
 	}
-
-}
