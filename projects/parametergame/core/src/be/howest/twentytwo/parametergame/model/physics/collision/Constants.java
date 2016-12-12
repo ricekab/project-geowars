@@ -1,7 +1,8 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
 /**
- * Purely static class to define category and mask bits for physics interactions.
+ * Purely static class to define category and mask bits for physics
+ * interactions.
  */
 public final class Constants {
 	// CATEGORY BITS
@@ -18,12 +19,14 @@ public final class Constants {
 	/** Collides with all */
 	public static final short DEBUG_MASK = (short) 0xFFFF;
 	public static final short EMPTY_MASK = 0x0000;
-	public static final short PLAYER_MASK = ENEMY_CATEGORY | PLANET_CATEGORY | GRAVITY_CATEGORY
+	public static final short PLAYER_COLLISION_MASK = ENEMY_CATEGORY | PLANET_CATEGORY | GRAVITY_CATEGORY
 			| BULLET_ENEMY_CATEGORY | PLAYER_PICKUPS;
-	public static final short ENEMY_MASK = PLAYER_CATEGORY | PLANET_CATEGORY | GRAVITY_CATEGORY
+	public static final short PLAYER_EXPLOSION_MASK = ENEMY_CATEGORY | BULLET_ENEMY_CATEGORY | BULLET_PLAYER_CATEGORY
+			| PLAYER_PICKUPS;
+	public static final short ENEMY_COLLISION_MASK = PLAYER_CATEGORY | PLANET_CATEGORY | GRAVITY_CATEGORY
 			| BULLET_PLAYER_CATEGORY;
-	public static final short PLANET_MASK = PLAYER_CATEGORY | ENEMY_CATEGORY
-			| BULLET_PLAYER_CATEGORY | BULLET_ENEMY_CATEGORY;
+	public static final short PLANET_MASK = PLAYER_CATEGORY | ENEMY_CATEGORY | BULLET_PLAYER_CATEGORY
+			| BULLET_ENEMY_CATEGORY;
 	public static final short PICKUP_MASK = PLAYER_CATEGORY | PLAYER_PICKUPS;
 
 }

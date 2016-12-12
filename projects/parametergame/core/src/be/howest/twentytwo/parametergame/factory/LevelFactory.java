@@ -12,6 +12,7 @@ import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
@@ -74,6 +75,7 @@ public class LevelFactory {
 		World world = new World(new Vector2(0f, 0f), true);
 
 		ContactProcessor collisionListener = new GravityContactProcessor(events);
+		collisionListener.addProcessor(new PlayerContactProcessor(events));
 		// TODO: Add other contact listeners here.
 
 		world.setContactListener(collisionListener);

@@ -1,9 +1,15 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+
+import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
 /**
  * Classes that implement this handle specific physics collision interactions.
@@ -11,14 +17,16 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public abstract class ContactProcessor implements ContactListener {
 
 	private ContactListener next;
-	// TODO: Event Queue? Do we need other data structures here?
+	
+	private final Collection<IPhysicsEvent> events;
 
-	public ContactProcessor(ContactListener next) {
+	public ContactProcessor(ContactListener next, Collection<IPhysicsEvent> events) {
 		setNextProcessor(next);
+		this.events = events;
 	}
 
 	public ContactProcessor() {
-		this(new NullContactProcessor());
+		this(new NullContactProcessor(), new ArrayList<IPhysicsEvent>());
 	}
 
 	/**
@@ -119,4 +127,8 @@ public abstract class ContactProcessor implements ContactListener {
 	 * successfully, false otherwise.
 	 */
 	protected abstract boolean handlePostSolve(Contact contact, ContactImpulse impulse);
+	
+	protected Collection<IPhysicsEvent> getEvents(){
+		return this.events;
+	}
 }

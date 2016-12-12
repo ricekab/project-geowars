@@ -25,7 +25,7 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<ShipData> getShips(UserData user) {
 		List<ShipData> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, physicsData));
 		return data;
@@ -41,7 +41,7 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<EnemyData> getEnemies(String... name) {
 		List<EnemyData> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
 		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, physicsData);
 		data.add(new EnemyData(shipData));

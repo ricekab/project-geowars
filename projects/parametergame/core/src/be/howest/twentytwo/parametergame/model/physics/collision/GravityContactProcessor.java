@@ -16,13 +16,10 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class GravityContactProcessor extends ContactProcessor {
 
-	/** TODO: TEMP? -- This is the remote event collection */
-	private Collection<IPhysicsEvent> events;
 	private Collection<GravityPhysicsEvent> gravityEvents;
 
 	public GravityContactProcessor(ContactListener next, Collection<IPhysicsEvent> events) {
-		super(next);
-		this.events = events;
+		super(next, events);
 		this.gravityEvents = new ArrayList<GravityPhysicsEvent>();
 	}
 
@@ -32,7 +29,6 @@ public class GravityContactProcessor extends ContactProcessor {
 
 	@Override
 	protected boolean handleBeginContact(Contact contact) {
-		Gdx.app.log("GravityContact", "beginContact");
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
 		if (categoryA == Constants.GRAVITY_CATEGORY) {
@@ -47,13 +43,12 @@ public class GravityContactProcessor extends ContactProcessor {
 
 	private void addEvent(Body planet, Body target) {
 		GravityPhysicsEvent evt = new GravityPhysicsEvent(planet, target);
-		this.events.add(evt);
+		getEvents().add(evt);
 		this.gravityEvents.add(evt);
 	}
 
 	@Override
 	protected boolean handleEndContact(Contact contact) {
-		Gdx.app.log("GravityContact", "endContact");
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
 		if (categoryA == Constants.GRAVITY_CATEGORY) {

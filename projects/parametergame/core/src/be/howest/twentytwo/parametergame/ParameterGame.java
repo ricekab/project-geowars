@@ -37,7 +37,7 @@ public class ParameterGame extends Game {
 
 	@Override
 	public void create() {
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		Gdx.app.setLogLevel(Application.LOG_INFO);
 
 		// Has to be created here since this is libgdx tied
 		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(),

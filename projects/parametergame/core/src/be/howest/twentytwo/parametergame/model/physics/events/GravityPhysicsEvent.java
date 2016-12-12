@@ -37,8 +37,8 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 		gravityVector.scl(1000f); // Simulate planet mass
 		// Fg = m(planet) * G(constant) / (r*r)
 
-		Gdx.app.log("GravityPhysxEvt", gravityVector.toString());
-		Gdx.app.log("GravityPhysxEvt", "Scaled: " + new Vector2(gravityVector).scl(PhysicsSystem.PHYSICS_TIMESTEP).toString());
+		Gdx.app.debug("GravityPhysxEvt", gravityVector.toString());
+		Gdx.app.debug("GravityPhysxEvt", "Scaled: " + new Vector2(gravityVector).scl(PhysicsSystem.PHYSICS_TIMESTEP).toString());
 		targetBody.applyForceToCenter(gravityVector, true);
 	}
 

@@ -15,7 +15,9 @@ import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
@@ -73,7 +75,8 @@ public class GameScreen extends BaseScreen {
 
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 		// world.setContactListener(createContactListener(events));
-		ContactListener collisionListener = new GravityContactProcessor(events);
+		ContactProcessor collisionListener = new GravityContactProcessor(events);
+		collisionListener.addProcessor(new PlayerContactProcessor(events));
 		world.setContactListener(collisionListener);
 
 		// ECS systems
@@ -219,7 +222,7 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.restitution = 0.75f; // = Bounciness
 
 		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
+		fixtureDef.filter.maskBits = Constants.PLAYER_COLLISION_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -389,7 +392,7 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.restitution = 0.75f; // = Bounciness
 
 		fixtureDef.filter.categoryBits = Constants.ENEMY_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.ENEMY_MASK;
+		fixtureDef.filter.maskBits = Constants.ENEMY_COLLISION_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 

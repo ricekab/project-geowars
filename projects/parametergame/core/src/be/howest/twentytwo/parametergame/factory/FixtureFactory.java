@@ -35,7 +35,7 @@ public class FixtureFactory {
 		fix.restitution = restitution;
 
 		fix.filter.categoryBits = Constants.PLAYER_CATEGORY;
-		fix.filter.maskBits = Constants.PLAYER_MASK;
+		fix.filter.maskBits = Constants.PLAYER_COLLISION_MASK;
 
 		return fix;
 	}

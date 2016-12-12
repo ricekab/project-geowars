@@ -83,6 +83,7 @@ public class PlayerShipFactory {
 			rigidBody.createFixture(fixtureDef);
 			fixtureDef.shape.dispose();
 		}
+		rigidBody.setUserData(player);	// TODO: Entity as object data?
 		player.add(bodyComponent);
 
 		// TEXTURE/SPRITE
