@@ -1,67 +1,42 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-public class PlayerShipData implements PlanetDataI{
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class PlayerShipData implements PlayerShipDataI{
 	
-	private float xCoord;
-	private float yCoord;
-	private float planetRadius;	//TODO whut??
-	private String texture;
-	private float mass;
+	private ShipDataI shipData;
+	private Collection<DroneDataI> drones;
 	
-	public PlayerShipData(float xCoord, float yCoord, float planetRadius, String texture, float mass) {
-		setXCoord(xCoord);
-		setYCoord(yCoord);
-		setPlanetRadius(planetRadius);
-		setTexture(texture);
-		setMass(mass);
+	public PlayerShipData(ShipDataI ship, Collection<DroneDataI> drones) {
+		setShipData(ship);
+		setDrones(drones);
+	}
+	
+	public PlayerShipData(ShipDataI ship){
+		this(ship, new ArrayList<DroneDataI>());
 	}
 	
 	//	SETTERS
 
-	public void setXCoord(float xCoord) {
-		
+	public void setShipData(ShipDataI shipdata) {
+		this.shipData = shipdata;
 	}
 
-	public void setYCoord(float yCoord) {
-		
-	}
-
-	public void setPlanetRadius(float planetRadius) {
-		
-	}
-
-	public void setTexture(String texture) {
-		
-	}
-
-	public void setMass(float mass) {
-		
+	public void setDrones(Collection<DroneDataI> droneCollection) {
+		this.drones = droneCollection;
 	}
 	
 	//	GETTERS
 
-	public float getXCoord() {
-		return 0;
+	@Override
+	public ShipDataI getShipData() {
+		return shipData;
 	}
 
-	public float getYCoord() {
-		return 0;
-	}
-
-	public float getPlanetRadius() {
-		return 0;
-	}
-
-	public String getTexture() {
-		return null;
-	}
-
-	public float getMass() {
-		return 0;
-	}
-
-	public float getGravityRadius() {
-		return 0;
+	@Override
+	public Collection<DroneDataI> getDrones() {
+		return drones;
 	}
 
 }

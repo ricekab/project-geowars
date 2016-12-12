@@ -40,6 +40,13 @@ public abstract class ContactProcessor implements ContactListener {
 		processor.setNextProcessor(this.next);
 		setNextProcessor(processor);
 	}
+	
+	/**
+	 * Alias for {@link #insertProcessor(ContactProcessor)}.
+	 */
+	public void addProcessor(ContactProcessor processor){
+		insertProcessor(processor);
+	}
 
 	/**
 	 * Calls the concrete {@link #handleBeginContact(Contact)} implementation.

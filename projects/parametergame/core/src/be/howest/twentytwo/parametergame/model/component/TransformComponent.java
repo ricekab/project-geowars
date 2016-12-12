@@ -26,13 +26,16 @@ public class TransformComponent implements Component, Poolable {
 		this.position = position;
 	}
 	public void setPos(float x, float y){
-		this.position = new Vector2(x, y);
+		setPos(new Vector2(x, y));
 	}
 	public Vector2 getWorldSize() {
 		return worldSize;
 	}
 	public void setWorldSize(Vector2 worldSize) {
 		this.worldSize = worldSize;
+	}
+	public void setWorldSize(float x, float y){
+		setWorldSize(new Vector2(x, y));
 	}
 	public float getRotation() {
 		return rotation;

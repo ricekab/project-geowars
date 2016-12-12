@@ -36,18 +36,30 @@ public class MenuScreen extends BaseScreen {
 		// Table - Children
 		TextButtonStyle textBtnStyle = skin.get("default", TextButtonStyle.class);
 
-		TextButton startBtn = new TextButton("Start Game", textBtnStyle);
+		TextButton startBtn = new TextButton("Start Game - Load level", textBtnStyle);
 		startBtn.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				getContext().setScreen(new GameScreen(getContext()));	// TODO: Set screen - Loading screen
+				getContext().setScreen(new LoadingScreen(getContext()));
 				dispose();
 			}
 		});
 		startBtn.pad(5f, 10f, 5f, 10f);
 		root.add(startBtn).pad(5f, 5f, 5f, 5f);
+		
 		root.row();
-
+		TextButton loadBtn = new TextButton("Start Game - AI Debug", textBtnStyle);
+		loadBtn.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				getContext().setScreen(new GameScreen(getContext()));
+				dispose();
+			}
+		});
+		loadBtn.pad(5f, 10f, 5f, 10f);
+		root.add(loadBtn).pad(5f, 5f, 5f, 5f);
+		
+		root.row();
 		TextButton exitBtn = new TextButton("Exit Game", textBtnStyle);
 		exitBtn.addListener(new ChangeListener() {
 			@Override

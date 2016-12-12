@@ -2,17 +2,19 @@ package be.howest.twentytwo.parametergame.model.component;
 
 // @author Ward Van den Berghe
 
+import java.util.Collection;
+
 import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
 import be.howest.twentytwo.parametergame.screen.GameScreen;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import java.util.Collection;
 
 
 public class AIScoutComponent implements Component, Poolable {

@@ -1,8 +1,8 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import com.badlogic.gdx.Screen;
-
 import be.howest.twentytwo.parametergame.ScreenContext;
+
+import com.badlogic.gdx.Screen;
 
 public abstract class BaseScreen implements Screen {
 	

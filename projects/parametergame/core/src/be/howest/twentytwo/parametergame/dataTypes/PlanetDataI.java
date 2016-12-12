@@ -11,7 +11,7 @@ public interface PlanetDataI {
 	public float getXCoord();
 	public float getYCoord();
 	public float getPlanetRadius();
-	public String getTexture();
+	public String getTextureString();
 	public float getMass();
 	public float getGravityRadius();
 	

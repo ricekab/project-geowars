@@ -2,7 +2,7 @@ package be.howest.twentytwo.parametergame;
 
 import javax.inject.Inject;
 
-import be.howest.twentytwo.parametergame.screen.GameScreen;
+import be.howest.twentytwo.parametergame.screen.MenuScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 
@@ -43,7 +43,9 @@ public class ParameterGame extends Game {
 		Texture.setAssetManager(context.getAssetManager());
 
 		// For testing it's easier to not have the menu pop up
-		setScreen(new GameScreen(context));
+		// setScreen(new GameScreen(context));
+		
+		setScreen(new MenuScreen(context));
 	}
 
 	@Override
