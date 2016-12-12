@@ -60,7 +60,8 @@ public class LevelFactory {
 	}
 
 	public PooledEngine createWorld(ScreenContext context, Viewport viewport, String levelName) {
-		context.getFileService().loadLevel(levelName);
+		LevelDataI levelData = context.getFileService().loadLevel(levelName);
+		
 		AssetManager assets = context.getAssetManager();
 
 		// ENGINE
