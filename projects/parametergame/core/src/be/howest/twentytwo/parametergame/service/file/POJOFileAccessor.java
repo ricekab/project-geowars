@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 
 public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 
@@ -24,7 +25,7 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 	 * @return returns a LevelData object, or null if no data was present.
 	 */
 	@Override
-	public LevelData loadLevel(String location) {
+	public LevelDataI loadLevel(String location) {
 		LevelData data = null; // TODO load a default level
 		try {
 			File f = new File(location);
@@ -41,7 +42,7 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 	}
 
 	@Override
-	public void saveLevel(LevelData data, String location) {
+	public void saveLevel(LevelDataI data, String location) {
 
 		try {
 			File f = new File(location);
