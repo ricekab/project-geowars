@@ -17,6 +17,7 @@ public final class Constants {
 	// TODO: Do players collide with their own bullets?
 	/** Collides with all */
 	public static final short DEBUG_MASK = (short) 0xFFFF;
+	public static final short EMPTY_MASK = 0x0000;
 	public static final short PLAYER_MASK = ENEMY_CATEGORY | PLANET_CATEGORY | GRAVITY_CATEGORY
 			| BULLET_ENEMY_CATEGORY | PLAYER_PICKUPS;
 	public static final short ENEMY_MASK = PLAYER_CATEGORY | PLANET_CATEGORY | GRAVITY_CATEGORY
