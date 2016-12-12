@@ -23,6 +23,7 @@ public class AISuiciderComponent implements Component, Poolable {
     public static final ComponentMapper<AISuiciderComponent> MAPPER = ComponentMapper.getFor(AISuiciderComponent.class);
     
     public float Speed = 200.0f;
+    private float explodingDistance = 5.0f;
     
     @Override
     public void reset() {
@@ -43,7 +44,6 @@ public class AISuiciderComponent implements Component, Poolable {
         body.setTransform(body.getPosition(), (float)Math.atan2(-normalizedDirectionToPlayer.x, normalizedDirectionToPlayer.y));
         
         //Explode when in explosionrange of the player
-        float explodingDistance = 5.0f;
         if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y > explodingDistance * explodingDistance )
         {
             //Explode
