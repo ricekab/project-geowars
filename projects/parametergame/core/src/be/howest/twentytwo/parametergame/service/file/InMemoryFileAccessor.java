@@ -51,7 +51,7 @@ public class InMemoryFileAccessor implements IFileAccessor{
 	}
 	
 	public void saveSettings(SettingsDataI settings, String saveLoction) {
-		//Nothing actually happnes
+		//Nothing actually happens
 	}
 	
 }
