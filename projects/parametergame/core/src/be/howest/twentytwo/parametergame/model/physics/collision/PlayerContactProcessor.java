@@ -43,10 +43,10 @@ public class PlayerContactProcessor extends ContactProcessor {
 		Gdx.app.log("PlayerCP", "Player - beginContact called");
 		if(target.getFilterData().categoryBits == Constants.ENEMY_CATEGORY){
 			Gdx.app.log("PlayerCP", "Player-Enemy contact");
-			float pushRange = 25f;
-			float pushForce = 500f;
+			float pushRange = 50f;
+			float pushForce = 15000f;
 			
-			getEvents().add(new ExplosionPhysicsEvent(player, pushRange, pushForce, Constants.PLAYER_EXPLOSION_MASK, getEvents()));
+			getEvents().add(new ExplosionPhysicsEvent(player, pushRange, pushForce, Constants.PLAYER_EXPLOSION_MASK));
 			
 			return true;
 		}
