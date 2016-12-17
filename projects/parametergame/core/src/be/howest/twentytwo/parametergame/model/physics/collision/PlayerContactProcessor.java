@@ -1,21 +1,17 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.model.physics.events.ExplosionPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-
-import be.howest.twentytwo.parametergame.model.physics.events.ExplosionPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
 
 public class PlayerContactProcessor extends ContactProcessor {
 

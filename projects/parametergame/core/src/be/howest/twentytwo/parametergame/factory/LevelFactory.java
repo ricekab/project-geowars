@@ -1,7 +1,9 @@
 package be.howest.twentytwo.parametergame.factory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
@@ -23,10 +25,6 @@ import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
@@ -34,7 +32,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**

@@ -1,15 +1,14 @@
 package be.howest.twentytwo.parametergame.model.physics.events;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+
+import be.howest.twentytwo.parametergame.model.physics.aabb.RetrievalQuery;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
-
-import be.howest.twentytwo.parametergame.model.physics.aabb.RetrievalQuery;
 
 public class ExplosionPhysicsEvent extends SinglePhysicsEvent {
 
