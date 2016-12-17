@@ -33,6 +33,7 @@ public class GravityContactProcessor extends ContactProcessor {
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
 		if (categoryA == Constants.GRAVITY_CATEGORY) {
 			addEvent(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
+			// eventQueue.addEvent(new GravityEvent(...));
 			return true;
 		} else if (categoryB == Constants.GRAVITY_CATEGORY) {
 			addEvent(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
