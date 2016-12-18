@@ -12,7 +12,7 @@ public class MovementComponent implements Component, Poolable {
 	public static final ComponentMapper<MovementComponent> MAPPER = ComponentMapper.getFor(MovementComponent.class);
 
 	// Flags set by input
-	private boolean accelerateForward;
+	private boolean accelerateForward;	// TODO: Change to float value for controllers?
 	private boolean accelerateBackward;
 	private boolean turnLeft;
 	private boolean turnRight;

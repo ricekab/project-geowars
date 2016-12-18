@@ -2,7 +2,12 @@ package be.howest.twentytwo.parametergame.screen;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.factory.LevelFactory;
+import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.IEventListener;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
+import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
@@ -16,8 +21,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class LoadingScreen extends BaseScreen {
 
-	public LoadingScreen(ScreenContext context) {
+	private final String levelFile;
+
+	public LoadingScreen(ScreenContext context, String levelFile) {
 		super(context);
+		this.levelFile = levelFile;
+	}
+
+	public LoadingScreen(ScreenContext context) {
+		this(context, "arcade01");
 	}
 
 	@Override
@@ -61,12 +73,34 @@ public class LoadingScreen extends BaseScreen {
 
 		LevelFactory levelFactory = new LevelFactory();
 		EventQueue eventQueue = new EventQueue();
-		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue,
-				"arcade01");
 
+		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue,
+				levelFile);
+
+		Gdx.app.log("LoadingScreen", "Initializing events...");
+		registerSoundEvents(eventQueue);
+		registerGameEvents(eventQueue);
+		
 		Gdx.app.log("LoadingScreen",
 				String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
 		getContext().setScreen(new GameScreen(getContext(), engine, viewport, eventQueue));
+	}
+	
+	private void registerSoundEvents(EventQueue eventQueue){
+		// register event handlers on event queue to send sound messages.
+		// Will need another chain of objects to filter the messages
+		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+	}
+	
+	private void registerGameEvents(EventQueue eventQueue){
+		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
+			
+			@Override
+			public void handle(IEvent event) {
+				EnemyKilledEvent e = (EnemyKilledEvent)event;
+				// Add score points and stuff.
+			}
+		});
 	}
 
 	@Override

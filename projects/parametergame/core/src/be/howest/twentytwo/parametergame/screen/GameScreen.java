@@ -66,7 +66,7 @@ public class GameScreen extends BaseScreen {
 	public GameScreen(ScreenContext context) {
 		super(context);
 		initWorld();
-
+		this.eventQueue = new EventQueue();
 	}
 
 	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////

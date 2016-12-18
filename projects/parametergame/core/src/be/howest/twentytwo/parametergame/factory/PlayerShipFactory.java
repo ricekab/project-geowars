@@ -57,9 +57,6 @@ public class PlayerShipFactory {
 		movement.setAngularAcceleration(shipData.getAngularAcceleration());
 		player.add(movement);
 
-		// TODO: Input here? This may need to be refactored out.
-		Gdx.input.setInputProcessor(new PlayerInputProcessor(movement));
-
 		// PHYSICS BODY
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 

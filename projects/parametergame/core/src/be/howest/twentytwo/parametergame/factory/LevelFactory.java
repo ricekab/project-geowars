@@ -9,9 +9,11 @@ import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
+import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
@@ -31,7 +33,12 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -127,7 +134,15 @@ public class LevelFactory {
 		cameraEntity.add(camComp);
 
 		engine.addEntity(cameraEntity);
-
+		
+		// INPUT
+		// 0. Get player 1 - Keyboard assumed for now
+		// 1. Get keymap from file service (string: string)
+		// 2. Convert to keycode: action
+		
+		// For controller,s input is slightly different (but same actions mostly)
+		Gdx.input.setInputProcessor(new PlayerInputProcessor(MovementComponent.MAPPER.get(playerShip)));
+		
 		return engine;
 	}
 

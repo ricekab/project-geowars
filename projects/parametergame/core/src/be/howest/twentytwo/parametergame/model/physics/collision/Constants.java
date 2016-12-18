@@ -31,4 +31,6 @@ public final class Constants {
 	
 	// EVENT FILTER MASKS -- Used to filter a collision down to some event
 	public static final short PLAYER_HIT_FILTER_MASK = ENEMY_CATEGORY | BULLET_ENEMY_CATEGORY;
+	public static final short ENEMY_HIT_FILTER_MASK = BULLET_PLAYER_CATEGORY;
+	public static final short PLAYER_CRASH_FILTER_MASK = PLANET_CATEGORY;
 }
