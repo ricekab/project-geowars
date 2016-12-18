@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -17,15 +18,17 @@ public abstract class ContactProcessor implements ContactListener {
 
 	private ContactListener next;
 	
-	private final Collection<IPhysicsMessage> events;
+	private final EventQueue eventQueue;
+	private final Collection<IPhysicsMessage> messageQueue;
 
-	public ContactProcessor(ContactListener next, Collection<IPhysicsMessage> events) {
+	public ContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
 		setNextProcessor(next);
-		this.events = events;
+		this.eventQueue = eventQueue;
+		this.messageQueue = events;
 	}
 
-	public ContactProcessor() {
-		this(new NullContactProcessor(), new ArrayList<IPhysicsMessage>());
+	public ContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+		this(new NullContactProcessor(), eventQueue, events);
 	}
 
 	/**
@@ -127,7 +130,11 @@ public abstract class ContactProcessor implements ContactListener {
 	 */
 	protected abstract boolean handlePostSolve(Contact contact, ContactImpulse impulse);
 	
-	protected Collection<IPhysicsMessage> getEvents(){
-		return this.events;
+	protected Collection<IPhysicsMessage> getPhysicsQueue(){
+		return this.messageQueue;
+	}
+	
+	protected EventQueue getEventQueue(){
+		return this.eventQueue;
 	}
 }

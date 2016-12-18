@@ -2,6 +2,8 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.ExplosionPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
@@ -15,21 +17,22 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class PlayerContactProcessor extends ContactProcessor {
 
-	public PlayerContactProcessor(ContactListener next, Collection<IPhysicsMessage> events) {
-		super(next, events);
+	public PlayerContactProcessor(ContactListener next, EventQueue eventQueue,
+			Collection<IPhysicsMessage> physicsMessages) {
+		super(next, eventQueue, physicsMessages);
 	}
 
-	public PlayerContactProcessor(Collection<IPhysicsMessage> events) {
-		this(new NullContactProcessor(), events);
+	public PlayerContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+		this(new NullContactProcessor(), eventQueue, events);
 	}
 
 	@Override
 	protected boolean handleBeginContact(Contact contact) {
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if (categoryA == Constants.PLAYER_CATEGORY) {
+		if(categoryA == Constants.PLAYER_CATEGORY) {
 			return processBeginContact(contact.getFixtureA().getBody(), contact.getFixtureB());
-		} else if (categoryB == Constants.PLAYER_CATEGORY) {
+		} else if(categoryB == Constants.PLAYER_CATEGORY) {
 			return processBeginContact(contact.getFixtureB().getBody(), contact.getFixtureA());
 		}
 		return false;
@@ -37,16 +40,21 @@ public class PlayerContactProcessor extends ContactProcessor {
 
 	private boolean processBeginContact(Body player, Fixture target) {
 		Gdx.app.log("PlayerCP", "Player - beginContact called");
-		if(target.getFilterData().categoryBits == Constants.ENEMY_CATEGORY){
+		if((target.getFilterData().categoryBits & Constants.PLAYER_HIT_FILTER_MASK) > 0) {
 			Gdx.app.log("PlayerCP", "Player-Enemy contact");
+			
+			getEventQueue().send(new PlayerHitEvent());
+			
 			float pushRange = 50f;
 			float pushForce = 15000f;
-			
-			getEvents().add(new ExplosionPhysicsMessage(player, pushRange, pushForce, Constants.PLAYER_EXPLOSION_MASK));
-			
+
+			getPhysicsQueue().add(
+					new ExplosionPhysicsMessage(player, pushRange, pushForce,
+							Constants.PLAYER_EXPLOSION_MASK));
+
 			return true;
 		}
-		
+
 		return false;
 	}
 

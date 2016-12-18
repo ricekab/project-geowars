@@ -12,6 +12,7 @@ import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
@@ -57,7 +58,7 @@ public class LevelFactory {
 	public LevelFactory() {
 	}
 
-	public PooledEngine createWorld(ScreenContext context, Viewport viewport, String levelName) {
+	public PooledEngine createWorld(ScreenContext context, Viewport viewport, EventQueue eventQueue, String levelName) {
 		LevelDataI levelData = context.getFileService().loadLevel(levelName);
 		
 		AssetManager assets = context.getAssetManager();
@@ -66,13 +67,13 @@ public class LevelFactory {
 		PooledEngine engine = new PooledEngine();
 
 		// MESSAGING OBJECTS
-		Collection<IPhysicsMessage> events = new ArrayList<IPhysicsMessage>();
+		Collection<IPhysicsMessage> physicsMessageQueue = new ArrayList<IPhysicsMessage>();
 
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 
-		ContactProcessor collisionListener = new GravityContactProcessor(events);
-		collisionListener.addProcessor(new PlayerContactProcessor(events));
+		ContactProcessor collisionListener = new GravityContactProcessor(eventQueue, physicsMessageQueue);
+		collisionListener.addProcessor(new PlayerContactProcessor(eventQueue, physicsMessageQueue));
 		// TODO: Add other contact listeners here.
 
 		world.setContactListener(collisionListener);
@@ -84,13 +85,14 @@ public class LevelFactory {
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport);
-		engine.addSystem(new MovementSystem(events));
-		engine.addSystem(new PhysicsSystem(world, events));
-		engine.addSystem(new AiSystem(events));
+		engine.addSystem(new MovementSystem(physicsMessageQueue));
+		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
+		engine.addSystem(new AiSystem(physicsMessageQueue));
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
 		// engine.addSystem(new AISystem());
+		// Sound, Animation, ...
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));

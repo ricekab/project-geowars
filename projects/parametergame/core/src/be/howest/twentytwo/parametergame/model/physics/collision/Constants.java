@@ -14,7 +14,7 @@ public final class Constants {
 	public static final short BULLET_ENEMY_CATEGORY = 0x0020;
 	public static final short PLAYER_PICKUPS = 0x0040;
 
-	// MASKS
+	// COLLISION MASKS
 	// TODO: Do players collide with their own bullets?
 	/** Collides with all */
 	public static final short DEBUG_MASK = (short) 0xFFFF;
@@ -28,5 +28,7 @@ public final class Constants {
 	public static final short PLANET_MASK = PLAYER_CATEGORY | ENEMY_CATEGORY | BULLET_PLAYER_CATEGORY
 			| BULLET_ENEMY_CATEGORY;
 	public static final short PICKUP_MASK = PLAYER_CATEGORY | PLAYER_PICKUPS;
-
+	
+	// EVENT FILTER MASKS -- Used to filter a collision down to some event
+	public static final short PLAYER_HIT_FILTER_MASK = ENEMY_CATEGORY | BULLET_ENEMY_CATEGORY;
 }

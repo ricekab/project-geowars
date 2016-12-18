@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.screen;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.factory.LevelFactory;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
@@ -51,19 +52,21 @@ public class LoadingScreen extends BaseScreen {
 		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in
 															// world units)
 		/*
-		 * B) ScreenViewport = full size without stretching, but shown field is
-		 * different based on aspect ratio --> possible balance concern
+		 * B) ScreenViewport = full size without stretching, but shown field is different based on
+		 * aspect ratio --> possible balance concern
 		 */
 		// ScreenViewport sv = new ScreenViewport();
 		// sv.setUnitsPerPixel(0.25f);
 		// viewport = sv;
 
 		LevelFactory levelFactory = new LevelFactory();
-		// TODO: Pass level data instead of null
-		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, "arcade01");
+		EventQueue eventQueue = new EventQueue();
+		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue,
+				"arcade01");
 
-		Gdx.app.log("LoadingScreen", String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
-		getContext().setScreen(new GameScreen(getContext(), engine, viewport));
+		Gdx.app.log("LoadingScreen",
+				String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
+		getContext().setScreen(new GameScreen(getContext(), engine, viewport, eventQueue));
 	}
 
 	@Override

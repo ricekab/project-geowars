@@ -14,6 +14,7 @@ import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
@@ -48,34 +49,40 @@ public class GameScreen extends BaseScreen {
 	private World world;
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
-	        
-    public static Entity mainPlayer = null;
-        
-	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp){
+	private EventQueue eventQueue; // Have event queue out of engine for some ui events.
+
+	public static Entity mainPlayer = null;
+
+	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp, EventQueue eventQueue) {
 		super(context);
 		this.engine = engine;
 		this.viewport = vp;
+		this.eventQueue = eventQueue;
 		// TODO: Don't need world? --> World should be part of the supplied engine.
 		// The constructor below is just for testing.
 	}
 
+	@Deprecated
 	public GameScreen(ScreenContext context) {
 		super(context);
 		initWorld();
-		initUI();
+
 	}
+
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 
 	private void initWorld() {
 		engine = new PooledEngine(); // NOTE: engine.createEntity() to get the
 										// pooled object.
 		// TODO/NOTE: Engine needs to be passed to factories for construction
 
+		EventQueue eq = new EventQueue();
 		Collection<IPhysicsMessage> events = new ArrayList<IPhysicsMessage>();
 
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 		// world.setContactListener(createContactListener(events));
-		ContactProcessor collisionListener = new GravityContactProcessor(events);
-		collisionListener.addProcessor(new PlayerContactProcessor(events));
+		ContactProcessor collisionListener = new GravityContactProcessor(eq, events);
+		collisionListener.addProcessor(new PlayerContactProcessor(eq, events));
 		world.setContactListener(collisionListener);
 
 		// ECS systems
@@ -101,7 +108,7 @@ public class GameScreen extends BaseScreen {
 				.getSpriteBatch(), getContext().getAssetManager(), viewport);
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
-                engine.addSystem(new AiSystem(events));
+		engine.addSystem(new AiSystem(events));
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
@@ -121,13 +128,13 @@ public class GameScreen extends BaseScreen {
 		Gdx.app.log("GameScreen", "Asset loading finished!");
 
 		Entity ship = createShip();
-                mainPlayer = ship;
+		mainPlayer = ship;
 		Entity planet = createPlanet();
 		Entity camEntity = createCameraEntity(ship, viewport.getCamera());
 
 		engine.addEntity(ship);
 		engine.addEntity(planet);
-		
+
 		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
 		engine.addEntity(createStaticCircle(0, 0, 1f));
 		engine.addEntity(createStaticCircle(5f, 5f, 1f));
@@ -135,33 +142,33 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(100f, 50f, 1f));
 		engine.addEntity(createStaticCircle(150f, 50f, 1f));
 		engine.addEntity(camEntity);
-                
-        int numberOfScoutEnemies = 4;
-        for(int x = 0; x < numberOfScoutEnemies; x++)
-        {
-            Entity scoutShip = createAIShip((x - numberOfScoutEnemies/2)* 20, 100, "scouter");
-            AIScoutComponent scoutComponent = engine.createComponent(AIScoutComponent.class);
-            scoutShip.add(scoutComponent);
-            engine.addEntity(scoutShip);           
-        }
-        
-        int numberOfSuiciderEnemies = 4;
-        for(int x = 0; x < numberOfSuiciderEnemies; x++)
-        {
-            Entity aiShip = createAIShip((x - numberOfSuiciderEnemies/2)* 20, 2, "suicider");
-            AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
-            aiShip.add(suiciderComponent);
-            engine.addEntity(aiShip);           
-        }
-        
-        int numberOfBrutalizerEnemies = 4;
-        for(int x = 0; x < numberOfBrutalizerEnemies; x++)
-        {
-            Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies/2)* 20, -100, "brutalizer");
-            AIBrutalizerComponent brutalizerComponent = engine.createComponent(AIBrutalizerComponent.class);
-            brutalizerShip.add(brutalizerComponent);
-            engine.addEntity(brutalizerShip);           
-        }
+
+		int numberOfScoutEnemies = 4;
+		for (int x = 0; x < numberOfScoutEnemies; x++) {
+			Entity scoutShip = createAIShip((x - numberOfScoutEnemies / 2) * 20, 100, "scouter");
+			AIScoutComponent scoutComponent = engine.createComponent(AIScoutComponent.class);
+			scoutShip.add(scoutComponent);
+			engine.addEntity(scoutShip);
+		}
+
+		int numberOfSuiciderEnemies = 4;
+		for (int x = 0; x < numberOfSuiciderEnemies; x++) {
+			Entity aiShip = createAIShip((x - numberOfSuiciderEnemies / 2) * 20, 2, "suicider");
+			AISuiciderComponent suiciderComponent = engine
+					.createComponent(AISuiciderComponent.class);
+			aiShip.add(suiciderComponent);
+			engine.addEntity(aiShip);
+		}
+
+		int numberOfBrutalizerEnemies = 4;
+		for (int x = 0; x < numberOfBrutalizerEnemies; x++) {
+			Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies / 2) * 20, -100,
+					"brutalizer");
+			AIBrutalizerComponent brutalizerComponent = engine
+					.createComponent(AIBrutalizerComponent.class);
+			brutalizerShip.add(brutalizerComponent);
+			engine.addEntity(brutalizerShip);
+		}
 
 		/*
 		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
@@ -173,12 +180,6 @@ public class GameScreen extends BaseScreen {
 		Gdx.input.setInputProcessor(new PlayerInputProcessor(shipMC));
 
 	}
-
-	private void initUI() {
-		// TODO: UI
-	}
-
-	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
@@ -194,7 +195,7 @@ public class GameScreen extends BaseScreen {
 		moveComponent.setMaxAngularVelocity(100f);
 		moveComponent.setLinearAcceleration(100f);
 		moveComponent.setAngularAcceleration(50f);
-		
+
 		ship.add(moveComponent);
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
@@ -245,7 +246,6 @@ public class GameScreen extends BaseScreen {
 		ship.add(sprite);
 		return ship;
 	}
-
 
 	private Entity createPlanet() {
 		Entity planet = engine.createEntity();
@@ -349,8 +349,8 @@ public class GameScreen extends BaseScreen {
 
 		return cameraEntity;
 	}
-        
-        private Entity createAIShip(float posx, float posy, String textureRegion) {
+
+	private Entity createAIShip(float posx, float posy, String textureRegion) {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(new Vector2(posx, posy));
@@ -364,14 +364,12 @@ public class GameScreen extends BaseScreen {
 		moveComponent.setLinearAcceleration(7.5f);
 		moveComponent.setAngularAcceleration(10f);
 		ship.add(moveComponent);
-                
-                
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
-                  
+
 		bodyDef.position.set(posx, posy);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
@@ -421,8 +419,6 @@ public class GameScreen extends BaseScreen {
 		return ship;
 	}
 
-	// //// /ENTITIES //////
-
 	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
 
 	@Override
@@ -433,6 +429,7 @@ public class GameScreen extends BaseScreen {
 	@Override
 	public void render(float delta) {
 		engine.update(delta);
+		eventQueue.dispatch();
 	}
 
 	@Override
@@ -460,7 +457,6 @@ public class GameScreen extends BaseScreen {
 	public void dispose() {
 		super.dispose();
 		world.dispose();
-
 	}
 
 }
