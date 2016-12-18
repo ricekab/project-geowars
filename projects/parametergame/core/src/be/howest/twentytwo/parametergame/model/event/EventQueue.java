@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.model.event;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -14,14 +16,18 @@ public class EventQueue {
 
 	private Collection<IEvent> events;
 	private Map<EventEnum, Collection<IEventListener>> eventListeners;
+	
+	// Alternative
+	// playerhitevent.addListener
 
 	public EventQueue() {
 
-		this.register(EventEnum.PLAYER_HIT, new IEventListener() {
+		// EXAMPLE OBSERVER REGISTRATION
+		register(EventEnum.PLAYER_HIT, new IEventListener() {
 
 			@Override
 			public void handle(IEvent event) {
-				// TODO: Going to have to case for every callback object.
+				// TODO: Going to have to cast for every callback object.
 				// Either this or need to create specific observables for everything which makes
 				// extension a problem...
 				PlayerHitEvent phEvt = (PlayerHitEvent) event;
@@ -34,13 +40,27 @@ public class EventQueue {
 	 */
 	public void dispatch() {
 		for (IEvent evt : events) {
-			Collection<IEventListener> listeners = eventListeners.get(evt.getID());
+			Collection<IEventListener> listeners = eventListeners.get(evt.getType());
 			if(listeners != null) {
 				for (IEventListener cb : listeners) {
 					cb.handle(evt);
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Adds event to the queue.
+	 */
+	public void send(IEvent event){
+		events.add(event);
+	}
+	
+	/**
+	 * Alias for {@link #send(IEvent)}
+	 */
+	public void addEvent(IEvent event){
+		send(event);
 	}
 
 	/**
@@ -51,7 +71,9 @@ public class EventQueue {
 		if(listeners != null) {
 			listeners.add(callback);
 		} else {
-			// TODO
+			Collection<IEventListener> eventList = new ArrayList<IEventListener>();
+			eventList.add(callback);
+			eventListeners.put(eventID, eventList);
 		}
 	}
 

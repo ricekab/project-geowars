@@ -1,11 +1,12 @@
 package be.howest.twentytwo.parametergame.model.event.game;
 
+import be.howest.twentytwo.parametergame.model.event.EventEnum;
+
 public class EnemyKilledEvent extends BaseGameEvent {
 
 	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+	public EventEnum getType() {
+		return EventEnum.ENEMY_KILLED;
 	}
 
 }
