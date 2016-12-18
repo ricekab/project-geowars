@@ -2,7 +2,7 @@ package be.howest.twentytwo.parametergame.input.actions;
 
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 
-public class TurnLeftAction implements KeyInputAction {
+public class TurnLeftAction implements ConstantInputAction {
 
 	private MovementComponent moveComponent;
 
