@@ -1,6 +1,6 @@
-package be.howest.twentytwo.parametergame.model.messaging;
+package be.howest.twentytwo.parametergame.model.event;
 
-public class AbstractEventMessage implements IEventMessage {
+public abstract class AbstractEventMessage implements IEvent {
 
 	private boolean isConsumed;
 	

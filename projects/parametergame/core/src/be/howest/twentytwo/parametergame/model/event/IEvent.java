@@ -1,11 +1,13 @@
-package be.howest.twentytwo.parametergame.model.messaging;
+package be.howest.twentytwo.parametergame.model.event;
 
 /**
  * A message pertaining some game event for other systems to process.
  * 
  */
-public interface IEventMessage {
+public interface IEvent {
 
+	public int getID();
+	
 	/**
 	 * Must return true when this event had been consumed and should no longer be executed. Return false when this event
 	 * is still active.
@@ -17,4 +19,6 @@ public interface IEventMessage {
 	 * that case false is returned, true otherwise. If the event is already consumed, this return true.
 	 */
 	public boolean setConsumed();
+	
+	
 }
