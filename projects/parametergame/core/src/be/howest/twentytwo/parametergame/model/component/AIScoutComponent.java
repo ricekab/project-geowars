@@ -4,8 +4,8 @@ package be.howest.twentytwo.parametergame.model.component;
 
 import java.util.Collection;
 
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
+import be.howest.twentytwo.parametergame.model.physics.message.LinearForceMessage;
 import be.howest.twentytwo.parametergame.screen.GameScreen;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
@@ -30,7 +30,7 @@ public class AIScoutComponent implements Component, Poolable {
     public void reset() {
     }
 
-    public void ProcessAI(Entity entity, Collection<IPhysicsEvent> events) {
+    public void ProcessAI(Entity entity, Collection<IPhysicsMessage> events) {
         
         MovementComponent mc = MovementComponent.MAPPER.get(entity);
         Body body = BodyComponent.MAPPER.get(entity).getBody();
@@ -52,12 +52,12 @@ public class AIScoutComponent implements Component, Poolable {
         //To close
         if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y < minDistance * minDistance )
         {            
-            events.add(new LinearForceEvent(body, normalizedDirectionToPlayer.scl(-Speed*distance)));
+            events.add(new LinearForceMessage(body, normalizedDirectionToPlayer.scl(-Speed*distance)));
         }
         //To far
         else if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y > maxDistance * maxDistance )
         { 
-            events.add(new LinearForceEvent(body, normalizedDirectionToPlayer.scl(Speed*distance)));
+            events.add(new LinearForceMessage(body, normalizedDirectionToPlayer.scl(Speed*distance)));
         }
                 
         

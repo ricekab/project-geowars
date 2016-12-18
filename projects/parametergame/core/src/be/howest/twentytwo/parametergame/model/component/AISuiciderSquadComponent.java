@@ -4,8 +4,8 @@ package be.howest.twentytwo.parametergame.model.component;
 
 import java.util.Collection;
 
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.LinearForceEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
+import be.howest.twentytwo.parametergame.model.physics.message.LinearForceMessage;
 import be.howest.twentytwo.parametergame.screen.GameScreen;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
@@ -28,7 +28,7 @@ public class AISuiciderSquadComponent implements Component, Poolable {
     public void reset() {
     }
 
-    public void ProcessAI(Entity entity, Collection<IPhysicsEvent> events) {
+    public void ProcessAI(Entity entity, Collection<IPhysicsMessage> events) {
         
         MovementComponent mc = MovementComponent.MAPPER.get(entity);
         Body body = BodyComponent.MAPPER.get(entity).getBody();
@@ -53,7 +53,7 @@ public class AISuiciderSquadComponent implements Component, Poolable {
         if(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y > minDistance * minDistance )
         {            
             directionToPlayer = directionToPlayer.nor();
-            events.add(new LinearForceEvent(body, directionToPlayer.scl(10.0f)));
+            events.add(new LinearForceMessage(body, directionToPlayer.scl(10.0f)));
         }
         else
         {

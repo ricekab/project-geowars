@@ -15,7 +15,7 @@ import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
@@ -66,7 +66,7 @@ public class LevelFactory {
 		PooledEngine engine = new PooledEngine();
 
 		// MESSAGING OBJECTS
-		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+		Collection<IPhysicsMessage> events = new ArrayList<IPhysicsMessage>();
 
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);

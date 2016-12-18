@@ -1,17 +1,17 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
  * Describes a torque event that is applied on the target body.
  */
-public class AngularForceEvent extends SinglePhysicsEvent {
+public class AngularForceMessage extends SinglePhysicsMessage {
 
 	private Body body;
 	private float torque;
 
 	// TODO: Data passed as param or smth? (See GravityPhysicsEvent)
-	public AngularForceEvent(Body body, float torque) {
+	public AngularForceMessage(Body body, float torque) {
 		super();
 		this.body = body;
 		this.torque = torque;
@@ -40,8 +40,8 @@ public class AngularForceEvent extends SinglePhysicsEvent {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj != null && obj instanceof AngularForceEvent) {
-			AngularForceEvent other = (AngularForceEvent) obj;
+		if(obj != null && obj instanceof AngularForceMessage) {
+			AngularForceMessage other = (AngularForceMessage) obj;
 			if(getBody().equals(other.getBody()) && getImpulse() == other.getImpulse()) {
 				return true;
 			}

@@ -2,8 +2,8 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 
 import java.util.Collection;
 
-import be.howest.twentytwo.parametergame.model.physics.events.ExplosionPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.ExplosionPhysicsMessage;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,11 +15,11 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class PlayerContactProcessor extends ContactProcessor {
 
-	public PlayerContactProcessor(ContactListener next, Collection<IPhysicsEvent> events) {
+	public PlayerContactProcessor(ContactListener next, Collection<IPhysicsMessage> events) {
 		super(next, events);
 	}
 
-	public PlayerContactProcessor(Collection<IPhysicsEvent> events) {
+	public PlayerContactProcessor(Collection<IPhysicsMessage> events) {
 		this(new NullContactProcessor(), events);
 	}
 
@@ -42,7 +42,7 @@ public class PlayerContactProcessor extends ContactProcessor {
 			float pushRange = 50f;
 			float pushForce = 15000f;
 			
-			getEvents().add(new ExplosionPhysicsEvent(player, pushRange, pushForce, Constants.PLAYER_EXPLOSION_MASK));
+			getEvents().add(new ExplosionPhysicsMessage(player, pushRange, pushForce, Constants.PLAYER_EXPLOSION_MASK));
 			
 			return true;
 		}

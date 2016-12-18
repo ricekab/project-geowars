@@ -1,13 +1,13 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 /**
  * Represents an event that only fires once.
  */
-public abstract class SinglePhysicsEvent implements IPhysicsEvent {
+public abstract class SinglePhysicsMessage implements IPhysicsMessage {
 	
 	private boolean isConsumed;
 	
-	public SinglePhysicsEvent() {
+	public SinglePhysicsMessage() {
 		this.isConsumed = false;
 	}
 

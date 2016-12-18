@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 /**
  * Describes a force event that is applied on the target body's center of mass.
  */
-public class LinearForceEvent extends SinglePhysicsEvent {
+public class LinearForceMessage extends SinglePhysicsMessage {
 
 	private Body body;
 	private Vector2 forceVector;
@@ -17,7 +17,7 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 	 * Creates a single physics event that applies the given force vector on the body's center of
 	 * mass.
 	 */
-	public LinearForceEvent(Body body, Vector2 forceVector) {
+	public LinearForceMessage(Body body, Vector2 forceVector) {
 		super();
 		this.body = body;
 		this.forceVector = forceVector;
@@ -27,7 +27,7 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 	 * Shortcut constructor that allows this event to be created with a specified amount of force.
 	 * This force is applied in the direction the body is facing (forward).
 	 */
-	public LinearForceEvent(Body body, float force) {
+	public LinearForceMessage(Body body, float force) {
 		this(body, VectorMath.forceToForwardVector(force, body));
 	}
 
@@ -52,8 +52,8 @@ public class LinearForceEvent extends SinglePhysicsEvent {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof LinearForceEvent) {
-			LinearForceEvent other = (LinearForceEvent) obj;
+		if (obj != null && obj instanceof LinearForceMessage) {
+			LinearForceMessage other = (LinearForceMessage) obj;
 			if (getBody().equals(other.getBody())
 					&& getForceVector() == other.getForceVector()) {
 				return true;

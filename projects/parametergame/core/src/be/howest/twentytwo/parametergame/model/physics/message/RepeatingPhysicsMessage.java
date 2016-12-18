@@ -1,13 +1,13 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 /**
  * Represents an event that repeats until explicitly told to stop using {@link #setConsumed()}.
  */
-public abstract class RepeatingPhysicsEvent implements IPhysicsEvent {
+public abstract class RepeatingPhysicsMessage implements IPhysicsMessage {
 
 	private boolean isConsumed;
 	
-	public RepeatingPhysicsEvent() {
+	public RepeatingPhysicsMessage() {
 		this.isConsumed = false;
 	}
 

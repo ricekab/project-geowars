@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.GravityPhysicsMessage;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,14 +16,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class GravityContactProcessor extends ContactProcessor {
 
-	private Collection<GravityPhysicsEvent> gravityEvents;
+	private Collection<GravityPhysicsMessage> gravityEvents;
 
-	public GravityContactProcessor(ContactListener next, Collection<IPhysicsEvent> events) {
+	public GravityContactProcessor(ContactListener next, Collection<IPhysicsMessage> events) {
 		super(next, events);
-		this.gravityEvents = new ArrayList<GravityPhysicsEvent>();
+		this.gravityEvents = new ArrayList<GravityPhysicsMessage>();
 	}
 
-	public GravityContactProcessor(Collection<IPhysicsEvent> events) {
+	public GravityContactProcessor(Collection<IPhysicsMessage> events) {
 		this(new NullContactProcessor(), events);
 	}
 
@@ -43,7 +43,7 @@ public class GravityContactProcessor extends ContactProcessor {
 	}
 
 	private void addEvent(Body planet, Body target) {
-		GravityPhysicsEvent evt = new GravityPhysicsEvent(planet, target);
+		GravityPhysicsMessage evt = new GravityPhysicsMessage(planet, target);
 		getEvents().add(evt);
 		this.gravityEvents.add(evt);
 	}
@@ -65,12 +65,12 @@ public class GravityContactProcessor extends ContactProcessor {
 	}
 
 	/**
-	 * Remove the {@link GravityPhysicsEvent} from the event list and sets it to
+	 * Remove the {@link GravityPhysicsMessage} from the event list and sets it to
 	 * consumed.
 	 */
 	private void removeEvent(Body planet, Body target) {
-		Iterator<GravityPhysicsEvent> it = gravityEvents.iterator();
-		GravityPhysicsEvent evt;
+		Iterator<GravityPhysicsMessage> it = gravityEvents.iterator();
+		GravityPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
 			if (evt.getSourceBody().equals(planet) && evt.getTargetBody().equals(target)) {

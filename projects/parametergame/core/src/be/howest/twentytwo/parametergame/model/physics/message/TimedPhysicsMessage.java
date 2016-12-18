@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 
@@ -6,7 +6,7 @@ import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
  * Represents a physics event that happens for a period of time (multiple timesteps). In the event the provided time is
  * less than a normal time step a single fire event is assumed.
  */
-public abstract class TimedPhysicsEvent implements IPhysicsEvent {
+public abstract class TimedPhysicsMessage implements IPhysicsMessage {
 
 	private int remainingSteps;
 
@@ -17,7 +17,7 @@ public abstract class TimedPhysicsEvent implements IPhysicsEvent {
 	 * @param numberOfSteps
 	 *            - Number of Physics engine time steps.
 	 */
-	public TimedPhysicsEvent(int numberOfSteps) {
+	public TimedPhysicsMessage(int numberOfSteps) {
 		this.remainingSteps = numberOfSteps;
 	}
 
@@ -28,7 +28,7 @@ public abstract class TimedPhysicsEvent implements IPhysicsEvent {
 	 * @param timeInSeconds
 	 *            - Time in seconds that this event is active. Gets rounded to nearest engine time step.
 	 */
-	public TimedPhysicsEvent(float timeInSeconds) {
+	public TimedPhysicsMessage(float timeInSeconds) {
 		// Round to nearest number of physics time steps
 		if(timeInSeconds < PhysicsSystem.PHYSICS_TIMESTEP) {
 			this.remainingSteps = Math.round(timeInSeconds / PhysicsSystem.PHYSICS_TIMESTEP); 

@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-public class ExplosionPhysicsEvent extends SinglePhysicsEvent {
+public class ExplosionPhysicsMessage extends SinglePhysicsMessage {
 
 	private final Body sourceBody;
 	private final float range;
 	private final float force;
 	private final short mask;
 
-	public ExplosionPhysicsEvent(Body sourceBody, float range, float force, short physicsMask) {
+	public ExplosionPhysicsMessage(Body sourceBody, float range, float force, short physicsMask) {
 		this.sourceBody = sourceBody;
 		this.range = range;
 		this.force = force;
@@ -48,7 +48,7 @@ public class ExplosionPhysicsEvent extends SinglePhysicsEvent {
 			Gdx.app.log("EPE", String.format("%s , %s", sourceBody.getPosition().toString(),
 					targetBody.getPosition().toString()));
 			Gdx.app.log("EPE", forceVector.toString());
-			IPhysicsEvent instantEvent = new LinearForceEvent(targetBody, forceVector);
+			IPhysicsMessage instantEvent = new LinearForceMessage(targetBody, forceVector);
 			instantEvent.execute();
 			// Can be shortened to one line but leaving this for clarity.
 		}

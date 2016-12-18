@@ -3,13 +3,13 @@ package be.howest.twentytwo.parametergame.model.system;
 import java.util.Collection;
 import java.util.Iterator;
 
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 
 public class PhysicsEventSystem extends IntervalSystem {
 	
-	private Collection<IPhysicsEvent> eventCollection; // TODO: Collection requirements? Might need
+	private Collection<IPhysicsMessage> eventCollection; // TODO: Collection requirements? Might need
 														// change.
 
 	public PhysicsEventSystem(float interval, int priority) {
@@ -19,8 +19,8 @@ public class PhysicsEventSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
-		Iterator<IPhysicsEvent> it = eventCollection.iterator();
-		IPhysicsEvent evt;
+		Iterator<IPhysicsMessage> it = eventCollection.iterator();
+		IPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
 			if(!evt.isConsumed()) {

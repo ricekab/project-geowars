@@ -4,7 +4,7 @@ package be.howest.twentytwo.parametergame.model.component;
 
 import java.util.Collection;
 
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
@@ -21,7 +21,7 @@ public class AIObstacleComponent implements Component, Poolable {
     public void reset() {
     }
 
-    public void ProcessAI(Entity entity, Collection<IPhysicsEvent> events) {
+    public void ProcessAI(Entity entity, Collection<IPhysicsMessage> events) {
                     
     }    
 }

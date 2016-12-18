@@ -18,7 +18,7 @@ import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
@@ -70,7 +70,7 @@ public class GameScreen extends BaseScreen {
 										// pooled object.
 		// TODO/NOTE: Engine needs to be passed to factories for construction
 
-		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+		Collection<IPhysicsMessage> events = new ArrayList<IPhysicsMessage>();
 
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 		// world.setContactListener(createContactListener(events));
