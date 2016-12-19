@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.Input;
 
 import be.howest.twentytwo.parametergame.input.Inputs;
 

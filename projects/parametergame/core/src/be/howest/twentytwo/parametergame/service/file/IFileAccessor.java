@@ -1,6 +1,5 @@
 package be.howest.twentytwo.parametergame.service.file;
 
-import java.util.Map;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;

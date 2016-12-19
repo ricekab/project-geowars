@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Map;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
