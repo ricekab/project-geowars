@@ -9,9 +9,11 @@ import java.util.Scanner;
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	
@@ -73,17 +75,15 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		*/
 		return location;
 	}
-
-	@Override
+	
 	public SettingsDataI loadSettings(String location) {
-		// TODO Auto-generated method stub
-		return null;
+		SettingsDataI settings = new SettingsData();
+		//TODO
+		return settings;
 	}
-
-	@Override
-	public void saveSettings(SettingsDataI data, String location) {
-		// TODO Auto-generated method stub
-		
+	
+	public void saveSettings(SettingsDataI settings, String location) {
+		//TODO
 	}
 
 	@Override
