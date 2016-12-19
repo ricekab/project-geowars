@@ -15,6 +15,7 @@ import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolData;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
 import be.howest.twentytwo.parametergame.input.Inputs;
 
 import com.badlogic.gdx.Input.Keys;
@@ -46,7 +47,7 @@ public class InMemoryFileAccessor implements IFileAccessor{
 	}
 	
 	public SettingsDataI loadSettings(String justPutARandomString) {
-		SettingsDataI settings = new SettingsData();
+		SettingsDataI settings = new SettingsData(new UserData("user","PWD"));
 		
 		settings.setVolume(true);
 		settings.setVolumeLevel(50f);
@@ -60,7 +61,6 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		//Nothing actually happens
 	}
 
-	@Override
 	public Map<String, String> loadKeymap(String location) {
 		Map<String, String> keyMap = new HashMap<String, String>();
 		keyMap.put(Keys.toString(Keys.Z), Inputs.ACCELERATE_FORWARD);
@@ -74,7 +74,6 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		return keyMap;
 	}
 
-	@Override
 	public void saveKeymap(Map<String, String> keymap, String location) {
 		// Nothin'
 	}

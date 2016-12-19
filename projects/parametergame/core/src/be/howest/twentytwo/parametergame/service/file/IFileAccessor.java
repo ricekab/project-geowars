@@ -17,8 +17,5 @@ public interface IFileAccessor {
 	
 	public SettingsDataI loadSettings(String location);
 	public void saveSettings(SettingsDataI data, String location);
-	
-	public Map<String, String> loadKeymap(String location);
-	public void saveKeymap(Map<String, String> keymap, String location);
 
 }

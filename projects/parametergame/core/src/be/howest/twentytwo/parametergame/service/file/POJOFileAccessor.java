@@ -92,16 +92,4 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 		}
 	}
 
-	@Override
-	public Map<String, String> loadKeymap(String location) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveKeymap(Map<String, String> keymap, String location) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

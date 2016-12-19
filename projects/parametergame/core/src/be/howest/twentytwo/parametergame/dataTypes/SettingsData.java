@@ -19,8 +19,9 @@ public class SettingsData implements SettingsDataI, Serializable{
 	private Map<String, String> keybinds;
 	/*up, down, left, right, primeFire, secondaryFire, cycleSecondary, toggleDamping, menuButton, cheats*/
 
-	public SettingsData() {
+	public SettingsData(UserData user) {
 		this.userKeys = new HashMap<>();
+		addPlayer(user);
 	}
 	
 	public void resetControls(UserData user) {
@@ -35,6 +36,16 @@ public class SettingsData implements SettingsDataI, Serializable{
 		keybinds.put("F", Inputs.TOGGLE_LINEAR_DAMP);
 		keybinds.put("Escape", Inputs.OPEN_MENU);
 		keybinds.put("C", Inputs.TOGGLE_CHEATS);
+	}
+	
+	//	METHODS	
+	
+
+	public void addPlayer(UserData player) {
+		HashMap<String, String> keybinds = new HashMap<>();
+		userKeys.put(player, keybinds);
+		resetControls(player);
+		
 	}
 
 	

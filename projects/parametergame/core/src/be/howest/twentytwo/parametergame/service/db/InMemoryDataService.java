@@ -3,6 +3,8 @@ package be.howest.twentytwo.parametergame.service.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.math.Vector2;
+
 import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureData;
@@ -10,6 +12,8 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 
 public class InMemoryDataService implements IDataService {
@@ -27,7 +31,10 @@ public class InMemoryDataService implements IDataService {
 		List<ShipData> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
-		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, physicsData));
+		ArrayList<WeaponDataI> weapons = new ArrayList<>();
+		WeaponDataI weapon = new WeaponData("P001", 0f, 0f, 0.5f, 3, 9f, 1f, 100f, 500f, 0f, 5f, -1, new Vector2(1f, 0.25f));
+		weapons.add(weapon);
+		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons, physicsData));
 		return data;
 	}
 
@@ -43,7 +50,10 @@ public class InMemoryDataService implements IDataService {
 		List<EnemyData> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
-		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, physicsData);
+		ArrayList<WeaponDataI> weapons = new ArrayList<>();
+		WeaponDataI weapon = new WeaponData("P001", 0f, 0f, 0.5f, 3, 9f, 1f, 100f, 500f, 0f, 5f, -1, new Vector2(1f, 0.25f));
+		weapons.add(weapon);
+		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, weapons, physicsData);
 		data.add(new EnemyData(shipData));
 		return data;
 	}
