@@ -27,7 +27,17 @@ public class WeaponSystem extends IntervalIteratingSystem {
 	protected void processEntity(Entity entity) {
 		Body body = BodyComponent.MAPPER.get(entity).getBody();
 		WeaponComponent wc = WeaponComponent.MAPPER.get(entity);
-		// TODO: Do weapon stuff
+
+		if(wc.isFirePrimary()){
+			// Create new entity with:
+			// startpos, startrotation, startvel(linear and angular)
+			// some bullet sprite
+			// ...
+			// spawnMessage?
+		}
+		if(wc.isFireSecondary()){
+			
+		}
 	}
 
 }

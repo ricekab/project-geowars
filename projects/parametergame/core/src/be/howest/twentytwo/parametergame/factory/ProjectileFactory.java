@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.factory;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class ProjectileFactory {
 	
@@ -13,7 +14,7 @@ public class ProjectileFactory {
 	 * Sprite(s)
 	 */
 	
-	public Entity createProjectile(PooledEngine engine){
+	public Entity createProjectile(PooledEngine engine, World world){
 		Entity e = engine.createEntity();
 		
 		/*

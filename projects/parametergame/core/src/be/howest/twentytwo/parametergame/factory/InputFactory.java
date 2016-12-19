@@ -6,13 +6,17 @@ import java.util.Map;
 import be.howest.twentytwo.parametergame.input.Inputs;
 import be.howest.twentytwo.parametergame.input.actions.AccelerateBackwardAction;
 import be.howest.twentytwo.parametergame.input.actions.AccelerateForwardAction;
+import be.howest.twentytwo.parametergame.input.actions.CycleSecondaryAction;
 import be.howest.twentytwo.parametergame.input.actions.DampenToggleAction;
+import be.howest.twentytwo.parametergame.input.actions.FirePrimaryAction;
+import be.howest.twentytwo.parametergame.input.actions.FireSecondaryAction;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.input.actions.NullInputAction;
 import be.howest.twentytwo.parametergame.input.actions.TurnLeftAction;
 import be.howest.twentytwo.parametergame.input.actions.TurnRightAction;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
@@ -58,11 +62,14 @@ public class InputFactory {
 						MovementComponent.MAPPER.get(player));
 				break;
 			case Inputs.FIRE_PRIMARY:
-				// TODO
+				input = new FirePrimaryAction(WeaponComponent.MAPPER.get(player));
+				break;
 			case Inputs.FIRE_SECONDARY:
-				// TODO
+				input = new FireSecondaryAction(WeaponComponent.MAPPER.get(player));
+				break;
 			case Inputs.CYClE_SECONDARY:
-				// TODO
+				input = new CycleSecondaryAction(WeaponComponent.MAPPER.get(player));
+				break;
 			default:
 				Gdx.app.error("InputFactory", "ERR: Could not recognize input action string.");
 				input = new NullInputAction();

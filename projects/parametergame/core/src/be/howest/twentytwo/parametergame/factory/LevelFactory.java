@@ -28,6 +28,7 @@ import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 
 import com.badlogic.ashley.core.Entity;
@@ -91,6 +92,7 @@ public class LevelFactory {
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(),
 				assets, viewport);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
+		engine.addSystem(new WeaponSystem(physicsMessageQueue));
 		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(new AiSystem(physicsMessageQueue));
 		engine.addSystem(new CameraSystem());
