@@ -5,11 +5,13 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
-import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
-
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
+import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	
@@ -70,6 +72,16 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		}
 		*/
 		return location;
+	}
+	
+	public SettingsDataI loadSettings(String location) {
+		SettingsDataI settings = new SettingsData();
+		//TODO
+		return settings;
+	}
+	
+	public void saveSettings(SettingsDataI settings, String location) {
+		//TODO
 	}
 
 }
