@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
+import java.util.Map;
 
 public interface SettingsDataI {
 	
@@ -9,7 +10,7 @@ public interface SettingsDataI {
 	public float getVolumeLevel();
 	public boolean getDamping();
 	public float getDampingLevel();
-	public String getKeyBind(String key);
+	public Map<String, String> getKeyBinds(UserData user);
 	
 	//	SETTERS	
 	
@@ -17,6 +18,6 @@ public interface SettingsDataI {
 	public void setVolumeLevel(float level);
 	public void setDaming(boolean damping);
 	public void setDampingLevel(float level);
-	public void setKeyBind(String key, String value);
+	public void setKeyBind(UserData user, String key, String value);
 
 }

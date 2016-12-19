@@ -3,16 +3,16 @@ package be.howest.twentytwo.parametergame.service.file;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.Map;
 import java.util.Scanner;
-
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
-import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
-import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
+import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
 
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
@@ -77,25 +77,13 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	}
 	
 	public SettingsDataI loadSettings(String location) {
-		SettingsDataI settings = new SettingsData();
+		SettingsDataI settings = new SettingsData(new UserData("removeThis","PWD"));	//TODO remove this
 		//TODO
 		return settings;
 	}
 	
 	public void saveSettings(SettingsDataI settings, String location) {
 		//TODO
-	}
-
-	@Override
-	public Map<String, String> loadKeymap(String location) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveKeymap(Map<String, String> keymap, String location) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

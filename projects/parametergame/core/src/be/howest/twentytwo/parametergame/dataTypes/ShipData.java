@@ -17,7 +17,7 @@ public class ShipData implements ShipDataI{
 	private List<WeaponDataI> weapons;
 	private PhysicsDataI physicsData;
 	
-	public ShipData(String name, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, PhysicsDataI physicsData){
+	public ShipData(String name, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, List<WeaponDataI> weapons, PhysicsDataI physicsData){
 		this.name = name;
 		this.maxLinearSpeed = maxLinearSpeed;
 		this.maxAngularSpeed = maxAngularSpeed;

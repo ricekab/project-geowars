@@ -10,5 +10,7 @@ public class Inputs {
 	public static final String FIRE_PRIMARY = "Fire primary";
 	public static final String FIRE_SECONDARY= "Fire secondary";
 	public static final String CYClE_SECONDARY = "Cycle secondary";
-
+	public static final String OPEN_MENU = "open the menu";
+	public static final String TOGGLE_CHEATS = "toggle cheats";
+	
 }
