@@ -10,8 +10,10 @@ import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
@@ -141,11 +143,12 @@ public class LevelFactory {
 		engine.addEntity(cameraEntity);
 
 		// INPUT
-
 		InputFactory inputFactory = new InputFactory();
 
-		Map<String, String> keyActionMap = context.getFileService().loadSettings("Some_Location", context.getDataService().getUser("SOMEUSER"))
-				.getKeyBinds(context.getDataService().getUser("SOMEUSER"));
+		UserDataI user = context.getDataService().getUser("SOMEUSER");
+		SettingsDataI settings = context.getFileService().loadSettings("Some_Location", user);
+		settings.addPlayer(user);
+		Map<String, String> keyActionMap = settings.getKeyBinds(user);
 
 		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap, playerShip);
 		// 0. Get player 1 - Keyboard assumed for now

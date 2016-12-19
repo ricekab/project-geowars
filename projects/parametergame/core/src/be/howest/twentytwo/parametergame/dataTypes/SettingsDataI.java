@@ -19,5 +19,6 @@ public interface SettingsDataI {
 	public void setDaming(boolean damping);
 	public void setDampingLevel(float level);
 	public void setKeyBind(UserData user, String key, String value);
+	public void addPlayer(UserDataI player);
 
 }
