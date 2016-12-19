@@ -4,31 +4,37 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Input;
+
+import be.howest.twentytwo.parametergame.input.Inputs;
+
 public class SettingsData implements SettingsDataI, Serializable{
 	
 	private boolean volume;
 	private float volumeLevel;
 	private boolean damping;
 	private float dampingLevel;
+	private Map<UserData, Map<String, String>> userKeys;
+	/*
 	private Map<String, String> keybinds;
 	/*up, down, left, right, primeFire, secondaryFire, cycleSecondary, toggleDamping, menuButton, cheats*/
 
 	public SettingsData() {
-		this.keybinds = new HashMap<>();
-		resetControls();
+		this.userKeys = new HashMap<>();
 	}
 	
-	public void resetControls() {
-		keybinds.put("up", "z");
-		keybinds.put("down", "s");
-		keybinds.put("left", "q");
-		keybinds.put("right", "d");
-		keybinds.put("primaryFire", "a");
-		keybinds.put("secondaryFire", "e");
-		keybinds.put("cycleSecondary", "r");
-		keybinds.put("toggleDamping", "f");
-		keybinds.put("menuButton", "esc");
-		keybinds.put("cheats", "c");
+	public void resetControls(UserData user) {
+		Map<String, String> keybinds = userKeys.get(user);
+		keybinds.put("Z", Inputs.ACCELERATE_FORWARD);
+		keybinds.put("S", Inputs.ACCELERATE_BACKWARD);
+		keybinds.put("Q", Inputs.TURN_LEFT);
+		keybinds.put("D", Inputs.TURN_RIGHT);
+		keybinds.put("A", Inputs.FIRE_PRIMARY);
+		keybinds.put("E", Inputs.FIRE_SECONDARY);
+		keybinds.put("R", Inputs.CYClE_SECONDARY);
+		keybinds.put("F", Inputs.TOGGLE_LINEAR_DAMP);
+		keybinds.put("Escape", Inputs.OPEN_MENU);
+		keybinds.put("C", Inputs.TOGGLE_CHEATS);
 	}
 
 	
@@ -51,8 +57,8 @@ public class SettingsData implements SettingsDataI, Serializable{
 		return dampingLevel;
 	}
 
-	public String getKeyBind(String key) {
-		return keybinds.get(key);
+	public Map<String, String> getKeyBinds(UserData user) {
+		return userKeys.get(user);
 	}
 
 	
@@ -63,7 +69,6 @@ public class SettingsData implements SettingsDataI, Serializable{
 		this.volume = volume;		
 	}
 
-	@Override
 	public void setVolumeLevel(float level) {
 		this.volumeLevel = level;
 	}
@@ -76,7 +81,8 @@ public class SettingsData implements SettingsDataI, Serializable{
 		this.dampingLevel = level;
 	}
 
-	public void setKeyBind(String key, String value) {
+	public void setKeyBind(UserData user, String key, String value) {
+		Map<String, String> keybinds = userKeys.get(user);
 		keybinds.put(key, value);
 	}
 	
