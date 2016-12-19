@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
@@ -28,11 +27,9 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
 public class ShipFactory {
-	private FixtureFactory fixtureFactory;
-
-	private PooledEngine engine;
-	private World world;
-	private AssetManager assets;
+	private final PooledEngine engine;
+	private final World world;
+	private final AssetManager assets;
 
 	private ShipDataI shipData;
 	private BodyDef bodyDef;
@@ -40,7 +37,6 @@ public class ShipFactory {
 	private SpriteComponent spriteComponent;
 
 	public ShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData) {
-		this.fixtureFactory = new FixtureFactory();
 		this.engine = engine;
 		this.world = world;
 		this.assets = assets;
@@ -60,6 +56,7 @@ public class ShipFactory {
 
 		// FIXTURE DEFS
 		FixtureDef fixtureDef;
+		FixtureFactory fixtureFactory = new FixtureFactory();
 		for (FixtureDataI fd : fixturesData) {
 			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(), fd.getHeight(), fd.getOffsetX(),
 					fd.getOffsetY(), fd.getDensity(), fd.getFriction(), fd.getRestitution());
@@ -76,7 +73,6 @@ public class ShipFactory {
 		TextureAtlas spritesheet = assets.get("sprites/ships.pack", TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(shipData.getName());
 		spriteComponent.setRegion(region);
-
 	}
 
 	public Entity createShip(Vector2 pos, Vector2 size, float rotation) {
