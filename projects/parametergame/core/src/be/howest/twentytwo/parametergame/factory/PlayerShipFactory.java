@@ -55,6 +55,7 @@ public class PlayerShipFactory {
 		movement.setMaxAngularVelocity(shipData.getMaxAngularSpeed());
 		movement.setLinearAcceleration(shipData.getLinearAcceleration());
 		movement.setAngularAcceleration(shipData.getAngularAcceleration());
+		movement.setLinearDampStrength(1f);
 		player.add(movement);
 
 		// PHYSICS BODY

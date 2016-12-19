@@ -2,7 +2,7 @@ package be.howest.twentytwo.parametergame.input.actions;
 
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 
-public class AccelerateForwardAction implements ConstantInputAction {
+public class AccelerateForwardAction implements InputAction {
 
 	private MovementComponent moveComponent;
 

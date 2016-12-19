@@ -3,7 +3,7 @@ package be.howest.twentytwo.parametergame.input.actions;
 /**
  * An input action that is will toggle an action to be active or not (on / off).
  */
-public interface ConstantInputAction {
+public interface InputAction {
 
 	// TODO: Method names can be confusing.
 

@@ -5,19 +5,20 @@ import java.util.Map;
 
 import be.howest.twentytwo.parametergame.input.actions.AccelerateBackwardAction;
 import be.howest.twentytwo.parametergame.input.actions.AccelerateForwardAction;
-import be.howest.twentytwo.parametergame.input.actions.ConstantInputAction;
+import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.input.actions.TurnLeftAction;
 import be.howest.twentytwo.parametergame.input.actions.TurnRightAction;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 
 public class PlayerInputProcessor extends InputAdapter {
 	
-	private Map<Integer, ConstantInputAction> keyMap;
+	private Map<Integer, InputAction> keyMap;
 	
-	public PlayerInputProcessor(Map<Integer, ConstantInputAction> keyMap){
+	public PlayerInputProcessor(Map<Integer, InputAction> keyMap){
 		this.keyMap = keyMap;
 	}
 	
@@ -27,7 +28,21 @@ public class PlayerInputProcessor extends InputAdapter {
 	 * @param playerMC
 	 */
 	public PlayerInputProcessor(MovementComponent playerMC) {
-		Map<Integer, ConstantInputAction> map = new HashMap<>();
+		Map<Integer, InputAction> map = new HashMap<>();
+		
+		// map.put(Keys.W, new AccelerateForwardAction());
+		// left, right, back
+		// damper on/off
+		this.keyMap = map;
+		
+		map.put(Keys.Z, new AccelerateForwardAction(playerMC));
+		map.put(Keys.S, new AccelerateBackwardAction(playerMC));
+		map.put(Keys.Q, new TurnLeftAction(playerMC));
+		map.put(Keys.D, new TurnRightAction(playerMC));
+	}
+	
+	public PlayerInputProcessor(MovementComponent playerMC, WeaponComponent playerWC) {
+		Map<Integer, InputAction> map = new HashMap<>();
 		
 		// map.put(Keys.W, new AccelerateForwardAction());
 		// left, right, back
