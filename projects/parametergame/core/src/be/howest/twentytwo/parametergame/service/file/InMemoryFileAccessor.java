@@ -14,6 +14,7 @@ import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolData;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 public class InMemoryFileAccessor implements IFileAccessor{
 
@@ -41,8 +42,8 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		//Nothing actually happens
 	}
 	
-	public SettingsDataI loadSettings(String justPutARandomString) {
-		SettingsDataI settings = new SettingsData(new UserData("user","PWD"));
+	public SettingsDataI loadSettings(String justPutARandomString, UserData user) {
+		SettingsDataI settings = new SettingsData(user);
 		
 		settings.setVolume(true);
 		settings.setVolumeLevel(50f);

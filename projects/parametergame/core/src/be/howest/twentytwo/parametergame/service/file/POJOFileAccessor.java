@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
 
 public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 
@@ -58,7 +59,7 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 		}
 	}
 	
-	public SettingsDataI loadSettings(String location) {
+	public SettingsDataI loadSettings(String location, UserData user) {
 		SettingsDataI data = null;
 		try{
 			File f = new File(location);	//TODO refactor
