@@ -29,7 +29,8 @@ public class ParameterGame extends Game {
 	private ScreenContext context;
 
 	@Inject
-	public ParameterGame(IPlatformService platform, IDataService dataService, IFileAccessor fileService) {
+	public ParameterGame(IPlatformService platform, IDataService dataService,
+			IFileAccessor fileService) {
 		this.platformService = platform;
 		this.dataService = dataService;
 		this.fileService = fileService;
@@ -37,7 +38,11 @@ public class ParameterGame extends Game {
 
 	@Override
 	public void create() {
-		Gdx.app.setLogLevel(Application.LOG_INFO);
+		if(DEBUG_ENABLED) {
+			Gdx.app.setLogLevel(Application.LOG_ERROR);
+		} else {
+			Gdx.app.setLogLevel(Application.LOG_INFO);
+		}
 
 		// Has to be created here since this is libgdx tied
 		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(),
@@ -47,7 +52,7 @@ public class ParameterGame extends Game {
 
 		// For testing it's easier to not have the menu pop up
 		// setScreen(new GameScreen(context));
-		
+
 		setScreen(new MenuScreen(context));
 	}
 
