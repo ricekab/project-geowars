@@ -15,15 +15,21 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class PlanetFactory {
 
-	public PlanetFactory() {
+	private PooledEngine engine;
+	private World world;
+	private AssetManager assets;
+
+	public PlanetFactory(PooledEngine engine, World world, AssetManager assets) {
+		this.engine = engine;
+		this.world = world;
+		this.assets = assets;
 	}
 
 	/**
-	 * Creates a planet entity using the given planet data. The entity and its components are
-	 * created from the supplied {@link PooledEngine}.
+	 * Creates a planet entity using the given planet data. The entity and its
+	 * components are created from the supplied {@link PooledEngine}.
 	 */
-	public Entity createPlanet(PooledEngine engine, World world, AssetManager assets,
-			PlanetData pdata) {
+	public Entity createPlanet(PlanetData pdata) {
 		Entity planet = engine.createEntity();
 
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
@@ -37,7 +43,8 @@ public class PlanetFactory {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.StaticBody;
-		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
+		// bodyDef.fixedRotation = true; --> Should be true for all/player
+		// ships?
 		bodyDef.position.set(pdata.getXCoord(), pdata.getYCoord());
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
@@ -45,8 +52,8 @@ public class PlanetFactory {
 		FixtureFactory fixtureFactory = new FixtureFactory();
 
 		// PLANET
-		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle",
-				pdata.getPlanetRadius() * 2, pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
+		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle", pdata.getPlanetRadius() * 2,
+				pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
 		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
 		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
 		rigidBody.createFixture(fixtureDef);
@@ -64,9 +71,12 @@ public class PlanetFactory {
 		planet.add(bodyComponent);
 
 		// TEXTURE/SPRITE
-		// SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
-		// TextureAtlas spritesheet = assets.get("sprites/geowars.pack", TextureAtlas.class);
-		// TextureRegion region = spritesheet.findRegion(pdata.getTextureString());
+		// SpriteComponent sprite =
+		// engine.createComponent(SpriteComponent.class);
+		// TextureAtlas spritesheet = assets.get("sprites/geowars.pack",
+		// TextureAtlas.class);
+		// TextureRegion region =
+		// spritesheet.findRegion(pdata.getTextureString());
 		// sprite.setRegion(region);
 		// planet.add(sprite);
 

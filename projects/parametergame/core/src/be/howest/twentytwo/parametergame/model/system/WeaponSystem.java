@@ -34,6 +34,8 @@ public class WeaponSystem extends IntervalIteratingSystem {
 			// some bullet sprite
 			// ...
 			// spawnMessage?
+			// spawn.add(new SpawnProjectileEvent(weaponID, startpos, ...)
+			wc.getPrimary().getID();
 		}
 		if(wc.isFireSecondary()){
 			

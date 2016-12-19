@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.Map;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.factory.InputFactory;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
+import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
 import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
@@ -36,6 +39,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -175,20 +179,10 @@ public class GameScreen extends BaseScreen {
 			engine.addEntity(brutalizerShip);
 		}
 
-		/*
-		 * events.add(new
-		 * GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(
-		 * ), ship.getComponent( BodyComponent.class).getBody()));
-		 */
-
-		// INPUT MAPPING 2
-		MovementComponent shipMC = MovementComponent.MAPPER.get(playerShip);
-
-		IFileAccessor files = getContext().getFileService();
-		IDataService dataService = getContext().getDataService();
-
-		Map<String, String> keyActionMap = files.loadSettings("Some_Location", dataService.getUser("SOMEUSER"))
-				.getKeyBinds(dataService.getUser("SOMEUSER"));
+		UserDataI user = getContext().getDataService().getUser("SOMEUSER");
+		SettingsDataI settings = getContext().getFileService().loadSettings("Some_Location", user);
+		settings.addPlayer(user);
+		Map<String, String> keyActionMap = settings.getKeyBinds(user);
 
 		Gdx.input.setInputProcessor(
 				new PlayerInputProcessor(new InputFactory().createPlayerKeymap(keyActionMap, playerShip)));
@@ -443,7 +437,9 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-
+//		Music m = Gdx.audio.newMusic(Gdx.files.internal("hsmain.mp3"));
+//		m.setVolume(0.2f);
+//		m.play();
 	}
 
 	@Override

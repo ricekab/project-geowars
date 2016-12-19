@@ -28,94 +28,27 @@ import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
 public class PlayerShipFactory {
 
-	private FixtureFactory fixtureFactory;
+	private ShipFactory shipFactory;
 
-	public PlayerShipFactory() {
-		this.fixtureFactory = new FixtureFactory();
+	private PooledEngine engine;
+	private World world;
+	private AssetManager assets;
+
+	public PlayerShipFactory(PooledEngine engine, World world, AssetManager assets, PlayerShipDataI playerShipData) {
+		this.shipFactory = new ShipFactory(engine, world, assets, playerShipData.getShipData());
+		this.engine = engine;
+		this.world = world;
+		this.assets = assets;
 	}
 
-	public Entity createPlayerShip(PooledEngine engine, World world, AssetManager assets, PlayerShipDataI ship,
-			Vector2 pos, Vector2 size) {
-		Entity player = engine.createEntity();
-
-		ShipDataI shipData = ship.getShipData();
-		PhysicsDataI physicsData = shipData.getPhysicsData();
-		Collection<FixtureDataI> fixturesData = physicsData.getFixtures();
-		List<WeaponDataI> weaponsData = shipData.getWeapons();
-
-		// TRANSFORM
-		TransformComponent transform = engine.createComponent(TransformComponent.class);
-		transform.setPos(pos);
-		transform.setWorldSize(size);
-		transform.setRotation(0f);
-		player.add(transform);
-
-		// MOVEMENT
-		MovementComponent movement = engine.createComponent(MovementComponent.class);
-		movement.setMaxLinearVelocity(shipData.getMaxLinearSpeed());
-		movement.setMaxAngularVelocity(shipData.getMaxAngularSpeed());
-		movement.setLinearAcceleration(shipData.getLinearAcceleration());
-		movement.setAngularAcceleration(shipData.getAngularAcceleration());
-		movement.setLinearDampStrength(1f);
-		player.add(movement);
-
-		// WEAPON
-		if (weaponsData.size() > 0) {
-			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
-			WeaponDataI primary = weaponsData.get(0);
-			weapon.setPrimary(primary);
-			weaponsData.remove(primary);
-			if (weaponsData.size() == 0) {
-				weaponsData.add(new WeaponData("NULL", 0f, 0f, 1f, 0, 0f, 0f, 0f, 0f, 0f, 0f, 0, new Vector2(0f, 0f)));
-			}
-			weapon.setSecondaryWeapons(weaponsData);
-			player.add(weapon);
-		}
-
-		// DRONE (TODO: DRONE COMPONENT)
-
-		// PHYSICS BODY
-		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
-
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		// bodyDef.fixedRotation = true; --> Should be true for all/player
-		// ships?
-		bodyDef.position.set(pos.x, pos.y);
-		Body rigidBody = world.createBody(bodyDef); // Put in world
-		rigidBody.setUserData(player);
-		bodyComponent.setBody(rigidBody);
-
-		rigidBody.setLinearDamping(shipData.getLinearDamping());
-		rigidBody.setAngularDamping(shipData.getAngularDamping());
-
-		FixtureDef fixtureDef;
-		for (FixtureDataI fd : fixturesData) {
-			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(), fd.getHeight(), fd.getOffsetX(),
-					fd.getOffsetY(), fd.getDensity(), fd.getFriction(), fd.getRestitution());
-			fixtureDef.filter.categoryBits = physicsData.getPhysicsCategory();
-			fixtureDef.filter.maskBits = physicsData.getPhysicsMask();
-			rigidBody.createFixture(fixtureDef);
-			fixtureDef.shape.dispose();
-		}
-		rigidBody.setUserData(player); // TODO: Entity as object data?
-		player.add(bodyComponent);
-
-		// TEXTURE/SPRITE
-		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
-
-		TextureAtlas spritesheet = assets.get("sprites/ships.pack", TextureAtlas.class);
-		TextureRegion region = spritesheet.findRegion(shipData.getName());
-		sprite.setRegion(region);
-
-		player.add(sprite);
-
+	public Entity createPlayerShip(Vector2 pos, Vector2 size) {
+		Entity player = shipFactory.createShip(pos, size, 0f);
+		// TODO: Drone addon
 		return player;
 	}
 
-	public Entity createPlayerShip(PooledEngine engine, World world, AssetManager assets, PlayerShipDataI ship,
-			float xPos, float yPos, float xSize, float ySize) {
-		return createPlayerShip(engine, world, assets, ship, new Vector2(xPos, yPos), new Vector2(xSize, ySize));
+	public Entity createPlayerShip(float xPos, float yPos, float xSize, float ySize) {
+		return createPlayerShip(new Vector2(xPos, yPos), new Vector2(xSize, ySize));
 	}
 
 }

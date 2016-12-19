@@ -68,7 +68,7 @@ public class LevelFactory {
 
 	public PooledEngine createWorld(ScreenContext context, Viewport viewport, EventQueue eventQueue, String levelName) {
 		LevelDataI levelData = context.getFileService().loadLevel(levelName);
-
+		IDataService dataService = context.getDataService();
 		AssetManager assets = context.getAssetManager();
 
 		// ENGINE
@@ -85,10 +85,6 @@ public class LevelFactory {
 		// TODO: Add other contact listeners here.
 
 		world.setContactListener(collisionListener);
-
-		// ENTITY FACTORIES
-		PlayerShipFactory playerFactory = new PlayerShipFactory();
-		PlanetFactory planetFactory = new PlanetFactory();
 
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
@@ -108,9 +104,6 @@ public class LevelFactory {
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
-		// ENTITY CREATION
-		IDataService dataService = context.getDataService();
-
 		Collection<ShipDataI> ships = dataService.getShips(dataService.getUser("TEST"));
 		if (ships.isEmpty()) {
 			Gdx.app.error("LevelFactory", "ERR: NO SHIPS FOR USER");
@@ -118,18 +111,21 @@ public class LevelFactory {
 		// TODO: Currently just selecting a random ship.
 		ShipDataI shipData = ships.iterator().next();
 		Gdx.app.debug("LevelF", String.format("Weapons # %d", shipData.getWeapons().size()));
-		PlayerShipDataI psData = new PlayerShipData(shipData);
+		PlayerShipDataI playerShipData = new PlayerShipData(shipData);
+
+		
+		// ENTITY CREATION
+		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets, playerShipData);
+		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
 
 		// TODO: SHIP WORLD SIZE from where?
-		Entity playerShip = playerFactory.createPlayerShip(engine, world, assets, psData, 8.0f, 8.0f, 5.0f, 5.0f);
+		Entity playerShip = playerFactory.createPlayerShip(8.0f, 8.0f, 5.0f, 5.0f);
 
 		engine.addEntity(playerShip);
 
-		engine.addEntity(planetFactory.createPlanet(engine, world, assets,
-				new PlanetData(60.0f, 80.0f, 4f, "planet01", 10f, 40f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet01", 10f, 40f)));
 
-		engine.addEntity(planetFactory.createPlanet(engine, world, assets,
-				new PlanetData(-15.0f, 30.0f, 2f, "planet02", 10f, 24f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet02", 10f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();
