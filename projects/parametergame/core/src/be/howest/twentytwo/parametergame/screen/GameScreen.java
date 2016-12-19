@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.screen;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.factory.InputFactory;
@@ -28,6 +29,8 @@ import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -50,7 +53,8 @@ public class GameScreen extends BaseScreen {
 	private World world;
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
-	private EventQueue eventQueue; // Have event queue out of engine for some ui events.
+	private EventQueue eventQueue; // Have event queue out of engine for some ui
+									// events.
 
 	public static Entity mainPlayer = null;
 
@@ -59,7 +63,8 @@ public class GameScreen extends BaseScreen {
 		this.engine = engine;
 		this.viewport = vp;
 		this.eventQueue = eventQueue;
-		// TODO: Don't need world? --> World should be part of the supplied engine.
+		// TODO: Don't need world? --> World should be part of the supplied
+		// engine.
 		// The constructor below is just for testing.
 	}
 
@@ -70,7 +75,8 @@ public class GameScreen extends BaseScreen {
 		this.eventQueue = new EventQueue();
 	}
 
-	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE
+	// ELSE //////
 
 	private void initWorld() {
 		engine = new PooledEngine(); // NOTE: engine.createEntity() to get the
@@ -90,11 +96,12 @@ public class GameScreen extends BaseScreen {
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 
-		viewport = new FitViewport(320f, 180f); // Viewport size (in world units)
+		viewport = new FitViewport(320f, 180f); // Viewport size (in world
+												// units)
 
 		/*
-		 * B) ScreenViewport = full size without stretching, but shown field is different based on
-		 * aspect ratio --> possible balance concern
+		 * B) ScreenViewport = full size without stretching, but shown field is
+		 * different based on aspect ratio --> possible balance concern
 		 */
 
 		// ScreenViewport sv = new ScreenViewport();
@@ -105,8 +112,8 @@ public class GameScreen extends BaseScreen {
 		viewport.getCamera().position.y = 50f;
 
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
-		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext()
-				.getSpriteBatch(), getContext().getAssetManager(), viewport);
+		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext().getSpriteBatch(),
+				getContext().getAssetManager(), viewport);
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
 		engine.addSystem(new AiSystem(events));
@@ -116,14 +123,14 @@ public class GameScreen extends BaseScreen {
 		// engine.addSystem(new AISystem());
 		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
 
-		engine.addEntityListener(Family.all(BodyComponent.class).get(),
-				new PhysicsBodyEntityListener(world));
+		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
 		// Asset loading here for now
 		Gdx.app.log("GameScreen", "Loading assets...");
 		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
 		getContext().getAssetManager().load("sprites/geowars.pack", TextureAtlas.class);
-		// getContext().getAssetManager().load("sprites/tiles.pack", TextureAtlas.class);
+		// getContext().getAssetManager().load("sprites/tiles.pack",
+		// TextureAtlas.class);
 		// This is done in BackgroundRenderSystem
 		getContext().getAssetManager().finishLoading();
 		Gdx.app.log("GameScreen", "Asset loading finished!");
@@ -155,31 +162,36 @@ public class GameScreen extends BaseScreen {
 		int numberOfSuiciderEnemies = 4;
 		for (int x = 0; x < numberOfSuiciderEnemies; x++) {
 			Entity aiShip = createAIShip((x - numberOfSuiciderEnemies / 2) * 20, 2, "suicider");
-			AISuiciderComponent suiciderComponent = engine
-					.createComponent(AISuiciderComponent.class);
+			AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
 			aiShip.add(suiciderComponent);
 			engine.addEntity(aiShip);
 		}
 
 		int numberOfBrutalizerEnemies = 4;
 		for (int x = 0; x < numberOfBrutalizerEnemies; x++) {
-			Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies / 2) * 20, -100,
-					"brutalizer");
-			AIBrutalizerComponent brutalizerComponent = engine
-					.createComponent(AIBrutalizerComponent.class);
+			Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies / 2) * 20, -100, "brutalizer");
+			AIBrutalizerComponent brutalizerComponent = engine.createComponent(AIBrutalizerComponent.class);
 			brutalizerShip.add(brutalizerComponent);
 			engine.addEntity(brutalizerShip);
 		}
 
 		/*
-		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
-		 * ship.getComponent( BodyComponent.class).getBody()));
+		 * events.add(new
+		 * GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(
+		 * ), ship.getComponent( BodyComponent.class).getBody()));
 		 */
 
 		// INPUT MAPPING 2
 		MovementComponent shipMC = MovementComponent.MAPPER.get(playerShip);
-		Gdx.input.setInputProcessor(new PlayerInputProcessor(new InputFactory().createPlayerKeymap(
-				getContext().getFileService().loadKeymap("STR"), playerShip)));
+
+		IFileAccessor files = getContext().getFileService();
+		IDataService dataService = getContext().getDataService();
+	
+		Map<String, String> keyActionMap = files.loadSettings("Some_Location")
+				.getKeyBinds(dataService.getUser("SOMEUSER"));
+		
+		Gdx.input.setInputProcessor(
+				new PlayerInputProcessor(new InputFactory().createPlayerKeymap(keyActionMap, playerShip)));
 
 	}
 
@@ -198,13 +210,14 @@ public class GameScreen extends BaseScreen {
 		moveComponent.setLinearAcceleration(100f);
 		moveComponent.setAngularAcceleration(50f);
 		moveComponent.setLinearDampStrength(1f);
-		
+
 		ship.add(moveComponent);
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
+		// bodyDef.fixedRotation = true; --> Should be true for all/player
+		// ships?
 
 		bodyDef.position.set(10f, 10f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
@@ -237,12 +250,13 @@ public class GameScreen extends BaseScreen {
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
-		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
-		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+		// Texture texture = getContext().getAssetManager().get("mrArrow.png",
+		// Texture.class);
+		// TextureRegion region = new TextureRegion(texture); // Load the full
+		// texture (it's not a
 		// sheet)
 
-		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack",
-				TextureAtlas.class);
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack", TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion("recon");
 
 		sprite.setRegion(region);
@@ -371,7 +385,8 @@ public class GameScreen extends BaseScreen {
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
+		// bodyDef.fixedRotation = true; --> Should be true for all/player
+		// ships?
 
 		bodyDef.position.set(posx, posy);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
@@ -409,12 +424,13 @@ public class GameScreen extends BaseScreen {
 		getContext().getAssetManager().load("sprites/AI.pack", TextureAtlas.class);
 		getContext().getAssetManager().finishLoading();
 
-		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
-		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+		// Texture texture = getContext().getAssetManager().get("mrArrow.png",
+		// Texture.class);
+		// TextureRegion region = new TextureRegion(texture); // Load the full
+		// texture (it's not a
 		// sheet)
 
-		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/AI.pack",
-				TextureAtlas.class);
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/AI.pack", TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(textureRegion);
 
 		sprite.setRegion(region);
@@ -422,7 +438,8 @@ public class GameScreen extends BaseScreen {
 		return ship;
 	}
 
-	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
+	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY
+	// //////
 
 	@Override
 	public void show() {

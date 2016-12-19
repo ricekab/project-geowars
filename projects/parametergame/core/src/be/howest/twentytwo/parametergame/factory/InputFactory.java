@@ -25,11 +25,10 @@ import com.badlogic.gdx.Input.Keys;
 public class InputFactory {
 
 	/**
-	 * Generate a mapping of {@link Keys} to {@link InputAction} for a specific player from a string
-	 * map.
+	 * Generate a mapping of {@link Keys} to {@link InputAction} for a specific
+	 * player from a string map.
 	 */
-	public Map<Integer, InputAction> createPlayerKeymap(Map<String, String> keyStringMap,
-			Entity playerEntity) {
+	public Map<Integer, InputAction> createPlayerKeymap(Map<String, String> keyStringMap, Entity playerEntity) {
 		Map<Integer, InputAction> keyMap = new HashMap<Integer, InputAction>();
 		for (String key : keyStringMap.keySet()) {
 			keyMap.put(Keys.valueOf(key), createActionFor(keyStringMap.get(key), playerEntity));
@@ -39,40 +38,34 @@ public class InputFactory {
 
 	protected InputAction createActionFor(String actionString, Entity player) {
 		InputAction input;
-		/*
-		 * map.put(Keys.Z, new AccelerateForwardAction(playerMC)); map.put(Keys.S, new
-		 * AccelerateBackwardAction(playerMC)); map.put(Keys.Q, new TurnLeftAction(playerMC));
-		 * map.put(Keys.D, new TurnRightAction(playerMC));
-		 */
 		switch (actionString) {
-			case Inputs.ACCELERATE_FORWARD:
-				input = new AccelerateForwardAction(MovementComponent.MAPPER.get(player));
-				break;
-			case Inputs.ACCELERATE_BACKWARD:
-				input = new AccelerateBackwardAction(MovementComponent.MAPPER.get(player));
-				break;
-			case Inputs.TURN_LEFT:
-				input = new TurnLeftAction(MovementComponent.MAPPER.get(player));
-				break;
-			case Inputs.TURN_RIGHT:
-				input = new TurnRightAction(MovementComponent.MAPPER.get(player));
-				break;
-			case Inputs.TOGGLE_LINEAR_DAMP:
-				input = new DampenToggleAction(BodyComponent.MAPPER.get(player),
-						MovementComponent.MAPPER.get(player));
-				break;
-			case Inputs.FIRE_PRIMARY:
-				input = new FirePrimaryAction(WeaponComponent.MAPPER.get(player));
-				break;
-			case Inputs.FIRE_SECONDARY:
-				input = new FireSecondaryAction(WeaponComponent.MAPPER.get(player));
-				break;
-			case Inputs.CYClE_SECONDARY:
-				input = new CycleSecondaryAction(WeaponComponent.MAPPER.get(player));
-				break;
-			default:
-				Gdx.app.error("InputFactory", "ERR: Could not recognize input action string.");
-				input = new NullInputAction();
+		case Inputs.ACCELERATE_FORWARD:
+			input = new AccelerateForwardAction(MovementComponent.MAPPER.get(player));
+			break;
+		case Inputs.ACCELERATE_BACKWARD:
+			input = new AccelerateBackwardAction(MovementComponent.MAPPER.get(player));
+			break;
+		case Inputs.TURN_LEFT:
+			input = new TurnLeftAction(MovementComponent.MAPPER.get(player));
+			break;
+		case Inputs.TURN_RIGHT:
+			input = new TurnRightAction(MovementComponent.MAPPER.get(player));
+			break;
+		case Inputs.TOGGLE_LINEAR_DAMP:
+			input = new DampenToggleAction(BodyComponent.MAPPER.get(player), MovementComponent.MAPPER.get(player));
+			break;
+		case Inputs.FIRE_PRIMARY:
+			input = new FirePrimaryAction(WeaponComponent.MAPPER.get(player));
+			break;
+		case Inputs.FIRE_SECONDARY:
+			input = new FireSecondaryAction(WeaponComponent.MAPPER.get(player));
+			break;
+		case Inputs.CYClE_SECONDARY:
+			input = new CycleSecondaryAction(WeaponComponent.MAPPER.get(player));
+			break;
+		default:
+			Gdx.app.error("InputFactory", "ERR: Could not recognize input action string.");
+			input = new NullInputAction();
 		}
 		return input;
 	}

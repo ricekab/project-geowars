@@ -2,6 +2,8 @@ package be.howest.twentytwo.parametergame.model.component;
 
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
+import java.util.List;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -15,7 +17,7 @@ public class WeaponComponent implements Component, Poolable {
 	private boolean fireSecondary;
 
 	private WeaponDataI primaryWeapon;
-	private WeaponDataI secondaryWeapons[];
+	private List<WeaponDataI> secondaryWeapons;
 	private int activeSecondaryWeapon;
 
 	public WeaponDataI getPrimary() {
@@ -26,21 +28,21 @@ public class WeaponComponent implements Component, Poolable {
 		this.primaryWeapon = primaryWeapon;
 	}
 
-	private WeaponDataI[] getSecondaryWeapons() {
+	private List<WeaponDataI> getSecondaryWeapons() {
 		return secondaryWeapons;
 	}
 
-	public void setSecondaryWeapons(WeaponDataI[] secondaryWeapons) {
+	public void setSecondaryWeapons(List<WeaponDataI> secondaryWeapons) {
 		this.secondaryWeapons = secondaryWeapons;
 		this.activeSecondaryWeapon = 0;
 	}
 
 	public WeaponDataI getActiveSecondaryWeapon() {
-		return getSecondaryWeapons()[activeSecondaryWeapon];
+		return getSecondaryWeapons().get(activeSecondaryWeapon);
 	}
 
 	public void cycleSecondaryWeapon() {
-		activeSecondaryWeapon = (activeSecondaryWeapon + 1) % getSecondaryWeapons().length;
+		activeSecondaryWeapon = (activeSecondaryWeapon + 1) % getSecondaryWeapons().size();
 	}
 
 	public boolean isFirePrimary() {

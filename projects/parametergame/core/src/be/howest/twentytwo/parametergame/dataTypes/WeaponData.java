@@ -2,8 +2,8 @@ package be.howest.twentytwo.parametergame.dataTypes;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class WeaponData implements WeaponDataI{
-	
+public class WeaponData implements WeaponDataI {
+
 	private String id;
 	private float offsetX;
 	private float offsetY;
@@ -17,8 +17,10 @@ public class WeaponData implements WeaponDataI{
 	private float turnSpeed;
 	private int ammoCount;
 	private Vector2 bulletSize;
-	
-	public WeaponData(String id, float offsetX, float offsetY, float fireRate, int bulletsPerShot, float shotConeAngle, float damage, float bulletSpeed, float range, float timeDelay, float turnSpeed, int ammoCount, Vector2 bulletSize) {
+
+	public WeaponData(String id, float offsetX, float offsetY, float fireRate, int bulletsPerShot, float shotConeAngle,
+			float damage, float bulletSpeed, float range, float timeDelay, float turnSpeed, int ammoCount,
+			Vector2 bulletSize) {
 		this.id = id;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
@@ -33,8 +35,8 @@ public class WeaponData implements WeaponDataI{
 		this.ammoCount = ammoCount;
 		this.bulletSize = bulletSize;
 	}
-	
-	//	GETTERS
+
+	// GETTERS
 
 	public String getID() {
 		return id;
@@ -75,7 +77,7 @@ public class WeaponData implements WeaponDataI{
 	public float getTimeDelay() {
 		return timeDelay;
 	}
-	
+
 	public float getTurnSpeed() {
 		return turnSpeed;
 	}

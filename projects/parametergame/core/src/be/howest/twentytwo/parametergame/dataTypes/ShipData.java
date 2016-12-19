@@ -25,7 +25,7 @@ public class ShipData implements ShipDataI{
 		this.angularAcceleration = angularAcceleration;
 		this.linearDamping = linearDamping;
 		this.angularDamping = angularDamping;
-		weapons = new ArrayList<>();
+		this.weapons = weapons;
 		this.physicsData = physicsData;
 	}
 	
@@ -63,7 +63,7 @@ public class ShipData implements ShipDataI{
 		return angularDamping;
 	}
 
-	public Collection<WeaponDataI> getWeapons() {
+	public List<WeaponDataI> getWeapons() {
 		return weapons;
 	}
 

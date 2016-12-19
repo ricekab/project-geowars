@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.factory;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -17,6 +18,7 @@ import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
@@ -39,7 +41,7 @@ public class PlayerShipFactory {
 		ShipDataI shipData = ship.getShipData();
 		PhysicsDataI physicsData = shipData.getPhysicsData();
 		Collection<FixtureDataI> fixturesData = physicsData.getFixtures();
-		Collection<WeaponDataI> weaponsData = shipData.getWeapons();
+		List<WeaponDataI> weaponsData = shipData.getWeapons();
 
 		// TRANSFORM
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
@@ -60,13 +62,13 @@ public class PlayerShipFactory {
 		// WEAPON
 		if (weaponsData.size() > 0) {
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
-			WeaponDataI primary = weaponsData.iterator().next();
+			WeaponDataI primary = weaponsData.get(0);
 			weapon.setPrimary(primary);
 			weaponsData.remove(primary);
-			if(weaponsData.size() > 0){
-				// TODO: Add null weapon
+			if (weaponsData.size() == 0) {
+				weaponsData.add(new WeaponData("NULL", 0f, 0f, 1f, 0, 0f, 0f, 0f, 0f, 0f, 0f, 0, new Vector2(0f, 0f)));
 			}
-			weapon.setSecondaryWeapons((WeaponDataI[]) weaponsData.toArray());
+			weapon.setSecondaryWeapons(weaponsData);
 			player.add(weapon);
 		}
 
