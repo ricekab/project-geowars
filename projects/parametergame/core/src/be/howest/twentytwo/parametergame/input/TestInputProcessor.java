@@ -2,15 +2,15 @@ package be.howest.twentytwo.parametergame.input;
 
 import java.util.Map;
 
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.gdx.InputProcessor;
 
 public class TestInputProcessor implements InputProcessor {
 	
-	private Map<Integer, IPhysicsEvent> keyMap;
+	private Map<Integer, IPhysicsMessage> keyMap;
 
-	public TestInputProcessor(Map<Integer, IPhysicsEvent> keyMap) {
+	public TestInputProcessor(Map<Integer, IPhysicsMessage> keyMap) {
 		this.keyMap = keyMap;
 	}
 

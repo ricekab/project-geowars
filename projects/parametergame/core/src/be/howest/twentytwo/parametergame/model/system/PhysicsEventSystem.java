@@ -3,24 +3,29 @@ package be.howest.twentytwo.parametergame.model.system;
 import java.util.Collection;
 import java.util.Iterator;
 
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 
+@Deprecated
+/**
+ * Currently not in use. Was originally made to split out some of the physics system but ended up not using it.
+ */
 public class PhysicsEventSystem extends IntervalSystem {
 	
-	private Collection<IPhysicsEvent> eventCollection; // TODO: Collection requirements? Might need
-														// change.
+	public static final int PRIORITY = 1;
+	
+	private Collection<IPhysicsMessage> physicsMessages;
 
-	public PhysicsEventSystem(float interval, int priority) {
-		super(interval, priority);
-		// TODO Auto-generated constructor stub
+	public PhysicsEventSystem(float interval) {
+		super(interval, PRIORITY);
+
 	}
 
 	@Override
 	protected void updateInterval() {
-		Iterator<IPhysicsEvent> it = eventCollection.iterator();
-		IPhysicsEvent evt;
+		Iterator<IPhysicsMessage> it = physicsMessages.iterator();
+		IPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
 			if(!evt.isConsumed()) {

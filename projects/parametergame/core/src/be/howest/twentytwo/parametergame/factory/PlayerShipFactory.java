@@ -7,7 +7,6 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
@@ -15,7 +14,6 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -55,10 +53,8 @@ public class PlayerShipFactory {
 		movement.setMaxAngularVelocity(shipData.getMaxAngularSpeed());
 		movement.setLinearAcceleration(shipData.getLinearAcceleration());
 		movement.setAngularAcceleration(shipData.getAngularAcceleration());
+		movement.setLinearDampStrength(1f);
 		player.add(movement);
-
-		// TODO: Input here? This may need to be refactored out.
-		Gdx.input.setInputProcessor(new PlayerInputProcessor(movement));
 
 		// PHYSICS BODY
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
@@ -83,6 +79,7 @@ public class PlayerShipFactory {
 			rigidBody.createFixture(fixtureDef);
 			fixtureDef.shape.dispose();
 		}
+		rigidBody.setUserData(player);	// TODO: Entity as object data?
 		player.add(bodyComponent);
 
 		// TEXTURE/SPRITE

@@ -3,15 +3,17 @@ package be.howest.twentytwo.parametergame.service.file;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Map;
 import java.util.Scanner;
+
+import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
-import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
-import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
-import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	
@@ -28,7 +30,7 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		return levelData;
 	}
 	
-	private String readFile(String location) {
+	public String readFile(String location) {
 		String jsonData = "";
 		//location = validatedLocation(location);
 		Scanner s = new Scanner(location);
@@ -82,6 +84,18 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	
 	public void saveSettings(SettingsDataI settings, String location) {
 		//TODO
+	}
+
+	@Override
+	public Map<String, String> loadKeymap(String location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveKeymap(Map<String, String> keymap, String location) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

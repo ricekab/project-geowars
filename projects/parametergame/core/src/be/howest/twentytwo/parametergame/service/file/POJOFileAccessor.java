@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Map;
 
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 
@@ -33,6 +33,7 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			data = (LevelDataI) ois.readObject();
+			ois.close();
 		} catch (FileNotFoundException fe) {
 			System.out.println("Could not locate file, please check the location & extention");
 			fe.printStackTrace();
@@ -89,6 +90,18 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Map<String, String> loadKeymap(String location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveKeymap(Map<String, String> keymap, String location) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

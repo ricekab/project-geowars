@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 
@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 /**
  * Physics Event describing a body being attracted towards another body.
  */
-public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
+public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 	// TODO: This might be overkill? Real life value is quite small and will be
 	// inaccurate as a float.
@@ -20,7 +20,7 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 	private Body targetBody;
 	// private IAttractable attractable;
 
-	public GravityPhysicsEvent(Body source, Body target/* , IAttractable attr */) {
+	public GravityPhysicsMessage(Body source, Body target/* , IAttractable attr */) {
 		super();
 		this.sourceBody = source;
 		this.targetBody = target;
@@ -37,8 +37,8 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 		gravityVector.scl(1000f); // Simulate planet mass
 		// Fg = m(planet) * G(constant) / (r*r)
 
-		Gdx.app.log("GravityPhysxEvt", gravityVector.toString());
-		Gdx.app.log("GravityPhysxEvt", "Scaled: " + new Vector2(gravityVector).scl(PhysicsSystem.PHYSICS_TIMESTEP).toString());
+		Gdx.app.debug("GravityPhysxEvt", gravityVector.toString());
+		Gdx.app.debug("GravityPhysxEvt", "Scaled: " + new Vector2(gravityVector).scl(PhysicsSystem.PHYSICS_TIMESTEP).toString());
 		targetBody.applyForceToCenter(gravityVector, true);
 	}
 
@@ -58,8 +58,8 @@ public class GravityPhysicsEvent extends RepeatingPhysicsEvent {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof GravityPhysicsEvent) {
-			GravityPhysicsEvent other = (GravityPhysicsEvent) obj;
+		if (obj != null && obj instanceof GravityPhysicsMessage) {
+			GravityPhysicsMessage other = (GravityPhysicsMessage) obj;
 			if (getSourceBody().equals(other.getSourceBody()) && getTargetBody().equals(other.getTargetBody())) {
 				return true;
 			}

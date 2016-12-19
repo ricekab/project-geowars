@@ -1,5 +1,10 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
+import java.util.Collection;
+
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
+
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -11,14 +16,18 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public abstract class ContactProcessor implements ContactListener {
 
 	private ContactListener next;
-	// TODO: Event Queue? Do we need other data structures here?
+	
+	private final EventQueue eventQueue;
+	private final Collection<IPhysicsMessage> messageQueue;
 
-	public ContactProcessor(ContactListener next) {
+	public ContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
 		setNextProcessor(next);
+		this.eventQueue = eventQueue;
+		this.messageQueue = events;
 	}
 
-	public ContactProcessor() {
-		this(new NullContactProcessor());
+	public ContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+		this(new NullContactProcessor(), eventQueue, events);
 	}
 
 	/**
@@ -119,4 +128,12 @@ public abstract class ContactProcessor implements ContactListener {
 	 * successfully, false otherwise.
 	 */
 	protected abstract boolean handlePostSolve(Contact contact, ContactImpulse impulse);
+	
+	protected Collection<IPhysicsMessage> getPhysicsQueue(){
+		return this.messageQueue;
+	}
+	
+	protected EventQueue getEventQueue(){
+		return this.eventQueue;
+	}
 }

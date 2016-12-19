@@ -1,9 +1,9 @@
-package be.howest.twentytwo.parametergame.model.physics.events;
+package be.howest.twentytwo.parametergame.model.physics.message;
 
 /**
  * Describes an event between 1 or more bodies in the physics world.
  */
-public interface IPhysicsEvent {
+public interface IPhysicsMessage {
 
 	/**
 	 * Perform the event described event. Typically this means applying a force on a body based on some parameters

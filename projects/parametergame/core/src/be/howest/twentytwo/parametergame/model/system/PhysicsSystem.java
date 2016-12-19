@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -28,9 +28,9 @@ public class PhysicsSystem extends IteratingSystem {
 	private World world;
 	/** Time elapsed since last update */
 	private float elapsed;
-	private Collection<IPhysicsEvent> eventCollection;
+	private Collection<IPhysicsMessage> eventCollection;
 
-	public PhysicsSystem(World world, Collection<IPhysicsEvent> events) {
+	public PhysicsSystem(World world, Collection<IPhysicsMessage> events) {
 		super(Family.all(TransformComponent.class, BodyComponent.class).get(), PRIORITY);
 		this.world = world;
 		this.elapsed = 0f;
@@ -38,15 +38,14 @@ public class PhysicsSystem extends IteratingSystem {
 	}
 
 	public PhysicsSystem(World world) {
-		this(world, new ArrayList<IPhysicsEvent>());
+		this(world, new ArrayList<IPhysicsMessage>());
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		elapsed += deltaTime;
-		if (elapsed >= PHYSICS_TIMESTEP) { // World timestep
-			processEvents(); // Process physics events (Collisions and input
-								// events)
+		if(elapsed >= PHYSICS_TIMESTEP) { // World timestep
+			processEvents(); // Process physics events (Collisions and inputevents)
 			world.step(PHYSICS_TIMESTEP, 6, 3); // Advance simulation
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime); // processEntity below
@@ -54,14 +53,14 @@ public class PhysicsSystem extends IteratingSystem {
 	}
 
 	private void processEvents() {
-		Iterator<IPhysicsEvent> it = eventCollection.iterator();
-		IPhysicsEvent evt;
+		Iterator<IPhysicsMessage> it = eventCollection.iterator();
+		IPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
-			if (!evt.isConsumed()) {
+			if(!evt.isConsumed()) {
 				evt.execute();
 				// Could remove this check -- Would be removed on the next pass.
-				if (evt.isConsumed()) {
+				if(evt.isConsumed()) {
 					it.remove();
 				}
 			} else {

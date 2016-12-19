@@ -1,6 +1,5 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.util.Map;
 
 public interface SettingsDataI {
 	

@@ -1,5 +1,8 @@
 package be.howest.twentytwo.parametergame.service.file;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import be.howest.twentytwo.parametergame.dataTypes.BoxData;
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ClusterData;
@@ -12,6 +15,9 @@ import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolData;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
+import be.howest.twentytwo.parametergame.input.Inputs;
+
+import com.badlogic.gdx.Input.Keys;
 
 public class InMemoryFileAccessor implements IFileAccessor{
 
@@ -52,6 +58,25 @@ public class InMemoryFileAccessor implements IFileAccessor{
 	
 	public void saveSettings(SettingsDataI settings, String saveLoction) {
 		//Nothing actually happens
+	}
+
+	@Override
+	public Map<String, String> loadKeymap(String location) {
+		Map<String, String> keyMap = new HashMap<String, String>();
+		keyMap.put(Keys.toString(Keys.Z), Inputs.ACCELERATE_FORWARD);
+		keyMap.put(Keys.toString(Keys.S), Inputs.ACCELERATE_BACKWARD);
+		keyMap.put(Keys.toString(Keys.Q), Inputs.TURN_LEFT);
+		keyMap.put(Keys.toString(Keys.D), Inputs.TURN_RIGHT);
+		keyMap.put(Keys.toString(Keys.X), Inputs.TOGGLE_LINEAR_DAMP);
+		keyMap.put(Keys.toString(Keys.SPACE), Inputs.FIRE_PRIMARY);
+		keyMap.put(Keys.toString(Keys.E), Inputs.FIRE_SECONDARY);
+		keyMap.put(Keys.toString(Keys.A), Inputs.CYClE_SECONDARY);
+		return keyMap;
+	}
+
+	@Override
+	public void saveKeymap(Map<String, String> keymap, String location) {
+		// Nothin'
 	}
 	
 }
