@@ -32,7 +32,6 @@ public class RenderSystem extends IteratingSystem {
 
 	@Override
 	public void update(float deltaTime) {
-
 		batch.setProjectionMatrix(getCamera().combined);
 		batch.begin();
 		super.update(deltaTime);

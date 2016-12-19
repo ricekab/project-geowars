@@ -28,7 +28,7 @@ import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
@@ -103,7 +103,7 @@ public class LevelFactory {
 		// engine.addSystem(new AISystem());
 		// Sound, Animation, ...
 		if (ParameterGame.DEBUG_ENABLED) {
-			engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context.getShapeRenderer()));
 		}
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));

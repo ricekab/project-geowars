@@ -26,7 +26,7 @@ import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
@@ -121,7 +121,7 @@ public class GameScreen extends BaseScreen {
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
 		// engine.addSystem(new AISystem());
-		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+		engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), getContext().getShapeRenderer()));
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
