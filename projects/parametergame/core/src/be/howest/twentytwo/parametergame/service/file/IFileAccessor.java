@@ -16,7 +16,7 @@ public interface IFileAccessor {
 	public LevelDataI loadLevel(String location);
 	public void saveLevel(LevelDataI data, String location);
 	
-	public SettingsDataI loadSettings(String location, UserData user);
+	public SettingsDataI loadSettings(String location, UserDataI user);
 	public void saveSettings(SettingsDataI data, String location);
 
 }

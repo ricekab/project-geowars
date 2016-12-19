@@ -67,7 +67,7 @@ public class SettingsData implements SettingsDataI, Serializable{
 		return dampingLevel;
 	}
 
-	public Map<String, String> getKeyBinds(UserData user) {
+	public Map<String, String> getKeyBinds(UserDataI user) {
 		return userKeys.get(user);
 	}
 

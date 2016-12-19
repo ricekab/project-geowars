@@ -10,7 +10,7 @@ public interface SettingsDataI {
 	public float getVolumeLevel();
 	public boolean getDamping();
 	public float getDampingLevel();
-	public Map<String, String> getKeyBinds(UserData user);
+	public Map<String, String> getKeyBinds(UserDataI userDataI);
 	
 	//	SETTERS	
 	

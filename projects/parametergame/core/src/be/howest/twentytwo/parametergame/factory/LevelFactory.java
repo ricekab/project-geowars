@@ -109,7 +109,7 @@ public class LevelFactory {
 		// ENTITY CREATION
 		IDataService dataService = context.getDataService();
 
-		Collection<ShipData> ships = dataService.getShips(dataService.getUser("TEST"));
+		Collection<ShipDataI> ships = dataService.getShips(dataService.getUser("TEST"));
 		if (ships.isEmpty()) {
 			Gdx.app.error("LevelFactory", "ERR: NO SHIPS FOR USER");
 		}
@@ -144,7 +144,7 @@ public class LevelFactory {
 
 		InputFactory inputFactory = new InputFactory();
 
-		Map<String, String> keyActionMap = context.getFileService().loadSettings("Some_Location")
+		Map<String, String> keyActionMap = context.getFileService().loadSettings("Some_Location", context.getDataService().getUser("SOMEUSER"))
 				.getKeyBinds(context.getDataService().getUser("SOMEUSER"));
 
 		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap, playerShip);
