@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
@@ -97,7 +98,9 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		// engine.addSystem(new AISystem());
 		// Sound, Animation, ...
-		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+		if(ParameterGame.DEBUG_ENABLED){
+			engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+		}
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(),
 				new PhysicsBodyEntityListener(world));

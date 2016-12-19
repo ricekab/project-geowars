@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
+import com.badlogic.gdx.math.Vector2;
+
 public interface WeaponDataI {
 	
 	public String getID();	// = Name
@@ -10,7 +12,9 @@ public interface WeaponDataI {
 	public float getFireRate();
 	public int getBulletsPerShot();
 	public float getShotConeAngle();
+	public int getAmmoCount();
 	
+	public Vector2 getBulletSize();	// TODO: Missing in information modelling
 	public float getBulletDamage();	// Per bullet
 	public float getBulletSpeed();	// Bullet speed
 	public float getRange();	// Bullet fizzle range
