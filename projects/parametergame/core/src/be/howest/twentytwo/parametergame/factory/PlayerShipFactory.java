@@ -26,6 +26,7 @@ import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
+import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 
 public class PlayerShipFactory implements Disposable {
 
@@ -43,7 +44,8 @@ public class PlayerShipFactory implements Disposable {
 	}
 
 	public Entity createPlayerShip(Vector2 pos, Vector2 size) {
-		Entity player = shipFactory.createShip(pos, size, 0f);
+		Entity player = shipFactory.createShip(pos, size, 0f, Constants.BULLET_PLAYER_CATEGORY,
+				Constants.BULLET_PLAYER_MASK);
 		// TODO: Drone addon
 		return player;
 	}

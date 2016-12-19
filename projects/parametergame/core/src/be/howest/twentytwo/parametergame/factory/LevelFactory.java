@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.factory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
@@ -14,6 +15,8 @@ import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
@@ -24,6 +27,7 @@ import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcesso
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
+import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
@@ -31,6 +35,7 @@ import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+import be.howest.twentytwo.parametergame.model.system.SpawnSystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 
@@ -76,6 +81,7 @@ public class LevelFactory {
 
 		// MESSAGING OBJECTS
 		Collection<IPhysicsMessage> physicsMessageQueue = new ArrayList<IPhysicsMessage>();
+		Collection<ISpawnMessage> spawnMessageQueue = new ArrayList<ISpawnMessage>();
 
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
@@ -89,10 +95,12 @@ public class LevelFactory {
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport);
+		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
-		engine.addSystem(new WeaponSystem(physicsMessageQueue));
+		engine.addSystem(new WeaponSystem(spawnMessageQueue));
 		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(new AiSystem(physicsMessageQueue));
+		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
@@ -104,17 +112,21 @@ public class LevelFactory {
 
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
+		
+		// ENTITY CREATION
+		Collection<WeaponDataI> allWeapons = new ArrayList<WeaponDataI>();
+		
 		Collection<ShipDataI> ships = dataService.getShips(dataService.getUser("TEST"));
 		if (ships.isEmpty()) {
 			Gdx.app.error("LevelFactory", "ERR: NO SHIPS FOR USER");
 		}
 		// TODO: Currently just selecting a random ship.
 		ShipDataI shipData = ships.iterator().next();
-		Gdx.app.debug("LevelF", String.format("Weapons # %d", shipData.getWeapons().size()));
 		PlayerShipDataI playerShipData = new PlayerShipData(shipData);
 
-		
-		// ENTITY CREATION
+		// TODO: This is getting messy, needed for spawn system.
+		allWeapons.addAll(shipData.getWeapons());
+
 		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets, playerShipData);
 		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
 
@@ -138,6 +150,13 @@ public class LevelFactory {
 
 		engine.addEntity(cameraEntity);
 
+		// Create projectile factories for spawner
+		for(WeaponDataI w : allWeapons){
+			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, w));
+		}
+		
+		// TODO: Create ship factories (of ai) for spawner
+		
 		// INPUT
 		InputFactory inputFactory = new InputFactory();
 

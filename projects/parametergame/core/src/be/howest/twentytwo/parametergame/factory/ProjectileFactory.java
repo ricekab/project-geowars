@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 
 import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
@@ -27,9 +28,9 @@ import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
-public class ProjectileFactory {
+public class ProjectileFactory implements ISpawnFactory, Disposable {
 	private static final String PROJECTILE_SPRITE_PACK = "sprites/ships.pack";
-	
+
 	private final PooledEngine engine;
 	private final World world;
 	private final AssetManager assets;
@@ -70,18 +71,20 @@ public class ProjectileFactory {
 	}
 
 	/** Returns the name of the weapons this creates projectiles for. */
+	@Override
 	public String getType() {
 		return weaponData.getID();
 	}
 
-	public Entity createProjectile(Vector2 pos, Vector2 size, float rotation, Vector2 initialVelocity,
-			short physicsCategory, short physicsMask) {
+	@Override
+	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
+			short physicsMask) {
 		Entity projectile = engine.createEntity();
 
 		// TRANSFORM
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(pos);
-		transform.setWorldSize(size);
+		transform.setWorldSize(weaponData.getBulletSize());
 		transform.setRotation(rotation);
 		projectile.add(transform);
 
@@ -96,7 +99,7 @@ public class ProjectileFactory {
 
 		fixtureDef.filter.categoryBits = physicsCategory;
 		fixtureDef.filter.maskBits = physicsMask;
-		
+
 		rigidBody.createFixture(fixtureDef);
 
 		rigidBody.setUserData(projectile);
@@ -109,4 +112,13 @@ public class ProjectileFactory {
 		return projectile;
 	}
 
+	@Override
+	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
+		return createEntity(pos, rotation, initialVelocity, fixtureDef.filter.categoryBits, fixtureDef.filter.maskBits);
+	}
+
+	@Override
+	public void dispose() {
+		fixtureDef.shape.dispose();
+	}
 }

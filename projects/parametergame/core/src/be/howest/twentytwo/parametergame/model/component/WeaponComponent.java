@@ -19,6 +19,9 @@ public class WeaponComponent implements Component, Poolable {
 	private WeaponDataI primaryWeapon;
 	private List<WeaponDataI> secondaryWeapons;
 	private int activeSecondaryWeapon;
+	
+	private short physicsCategory;
+	private short physicsMask;
 
 	public WeaponDataI getPrimary() {
 		return primaryWeapon;
@@ -59,6 +62,22 @@ public class WeaponComponent implements Component, Poolable {
 
 	public void setFireSecondary(boolean fireSecondary) {
 		this.fireSecondary = fireSecondary;
+	}
+
+	public short getPhysicsCategory() {
+		return physicsCategory;
+	}
+
+	public void setPhysicsCategory(short physicsCategory) {
+		this.physicsCategory = physicsCategory;
+	}
+
+	public short getPhysicsMask() {
+		return physicsMask;
+	}
+
+	public void setPhysicsMask(short physicsMask) {
+		this.physicsMask = physicsMask;
 	}
 
 	@Override

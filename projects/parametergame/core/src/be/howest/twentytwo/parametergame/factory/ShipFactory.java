@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,7 +28,7 @@ import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
-public class ShipFactory implements Disposable {
+public class ShipFactory implements ISpawnFactory, Disposable {
 	private static final String SHIP_SPRITE_PACK = "sprites/ships.pack";
 
 	private final PooledEngine engine;
@@ -78,7 +79,7 @@ public class ShipFactory implements Disposable {
 		spriteComponent.setRegion(region);
 	}
 
-	public Entity createShip(Vector2 pos, Vector2 size, float rotation) {
+	public Entity createShip(Vector2 pos, Vector2 size, float rotation, short bulletCategory, short bulletMask) {
 		Entity ship = engine.createEntity();
 
 		// TRANSFORM
@@ -151,5 +152,25 @@ public class ShipFactory implements Disposable {
 			}
 		}
 
+	}
+
+	@Override
+	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
+			short physicsMask) {
+		// TODO: See below
+		Gdx.app.error("ShipF", "This should not be run!!!");
+		return null;
+	}
+
+	@Override
+	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
+		// TODO: After fixture size is calculated we can fix this up
+		Gdx.app.error("ShipF", "This should not be run!!!");
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		return getShipType();
 	}
 }
