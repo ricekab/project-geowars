@@ -76,7 +76,7 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		return location;
 	}
 	
-	public SettingsDataI loadSettings(String location) {
+	public SettingsDataI loadSettings(String location, UserData user) {
 		SettingsDataI settings = new SettingsData(new UserData("removeThis","PWD"));	//TODO remove this
 		//TODO
 		return settings;
