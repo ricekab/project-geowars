@@ -36,6 +36,8 @@ public class SQLDataService implements IDataService{
 
 	public UserDataI getUser(String username) {
 		//TODO USE FACTORY
+		String sql = "select * from ";
+		
 		UserDataI u = new UserData("DELETE THIS","DELETE THIS");
 		return u;
 	}
