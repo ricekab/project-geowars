@@ -67,6 +67,10 @@ public class MovementSystem extends IntervalIteratingSystem {
 			force *= -1;
 			events.add(new AngularForceMessage(body, force));
 		}
+		
+//		if(mc.isDampenOn()){
+//			events.add(new LinearDampenMessage(body, mc.getLinearDampStrength()));
+//		}
 
 	}
 }

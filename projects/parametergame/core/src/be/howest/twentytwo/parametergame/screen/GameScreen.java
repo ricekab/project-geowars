@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.factory.InputFactory;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
@@ -127,12 +128,12 @@ public class GameScreen extends BaseScreen {
 		getContext().getAssetManager().finishLoading();
 		Gdx.app.log("GameScreen", "Asset loading finished!");
 
-		Entity ship = createShip();
-		mainPlayer = ship;
+		Entity playerShip = createShip();
+		mainPlayer = playerShip;
 		Entity planet = createPlanet();
-		Entity camEntity = createCameraEntity(ship, viewport.getCamera());
+		Entity camEntity = createCameraEntity(playerShip, viewport.getCamera());
 
-		engine.addEntity(ship);
+		engine.addEntity(playerShip);
 		engine.addEntity(planet);
 
 		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
@@ -176,8 +177,9 @@ public class GameScreen extends BaseScreen {
 		 */
 
 		// INPUT MAPPING 2
-		MovementComponent shipMC = MovementComponent.MAPPER.get(ship);
-		Gdx.input.setInputProcessor(new PlayerInputProcessor(shipMC));
+		MovementComponent shipMC = MovementComponent.MAPPER.get(playerShip);
+		Gdx.input.setInputProcessor(new PlayerInputProcessor(new InputFactory().createPlayerKeymap(
+				getContext().getFileService().loadKeymap("STR"), playerShip)));
 
 	}
 

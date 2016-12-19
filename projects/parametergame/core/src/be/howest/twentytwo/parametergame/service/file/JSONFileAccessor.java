@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.service.file;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Map;
 import java.util.Scanner;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
@@ -81,6 +82,18 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 
 	@Override
 	public void saveSettings(SettingsDataI data, String location) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Map<String, String> loadKeymap(String location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveKeymap(Map<String, String> keymap, String location) {
 		// TODO Auto-generated method stub
 		
 	}

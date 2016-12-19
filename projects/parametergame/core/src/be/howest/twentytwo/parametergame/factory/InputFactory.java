@@ -28,13 +28,13 @@ public class InputFactory {
 			Entity playerEntity) {
 		Map<Integer, InputAction> keyMap = new HashMap<Integer, InputAction>();
 		for (String key : keyStringMap.keySet()) {
-			keyMap.put(Keys.valueOf(key), getActionFor(keyStringMap.get(key), playerEntity));
+			keyMap.put(Keys.valueOf(key), createActionFor(keyStringMap.get(key), playerEntity));
 		}
 		return keyMap;
 	}
 
-	protected InputAction getActionFor(String actionString, Entity player) {
-		InputAction input = null;
+	protected InputAction createActionFor(String actionString, Entity player) {
+		InputAction input;
 		/*
 		 * map.put(Keys.Z, new AccelerateForwardAction(playerMC)); map.put(Keys.S, new
 		 * AccelerateBackwardAction(playerMC)); map.put(Keys.Q, new TurnLeftAction(playerMC));
@@ -61,7 +61,7 @@ public class InputFactory {
 				// TODO
 			case Inputs.FIRE_SECONDARY:
 				// TODO
-			case Inputs.CYLCE_SECONDARY:
+			case Inputs.CYClE_SECONDARY:
 				// TODO
 			default:
 				Gdx.app.error("InputFactory", "ERR: Could not recognize input action string.");

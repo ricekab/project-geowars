@@ -1,6 +1,5 @@
 package be.howest.twentytwo.parametergame.model.physics.collision;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.model.event.EventQueue;

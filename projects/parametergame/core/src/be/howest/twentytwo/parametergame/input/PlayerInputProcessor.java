@@ -1,17 +1,9 @@
 package be.howest.twentytwo.parametergame.input;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import be.howest.twentytwo.parametergame.input.actions.AccelerateBackwardAction;
-import be.howest.twentytwo.parametergame.input.actions.AccelerateForwardAction;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
-import be.howest.twentytwo.parametergame.input.actions.TurnLeftAction;
-import be.howest.twentytwo.parametergame.input.actions.TurnRightAction;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 
 public class PlayerInputProcessor extends InputAdapter {
@@ -21,40 +13,6 @@ public class PlayerInputProcessor extends InputAdapter {
 	public PlayerInputProcessor(Map<Integer, InputAction> keyMap){
 		this.keyMap = keyMap;
 	}
-	
-	//// TEST ////
-	/**
-	 * TODO: THIS IS A TEMP IMPLEMENTATION
-	 * @param playerMC
-	 */
-	public PlayerInputProcessor(MovementComponent playerMC) {
-		Map<Integer, InputAction> map = new HashMap<>();
-		
-		// map.put(Keys.W, new AccelerateForwardAction());
-		// left, right, back
-		// damper on/off
-		this.keyMap = map;
-		
-		map.put(Keys.Z, new AccelerateForwardAction(playerMC));
-		map.put(Keys.S, new AccelerateBackwardAction(playerMC));
-		map.put(Keys.Q, new TurnLeftAction(playerMC));
-		map.put(Keys.D, new TurnRightAction(playerMC));
-	}
-	
-	public PlayerInputProcessor(MovementComponent playerMC, WeaponComponent playerWC) {
-		Map<Integer, InputAction> map = new HashMap<>();
-		
-		// map.put(Keys.W, new AccelerateForwardAction());
-		// left, right, back
-		// damper on/off
-		this.keyMap = map;
-		
-		map.put(Keys.Z, new AccelerateForwardAction(playerMC));
-		map.put(Keys.S, new AccelerateBackwardAction(playerMC));
-		map.put(Keys.Q, new TurnLeftAction(playerMC));
-		map.put(Keys.D, new TurnRightAction(playerMC));
-	}
-	//// END TEST ////
 	
 	@Override
 	public boolean keyDown(int keycode) {

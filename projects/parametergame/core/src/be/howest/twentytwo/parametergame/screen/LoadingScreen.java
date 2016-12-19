@@ -6,7 +6,6 @@ import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.IEventListener;
-import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 
 import com.badlogic.ashley.core.PooledEngine;
