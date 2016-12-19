@@ -186,10 +186,10 @@ public class GameScreen extends BaseScreen {
 
 		IFileAccessor files = getContext().getFileService();
 		IDataService dataService = getContext().getDataService();
-	
-		Map<String, String> keyActionMap = files.loadSettings("Some_Location")
+
+		Map<String, String> keyActionMap = files.loadSettings("Some_Location", dataService.getUser("SOMEUSER"))
 				.getKeyBinds(dataService.getUser("SOMEUSER"));
-		
+
 		Gdx.input.setInputProcessor(
 				new PlayerInputProcessor(new InputFactory().createPlayerKeymap(keyActionMap, playerShip)));
 

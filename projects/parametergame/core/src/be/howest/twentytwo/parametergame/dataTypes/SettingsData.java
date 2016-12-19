@@ -13,17 +13,17 @@ public class SettingsData implements SettingsDataI, Serializable{
 	private float volumeLevel;
 	private boolean damping;
 	private float dampingLevel;
-	private Map<UserData, Map<String, String>> userKeys;
+	private Map<UserDataI, Map<String, String>> userKeys;
 	/*
 	private Map<String, String> keybinds;
 	/*up, down, left, right, primeFire, secondaryFire, cycleSecondary, toggleDamping, menuButton, cheats*/
 
-	public SettingsData(UserData user) {
+	public SettingsData(UserDataI user) {
 		this.userKeys = new HashMap<>();
 		addPlayer(user);
 	}
 	
-	public void resetControls(UserData user) {
+	public void resetControls(UserDataI user) {
 		Map<String, String> keybinds = userKeys.get(user);
 		keybinds.put("Z", Inputs.ACCELERATE_FORWARD);
 		keybinds.put("S", Inputs.ACCELERATE_BACKWARD);
@@ -40,7 +40,7 @@ public class SettingsData implements SettingsDataI, Serializable{
 	//	METHODS	
 	
 
-	public void addPlayer(UserData player) {
+	public void addPlayer(UserDataI player) {
 		HashMap<String, String> keybinds = new HashMap<>();
 		userKeys.put(player, keybinds);
 		resetControls(player);

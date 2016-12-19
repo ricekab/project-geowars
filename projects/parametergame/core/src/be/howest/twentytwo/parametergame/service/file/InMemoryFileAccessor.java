@@ -42,7 +42,7 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		//Nothing actually happens
 	}
 	
-	public SettingsDataI loadSettings(String justPutARandomString, UserData user) {
+	public SettingsDataI loadSettings(String justPutARandomString, UserDataI user) {
 		SettingsDataI settings = new SettingsData(user);
 		
 		settings.setVolume(true);

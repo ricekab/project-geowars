@@ -13,6 +13,7 @@ import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
@@ -76,7 +77,7 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		return location;
 	}
 	
-	public SettingsDataI loadSettings(String location, UserData user) {
+	public SettingsDataI loadSettings(String location, UserDataI user) {
 		SettingsDataI settings = new SettingsData(new UserData("removeThis","PWD"));	//TODO remove this
 		//TODO
 		return settings;
