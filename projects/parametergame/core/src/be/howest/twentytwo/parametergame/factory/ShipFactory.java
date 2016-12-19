@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 
 import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
@@ -26,7 +27,9 @@ import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
-public class ShipFactory {
+public class ShipFactory implements Disposable {
+	private static final String SHIP_SPRITE_PACK = "sprites/ships.pack";
+
 	private final PooledEngine engine;
 	private final World world;
 	private final AssetManager assets;
@@ -70,7 +73,7 @@ public class ShipFactory {
 
 		// TEXTURE/SPRITE
 		spriteComponent = engine.createComponent(SpriteComponent.class);
-		TextureAtlas spritesheet = assets.get("sprites/ships.pack", TextureAtlas.class);
+		TextureAtlas spritesheet = assets.get(SHIP_SPRITE_PACK, TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(shipData.getName());
 		spriteComponent.setRegion(region);
 	}
@@ -131,5 +134,22 @@ public class ShipFactory {
 		ship.add(spriteComponent);
 
 		return ship;
+	}
+
+	/**
+	 * Returns the name of the {@link ShipDataI} it is responsible for.
+	 */
+	public String getShipType() {
+		return shipData.getName();
+	}
+
+	@Override
+	public void dispose() {
+		for (FixtureDef fix : fixtureDefs) {
+			if (fix.shape != null) {
+				fix.shape.dispose();
+			}
+		}
+
 	}
 }

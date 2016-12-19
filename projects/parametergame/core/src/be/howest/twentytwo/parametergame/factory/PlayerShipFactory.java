@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 
 import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
@@ -26,7 +27,7 @@ import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
-public class PlayerShipFactory {
+public class PlayerShipFactory implements Disposable {
 
 	private ShipFactory shipFactory;
 
@@ -49,6 +50,11 @@ public class PlayerShipFactory {
 
 	public Entity createPlayerShip(float xPos, float yPos, float xSize, float ySize) {
 		return createPlayerShip(new Vector2(xPos, yPos), new Vector2(xSize, ySize));
+	}
+
+	@Override
+	public void dispose() {
+		shipFactory.dispose();
 	}
 
 }
