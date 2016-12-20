@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import com.badlogic.ashley.systems.IntervalSystem;
-
 import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
+
+import com.badlogic.ashley.systems.IntervalSystem;
 
 public class SpawnSystem extends IntervalSystem {
 

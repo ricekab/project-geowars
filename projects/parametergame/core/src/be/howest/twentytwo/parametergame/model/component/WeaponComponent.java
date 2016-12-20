@@ -1,8 +1,10 @@
 package be.howest.twentytwo.parametergame.model.component;
 
-import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
@@ -15,35 +17,46 @@ public class WeaponComponent implements Component, Poolable {
 	// Input flags
 	private boolean firePrimary;
 	private boolean fireSecondary;
-
-	private WeaponDataI primaryWeapon;
-	private List<WeaponDataI> secondaryWeapons;
+	private final Collection<WeaponGameData> allWeapons;
+	
+	private WeaponGameData primaryWeapon;
+	private List<WeaponGameData> secondaryWeapons;
 	private int activeSecondaryWeapon;
 	
 	private short physicsCategory;
 	private short physicsMask;
+	
+	public WeaponComponent(){
+		this.allWeapons = new ArrayList<WeaponGameData>();
+	}
 
-	public WeaponDataI getPrimary() {
+	public WeaponGameData getPrimary() {
 		return primaryWeapon;
 	}
 
-	public void setPrimary(WeaponDataI primaryWeapon) {
+	public void setPrimary(WeaponGameData primaryWeapon) {
 		this.primaryWeapon = primaryWeapon;
+		allWeapons.add(primaryWeapon);
 	}
 
-	private List<WeaponDataI> getSecondaryWeapons() {
+	private List<WeaponGameData> getSecondaryWeapons() {
 		return secondaryWeapons;
 	}
 
-	public void setSecondaryWeapons(List<WeaponDataI> secondaryWeapons) {
+	public void setSecondaryWeapons(List<WeaponGameData> secondaryWeapons) {
 		this.secondaryWeapons = secondaryWeapons;
+		allWeapons.addAll(secondaryWeapons);
 		this.activeSecondaryWeapon = 0;
 	}
 
-	public WeaponDataI getActiveSecondaryWeapon() {
+	public WeaponGameData getActiveSecondaryWeapon() {
 		return getSecondaryWeapons().get(activeSecondaryWeapon);
 	}
 
+	public Collection<WeaponGameData> getAllWeapons(){
+		return this.allWeapons;
+	}
+	
 	public void cycleSecondaryWeapon() {
 		activeSecondaryWeapon = (activeSecondaryWeapon + 1) % getSecondaryWeapons().size();
 	}

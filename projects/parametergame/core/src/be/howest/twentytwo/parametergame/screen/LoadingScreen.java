@@ -5,8 +5,8 @@ import be.howest.twentytwo.parametergame.factory.LevelFactory;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
-import be.howest.twentytwo.parametergame.model.event.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
@@ -60,6 +60,7 @@ public class LoadingScreen extends BaseScreen {
 
 		// VIEWPORT / CAM
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
+		// 240 135 // 320 180
 		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in
 															// world units)
 		/*

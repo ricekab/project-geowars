@@ -39,7 +39,7 @@ public class ParameterGame extends Game {
 	@Override
 	public void create() {
 		if(DEBUG_ENABLED) {
-			Gdx.app.setLogLevel(Application.LOG_ERROR);
+			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_INFO);
 		}

@@ -1,9 +1,11 @@
-package be.howest.twentytwo.parametergame.model.component;
+package be.howest.twentytwo.parametergame.model.component.ai;
 
 // @author Ward Van den Berghe
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.physics.message.LinearForceMessage;
 import be.howest.twentytwo.parametergame.screen.GameScreen;
