@@ -23,7 +23,8 @@ import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 
 public class InMemoryDataService implements IDataService {
 	// for the time being, this will have hard-coded data, and is later DELETED
-	// data management josb: faking access to MySQL data and return the appropriate data
+	// data management josb: faking access to MySQL data and return the
+	// appropriate data
 
 	@Override
 	public UserData getUser(String name) { // password == name
@@ -34,25 +35,23 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<ShipDataI> getShips(UserDataI user) {
 		List<ShipDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY,
-				Constants.PLAYER_COLLISION_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
-				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
-				.setBulletSpeed(75f).setBulletMass(5f).setRange(250f)
-				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
+		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f).setFireRate(7.5f)
+				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(5f)
+				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
-		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f, 5f,
+		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
+		// 5f,
 		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
 		// TODO: Switch to builder to clarify arguments.
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
-				3500f, 0f, 1f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f, 1f, 25,
+				new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
-		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
-				physicsData, 5f, 5f));
+		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0f, 1.0f, weapons, physicsData, 5f, 5f));
 		return data;
 	}
 
@@ -66,18 +65,24 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<EnemyDataI> getEnemies(String... name) {
 		List<EnemyDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY,
-				Constants.ENEMY_COLLISION_MASK);
-		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
+		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_COLLISION_MASK);
+		physicsData.addFixture(new FixtureData("circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
-		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 5f, 75f, 1500f,
-				0f, 5f, WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
-				3500f, 0f, 1f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
+		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f).setFireRate(7.5f)
+				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(5f)
+				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
+				.setTimeDelay(0f).setTurnSpeed(0f).build();
+		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
+		// 5f,
+		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
+		// TODO: Switch to builder to clarify arguments.
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f, 1f, 25,
+				new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
-		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f,
-				weapons, physicsData,10f,15f);
+		ShipData shipData = new ShipData("scouter", 3, 40.0f, 20.0f, 10.0f, 10.0f, 0.25f, 1.0f, weapons, physicsData,
+				7.5f, 7.5f);
 		data.add(new EnemyData(shipData));
 		return data;
 	}
@@ -102,14 +107,15 @@ public class InMemoryDataService implements IDataService {
 /*
  * Collector drones effects
  * 
- * @param range(utility) the range in which geoms will be accelerated towards the ships current
- * position.
+ * @param range(utility) the range in which geoms will be accelerated towards
+ * the ships current position.
  * 
- * @param acceleration(power) the speed the geoms are accelerated with. this is uncapped, and is
- * only limited by the initial speed. geoms stop moving (?decelerate?) if the ship flies away and
- * they get out of the range again.
+ * @param acceleration(power) the speed the geoms are accelerated with. this is
+ * uncapped, and is only limited by the initial speed. geoms stop moving
+ * (?decelerate?) if the ship flies away and they get out of the range again.
  * 
- * @return geoms are only collected once they reach the ship's actual collect position
+ * @return geoms are only collected once they reach the ship's actual collect
+ * position
  */
 
 /*
@@ -127,8 +133,8 @@ public class InMemoryDataService implements IDataService {
  * 
  * @param gravityReduction(utility) the percentage of gravity ignored
  * 
- * @param antigravitation(power) creates a negative gravity field, making it harder for enemies to
- * close in to you. (suicider & suicide squadron mainly)
+ * @param antigravitation(power) creates a negative gravity field, making it
+ * harder for enemies to close in to you. (suicider & suicide squadron mainly)
  * 
  * @return has a static range, for antigravitation only
  */

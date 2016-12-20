@@ -13,7 +13,7 @@ public class AIMovementSystem extends IntervalIteratingSystem {
 	
 	public static final int PRIORITY = 0;
 
-	public AIMovementSystem(Family family, float interval) {
+	public AIMovementSystem() {
 		super(Family.all(AIComponent.class, MovementComponent.class, BodyComponent.class).get(),
 				PhysicsSystem.PHYSICS_TIMESTEP, PRIORITY);
 	}

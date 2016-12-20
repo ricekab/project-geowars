@@ -47,11 +47,12 @@ public class RenderSystem extends IteratingSystem {
 		SpriteComponent spriteComp = SpriteComponent.MAPPER.get(entity);
 
 		getCamera().update(); // TODO: Might not be needed.
-		
+
 		TextureRegion region = spriteComp.getRegion();
-		
-		if(region == null){
-			Gdx.app.error("Render", "ERR: NULL REGION -- COMPONENT INCOMPLETE");
+
+		if (region == null) {
+			// TODO: Enable error -- Gdx.app.error("Render", "ERR: NULL REGION
+			// -- COMPONENT INCOMPLETE");
 			return;
 		}
 
@@ -61,13 +62,15 @@ public class RenderSystem extends IteratingSystem {
 		float offsetX = width / 2;
 		float offsetY = height / 2;
 
-		// float scaleX = METERS_PER_PIXEL; // Scale to world size to match physics object
+		// float scaleX = METERS_PER_PIXEL; // Scale to world size to match
+		// physics object
 		// float scaleY = METERS_PER_PIXEL;
 		float scaleX = transform.getWorldSize().x / region.getRegionWidth();
 		float scaleY = transform.getWorldSize().y / region.getRegionHeight();
-		// TODO: Images are rotated here as sprites are all assumed to face north.
-		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX,
-				offsetY, width, height, scaleX, scaleY, transform.getRotation() - 90);
+		// TODO: Images are rotated here as sprites are all assumed to face
+		// north.
+		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX, offsetY, width,
+				height, scaleX, scaleY, transform.getRotation() - 90);
 	}
 
 	public Viewport getViewport() {

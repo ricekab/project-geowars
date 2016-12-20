@@ -39,7 +39,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	private ShipDataI shipData;
 	private BodyDef bodyDef;
 	private Collection<FixtureDef> fixtureDefs;
-	private SpriteComponent spriteComponent;
+	private TextureRegion sprite;
 
 	public ShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData) {
 		this.engine = engine;
@@ -74,10 +74,9 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		// fixtures, maybe aabb all fixtures)
 
 		// TEXTURE/SPRITE
-		spriteComponent = engine.createComponent(SpriteComponent.class);
 		TextureAtlas spritesheet = assets.get(SHIP_SPRITE_PACK, TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(shipData.getName());
-		spriteComponent.setRegion(region);
+		this.sprite = region;
 	}
 
 	public Entity createShip(Vector2 pos, float rotation, short bulletCategory, short bulletMask) {
@@ -139,7 +138,9 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		ship.add(bodyComponent);
 
 		// TEXTURE/SPRITE
-		ship.add(spriteComponent);
+		SpriteComponent sc = engine.createComponent(SpriteComponent.class);
+		sc.setRegion(sprite);
+		ship.add(sc);
 
 		return ship;
 	}
