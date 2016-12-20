@@ -1,0 +1,33 @@
+
+ships.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+juggernaught_wip
+  rotate: false
+  xy: 1, 67
+  size: 369, 435
+  orig: 369, 435
+  offset: 0, 0
+  index: -1
+fighter_wip
+  rotate: false
+  xy: 372, 250
+  size: 223, 252
+  orig: 223, 252
+  offset: 0, 0
+  index: -1
+recon
+  rotate: false
+  xy: 372, 120
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+drone
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

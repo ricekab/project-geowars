@@ -39,7 +39,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	private ShipDataI shipData;
 	private BodyDef bodyDef;
 	private Collection<FixtureDef> fixtureDefs;
-	private SpriteComponent spriteComponent;
+	private TextureRegion sprite;
 
 	public ShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData) {
 		this.engine = engine;
@@ -63,9 +63,8 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		FixtureDef fixtureDef;
 		FixtureFactory fixtureFactory = new FixtureFactory();
 		for (FixtureDataI fd : fixturesData) {
-			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(),
-					fd.getHeight(), fd.getOffsetX(), fd.getOffsetY(), fd.getDensity(),
-					fd.getFriction(), fd.getRestitution());
+			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(), fd.getHeight(), fd.getOffsetX(),
+					fd.getOffsetY(), fd.getDensity(), fd.getFriction(), fd.getRestitution());
 			fixtureDef.filter.categoryBits = physicsData.getPhysicsCategory();
 			fixtureDef.filter.maskBits = physicsData.getPhysicsMask();
 			fixtureDefs.add(fixtureDef);
@@ -75,20 +74,18 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		// fixtures, maybe aabb all fixtures)
 
 		// TEXTURE/SPRITE
-		spriteComponent = engine.createComponent(SpriteComponent.class);
 		TextureAtlas spritesheet = assets.get(SHIP_SPRITE_PACK, TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(shipData.getName());
-		spriteComponent.setRegion(region);
+		this.sprite = region;
 	}
 
-	public Entity createShip(Vector2 pos, Vector2 size, float rotation, short bulletCategory,
-			short bulletMask) {
+	public Entity createShip(Vector2 pos, float rotation, short bulletCategory, short bulletMask) {
 		Entity ship = engine.createEntity();
 
 		// TRANSFORM
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(pos);
-		transform.setWorldSize(size);
+		transform.setWorldSize(new Vector2(shipData.getShipSizeX(), shipData.getShipSizeY()));
 		transform.setRotation(rotation);
 		ship.add(transform);
 
@@ -103,14 +100,14 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 
 		// WEAPON
 		List<WeaponDataI> weaponsData = shipData.getWeapons();
-		if(weaponsData.size() > 0) {
+		if (weaponsData.size() > 0) {
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);
 			WeaponDataI primary = weaponsData.get(0);
 			weapon.setPrimary(new WeaponGameData(primary));
 			weaponsData.remove(primary);
-			if(weaponsData.size() == 0) {
+			if (weaponsData.size() == 0) {
 				WeaponDataI nullWeapon = new NullWeaponData();
 				weaponsData.add(nullWeapon);
 			}
@@ -138,11 +135,12 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 			rigidBody.createFixture(fixture);
 		}
 
-
 		ship.add(bodyComponent);
 
 		// TEXTURE/SPRITE
-		ship.add(spriteComponent);
+		SpriteComponent sc = engine.createComponent(SpriteComponent.class);
+		sc.setRegion(sprite);
+		ship.add(sc);
 
 		return ship;
 	}
@@ -157,7 +155,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	@Override
 	public void dispose() {
 		for (FixtureDef fix : fixtureDefs) {
-			if(fix.shape != null) {
+			if (fix.shape != null) {
 				fix.shape.dispose();
 			}
 		}
@@ -165,18 +163,17 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
-			short physicsCategory, short physicsMask) {
-		// TODO: See below
-		Gdx.app.error("ShipF", "This should not be run yet!!!");
-		return null;
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
+			short physicsMask) {
+		Entity ship = createShip(pos, rotation, physicsCategory, physicsMask);
+		engine.addEntity(ship);
+		return ship;
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
-		// TODO: After fixture size is calculated we can fix this up
-		Gdx.app.error("ShipF", "This should not be run yet!!!");
-		return null;
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
+		FixtureDef fd = fixtureDefs.iterator().next();
+		return spawnEntity(pos, rotation, initialVelocity, fd.filter.categoryBits, fd.filter.maskBits);
 	}
 
 	@Override

@@ -43,15 +43,15 @@ public class PlayerShipFactory implements Disposable {
 		this.assets = assets;
 	}
 
-	public Entity createPlayerShip(Vector2 pos, Vector2 size) {
-		Entity player = shipFactory.createShip(pos, size, 0f, Constants.BULLET_PLAYER_CATEGORY,
+	public Entity createPlayerShip(Vector2 pos) {
+		Entity player = shipFactory.createShip(pos, 0f, Constants.BULLET_PLAYER_CATEGORY,
 				Constants.BULLET_PLAYER_MASK);
 		// TODO: Drone addon
 		return player;
 	}
 
-	public Entity createPlayerShip(float xPos, float yPos, float xSize, float ySize) {
-		return createPlayerShip(new Vector2(xPos, yPos), new Vector2(xSize, ySize));
+	public Entity createPlayerShip(float xPos, float yPos) {
+		return createPlayerShip(new Vector2(xPos, yPos));
 	}
 
 	@Override

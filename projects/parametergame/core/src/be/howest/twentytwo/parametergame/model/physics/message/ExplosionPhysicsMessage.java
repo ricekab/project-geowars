@@ -10,6 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
+/**
+ * Generate forces on bodies to simulate an explosion.
+ */
 public class ExplosionPhysicsMessage extends SinglePhysicsMessage {
 
 	private final Body sourceBody;
@@ -30,14 +33,12 @@ public class ExplosionPhysicsMessage extends SinglePhysicsMessage {
 		// Retrieve bodies in range
 		Vector2 pos = sourceBody.getPosition();
 		RetrievalQuery retrieval = new RetrievalQuery(mask);
-		sourceBody.getWorld().QueryAABB(retrieval, pos.x - range, pos.y - range, pos.x + range,
-				pos.y + range);
+		sourceBody.getWorld().QueryAABB(retrieval, pos.x - range, pos.y - range, pos.x + range, pos.y + range);
 		List<Body> bodies = new ArrayList<Body>();
 		Body body;
 		for (Fixture fix : retrieval.getFixtures()) {
 			body = fix.getBody();
-			if(!bodies.contains(body)
-					&& sourceBody.getWorldCenter().dst(body.getWorldCenter()) <= range) {
+			if (!bodies.contains(body) && sourceBody.getWorldCenter().dst(body.getWorldCenter()) <= range) {
 				bodies.add(body);
 			}
 		}
@@ -45,8 +46,8 @@ public class ExplosionPhysicsMessage extends SinglePhysicsMessage {
 		for (Body targetBody : bodies) {
 			Vector2 forceVector = new Vector2(targetBody.getPosition());
 			forceVector.sub(sourceBody.getPosition()).nor().scl(force);
-			Gdx.app.log("EPE", String.format("%s , %s", sourceBody.getPosition().toString(),
-					targetBody.getPosition().toString()));
+			Gdx.app.log("EPE",
+					String.format("%s , %s", sourceBody.getPosition().toString(), targetBody.getPosition().toString()));
 			Gdx.app.log("EPE", forceVector.toString());
 			IPhysicsMessage instantEvent = new LinearForceMessage(targetBody, forceVector);
 			instantEvent.execute();

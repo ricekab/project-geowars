@@ -39,7 +39,7 @@ public final class VectorMath {
 		return new Vector2(body.getWorldVector(Vector2.X)).scl(force);
 	}
         
-        public static Vector2 subtract(Vector2 a, Vector2 b)        {
+	public static Vector2 subtract(Vector2 a, Vector2 b)        {
             return new Vector2(a.x - b.x, a.y - b.y);
         }
         

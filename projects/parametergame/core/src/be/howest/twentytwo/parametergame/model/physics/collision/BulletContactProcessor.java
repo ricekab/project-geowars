@@ -48,6 +48,11 @@ public class BulletContactProcessor extends ContactProcessor {
 		if((targetCategory & Constants.PLANET_CATEGORY) > 0){
 			Gdx.app.debug("BulletContact", "DestroyBulletFired");
 			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
+			return true;
+		}
+		if((targetCategory & Constants.ENEMY_CATEGORY) > 0){
+			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
+			getEventQueue().send(new DestroyEntityEvent((Entity)target.getBody().getUserData()));
 		}
 		return false;
 	}

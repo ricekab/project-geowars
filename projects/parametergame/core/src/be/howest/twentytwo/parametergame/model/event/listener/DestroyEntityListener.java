@@ -18,11 +18,6 @@ public class DestroyEntityListener implements IEventListener{
 	@Override
 	public void handle(IEvent event) {
 		DestroyEntityEvent evt = (DestroyEntityEvent) event;
-		Gdx.app.debug("DestroyEntityListener", "Destroying entity " + evt.getEntity().toString());
-		for(Component c : evt.getEntity().getComponents()){
-			Gdx.app.debug("DestroyEntityListener", c.toString());
-		}
-		evt.getEntity().removeAll();
 		engine.removeEntity(evt.getEntity());
 	}
 

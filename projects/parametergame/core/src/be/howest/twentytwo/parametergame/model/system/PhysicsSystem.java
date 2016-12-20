@@ -9,6 +9,7 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
@@ -19,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * 
  * @author Kevin CY Tang
  */
-public class PhysicsSystem extends IteratingSystem {
+public class PhysicsSystem extends IteratingSystem implements EntityListener {
 
 	public static final int PRIORITY = 0;
 
@@ -45,10 +46,10 @@ public class PhysicsSystem extends IteratingSystem {
 
 	@Override
 	public void update(float deltaTime) {
-		
 		elapsed += deltaTime;
-		if(elapsed >= PHYSICS_TIMESTEP) { // World timestep
-			processEvents(); // Process physics events (Collisions and inputevents)
+		if (elapsed >= PHYSICS_TIMESTEP) { // World timestep
+			processEvents(); // Process physics events (Collisions and
+								// inputevents)
 			world.step(PHYSICS_TIMESTEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime); // processEntity below
@@ -60,10 +61,10 @@ public class PhysicsSystem extends IteratingSystem {
 		IPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
-			if(!evt.isConsumed()) {
+			if (!evt.isConsumed()) {
 				evt.execute();
 				// Could remove this check -- Would be removed on the next pass.
-				if(evt.isConsumed()) {
+				if (evt.isConsumed()) {
 					it.remove();
 				}
 			} else {
@@ -80,6 +81,17 @@ public class PhysicsSystem extends IteratingSystem {
 		// Update game object position based on physics body.
 		transformComp.setPos(bodyComp.getBody().getPosition());
 		transformComp.setRotation(bodyComp.getBody().getAngle() * MathUtils.radiansToDegrees);
+	}
+
+	@Override
+	public void entityAdded(Entity entity) {
+	}
+
+	@Override
+	public void entityRemoved(Entity entity) {
+		if (getFamily().matches(entity)) {
+			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody());
+		}
 	}
 
 }
