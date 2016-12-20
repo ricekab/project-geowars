@@ -52,7 +52,7 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
-				physicsData, 15f, 25f));
+				physicsData, 5f, 5f));
 		return data;
 	}
 

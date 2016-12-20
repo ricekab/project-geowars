@@ -147,7 +147,7 @@ public class LevelFactory {
 		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
 
 		// TODO: SHIP WORLD SIZE from where?
-		Entity playerShip = playerFactory.createPlayerShip(8.0f, 8.0f, 5.0f, 5.0f);
+		Entity playerShip = playerFactory.createPlayerShip(8.0f, 8.0f);	// 5, 5 original size
 
 		engine.addEntity(playerShip);
 
