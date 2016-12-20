@@ -2,6 +2,8 @@ package be.howest.twentytwo.parametergame.screen;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.audio.SoundEngine;
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen extends BaseScreen {
@@ -20,6 +23,21 @@ public class MenuScreen extends BaseScreen {
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
+                SoundSequencer seq = new SoundSequencer();
+                SoundEngine se = new SoundEngine();
+                //se.playMusic("music/Floating-Space-loo.mp3", true);  
+                
+                for(int i = 0; i < 5; i++){
+                    seq.addSound("sound/switch25.wav");
+                }
+                boolean memes = true;
+                while(memes = true){
+                    seq.play(1, 1);
+                    if (seq.getSize() == 2){
+                        memes = true;
+                    }
+                }
+                
 	}
 
 	@Override
