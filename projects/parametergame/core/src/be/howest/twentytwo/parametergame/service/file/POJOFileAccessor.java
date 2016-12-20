@@ -7,7 +7,10 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 
@@ -23,14 +26,15 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 	 * 
 	 * @return returns a LevelData object, or null if no data was present.
 	 */
-	@Override
-	public LevelData loadLevel(String location) {
-		LevelData data = null; // TODO load a default level
+
+	public LevelDataI loadLevel(String location) {
+		LevelDataI data = null; // TODO load a default level
 		try {
 			File f = new File(location);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			data = (LevelData) ois.readObject();
+			data = (LevelDataI) ois.readObject();
+			ois.close();
 		} catch (FileNotFoundException fe) {
 			System.out.println("Could not locate file, please check the location & extention");
 			fe.printStackTrace();
@@ -40,9 +44,7 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 		return data;
 	}
 
-	@Override
-	public void saveLevel(LevelData data, String location) {
-
+	public void saveLevel(LevelDataI data, String location) {
 		try {
 			File f = new File(location);
 			FileOutputStream fos = new FileOutputStream(f);
@@ -50,10 +52,45 @@ public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD
 			oos.writeObject(data);
 			oos.close();
 			fos.close();
+		} catch (FileNotFoundException fe) {
+			System.out.println("Could not locate file, please check the location & extention");
+			fe.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public SettingsDataI loadSettings(String location, UserDataI user) {
+		SettingsDataI data = null;
+		try{
+			File f = new File(location);	//TODO refactor
+			FileInputStream fos = new FileInputStream(f);
+			ObjectInputStream ois = new ObjectInputStream(fos);
+			data = (SettingsDataI) ois.readObject();
+			ois.close();
+			fos.close();
+		} catch(FileNotFoundException fe) {
+			System.out.println("Could not locate file, please check the location & extention");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	public void saveSettings(SettingsDataI data, String location) {
+		try{
+			File f = new File(location);
+			FileOutputStream fos = new FileOutputStream(f);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(data);
+			oos.close();
+			fos.close();
+		} catch(FileNotFoundException fe) {
+			System.out.println("Could not locate file, please check the location & extention");
+			fe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

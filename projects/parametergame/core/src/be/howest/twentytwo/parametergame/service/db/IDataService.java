@@ -5,26 +5,26 @@ import java.util.Collection;
 /*
  * Reads all data regarding the game, but not the level. This contains data about users, ships, drones & enemies
  */
-import be.howest.twentytwo.parametergame.dataTypes.DroneData;
-import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
-import be.howest.twentytwo.parametergame.dataTypes.ShipData;
-import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
+import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 public interface IDataService {
 	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....
 	
-	public UserData getUser(String serverID);
+	public UserDataI getUser(String username);
 	
-	public Collection<EnemyData> getEnemies(String... name);	//allows you to write getEnemies("Str1","Str2) instead of getEnemies(Str[])
+	public Collection<EnemyDataI> getEnemies(String... name);	//allows you to write getEnemies("Str1","Str2) instead of getEnemies(Str[])
 	
-	public Collection<ShipData> getShips(UserData user);
+	public Collection<ShipDataI> getShips(UserDataI user);
 	
-	public Collection<DroneData> getDrones(UserData user);
+	public Collection<DroneDataI> getDrones(UserDataI user);
 	
-	public void saveUser(UserData data);
+	public void saveUser(UserDataI data);
 	
-	public void saveShip(ShipData data);
+	public void saveShip(ShipDataI data);
 	
-	public void saveDrone(DroneData data);
+	public void saveDrone(DroneDataI data);
 	
 }

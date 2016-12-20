@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import be.howest.twentytwo.parametergame.screen.MenuScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 
 import com.badlogic.gdx.Application;
@@ -24,27 +25,34 @@ public class ParameterGame extends Game {
 
 	private final IPlatformService platformService;
 	private final IDataService dataService;
+	private final IFileAccessor fileService;
 	private ScreenContext context;
 
 	@Inject
-	public ParameterGame(IPlatformService platform, IDataService dataService) {
+	public ParameterGame(IPlatformService platform, IDataService dataService,
+			IFileAccessor fileService) {
 		this.platformService = platform;
 		this.dataService = dataService;
+		this.fileService = fileService;
 	}
 
 	@Override
 	public void create() {
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		if(DEBUG_ENABLED) {
+			Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		} else {
+			Gdx.app.setLogLevel(Application.LOG_INFO);
+		}
 
 		// Has to be created here since this is libgdx tied
 		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(),
-				new ShapeRenderer(), platformService, dataService);
+				new ShapeRenderer(), platformService, dataService, fileService);
 
 		Texture.setAssetManager(context.getAssetManager());
 
 		// For testing it's easier to not have the menu pop up
 		// setScreen(new GameScreen(context));
-		
+
 		setScreen(new MenuScreen(context));
 	}
 

@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ShipDataI {
 
@@ -14,8 +15,14 @@ public interface ShipDataI {
 	public float getAngularAcceleration();
 	public float getLinearDamping();
 	public float getAngularDamping();
+	public float getShipSizeX();
+	public float getShipSizeY();
 	
-	public Collection<WeaponDataI> getWeapons();
+	/**
+	 * 
+	 */
+	public List<WeaponDataI> getWeapons();
 	
 	public PhysicsDataI getPhysicsData();
+	
 }

@@ -6,9 +6,10 @@ import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
@@ -19,18 +20,20 @@ import com.badlogic.gdx.physics.box2d.World;
  * 
  * @author Kevin CY Tang
  */
-public class PhysicsSystem extends IteratingSystem {
+public class PhysicsSystem extends IteratingSystem implements EntityListener {
 
 	public static final int PRIORITY = 0;
 
 	public static final float PHYSICS_TIMESTEP = 1 / 30f;
+	public static final int VELOCITY_ITERATIONS = 6;
+	public static final int POSITION_ITERATIONS = 3;
 
 	private World world;
 	/** Time elapsed since last update */
 	private float elapsed;
-	private Collection<IPhysicsEvent> eventCollection;
+	private Collection<IPhysicsMessage> eventCollection;
 
-	public PhysicsSystem(World world, Collection<IPhysicsEvent> events) {
+	public PhysicsSystem(World world, Collection<IPhysicsMessage> events) {
 		super(Family.all(TransformComponent.class, BodyComponent.class).get(), PRIORITY);
 		this.world = world;
 		this.elapsed = 0f;
@@ -38,24 +41,24 @@ public class PhysicsSystem extends IteratingSystem {
 	}
 
 	public PhysicsSystem(World world) {
-		this(world, new ArrayList<IPhysicsEvent>());
+		this(world, new ArrayList<IPhysicsMessage>());
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		elapsed += deltaTime;
 		if (elapsed >= PHYSICS_TIMESTEP) { // World timestep
-			processEvents(); // Process physics events (Collisions and input
-								// events)
-			world.step(PHYSICS_TIMESTEP, 6, 3); // Advance simulation
+			processEvents(); // Process physics events (Collisions and
+								// inputevents)
+			world.step(PHYSICS_TIMESTEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime); // processEntity below
 		}
 	}
 
 	private void processEvents() {
-		Iterator<IPhysicsEvent> it = eventCollection.iterator();
-		IPhysicsEvent evt;
+		Iterator<IPhysicsMessage> it = eventCollection.iterator();
+		IPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
 			if (!evt.isConsumed()) {
@@ -78,6 +81,17 @@ public class PhysicsSystem extends IteratingSystem {
 		// Update game object position based on physics body.
 		transformComp.setPos(bodyComp.getBody().getPosition());
 		transformComp.setRotation(bodyComp.getBody().getAngle() * MathUtils.radiansToDegrees);
+	}
+
+	@Override
+	public void entityAdded(Entity entity) {
+	}
+
+	@Override
+	public void entityRemoved(Entity entity) {
+		if (getFamily().matches(entity)) {
+			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody());
+		}
 	}
 
 }

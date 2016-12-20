@@ -16,12 +16,15 @@ public class MovementComponent implements Component, Poolable {
 	private boolean accelerateBackward;
 	private boolean turnLeft;
 	private boolean turnRight;
+	private boolean dampenOn;
 
 	private float maxLinearVelocity; // Limit to linear velocity (units/second)
 	private float maxAngularVelocity; // Limit to angular velocity (in radians)
 
 	private float linearAcceleration; // units / s²
 	private float angularAcceleration; // = Turn rate in radians / second
+	
+	private float linearDampStrength;
 
 	public boolean isAccelerateForward() {
 		return accelerateForward;
@@ -55,6 +58,14 @@ public class MovementComponent implements Component, Poolable {
 		this.turnRight = turnRight;
 	}
 
+	public boolean isDampenOn() {
+		return dampenOn;
+	}
+
+	public void toggleDampen() {
+		this.dampenOn = !dampenOn;
+	}
+
 	public float getMaxLinearVelocity() {
 		return maxLinearVelocity;
 	}
@@ -85,6 +96,14 @@ public class MovementComponent implements Component, Poolable {
 
 	public void setAngularAcceleration(float angularAcceleration) {
 		this.angularAcceleration = angularAcceleration;
+	}
+
+	public float getLinearDampStrength() {
+		return linearDampStrength;
+	}
+
+	public void setLinearDampStrength(float linearDampStrength) {
+		this.linearDampStrength = linearDampStrength;
 	}
 
 	@Override

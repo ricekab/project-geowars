@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import be.howest.twentytwo.parametergame.model.physics.events.GravityPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.physics.message.GravityPhysicsMessage;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,29 +17,27 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class GravityContactProcessor extends ContactProcessor {
 
-	/** TODO: TEMP? -- This is the remote event collection */
-	private Collection<IPhysicsEvent> events;
-	private Collection<GravityPhysicsEvent> gravityEvents;
+	private Collection<GravityPhysicsMessage> gravityEvents;
 
-	public GravityContactProcessor(ContactListener next, Collection<IPhysicsEvent> events) {
-		super(next);
-		this.events = events;
-		this.gravityEvents = new ArrayList<GravityPhysicsEvent>();
+	public GravityContactProcessor(ContactListener next, EventQueue eventQueue,
+			Collection<IPhysicsMessage> physycicsMessages) {
+		super(next, eventQueue, physycicsMessages);
+		this.gravityEvents = new ArrayList<GravityPhysicsMessage>();
 	}
 
-	public GravityContactProcessor(Collection<IPhysicsEvent> events) {
-		this(new NullContactProcessor(), events);
+	public GravityContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+		this(new NullContactProcessor(), eventQueue, events);
 	}
 
 	@Override
 	protected boolean handleBeginContact(Contact contact) {
-		Gdx.app.log("GravityContact", "beginContact");
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if (categoryA == Constants.GRAVITY_CATEGORY) {
+		if(categoryA == Constants.GRAVITY_CATEGORY) {
 			addEvent(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
+			// eventQueue.addEvent(new GravityEvent(...));
 			return true;
-		} else if (categoryB == Constants.GRAVITY_CATEGORY) {
+		} else if(categoryB == Constants.GRAVITY_CATEGORY) {
 			addEvent(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
 			return true;
 		}
@@ -46,21 +45,20 @@ public class GravityContactProcessor extends ContactProcessor {
 	}
 
 	private void addEvent(Body planet, Body target) {
-		GravityPhysicsEvent evt = new GravityPhysicsEvent(planet, target);
-		this.events.add(evt);
+		GravityPhysicsMessage evt = new GravityPhysicsMessage(planet, target);
+		getPhysicsQueue().add(evt);
 		this.gravityEvents.add(evt);
 	}
 
 	@Override
 	protected boolean handleEndContact(Contact contact) {
-		Gdx.app.log("GravityContact", "endContact");
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if (categoryA == Constants.GRAVITY_CATEGORY) {
+		if(categoryA == Constants.GRAVITY_CATEGORY) {
 			removeEvent(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
 			Gdx.app.log("ContactListener", "Fixture A is a gravity field");
 			return true;
-		} else if (categoryB == Constants.GRAVITY_CATEGORY) {
+		} else if(categoryB == Constants.GRAVITY_CATEGORY) {
 			removeEvent(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
 			Gdx.app.log("ContactListener", "Fixture B is a gravity field");
 			return true;
@@ -69,15 +67,14 @@ public class GravityContactProcessor extends ContactProcessor {
 	}
 
 	/**
-	 * Remove the {@link GravityPhysicsEvent} from the event list and sets it to
-	 * consumed.
+	 * Remove the {@link GravityPhysicsMessage} from the event list and sets it to consumed.
 	 */
 	private void removeEvent(Body planet, Body target) {
-		Iterator<GravityPhysicsEvent> it = gravityEvents.iterator();
-		GravityPhysicsEvent evt;
+		Iterator<GravityPhysicsMessage> it = gravityEvents.iterator();
+		GravityPhysicsMessage evt;
 		while (it.hasNext()) {
 			evt = it.next();
-			if (evt.getSourceBody().equals(planet) && evt.getTargetBody().equals(target)) {
+			if(evt.getSourceBody().equals(planet) && evt.getTargetBody().equals(target)) {
 				evt.setConsumed(); // Notifies the event system that this event
 									// is completed.
 				it.remove();

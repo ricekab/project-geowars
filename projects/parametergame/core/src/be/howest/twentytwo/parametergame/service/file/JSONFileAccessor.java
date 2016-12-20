@@ -5,10 +5,16 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import be.howest.twentytwo.parametergame.dataTypes.LevelData;
-
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+
+import be.howest.twentytwo.parametergame.dataTypes.LevelData;
+import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 	
@@ -19,20 +25,13 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		json.setOutputType(OutputType.minimal);
 	}
 
-	@Override
-	public LevelData loadLevel(String location) {
+	public LevelDataI loadLevel(String location) {
 		LevelData levelData = null;
-		
+		//TODO
 		return levelData;
 	}
 	
-	public String[] splitString(String sign) {
-		String file = readFile("jsontest.txt");
-		String[] pieces = file.split(sign);
-		return pieces;
-	}
-	
-	public String readFile(String location) {	//TODO MAKE PRIVATE
+	public String readFile(String location) {
 		String jsonData = "";
 		//location = validatedLocation(location);
 		Scanner s = new Scanner(location);
@@ -43,7 +42,7 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		return jsonData;
 	}
 	
-	public void saveLevel(LevelData data, String location) {
+	public void saveLevel(LevelDataI data, String location) {
 		String jsonData = json.prettyPrint(data);
 		location = validatedLocation(location);
 		try{
@@ -58,6 +57,12 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		}
 	}
 	
+	public String[] splitString(String sign) {
+		String file = readFile("jsontest.txt");
+		String[] pieces = file.split(sign);
+		return pieces;
+	}
+	
 	public String validatedLocation(String location) {
 		//TODO
 		/*
@@ -70,6 +75,16 @@ public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD
 		}
 		*/
 		return location;
+	}
+	
+	public SettingsDataI loadSettings(String location, UserDataI user) {
+		SettingsDataI settings = new SettingsData(new UserData("removeThis","PWD"));	//TODO remove this
+		//TODO
+		return settings;
+	}
+	
+	public void saveSettings(SettingsDataI settings, String location) {
+		//TODO
 	}
 
 }

@@ -2,33 +2,44 @@ package be.howest.twentytwo.parametergame.screen;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.factory.InputFactory;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
+import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
-import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
-import be.howest.twentytwo.parametergame.model.component.AISuiciderComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AIBrutalizerComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AIScoutComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AISuiciderComponent;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
+import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -36,7 +47,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -47,44 +57,55 @@ public class GameScreen extends BaseScreen {
 	private World world;
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
-	        
-    public static Entity mainPlayer = null;
-        
-	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp){
+	private EventQueue eventQueue; // Have event queue out of engine for some ui
+									// events.
+
+	public static Entity mainPlayer = null;
+
+	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp, EventQueue eventQueue) {
 		super(context);
 		this.engine = engine;
 		this.viewport = vp;
-		// TODO: Don't need world? --> World should be part of the supplied engine.
+		this.eventQueue = eventQueue;
+		// TODO: Don't need world? --> World should be part of the supplied
+		// engine.
 		// The constructor below is just for testing.
 	}
 
+	@Deprecated
 	public GameScreen(ScreenContext context) {
 		super(context);
 		initWorld();
-		initUI();
+		this.eventQueue = new EventQueue();
 	}
+
+	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE
+	// ELSE //////
 
 	private void initWorld() {
 		engine = new PooledEngine(); // NOTE: engine.createEntity() to get the
 										// pooled object.
 		// TODO/NOTE: Engine needs to be passed to factories for construction
 
-		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
+		EventQueue eq = new EventQueue();
+		Collection<IPhysicsMessage> events = new ArrayList<IPhysicsMessage>();
 
 		world = new World(new Vector2(0f, 0f), true); // 0g world
 		// world.setContactListener(createContactListener(events));
-		ContactListener collisionListener = new GravityContactProcessor(events);
+		ContactProcessor collisionListener = new GravityContactProcessor(eq, events);
+		collisionListener.addProcessor(new PlayerContactProcessor(eq, events));
 		world.setContactListener(collisionListener);
 
 		// ECS systems
 		// TODO: Viewport choice
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
 
-		viewport = new FitViewport(320f, 180f); // Viewport size (in world units)
+		viewport = new FitViewport(320f, 180f); // Viewport size (in world
+												// units)
 
 		/*
-		 * B) ScreenViewport = full size without stretching, but shown field is different based on
-		 * aspect ratio --> possible balance concern
+		 * B) ScreenViewport = full size without stretching, but shown field is
+		 * different based on aspect ratio --> possible balance concern
 		 */
 
 		// ScreenViewport sv = new ScreenViewport();
@@ -95,37 +116,37 @@ public class GameScreen extends BaseScreen {
 		viewport.getCamera().position.y = 50f;
 
 		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
-		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext()
-				.getSpriteBatch(), getContext().getAssetManager(), viewport);
+		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext().getSpriteBatch(),
+				getContext().getAssetManager(), viewport);
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
-                engine.addSystem(new AiSystem(events));
+		engine.addSystem(new AiSystem(events));
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
 		// engine.addSystem(new AISystem());
-		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+		engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), getContext().getShapeRenderer()));
 
-		engine.addEntityListener(Family.all(BodyComponent.class).get(),
-				new PhysicsBodyEntityListener(world));
+		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
 		// Asset loading here for now
 		Gdx.app.log("GameScreen", "Loading assets...");
 		getContext().getAssetManager().load("sprites/ships.pack", TextureAtlas.class);
 		getContext().getAssetManager().load("sprites/geowars.pack", TextureAtlas.class);
-		// getContext().getAssetManager().load("sprites/tiles.pack", TextureAtlas.class);
+		// getContext().getAssetManager().load("sprites/tiles.pack",
+		// TextureAtlas.class);
 		// This is done in BackgroundRenderSystem
 		getContext().getAssetManager().finishLoading();
 		Gdx.app.log("GameScreen", "Asset loading finished!");
 
-		Entity ship = createShip();
-                mainPlayer = ship;
+		Entity playerShip = createShip();
+		mainPlayer = playerShip;
 		Entity planet = createPlanet();
-		Entity camEntity = createCameraEntity(ship, viewport.getCamera());
+		Entity camEntity = createCameraEntity(playerShip, viewport.getCamera());
 
-		engine.addEntity(ship);
+		engine.addEntity(playerShip);
 		engine.addEntity(planet);
-		
+
 		engine.addEntity(createStaticCircle(-5f, -5f, 1f));
 		engine.addEntity(createStaticCircle(0, 0, 1f));
 		engine.addEntity(createStaticCircle(5f, 5f, 1f));
@@ -133,50 +154,40 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(100f, 50f, 1f));
 		engine.addEntity(createStaticCircle(150f, 50f, 1f));
 		engine.addEntity(camEntity);
-                
-        int numberOfScoutEnemies = 4;
-        for(int x = 0; x < numberOfScoutEnemies; x++)
-        {
-            Entity scoutShip = createAIShip((x - numberOfScoutEnemies/2)* 20, 100, "scouter");
-            AIScoutComponent scoutComponent = engine.createComponent(AIScoutComponent.class);
-            scoutShip.add(scoutComponent);
-            engine.addEntity(scoutShip);           
-        }
-        
-        int numberOfSuiciderEnemies = 4;
-        for(int x = 0; x < numberOfSuiciderEnemies; x++)
-        {
-            Entity aiShip = createAIShip((x - numberOfSuiciderEnemies/2)* 20, 2, "suicider");
-            AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
-            aiShip.add(suiciderComponent);
-            engine.addEntity(aiShip);           
-        }
-        
-        int numberOfBrutalizerEnemies = 4;
-        for(int x = 0; x < numberOfBrutalizerEnemies; x++)
-        {
-            Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies/2)* 20, -100, "brutalizer");
-            AIBrutalizerComponent brutalizerComponent = engine.createComponent(AIBrutalizerComponent.class);
-            brutalizerShip.add(brutalizerComponent);
-            engine.addEntity(brutalizerShip);           
-        }
 
-		/*
-		 * events.add(new GravityPhysicsEvent(planet.getComponent(BodyComponent.class).getBody(),
-		 * ship.getComponent( BodyComponent.class).getBody()));
-		 */
+		int numberOfScoutEnemies = 4;
+		for (int x = 0; x < numberOfScoutEnemies; x++) {
+			Entity scoutShip = createAIShip((x - numberOfScoutEnemies / 2) * 20, 100, "scouter");
+			AIScoutComponent scoutComponent = engine.createComponent(AIScoutComponent.class);
+			scoutShip.add(scoutComponent);
+			engine.addEntity(scoutShip);
+		}
 
-		// INPUT MAPPING 2
-		MovementComponent shipMC = MovementComponent.MAPPER.get(ship);
-		Gdx.input.setInputProcessor(new PlayerInputProcessor(shipMC));
+		int numberOfSuiciderEnemies = 4;
+		for (int x = 0; x < numberOfSuiciderEnemies; x++) {
+			Entity aiShip = createAIShip((x - numberOfSuiciderEnemies / 2) * 20, 2, "suicider");
+			AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
+			aiShip.add(suiciderComponent);
+			engine.addEntity(aiShip);
+		}
+
+		int numberOfBrutalizerEnemies = 4;
+		for (int x = 0; x < numberOfBrutalizerEnemies; x++) {
+			Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies / 2) * 20, -100, "brutalizer");
+			AIBrutalizerComponent brutalizerComponent = engine.createComponent(AIBrutalizerComponent.class);
+			brutalizerShip.add(brutalizerComponent);
+			engine.addEntity(brutalizerShip);
+		}
+
+		UserDataI user = getContext().getDataService().getUser("SOMEUSER");
+		SettingsDataI settings = getContext().getFileService().loadSettings("Some_Location", user);
+		settings.addPlayer(user);
+		Map<String, String> keyActionMap = settings.getKeyBinds(user);
+
+		Gdx.input.setInputProcessor(
+				new PlayerInputProcessor(new InputFactory().createPlayerKeymap(keyActionMap, playerShip)));
 
 	}
-
-	private void initUI() {
-		// TODO: UI
-	}
-
-	// ///// WELCOME TO THE REFACTOR ZONE, ALL THIS HAS TO BE MOVED SOMEPLACE ELSE //////
 
 	// //// TODO: TESTING ONLY - CREATING ENTITIES //////
 	private Entity createShip() {
@@ -192,13 +203,15 @@ public class GameScreen extends BaseScreen {
 		moveComponent.setMaxAngularVelocity(100f);
 		moveComponent.setLinearAcceleration(100f);
 		moveComponent.setAngularAcceleration(50f);
-		
+		moveComponent.setLinearDampStrength(1f);
+
 		ship.add(moveComponent);
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
+		// bodyDef.fixedRotation = true; --> Should be true for all/player
+		// ships?
 
 		bodyDef.position.set(10f, 10f);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
@@ -219,7 +232,7 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.restitution = 0.75f; // = Bounciness
 
 		fixtureDef.filter.categoryBits = Constants.PLAYER_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.PLAYER_MASK;
+		fixtureDef.filter.maskBits = Constants.PLAYER_COLLISION_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -231,19 +244,19 @@ public class GameScreen extends BaseScreen {
 
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 
-		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
-		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+		// Texture texture = getContext().getAssetManager().get("mrArrow.png",
+		// Texture.class);
+		// TextureRegion region = new TextureRegion(texture); // Load the full
+		// texture (it's not a
 		// sheet)
 
-		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack",
-				TextureAtlas.class);
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/ships.pack", TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion("recon");
 
 		sprite.setRegion(region);
 		ship.add(sprite);
 		return ship;
 	}
-
 
 	private Entity createPlanet() {
 		Entity planet = engine.createEntity();
@@ -347,8 +360,8 @@ public class GameScreen extends BaseScreen {
 
 		return cameraEntity;
 	}
-        
-        private Entity createAIShip(float posx, float posy, String textureRegion) {
+
+	private Entity createAIShip(float posx, float posy, String textureRegion) {
 		Entity ship = engine.createEntity();
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(new Vector2(posx, posy));
@@ -362,14 +375,13 @@ public class GameScreen extends BaseScreen {
 		moveComponent.setLinearAcceleration(7.5f);
 		moveComponent.setAngularAcceleration(10f);
 		ship.add(moveComponent);
-                
-                
 
 		BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		// bodyDef.fixedRotation = true; --> Should be true for all/player ships?
-                  
+		// bodyDef.fixedRotation = true; --> Should be true for all/player
+		// ships?
+
 		bodyDef.position.set(posx, posy);
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
@@ -389,7 +401,7 @@ public class GameScreen extends BaseScreen {
 		fixtureDef.restitution = 0.75f; // = Bounciness
 
 		fixtureDef.filter.categoryBits = Constants.ENEMY_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.ENEMY_MASK;
+		fixtureDef.filter.maskBits = Constants.ENEMY_COLLISION_MASK;
 
 		rigidBody.createFixture(fixtureDef); // Attach fixture to body
 
@@ -406,12 +418,13 @@ public class GameScreen extends BaseScreen {
 		getContext().getAssetManager().load("sprites/AI.pack", TextureAtlas.class);
 		getContext().getAssetManager().finishLoading();
 
-		// Texture texture = getContext().getAssetManager().get("mrArrow.png", Texture.class);
-		// TextureRegion region = new TextureRegion(texture); // Load the full texture (it's not a
+		// Texture texture = getContext().getAssetManager().get("mrArrow.png",
+		// Texture.class);
+		// TextureRegion region = new TextureRegion(texture); // Load the full
+		// texture (it's not a
 		// sheet)
 
-		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/AI.pack",
-				TextureAtlas.class);
+		TextureAtlas spritesheet = getContext().getAssetManager().get("sprites/AI.pack", TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(textureRegion);
 
 		sprite.setRegion(region);
@@ -419,18 +432,20 @@ public class GameScreen extends BaseScreen {
 		return ship;
 	}
 
-	// //// /ENTITIES //////
-
-	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY //////
+	// //// YOU ARE NOW LEAVING THE REFACTOR ZONE, I HOPE YOU ENJOYED YOUR STAY
+	// //////
 
 	@Override
 	public void show() {
-
+//		Music m = Gdx.audio.newMusic(Gdx.files.internal("hsmain.mp3"));
+//		m.setVolume(0.2f);
+//		m.play();
 	}
 
 	@Override
 	public void render(float delta) {
 		engine.update(delta);
+		eventQueue.dispatch();
 	}
 
 	@Override
@@ -458,7 +473,6 @@ public class GameScreen extends BaseScreen {
 	public void dispose() {
 		super.dispose();
 		world.dispose();
-
 	}
 
 }

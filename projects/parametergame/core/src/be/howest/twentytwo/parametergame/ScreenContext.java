@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame;
 
 import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
 
 import com.badlogic.gdx.Game;
@@ -19,18 +20,20 @@ public class ScreenContext {
 	private final ShapeRenderer shapeRenderer;
 	private final IPlatformService platformService;
 	private final IDataService dataService;
+	private final IFileAccessor fileService;
 	private final Game game;
 
 	// private I18NBundle internationalization;
 
 	public ScreenContext(Game game, AssetManager assets, SpriteBatch batch, ShapeRenderer shapes, IPlatformService platform,
-			IDataService dataService) {
+			IDataService dataService, IFileAccessor fileService) {
 		this.game = game;
 		this.assetManager = assets;
 		this.spriteBatch = batch;
 		this.shapeRenderer = shapes;
 		this.platformService = platform;
 		this.dataService = dataService;
+		this.fileService = fileService;
 	}
 
 	public AssetManager getAssetManager() {
@@ -51,6 +54,10 @@ public class ScreenContext {
 
 	public IDataService getDataService() {
 		return dataService;
+	}
+	
+	public IFileAccessor getFileService(){
+		return fileService;
 	}
 	
 	private Game getGame(){

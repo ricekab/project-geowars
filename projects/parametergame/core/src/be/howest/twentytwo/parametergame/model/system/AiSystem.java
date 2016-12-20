@@ -2,16 +2,16 @@ package be.howest.twentytwo.parametergame.model.system;
 
 import java.util.Collection;
 
-import be.howest.twentytwo.parametergame.model.component.AIBrutalizerComponent;
-import be.howest.twentytwo.parametergame.model.component.AIComponent;
-import be.howest.twentytwo.parametergame.model.component.AIObstacleComponent;
-import be.howest.twentytwo.parametergame.model.component.AIScoutComponent;
-import be.howest.twentytwo.parametergame.model.component.AISuiciderComponent;
-import be.howest.twentytwo.parametergame.model.component.AISuiciderSquadComponent;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
+import be.howest.twentytwo.parametergame.model.component.ai.AIBrutalizerComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AIObstacleComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AIScoutComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AISuiciderComponent;
+import be.howest.twentytwo.parametergame.model.component.ai.AISuiciderSquadComponent;
+import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -25,9 +25,9 @@ public class AiSystem extends IteratingSystem {
 		super(Family.all(AIComponent.class, BodyComponent.class, MovementComponent.class).get(), PRIORITY);
 	}
 
-	public Collection<IPhysicsEvent> events;
+	public Collection<IPhysicsMessage> events;
 
-	public AiSystem(Collection<IPhysicsEvent> events) {
+	public AiSystem(Collection<IPhysicsMessage> events) {
 		super(Family.all(TransformComponent.class)
                         .one(AIScoutComponent.class, AISuiciderComponent.class, AIBrutalizerComponent.class, AIObstacleComponent.class, AISuiciderSquadComponent.class)
                         .get(), PRIORITY);

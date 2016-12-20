@@ -1,38 +1,17 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipData;
-import be.howest.twentytwo.parametergame.factory.PlanetFactory;
-import be.howest.twentytwo.parametergame.factory.PlayerShipFactory;
-import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.CameraComponent;
-import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.events.IPhysicsEvent;
-import be.howest.twentytwo.parametergame.model.system.AiSystem;
-import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.CameraSystem;
-import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
-import be.howest.twentytwo.parametergame.model.system.RenderSystem;
-import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.factory.LevelFactory;
+import be.howest.twentytwo.parametergame.model.event.EventEnum;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -41,8 +20,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class LoadingScreen extends BaseScreen {
 
-	public LoadingScreen(ScreenContext context) {
+	private final String levelFile;
+
+	public LoadingScreen(ScreenContext context, String levelFile) {
 		super(context);
+		this.levelFile = levelFile;
+	}
+
+	public LoadingScreen(ScreenContext context) {
+		this(context, "arcade01");
 	}
 
 	@Override
@@ -50,13 +36,15 @@ public class LoadingScreen extends BaseScreen {
 		// Queue up assets for loading
 		AssetManager assetMgr = getContext().getAssetManager();
 
-		// TODO: If loading screen needs assets, load those first before queuing the others.
+		// TODO: If loading screen needs assets, load those first before queuing
+		// the others.
 		// assetMgr.load(loadingscreenstuff)
 		// assetMgr.finishLoading() // --> blocks until queue is cleared
 		// Setup loading bar or whatever
 		assetMgr.load("sprites/ships.pack", TextureAtlas.class);
 		assetMgr.load("sprites/geowars.pack", TextureAtlas.class);
 		assetMgr.load("sprites/tiles.pack", TextureAtlas.class);
+		assetMgr.load("sprites/AI.pack", TextureAtlas.class);
 	}
 
 	@Override
@@ -65,27 +53,17 @@ public class LoadingScreen extends BaseScreen {
 		while (assets.update() == false) { // Still loading
 			float progress = assets.getProgress();
 			// Update loading bar
-			// Gdx.app.log("LoadingScreen", String.format("Loading: %f", progress));
+			// Gdx.app.log("LoadingScreen", String.format("Loading: %f",
+			// progress));
 		}
 		long start = System.nanoTime();
 		Gdx.app.log("LoadingScreen", "Building universe...");
-		// ENGINE
-		PooledEngine engine = new PooledEngine();
-
-		// MESSAGING OBJECTS
-		Collection<IPhysicsEvent> events = new ArrayList<IPhysicsEvent>();
-
-		// PHYSICS INIT
-		World world = new World(new Vector2(0f, 0f), true);
-
-		ContactProcessor collisionListener = new GravityContactProcessor(events);
-		// TODO: Add other contact listeners here.
-
-		world.setContactListener(collisionListener);
 
 		// VIEWPORT / CAM
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
-		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in world units)
+		// 240 135 // 320 180
+		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in
+															// world units)
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on
 		 * aspect ratio --> possible balance concern
@@ -94,61 +72,36 @@ public class LoadingScreen extends BaseScreen {
 		// sv.setUnitsPerPixel(0.25f);
 		// viewport = sv;
 
-		// ENTITY FACTORIES
-		PlayerShipFactory playerFactory = new PlayerShipFactory();
-		PlanetFactory planetFactory = new PlanetFactory();
+		LevelFactory levelFactory = new LevelFactory();
+		EventQueue eventQueue = new EventQueue();
 
-		// SYSTEMS
-		RenderSystem renderSys = new RenderSystem(getContext().getSpriteBatch(), viewport);
-		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(getContext()
-				.getSpriteBatch(), assets, viewport);
-		engine.addSystem(new MovementSystem(events));
-		engine.addSystem(new PhysicsSystem(world, events));
-		engine.addSystem(new AiSystem(events));
-		engine.addSystem(new CameraSystem());
-		engine.addSystem(bgRenderSys);
-		engine.addSystem(renderSys);
-		// engine.addSystem(new AISystem());
-		engine.addSystem(new PhysicsRenderSystem(world, renderSys.getCamera()));
+		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue,
+				levelFile);
 
-		engine.addEntityListener(Family.all(BodyComponent.class).get(),
-				new PhysicsBodyEntityListener(world));
-
-		// ENTITY CREATION
-		IDataService dataService = getContext().getDataService();
-
-		Collection<ShipData> ships = dataService.getShips(dataService.getUser("TEST"));
-		if(ships.isEmpty()) {
-			Gdx.app.error("LoadingScr", "ERR: NO SHIPS FOR USER");
-		}
-		PlayerShipDataI psData = new PlayerShipData(ships.iterator().next());
-
-		// TODO: SHIP WORLD SIZE from where?
-		Entity playerShip = playerFactory.createPlayerShip(engine, world, assets, psData, 8.0f,
-				8.0f, 5.0f, 5.0f);
-
-		engine.addEntity(playerShip);
-
-		engine.addEntity(planetFactory.createPlanet(engine, world, assets, new PlanetData(60.0f,
-				80.0f, 4f, "NOPE", 10f, 40f)));
-	
-		engine.addEntity(planetFactory.createPlanet(engine, world, assets, new PlanetData(-15.0f,
-				30.0f, 2f, "NOPE", 10f, 24f)));
-
-		// ENTITY CREATION - CAMERA
-		Entity cameraEntity = engine.createEntity();
-
-		CameraComponent camComp = engine.createComponent(CameraComponent.class);
-		camComp.setCamera(viewport.getCamera());
-		camComp.addTrackPoint(playerShip, 1);
-
-		cameraEntity.add(camComp);
-
-		engine.addEntity(cameraEntity);
-
+		Gdx.app.log("LoadingScreen", "Initializing events...");
+		registerSoundEvents(eventQueue);
+		registerGameEvents(eventQueue);
+		
 		Gdx.app.log("LoadingScreen",
 				String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
-		getContext().setScreen(new GameScreen(getContext(), engine, viewport));
+		getContext().setScreen(new GameScreen(getContext(), engine, viewport, eventQueue));
+	}
+	
+	private void registerSoundEvents(EventQueue eventQueue){
+		// register event handlers on event queue to send sound messages.
+		// Will need another chain of objects to filter the messages
+		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+	}
+	
+	private void registerGameEvents(EventQueue eventQueue){
+		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
+			
+			@Override
+			public void handle(IEvent event) {
+				EnemyKilledEvent e = (EnemyKilledEvent)event;
+				// Add score points and stuff.
+			}
+		});
 	}
 
 	@Override
