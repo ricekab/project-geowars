@@ -73,7 +73,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
 			short physicsMask) {
 		Entity projectile = engine.createEntity();
 
@@ -115,12 +115,14 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		timedComponent.setTimeRemaining(timeToLive);
 		projectile.add(timedComponent);
 		
+		engine.addEntity(projectile);
+		
 		return projectile;
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
-		return createEntity(pos, rotation, initialVelocity, fixtureDef.filter.categoryBits, fixtureDef.filter.maskBits);
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
+		return spawnEntity(pos, rotation, initialVelocity, fixtureDef.filter.categoryBits, fixtureDef.filter.maskBits);
 	}
 
 	@Override

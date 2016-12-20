@@ -107,7 +107,9 @@ public class LevelFactory {
 		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
 		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
-		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
+		PhysicsSystem physicsSystem = new PhysicsSystem(world, physicsMessageQueue);
+		engine.addSystem(physicsSystem);
+		// engine.addEntityListener(physicsSystem);
 		engine.addSystem(new AiSystem(physicsMessageQueue));
 		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());

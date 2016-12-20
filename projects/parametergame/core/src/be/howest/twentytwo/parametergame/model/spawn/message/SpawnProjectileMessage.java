@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.model.spawn.message;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 
 import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
@@ -49,7 +51,7 @@ public class SpawnProjectileMessage implements ISpawnMessage {
 
 	@Override
 	public void execute(ISpawnFactory factory) {
-		factory.createEntity(getPos(), getRotation(), getVel(), getPhysicsCategory(), getPhysicsMask());
+		factory.spawnEntity(getPos(), getRotation(), getVel(), getPhysicsCategory(), getPhysicsMask());
 	}
 
 }

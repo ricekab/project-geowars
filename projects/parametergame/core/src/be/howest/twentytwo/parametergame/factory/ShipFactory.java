@@ -165,7 +165,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
 			short physicsCategory, short physicsMask) {
 		// TODO: See below
 		Gdx.app.error("ShipF", "This should not be run yet!!!");
@@ -173,7 +173,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
 		// TODO: After fixture size is calculated we can fix this up
 		Gdx.app.error("ShipF", "This should not be run yet!!!");
 		return null;
