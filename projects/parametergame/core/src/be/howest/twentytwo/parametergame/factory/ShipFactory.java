@@ -128,6 +128,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		bodyDef.position.set(pos.x, pos.y);
 		bodyDef.angle = rotation;
 		Body rigidBody = world.createBody(bodyDef); // Put in world
+		rigidBody.setUserData(ship);
 		bodyComponent.setBody(rigidBody);
 
 		rigidBody.setLinearDamping(shipData.getLinearDamping());
@@ -137,7 +138,6 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 			rigidBody.createFixture(fixture);
 		}
 
-		rigidBody.setUserData(ship);
 
 		ship.add(bodyComponent);
 

@@ -3,8 +3,10 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -41,8 +43,10 @@ public class BulletContactProcessor extends ContactProcessor {
 	}
 
 	private boolean handlePlayerBullet(Fixture playerBullet, Fixture target) {
-		// TODO
-		System.out.println("Player bullet contact");
+		short targetCategory = target.getFilterData().categoryBits;
+		if((targetCategory & Constants.PLANET_CATEGORY) > 0){
+			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
+		}
 		return false;
 	}
 

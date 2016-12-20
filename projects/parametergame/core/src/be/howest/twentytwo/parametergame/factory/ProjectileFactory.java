@@ -1,8 +1,10 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
+import be.howest.twentytwo.parametergame.model.component.TimedLifeComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -17,17 +19,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
-import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
-import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
-
 public class ProjectileFactory implements ISpawnFactory, Disposable {
 	private static final String PROJECTILE_SPRITE_PACK = "sprites/ships.pack";
 
@@ -39,6 +30,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	private BodyDef bodyDef;
 	private FixtureDef fixtureDef;
 	private SpriteComponent spriteComponent;
+	private float timeToLive;
 
 	public ProjectileFactory(PooledEngine engine, World world, AssetManager assets, WeaponDataI weaponData) {
 		this.engine = engine;
@@ -69,6 +61,8 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		TextureAtlas spritesheet = assets.get(PROJECTILE_SPRITE_PACK, TextureAtlas.class);
 		TextureRegion region = spritesheet.findRegion(weaponData.getID());
 		spriteComponent.setRegion(region);
+		
+		timeToLive = weaponData.getRange() / weaponData.getBulletSpeed();
 	}
 
 	/** Returns the name of the weapons this creates projectiles for. */
@@ -97,6 +91,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		bodyDef.linearVelocity.set(initialVelocity);
 		
 		Body rigidBody = world.createBody(bodyDef); // Put in world
+		rigidBody.setUserData(projectile);
 		bodyComponent.setBody(rigidBody);
 
 		fixtureDef.filter.categoryBits = physicsCategory;
@@ -111,6 +106,11 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		// TEXTURE/SPRITE
 		projectile.add(spriteComponent);
 
+		// TIMED LIFE
+		TimedLifeComponent timedComponent = engine.createComponent(TimedLifeComponent.class);
+		timedComponent.setTimeRemaining(timeToLive);
+		projectile.add(timedComponent);
+		
 		return projectile;
 	}
 

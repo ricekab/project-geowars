@@ -47,6 +47,7 @@ public class PlanetFactory {
 		// ships?
 		bodyDef.position.set(pdata.getXCoord(), pdata.getYCoord());
 		Body rigidBody = world.createBody(bodyDef); // Put in world
+		rigidBody.setUserData(planet);
 		bodyComponent.setBody(rigidBody);
 
 		FixtureFactory fixtureFactory = new FixtureFactory();
