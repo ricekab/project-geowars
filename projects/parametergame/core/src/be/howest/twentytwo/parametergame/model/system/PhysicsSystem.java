@@ -24,6 +24,8 @@ public class PhysicsSystem extends IteratingSystem {
 	public static final int PRIORITY = 0;
 
 	public static final float PHYSICS_TIMESTEP = 1 / 30f;
+	public static final int VELOCITY_ITERATIONS = 6;
+	public static final int POSITION_ITERATIONS = 3;
 
 	private World world;
 	/** Time elapsed since last update */
@@ -46,7 +48,7 @@ public class PhysicsSystem extends IteratingSystem {
 		elapsed += deltaTime;
 		if(elapsed >= PHYSICS_TIMESTEP) { // World timestep
 			processEvents(); // Process physics events (Collisions and inputevents)
-			world.step(PHYSICS_TIMESTEP, 6, 3); // Advance simulation
+			world.step(PHYSICS_TIMESTEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 			elapsed -= PHYSICS_TIMESTEP;
 			super.update(deltaTime); // processEntity below
 		}

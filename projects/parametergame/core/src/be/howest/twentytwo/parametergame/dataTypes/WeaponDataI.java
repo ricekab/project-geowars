@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public interface WeaponDataI {
 	
+	public final static int INFINITE_AMMO = -1;
+	
 	public String getID();	// = Name
 	
 	public float getOffsetX();

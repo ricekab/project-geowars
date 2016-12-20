@@ -54,7 +54,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		bodyDef.linearDamping = 0f;
 		bodyDef.angularDamping = 0f;
-		// bodyDef.bullet = true; // Only used for fast projectiles.
+		bodyDef.bullet = true; // Only used for fast projectiles.
 		// bodyDef.fixedRotation = true;
 
 		// FIXTURE DEFS
@@ -94,6 +94,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		bodyDef.position.set(pos.x, pos.y);
 		bodyDef.angle = rotation;
 		bodyDef.linearVelocity.set(initialVelocity);
+		
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		bodyComponent.setBody(rigidBody);
 

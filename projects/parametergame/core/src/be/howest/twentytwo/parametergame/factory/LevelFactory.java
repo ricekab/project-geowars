@@ -97,7 +97,7 @@ public class LevelFactory {
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport);
 		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
-		engine.addSystem(new WeaponSystem(spawnMessageQueue));
+		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
 		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(new AiSystem(physicsMessageQueue));
 		engine.addSystem(spawnSystem);
@@ -136,7 +136,6 @@ public class LevelFactory {
 		engine.addEntity(playerShip);
 
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet01", 10f, 40f)));
-
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet02", 10f, 24f)));
 
 		// ENTITY CREATION - CAMERA

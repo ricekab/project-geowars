@@ -4,7 +4,7 @@ import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
 public class FirePrimaryAction implements InputAction {
 
-	private WeaponComponent weapon;
+	private final WeaponComponent weapon;
 	
 	public FirePrimaryAction(WeaponComponent weapon) {
 		this.weapon = weapon;

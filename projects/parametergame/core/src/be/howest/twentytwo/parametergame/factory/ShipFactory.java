@@ -4,6 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
+import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
+import be.howest.twentytwo.parametergame.model.dataExtension.NullWeaponData;
+import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
@@ -16,17 +28,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-
-import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
-import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 
 public class ShipFactory implements ISpawnFactory, Disposable {
 	private static final String SHIP_SPRITE_PACK = "sprites/ships.pack";
@@ -62,8 +63,9 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		FixtureDef fixtureDef;
 		FixtureFactory fixtureFactory = new FixtureFactory();
 		for (FixtureDataI fd : fixturesData) {
-			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(), fd.getHeight(), fd.getOffsetX(),
-					fd.getOffsetY(), fd.getDensity(), fd.getFriction(), fd.getRestitution());
+			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(),
+					fd.getHeight(), fd.getOffsetX(), fd.getOffsetY(), fd.getDensity(),
+					fd.getFriction(), fd.getRestitution());
 			fixtureDef.filter.categoryBits = physicsData.getPhysicsCategory();
 			fixtureDef.filter.maskBits = physicsData.getPhysicsMask();
 			fixtureDefs.add(fixtureDef);
@@ -79,7 +81,8 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		spriteComponent.setRegion(region);
 	}
 
-	public Entity createShip(Vector2 pos, Vector2 size, float rotation, short bulletCategory, short bulletMask) {
+	public Entity createShip(Vector2 pos, Vector2 size, float rotation, short bulletCategory,
+			short bulletMask) {
 		Entity ship = engine.createEntity();
 
 		// TRANSFORM
@@ -100,17 +103,22 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 
 		// WEAPON
 		List<WeaponDataI> weaponsData = shipData.getWeapons();
-		if (weaponsData.size() > 0) {
+		if(weaponsData.size() > 0) {
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);
 			WeaponDataI primary = weaponsData.get(0);
-			weapon.setPrimary(primary);
+			weapon.setPrimary(new WeaponGameData(primary));
 			weaponsData.remove(primary);
-			if (weaponsData.size() == 0) {
-				weaponsData.add(new WeaponData("NULL", 0f, 0f, 1f, 0, 0f, 0f, 0f, 0f, 0f, 0f, 0, new Vector2(0f, 0f)));
+			if(weaponsData.size() == 0) {
+				WeaponDataI nullWeapon = new NullWeaponData();
+				weaponsData.add(nullWeapon);
 			}
-			weapon.setSecondaryWeapons(weaponsData);
+			List<WeaponGameData> weaponGameData = new ArrayList<WeaponGameData>();
+			for (WeaponDataI w : weaponsData) {
+				weaponGameData.add(new WeaponGameData(w));
+			}
+			weapon.setSecondaryWeapons(weaponGameData);
 			ship.add(weapon);
 		}
 
@@ -149,7 +157,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	@Override
 	public void dispose() {
 		for (FixtureDef fix : fixtureDefs) {
-			if (fix.shape != null) {
+			if(fix.shape != null) {
 				fix.shape.dispose();
 			}
 		}
@@ -157,8 +165,8 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	}
 
 	@Override
-	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
-			short physicsMask) {
+	public Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
+			short physicsCategory, short physicsMask) {
 		// TODO: See below
 		Gdx.app.error("ShipF", "This should not be run!!!");
 		return null;
