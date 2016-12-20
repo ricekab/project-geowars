@@ -39,7 +39,6 @@ public class PlayerContactProcessor extends ContactProcessor {
 	}
 
 	private boolean processBeginContact(Body player, Fixture target) {
-		Gdx.app.log("PlayerCP", "Player - beginContact called");
 		if((target.getFilterData().categoryBits & Constants.PLAYER_HIT_FILTER_MASK) > 0) {
 			Gdx.app.log("PlayerCP", "Player-Enemy contact");
 			
@@ -60,7 +59,6 @@ public class PlayerContactProcessor extends ContactProcessor {
 
 	@Override
 	protected boolean handleEndContact(Contact contact) {
-		Gdx.app.log("PlayerCP", "Player - handleEndContact called");
 		return false;
 	}
 

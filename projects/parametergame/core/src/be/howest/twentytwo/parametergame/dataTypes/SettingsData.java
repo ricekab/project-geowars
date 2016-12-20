@@ -30,6 +30,7 @@ public class SettingsData implements SettingsDataI, Serializable{
 		keybinds.put("Q", Inputs.TURN_LEFT);
 		keybinds.put("D", Inputs.TURN_RIGHT);
 		keybinds.put("Space", Inputs.FIRE_PRIMARY);
+		keybinds.put("A", Inputs.FIRE_PRIMARY);
 		keybinds.put("E", Inputs.FIRE_SECONDARY);
 		keybinds.put("R", Inputs.CYClE_SECONDARY);
 		keybinds.put("F", Inputs.TOGGLE_LINEAR_DAMP);

@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.component;
+package be.howest.twentytwo.parametergame.model.component.ai;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;

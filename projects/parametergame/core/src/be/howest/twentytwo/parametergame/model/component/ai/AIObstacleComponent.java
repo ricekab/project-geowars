@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.component;
+package be.howest.twentytwo.parametergame.model.component.ai;
 
 // @author Ward Van den Berghe
 
