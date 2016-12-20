@@ -97,4 +97,98 @@ public class WeaponData implements WeaponDataI {
 		return bulletSize;
 	}
 
+	public static class WeaponDataBuilder {
+
+		private String id;
+		private float offsetX;
+		private float offsetY;
+		private float fireRate;
+		private int bulletsPerShot;
+		private float shotConeAngle;
+		private float mass;
+		private float bulletDamage;
+		private float bulletSpeed;
+		private float range;
+		private float timeDelay;
+		private float turnSpeed;
+		private int ammoCount;
+		private Vector2 bulletSize;
+
+		public WeaponData build() {
+			return new WeaponData(id, offsetX, offsetY, fireRate, bulletsPerShot, shotConeAngle,
+					bulletDamage, mass, bulletSpeed, range, timeDelay, turnSpeed, ammoCount,
+					bulletSize);
+		}
+
+		public WeaponDataBuilder setId(String id) {
+			this.id = id;
+			return this;
+		}
+
+		public WeaponDataBuilder setOffsetX(float offsetX) {
+			this.offsetX = offsetX;
+			return this;
+		}
+
+		public WeaponDataBuilder setOffsetY(float offsetY) {
+			this.offsetY = offsetY;
+			return this;
+		}
+
+		public WeaponDataBuilder setFireRate(float fireRate) {
+			this.fireRate = fireRate;
+			return this;
+		}
+
+		public WeaponDataBuilder setBulletsPerShot(int bulletsPerShot) {
+			this.bulletsPerShot = bulletsPerShot;
+			return this;
+		}
+
+		public WeaponDataBuilder setShotConeAngle(float shotConeAngle) {
+			this.shotConeAngle = shotConeAngle;
+			return this;
+		}
+
+		public WeaponDataBuilder setBulletMass(float mass) {
+			this.mass = mass;
+			return this;
+		}
+
+		public WeaponDataBuilder setBulletDamage(float bulletDamage) {
+			this.bulletDamage = bulletDamage;
+			return this;
+		}
+
+		public WeaponDataBuilder setBulletSpeed(float bulletSpeed) {
+			this.bulletSpeed = bulletSpeed;
+			return this;
+		}
+
+		public WeaponDataBuilder setRange(float range) {
+			this.range = range;
+			return this;
+		}
+
+		public WeaponDataBuilder setTimeDelay(float timeDelay) {
+			this.timeDelay = timeDelay;
+			return this;
+		}
+
+		public WeaponDataBuilder setTurnSpeed(float turnSpeed) {
+			this.turnSpeed = turnSpeed;
+			return this;
+		}
+
+		public WeaponDataBuilder setAmmoCount(int ammoCount) {
+			this.ammoCount = ammoCount;
+			return this;
+		}
+
+		public WeaponDataBuilder setBulletSize(Vector2 bulletSize) {
+			this.bulletSize = bulletSize;
+			return this;
+		}
+
+	}
 }

@@ -17,6 +17,7 @@ import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 
@@ -37,10 +38,17 @@ public class InMemoryDataService implements IDataService {
 				Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
-		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 5f, 75f, 1500f, 0f,
-				5f, WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f,
-				1f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
+		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
+				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
+				.setBulletSpeed(75f).setBulletMass(5f).setRange(1500f)
+				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
+				.setTimeDelay(0f).setTurnSpeed(0f).build();
+		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f, 5f,
+		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
+		// TODO: Switch to builder to clarify arguments.
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
+				3500f, 0f, 1f, 25, new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		data.add(new ShipData("recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
@@ -62,10 +70,10 @@ public class InMemoryDataService implements IDataService {
 				Constants.ENEMY_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
-		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 5f, 75f, 1500f, 0f,
-				5f, WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f,
-				1f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 5f, 75f, 1500f,
+				0f, 5f, WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
+				3500f, 0f, 1f, 25, new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f,
