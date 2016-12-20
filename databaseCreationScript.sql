@@ -107,7 +107,13 @@ create table playerShip(
     foreign key (`shipName`) references ship(`name`)
 );
 
-
+create table playerShipProperty(
+	`playerShipID` varchar(128) not null,
+    `playerName` varchar(128) not null,
+    primary key(`playerShipID`, `playerName`),
+    foreign key(`playerShipID`) references playerShip(`ID`),
+    foreign key(`playerName`) references player(`name`)
+);
 
 create table  playedGame(
 	`PlayerShipID` varchar(128) not null,

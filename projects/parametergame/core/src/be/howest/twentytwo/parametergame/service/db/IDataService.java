@@ -7,6 +7,7 @@ import java.util.Collection;
  */
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
@@ -17,7 +18,7 @@ public interface IDataService {
 	
 	public Collection<EnemyDataI> getEnemies(String... name);	//allows you to write getEnemies("Str1","Str2) instead of getEnemies(Str[])
 	
-	public Collection<ShipDataI> getShips(UserDataI user);
+	public Collection<PlayerShipDataI> getShips(UserDataI user);
 	
 	public Collection<DroneDataI> getDrones(UserDataI user);
 	

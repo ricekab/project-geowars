@@ -5,6 +5,16 @@ insert into player(`name`,`password`,`difficultyID`)
 		("user22", "22", "easy"),
 		("Nick","nick","easy");
         
+insert into playerShip(`id`,`mass`,`exp`,`lvl`,`shipName`,`campaignLevel`)
+	values
+		("Millenium Falcon",100,1000,10,"recon",3),
+        ("Some spaceship", 5000, 0, 0, "fighter", 0);
+        
+insert into playerShipProperty(`playerShipID`,`playerName`)
+	values
+		("Millenium Falcon", "Nick"),
+        ("Some spaceship", "user22");
+        
 insert into difficulty(`ID`,`movementModifier`,`scoreModifier`,`healthModifier`,`firerateModifier`)
 	values
 		("easy",1,1,1,1),

@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashSet;
 
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData.ShipDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -56,30 +58,51 @@ public class SQLDataService implements IDataService {
 		}
 		return user;
 	}
-
-	public Collection<EnemyDataI> getEnemies(String... names) {
-		Collection<EnemyDataI> enemies = null;
-		String enemyNames = convertToSQLArray(names);
+	
+	private EnemyDataI getEnemy(String name) {
+		EnemyDataI enemyShip = null;
 		try {
 			String sql = "select e.ID, e.geomDroprate, e.baseScore, e.behaviour, s.* from parametergame.enemyShip e join parametergame.ship s on s.name = e.shipName where e.ID in (?)"; //("bomber","fighter") valid format
 			PreparedStatement prep = con.prepareStatement(sql);
-			prep.setString(1, enemyNames);
+			prep.setString(1, name);
 			System.out.println(prep);
 			ResultSet res = prep.executeQuery();
-			while(res.next()) {
+			if(res.next()) {
 				ShipDataBuilder builder = new ShipData.ShipDataBuilder();
 				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).build();
-				EnemyDataI enemyShip = new EnemyData(res.getString("ID"), res.getFloat("geomDroprate"), res.getInt("baseScore"), res.getString("behaviour"), ship);
-				enemies.add(enemyShip);
+				enemyShip = new EnemyData(res.getString("ID"), res.getFloat("geomDroprate"), res.getInt("baseScore"), res.getString("behaviour"), ship);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		return enemyShip;
+	}	
+
+	public Collection<EnemyDataI> getEnemies(String... names) {
+		Collection<EnemyDataI> enemies = new HashSet<>();
+		for(String name : names) {
+			enemies.add(getEnemy(name));
+		}
 		return enemies;
 	}
 
-	public Collection<ShipDataI> getShips(UserDataI user) {
-		return null;
+	public Collection<PlayerShipDataI> getShips(UserDataI user) {
+		Collection<PlayerShipDataI> ships = new HashSet<>();
+		try {
+			String sql = "select * from parametergame.playerShip ps join parametergame.playerShipProperty pp on ps.ID = pp.playerShipID join parametergame.player p on p.name = pp.playerName where p.name = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, user.getUser());
+			ResultSet rs = prep.executeQuery();
+			while(rs.next()) {
+				ShipDataBuilder builder = new ShipData.ShipDataBuilder();
+				ShipDataI ship = builder/*TODO*/.build();
+				PlayerShipDataI playerShip = new PlayerShipData(ship);
+				ships.add(playerShip);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ships;
 	}
 
 	public Collection<DroneDataI> getDrones(UserDataI user) {
@@ -96,18 +119,6 @@ public class SQLDataService implements IDataService {
 
 	public void saveDrone(DroneDataI data) {
 
-	}
-	
-	private String convertToSQLArray(String... names) {
-		String enemyNames = "";
-		for(int i = 0; i < names.length;) {
-			enemyNames += names[i] + "'";
-			i++;
-			if(i < names.length) {
-				enemyNames += ",'";
-			}
-		}
-		return enemyNames;
 	}
 
 }

@@ -8,6 +8,8 @@ public class PlayerShipData implements PlayerShipDataI{
 	private ShipDataI shipData;
 	private Collection<DroneDataI> drones;
 	
+	//TODO implement data from SQL
+	
 	public PlayerShipData(ShipDataI ship, Collection<DroneDataI> drones) {
 		setShipData(ship);
 		setDrones(drones);

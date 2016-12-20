@@ -12,6 +12,8 @@ import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
@@ -33,8 +35,8 @@ public class InMemoryDataService implements IDataService {
 	}
 
 	@Override
-	public List<ShipDataI> getShips(UserDataI user) {
-		List<ShipDataI> data = new ArrayList<>();
+	public List<PlayerShipDataI> getShips(UserDataI user) {
+		List<PlayerShipDataI> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
@@ -52,8 +54,8 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-		data.add(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
-				physicsData, 15f, 25f));
+		data.add(new PlayerShipData(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
+				physicsData, 15f, 25f)));
 
 		return data;
 	}

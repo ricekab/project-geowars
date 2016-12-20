@@ -1,15 +1,19 @@
 package be.howest.twentytwo.parametergame.service.db;
 
-import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import java.util.Collection;
+
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
 
 public class Writer {
 	public static void main(String[] args) {
 		
 		SQLDataService db = SQLDataService.getInstance();
-		String[] names = {"BMB01","RCN42"};
-		System.out.println(db.getEnemies(names));
-		String[] name = {"BMB01"};
-		System.out.println(db.getEnemies(name));
+		UserData user = new UserData("Nick","123456");
+		Collection<PlayerShipDataI> ships = db.getShips(user);
+		for(PlayerShipDataI ship : ships) {
+			System.out.println(ship.getShipData().getName());	
+		}
 		
 	}
 }
