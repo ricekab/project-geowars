@@ -10,6 +10,7 @@ public class WeaponData implements WeaponDataI {
 	private float fireRate;
 	private int bulletsPerShot;
 	private float shotConeAngle;
+	private float mass;
 	private float bulletDamage;
 	private float bulletSpeed;
 	private float range;
@@ -18,9 +19,9 @@ public class WeaponData implements WeaponDataI {
 	private int ammoCount;
 	private Vector2 bulletSize;
 
-	public WeaponData(String id, float offsetX, float offsetY, float fireRate, int bulletsPerShot, float shotConeAngle,
-			float damage, float bulletSpeed, float range, float timeDelay, float turnSpeed, int ammoCount,
-			Vector2 bulletSize) {
+	public WeaponData(String id, float offsetX, float offsetY, float fireRate, int bulletsPerShot,
+			float shotConeAngle, float damage, float bulletMass, float bulletSpeed, float range,
+			float timeDelay, float turnSpeed, int ammoCount, Vector2 bulletSize) {
 		this.id = id;
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
@@ -28,6 +29,7 @@ public class WeaponData implements WeaponDataI {
 		this.bulletsPerShot = bulletsPerShot;
 		this.shotConeAngle = shotConeAngle;
 		this.bulletDamage = damage;
+		this.mass = bulletMass;
 		this.bulletSpeed = bulletSpeed;
 		this.range = range;
 		this.timeDelay = timeDelay;
@@ -52,6 +54,11 @@ public class WeaponData implements WeaponDataI {
 
 	public float getFireRate() {
 		return fireRate;
+	}
+
+	@Override
+	public float getBulletMass() {
+		return mass;
 	}
 
 	public int getBulletsPerShot() {

@@ -1,11 +1,10 @@
 package be.howest.twentytwo.parametergame.model.component;
 
-import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;

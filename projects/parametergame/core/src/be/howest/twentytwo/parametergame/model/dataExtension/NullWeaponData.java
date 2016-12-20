@@ -42,6 +42,11 @@ public class NullWeaponData implements WeaponDataI {
 	public int getAmmoCount() {
 		return 0;
 	}
+	
+	@Override
+	public float getBulletMass() {
+		return 1f;
+	}
 
 	@Override
 	public Vector2 getBulletSize() {

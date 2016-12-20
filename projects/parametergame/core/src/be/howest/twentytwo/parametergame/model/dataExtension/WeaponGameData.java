@@ -109,6 +109,11 @@ public class WeaponGameData implements WeaponDataI {
 	}
 
 	@Override
+	public float getBulletMass() {
+		return weapon.getBulletMass();
+	}
+
+	@Override
 	public Vector2 getBulletSize() {
 		return weapon.getBulletSize();
 	}

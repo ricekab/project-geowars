@@ -59,6 +59,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 
 		// FIXTURE DEFS
 		fixtureDef = new FixtureDef();
+		fixtureDef.density = 1f;
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(weaponData.getBulletSize().x, weaponData.getBulletSize().y);
 		fixtureDef.shape = box;

@@ -34,7 +34,8 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 		/* Turns out static bodies have 0 mass. So simulate it (pass by data) */
 		gravityVector.scl(GRAVITATIONAL_CONSTANT).scl(1f / distanceSquared);
-		gravityVector.scl(1000f); // Simulate planet mass
+		// TODO: Use planetdata mass
+		gravityVector.scl(500f); // Simulate planet mass
 		// Fg = m(planet) * G(constant) / (r*r)
 
 		Gdx.app.debug("GravityPhysxEvt", gravityVector.toString());

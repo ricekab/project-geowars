@@ -136,7 +136,7 @@ public class LevelFactory {
 		engine.addEntity(playerShip);
 
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet01", 10f, 40f)));
-		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet02", 10f, 24f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet02", 5f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();

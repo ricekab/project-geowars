@@ -60,6 +60,7 @@ public class LoadingScreen extends BaseScreen {
 
 		// VIEWPORT / CAM
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
+		// 240 135 // 320 180
 		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in
 															// world units)
 		/*

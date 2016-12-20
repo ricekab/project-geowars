@@ -37,9 +37,9 @@ public class InMemoryDataService implements IDataService {
 				Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
-		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 100f, 1500f, 0f,
+		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 5f, 75f, 1500f, 0f,
 				5f, WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 200f, 3500f, 0f,
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f,
 				1f, 25, new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
@@ -62,10 +62,10 @@ public class InMemoryDataService implements IDataService {
 				Constants.ENEMY_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("Circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
-		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 0.5f, 3, 9f, 1f, 100f, 500f, 0f,
-				5f, -1, new Vector2(1f, 0.25f));
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 1f, 1, 0f, 1f, 150f, 1000f, 0f,
-				1f, 25, new Vector2(5f, 1f));
+		WeaponDataI primaryWeapon = new WeaponData("P001", 0f, 0f, 7.5f, 3, 9f, 1f, 5f, 75f, 1500f, 0f,
+				5f, WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f,
+				1f, 25, new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		ShipData shipData = new ShipData("enemy01", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f,
