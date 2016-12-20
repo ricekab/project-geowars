@@ -45,6 +45,7 @@ public class PhysicsSystem extends IteratingSystem {
 
 	@Override
 	public void update(float deltaTime) {
+		
 		elapsed += deltaTime;
 		if(elapsed >= PHYSICS_TIMESTEP) { // World timestep
 			processEvents(); // Process physics events (Collisions and inputevents)
