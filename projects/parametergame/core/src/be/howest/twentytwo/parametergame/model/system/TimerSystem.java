@@ -24,7 +24,6 @@ public class TimerSystem extends IteratingSystem{
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		Gdx.app.debug("TimerSys", String.format("deltaT: %f", deltaTime));
 		TimedLifeComponent tc = TimedLifeComponent.MAPPER.get(entity);
 		tc.setTimeRemaining(tc.getTimeRemaining() - deltaTime);
 		if(tc.getTimeRemaining() <= 0f && !tc.isFinished()){
