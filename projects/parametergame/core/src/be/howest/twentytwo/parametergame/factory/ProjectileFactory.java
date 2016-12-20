@@ -30,6 +30,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	private BodyDef bodyDef;
 	private FixtureDef fixtureDef;
 	private SpriteComponent spriteComponent;
+	private TextureRegion region;
 	private float timeToLive;
 
 	public ProjectileFactory(PooledEngine engine, World world, AssetManager assets, WeaponDataI weaponData) {
@@ -59,7 +60,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		// TEXTURE/SPRITE
 		spriteComponent = engine.createComponent(SpriteComponent.class);
 		TextureAtlas spritesheet = assets.get(PROJECTILE_SPRITE_PACK, TextureAtlas.class);
-		TextureRegion region = spritesheet.findRegion(weaponData.getID());
+		region = spritesheet.findRegion(weaponData.getID());
 		spriteComponent.setRegion(region);
 		
 		timeToLive = weaponData.getRange() / weaponData.getBulletSpeed();
@@ -104,7 +105,10 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		projectile.add(bodyComponent);
 
 		// TEXTURE/SPRITE
-		projectile.add(spriteComponent);
+		SpriteComponent sc = engine.createComponent(SpriteComponent.class);
+		// projectile.add(spriteComponent);
+		sc.setRegion(region);
+		projectile.add(sc);
 
 		// TIMED LIFE
 		TimedLifeComponent timedComponent = engine.createComponent(TimedLifeComponent.class);

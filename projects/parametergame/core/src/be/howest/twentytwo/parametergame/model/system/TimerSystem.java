@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 
 /**
  * System responsible for processing time delayed entities.
@@ -23,8 +24,7 @@ public class TimerSystem extends IteratingSystem{
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		System.out.println(deltaTime);
-		System.out.println("Process time");
+		Gdx.app.debug("TimerSys", String.format("deltaT: %f", deltaTime));
 		TimedLifeComponent tc = TimedLifeComponent.MAPPER.get(entity);
 		tc.setTimeRemaining(tc.getTimeRemaining() - deltaTime);
 		if(tc.getTimeRemaining() <= 0f && !tc.isFinished()){

@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -45,6 +46,7 @@ public class BulletContactProcessor extends ContactProcessor {
 	private boolean handlePlayerBullet(Fixture playerBullet, Fixture target) {
 		short targetCategory = target.getFilterData().categoryBits;
 		if((targetCategory & Constants.PLANET_CATEGORY) > 0){
+			Gdx.app.debug("BulletContact", "DestroyBulletFired");
 			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
 		}
 		return false;

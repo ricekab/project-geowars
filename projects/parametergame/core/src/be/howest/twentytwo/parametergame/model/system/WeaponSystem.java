@@ -36,9 +36,7 @@ public class WeaponSystem extends IteratingSystem {
 		WeaponComponent wc = WeaponComponent.MAPPER.get(entity);
 
 		for(WeaponGameData wpn : wc.getAllWeapons()){
-			Gdx.app.debug("WeaponSys", String.format("Current Cooldown: %f", wpn.getCurrentCooldown()));
 			wpn.cooldown(deltaTime);
-			Gdx.app.debug("WeaponSys", String.format("Current Cooldown: %f", wpn.getCurrentCooldown()));
 		}
 		
 		// Input / action processing
