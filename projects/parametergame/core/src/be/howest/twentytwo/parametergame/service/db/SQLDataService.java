@@ -16,9 +16,9 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 public class SQLDataService implements IDataService{
 	
 	private static SQLDataService instance;
-	private final String URL = "jdbc:mysql://localhost/mydatabase";
-	private final String USR = "root";	//TODO change this
-	private final String PWD = "";		//TODO change this
+	private final String URL = "jdbc:mysql://localhost/parametergame";
+	private final String USR = "user22";	//TODO change this
+	private final String PWD = "22";		//TODO change this
 	private Connection con;
 	
 	private SQLDataService() {
@@ -40,17 +40,18 @@ public class SQLDataService implements IDataService{
 
 	public UserDataI getUser(String username) {
 		//TODO USE FACTORY
+		UserDataI user = null;
 		try{
-		String sql = "select * from player where name = ?";
+		String sql = "select * from parametergame.player where name = ?";
 		PreparedStatement prep = con.prepareStatement(sql);
 		prep.setString(1, username);
+		System.out.println(prep);	//TODO what the actual fuck
 		ResultSet res = prep.executeQuery(sql);
-		UserDataI user = new UserData(res.getString("name"),res.getString("password"));
+		user = new UserData(res.getString("name"),res.getString("password"), res.getString("difficultyID"));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		UserDataI u = new UserData("DELETE THIS","DELETE THIS");
-		return u;
+		return user;
 	}
 
 	public Collection<EnemyDataI> getEnemies(String... name) {

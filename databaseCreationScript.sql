@@ -35,9 +35,9 @@ create table ship(
     `linearDamping` float,
     `angularDamping` float,
     `shipSize` float,
-    --`playerShipID` varchar(128), --WHUT?? fix this
-    primary key (`name`),
-    --foreign key (`playerShipID`) references playerShip(`ID`)
+    #`playerShipID` varchar(128), --WHUT?? fix this
+    primary key (`name`)
+    #--foreign key (`playerShipID`) references playerShip(`ID`)
 );
 
 create table weapon(

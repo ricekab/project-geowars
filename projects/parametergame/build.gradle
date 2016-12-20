@@ -59,6 +59,8 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         compile "com.google.inject:guice:$guiceVersion"
 		testCompile "junit:junit:4.12"
+		compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+		
     }
 	
 

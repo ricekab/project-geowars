@@ -20,3 +20,7 @@ insert into weapon(`ID`,`offsetX`,`offsetY`,`bulletDamage`,`shotConeAngle`,`fire
 	values
 		("PSTL01-01", 0, 0, 1, 0, 1, 500, 0, 1, 175, "recon"),
         ("L4ZRB34M", 0, 0, 0.2, 1, 15, 9001, 0.1, 10, 2500, "juggernaut");
+        
+insert into player(`name`,`password`,`difficultyID`)
+	values
+		("Nick","nick","easy");
