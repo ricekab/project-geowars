@@ -15,6 +15,8 @@ public interface ShipDataI {
 	public float getAngularAcceleration();
 	public float getLinearDamping();
 	public float getAngularDamping();
+	public float getShipSizeX();
+	public float getShipSizeY();
 	
 	/**
 	 * 
@@ -22,4 +24,5 @@ public interface ShipDataI {
 	public List<WeaponDataI> getWeapons();
 	
 	public PhysicsDataI getPhysicsData();
+	
 }

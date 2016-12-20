@@ -56,11 +56,15 @@ public class SQLDataService implements IDataService {
 
 	public Collection<EnemyDataI> getEnemies(String... names) {
 		Collection<EnemyDataI> enemies = null;
-		System.out.println(convertToSQLArray(names));
+		String enemyNames = convertToSQLArray(names);
 		try {
 			String sql = "select e.ID, e.geomDroprate, e.baseScore, e.behaviour, s.* from parametergame.enemyShip e join parametergame.ship s on s.name = e.shipName where s.name in ?"; //("bomber","fighter") valid format
 			PreparedStatement prep = con.prepareStatement(sql);
-			//prep.setString(1, name);
+			prep.setString(1, enemyNames);
+			ResultSet res = prep.executeQuery();
+			while(res.next()) {
+				//TODO BUILDER
+			}
 		}catch(Exception e) {
 			
 		}
@@ -87,8 +91,7 @@ public class SQLDataService implements IDataService {
 
 	}
 	
-	@Deprecated //make private
-	public String convertToSQLArray(String... names) {
+	private String convertToSQLArray(String... names) {
 		String enemyNames = "(";
 		for(int i = 0; i < names.length;) {
 			enemyNames += names[i];

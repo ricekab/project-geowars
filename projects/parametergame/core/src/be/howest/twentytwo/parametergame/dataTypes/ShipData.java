@@ -16,8 +16,10 @@ public class ShipData implements ShipDataI{
 	private float angularDamping;
 	private List<WeaponDataI> weapons;
 	private PhysicsDataI physicsData;
+	private float shipSizeX;
+	private float shipSizeY;
 	
-	public ShipData(String name, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, List<WeaponDataI> weapons, PhysicsDataI physicsData){
+	public ShipData(String name, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, List<WeaponDataI> weapons, PhysicsDataI physicsData, float shipSizeX, float shipSizeY){
 		this.name = name;
 		this.maxLinearSpeed = maxLinearSpeed;
 		this.maxAngularSpeed = maxAngularSpeed;
@@ -27,6 +29,8 @@ public class ShipData implements ShipDataI{
 		this.angularDamping = angularDamping;
 		this.weapons = weapons;
 		this.physicsData = physicsData;
+		this.shipSizeX = shipSizeX;
+		this.shipSizeY = shipSizeY;
 	}
 	
 	//	GETTERS
@@ -69,6 +73,14 @@ public class ShipData implements ShipDataI{
 
 	public PhysicsDataI getPhysicsData() {
 		return physicsData;
+	}
+	
+	public float getShipSizeX() {
+		return shipSizeX;
+	}
+	
+	public float getShipSizeY() {
+		return shipSizeY;
 	}
 
 }
