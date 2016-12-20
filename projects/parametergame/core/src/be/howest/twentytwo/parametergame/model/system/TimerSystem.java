@@ -25,7 +25,6 @@ public class TimerSystem extends IteratingSystem{
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		TimedLifeComponent tc = TimedLifeComponent.MAPPER.get(entity);
-		System.out.println("Time remaining: " + tc.getTimeRemaining());
 		tc.setTimeRemaining(tc.getTimeRemaining() - deltaTime);
 		if(tc.getTimeRemaining() <= 0f && !tc.isFinished()){
 			tc.getCallback().execute();
