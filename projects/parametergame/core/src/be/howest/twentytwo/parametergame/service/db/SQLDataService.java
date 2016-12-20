@@ -2,6 +2,9 @@ package be.howest.twentytwo.parametergame.service.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
@@ -16,10 +19,11 @@ public class SQLDataService implements IDataService{
 	private final String URL = "jdbc:mysql://localhost/mydatabase";
 	private final String USR = "root";	//TODO change this
 	private final String PWD = "";		//TODO change this
+	private Connection con;
 	
 	private SQLDataService() {
 		try{
-			Connection con = DriverManager.getConnection(URL, USR, PWD);
+			con = DriverManager.getConnection(URL, USR, PWD);
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("failed to create a Connection...");
@@ -36,8 +40,15 @@ public class SQLDataService implements IDataService{
 
 	public UserDataI getUser(String username) {
 		//TODO USE FACTORY
-		String sql = "select * from ";
-		
+		try{
+		String sql = "select * from player where name = ?";
+		PreparedStatement prep = con.prepareStatement(sql);
+		prep.setString(1, username);
+		ResultSet res = prep.executeQuery(sql);
+		UserDataI user = new UserData(res.getString("name"),res.getString("password"));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		UserDataI u = new UserData("DELETE THIS","DELETE THIS");
 		return u;
 	}

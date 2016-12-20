@@ -11,9 +11,7 @@ create table player (
 	`name` varchar(128) not null,
     `password` varchar(128) not null,
     `difficultyID` varchar(128),
-    `clanName` varchar(128),
     primary key (`name`),
-    foreign key (`clanName`) references clan(`name`),
     foreign key (`difficultyID`) references difficulty(`ID`)
 );
 
@@ -37,9 +35,9 @@ create table ship(
     `linearDamping` float,
     `angularDamping` float,
     `shipSize` float,
-    `playerShipID` varchar(128),
+    --`playerShipID` varchar(128), --WHUT?? fix this
     primary key (`name`),
-    foreign key (`playerShipID`) references playerShip(`ID`)
+    --foreign key (`playerShipID`) references playerShip(`ID`)
 );
 
 create table weapon(
@@ -113,13 +111,11 @@ create table playerShip(
 create table  playedGame(
 	`PlayerShipID` varchar(128) not null,
     `gameUniqueID` varchar(128) not null,
-    `clanName` varchar(128),
     `points` int,
     `date` timestamp,
     primary key(`PlayerShipID`, `gameUniqueID`),
     foreign key(`PlayerShipID`) references playerShip(`ID`),
-    foreign key(`GameUniqueID`) references gameID(`uniqueID`),
-    foreign key(`clanName`) references clan(`name`)
+    foreign key(`GameUniqueID`) references gameID(`uniqueID`)
 );
 
 create table gameID(
