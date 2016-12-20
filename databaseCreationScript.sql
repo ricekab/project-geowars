@@ -36,9 +36,8 @@ create table ship(
     `angularDamping` float,
     `shipSizeX` float,
     `shipSizeY` float,
-    #`playerShipID` varchar(128), --WHUT?? fix this
+    `gravityResistance` float,
     primary key (`name`)
-    #--foreign key (`playerShipID`) references playerShip(`ID`)
 );
 
 create table weapon(
@@ -105,6 +104,7 @@ create table playerShip(
     `lvl` int,
     `shipName` varchar(128),
     `campaignLevel` int,
+    `geomRadius` float,
     primary key (`ID`),
     foreign key (`shipName`) references ship(`name`)
 );

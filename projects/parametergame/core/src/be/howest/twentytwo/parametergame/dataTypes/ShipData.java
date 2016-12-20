@@ -19,8 +19,9 @@ public class ShipData implements ShipDataI{
 	private PhysicsDataI physicsData;
 	private float shipSizeX;
 	private float shipSizeY;
+	private float gravityResistance;
 	
-	public ShipData(String name, String texture, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, List<WeaponDataI> weapons, PhysicsDataI physicsData, float shipSizeX, float shipSizeY){
+	public ShipData(String name, String texture, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, List<WeaponDataI> weapons, PhysicsDataI physicsData, float shipSizeX, float shipSizeY, float gravityResistance){
 		this.name = name;
 		this.texture = texture;
 		this.maxLinearSpeed = maxLinearSpeed;
@@ -37,56 +38,74 @@ public class ShipData implements ShipDataI{
 	
 	//	GETTERS
 
+	@Override
 	public String getName() {
 		return name;
 	}
-	
+
+	@Override
 	public String getTexture() {
 		return texture;
 	}
 
+	@Override
 	public int getHealth() {
 		return health;
 	}
 
+	@Override
 	public float getMaxLinearSpeed() {
 		return maxLinearSpeed;
 	}
 
+	@Override
 	public float getMaxAngularSpeed() {
 		return maxAngularSpeed;
 	}
 
+	@Override
 	public float getLinearAcceleration() {
 		return linearAcceleration;
 	}
 
+	@Override
 	public float getAngularAcceleration() {
 		return angularAcceleration;
 	}
 
+	@Override
 	public float getLinearDamping() {
 		return linearDamping;
 	}
 
+	@Override
 	public float getAngularDamping() {
 		return angularDamping;
 	}
 
+	@Override
 	public List<WeaponDataI> getWeapons() {
 		return weapons;
 	}
 
+	@Override
 	public PhysicsDataI getPhysicsData() {
 		return physicsData;
 	}
-	
+
+	@Override
 	public float getShipSizeX() {
 		return shipSizeX;
 	}
-	
+
+	@Override
 	public float getShipSizeY() {
 		return shipSizeY;
+	}
+
+	@Override
+	public float getGravityResistance() {
+		return gravityResistance;
 	}
 	
 	//	BUILDER
@@ -106,9 +125,10 @@ public class ShipData implements ShipDataI{
 		private PhysicsDataI physicsData;
 		private float shipSizeX;
 		private float shipSizeY;
+		private float gravityResistance;
 
 		public ShipData build() {
-			return new ShipData(name, texture, health, maxLinearSpeed, maxAngularSpeed, linearAcceleration, angularAcceleration, linearDamping, angularDamping, weapons, physicsData, shipSizeX, shipSizeY);
+			return new ShipData(name, texture, health, maxLinearSpeed, maxAngularSpeed, linearAcceleration, angularAcceleration, linearDamping, angularDamping, weapons, physicsData, shipSizeX, shipSizeY, gravityResistance);
 		}
 		
 		//	SETTERS
@@ -175,6 +195,11 @@ public class ShipData implements ShipDataI{
 
 		public ShipDataBuilder setShipSizeY(float shipSizeY) {
 			this.shipSizeY = shipSizeY;
+			return this;
+		}
+		
+		public ShipDataBuilder setGravityResistance(float gravityResistance) {
+			this.gravityResistance = gravityResistance;
 			return this;
 		}
 		

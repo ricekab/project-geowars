@@ -46,7 +46,7 @@ public class InMemoryDataService implements IDataService {
 		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		
-		data.add(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, null, physicsData, 15f, 25f));
+		data.add(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, null, physicsData, 15f, 25f, 0f));
 
 		return data;
 	}
@@ -78,8 +78,7 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f,
-				weapons, physicsData,10f,15f);
+		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, weapons, physicsData,10f,15f, 0f);
 
 		data.add(new EnemyData(shipData));
 		return data;

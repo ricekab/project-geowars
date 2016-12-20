@@ -18,6 +18,7 @@ public interface ShipDataI {
 	public float getAngularDamping();
 	public float getShipSizeX();
 	public float getShipSizeY();
+	public float getGravityResistance();
 	
 	/**
 	 * 
