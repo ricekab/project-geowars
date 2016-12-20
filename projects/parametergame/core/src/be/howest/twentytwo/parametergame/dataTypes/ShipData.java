@@ -40,6 +40,10 @@ public class ShipData implements ShipDataI{
 	public String getName() {
 		return name;
 	}
+	
+	public String getTexture() {
+		return texture;
+	}
 
 	public int getHealth() {
 		return health;

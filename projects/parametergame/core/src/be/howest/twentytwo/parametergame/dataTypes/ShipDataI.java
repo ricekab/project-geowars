@@ -6,6 +6,7 @@ import java.util.List;
 public interface ShipDataI {
 
 	public String getName();	// Used to retrieve sprites
+	public String getTexture();	// Better way to retrieve sprites
 	
 	public int getHealth();
 	

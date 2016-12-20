@@ -93,7 +93,9 @@ create table drone(
 	`ID` varchar(128) not null,
     `offenseUpgradeLevel` tinyint,
     `utilityUpgradeLevel` tinyint,
-    primary key (`ID`)
+	`playerName` varchar(128) not null,
+    primary key (`ID`),
+	foreign key(`playerName`) references player(`name`)
 );
 
 create table playerShip(

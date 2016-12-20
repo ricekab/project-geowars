@@ -17,6 +17,7 @@ import be.howest.twentytwo.parametergame.dataTypes.ShipData.ShipDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public class SQLDataService implements IDataService {
 
@@ -86,18 +87,23 @@ public class SQLDataService implements IDataService {
 		return enemies;
 	}
 
-	public Collection<PlayerShipDataI> getShips(UserDataI user) {
-		Collection<PlayerShipDataI> ships = new HashSet<>();
+	public Collection<ShipDataI> getShips(UserDataI user) {	//NOTE this return ShipData, not PlayerShipData, cause turrets should be added somewhere else
+		Collection<ShipDataI> ships = new HashSet<>();
 		try {
-			String sql = "select * from parametergame.playerShip ps join parametergame.playerShipProperty pp on ps.ID = pp.playerShipID join parametergame.player p on p.name = pp.playerName where p.name = ?";
+			String sql = "select * from parametergame.playerShip ps join parametergame.playerShipProperty pp on ps.ID = pp.playerShipID join parametergame.player p on p.name = pp.playerName join parametergame.ship s on s.name = ps.shipName where p.name = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, user.getUser());
-			ResultSet rs = prep.executeQuery();
-			while(rs.next()) {
+			ResultSet res = prep.executeQuery();
+			while(res.next()) {
 				ShipDataBuilder builder = new ShipData.ShipDataBuilder();
-				ShipDataI ship = builder/*TODO*/.build();
-				PlayerShipDataI playerShip = new PlayerShipData(ship);
-				ships.add(playerShip);
+				
+				for(int i = 1; i < 23; i++){
+					System.out.print(res.getString(i) + "\t");
+				}
+				System.out.println();
+				
+				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).build();
+				ships.add(ship);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -106,6 +112,18 @@ public class SQLDataService implements IDataService {
 	}
 
 	public Collection<DroneDataI> getDrones(UserDataI user) {
+		Collection<DroneDataI> drones = new HashSet<>();
+		try {
+			String sql = "select * from drone";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, user.getUser());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return drones;
+	}
+	
+	public Collection<WeaponDataI> getWeapons(ShipDataI ship) {
 		return null;
 	}
 
@@ -119,6 +137,10 @@ public class SQLDataService implements IDataService {
 
 	public void saveDrone(DroneDataI data) {
 
+	}
+	
+	public void saveWeapon(WeaponDataI weapon) {
+		
 	}
 
 }
