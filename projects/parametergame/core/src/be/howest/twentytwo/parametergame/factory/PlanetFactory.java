@@ -79,7 +79,7 @@ public class PlanetFactory {
 		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
 		TextureAtlas spritesheet = assets.get(PLANET_SPRITE_PACK, TextureAtlas.class);
 		//TextureRegion region = spritesheet.findRegion(pdata.getTextureString());
-		TextureRegion region = spritesheet.findRegion("planet");
+		TextureRegion region = spritesheet.findRegion(pdata.getTextureString());
 		sprite.setRegion(region);
 		planet.add(sprite);
 

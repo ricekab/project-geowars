@@ -165,8 +165,8 @@ public class LevelFactory {
 		aiShipFactory.spawnEntity(new Vector2(30f, -180f), 0f, new Vector2(0f, 0f));
 		aiShipFactory.spawnEntity(new Vector2(30f, -190f), 0f, new Vector2(0f, 0f));
 
-		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet01", 10f, 40f)));
-		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet02", 5f, 24f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet0", 10f, 40f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet2", 5f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();
