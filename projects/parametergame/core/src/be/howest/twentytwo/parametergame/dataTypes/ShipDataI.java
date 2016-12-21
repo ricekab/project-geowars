@@ -23,7 +23,7 @@ public interface ShipDataI {
 	/**
 	 * 
 	 */
-	public List<WeaponDataI> getWeapons();
+	public Collection<WeaponDataI> getWeapons();
 	
 	public PhysicsDataI getPhysicsData();
 	
