@@ -87,9 +87,21 @@ public class SQLDataService implements IDataService {
 		}
 		return enemies;
 	}
+	
+	private Collection<WeaponDataI> getWeapons(ShipDataI ship) {
+		Collection<WeaponDataI> weapons = new HashSet<>();
+		try {
+			String sql = "";
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return weapons;
+	}
 
 	public Collection<ShipDataI> getShips(UserDataI user) {	//NOTE this needs to be playerShipData, need to clean this, make it private, and make a get for the turrets, then mix'n'match
+//TODO this should be playerShipDataI
 		Collection<ShipDataI> ships = new HashSet<>();
+/*
 		try {
 			String sql = "select * from parametergame.playerShip ps join parametergame.playerShipProperty pp on ps.ID = pp.playerShipID join parametergame.player p on p.name = pp.playerName join parametergame.ship s on s.name = ps.shipName where p.name = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
@@ -109,6 +121,7 @@ public class SQLDataService implements IDataService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+*/
 		return ships;
 	}
 
@@ -129,9 +142,11 @@ public class SQLDataService implements IDataService {
 		return drones;
 	}
 	
+	/*
 	public Collection<WeaponDataI> getWeapons(ShipDataI ship) {
 		return null;
 	}
+	*/
 
 	public void saveUser(UserDataI data) {
 

@@ -96,18 +96,13 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-<<<<<<< HEAD
 		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, weapons, physicsData,10f,15f, 0f);
-=======
-		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f,
-				10.0f, 0.1f, 1.0f, weapons, physicsData, 10f, 15f);
->>>>>>> dev
+
 
 		data.add(new EnemyData(shipData));
 		return data;
 	}
 
-	@Override
 	public Collection<WeaponDataI> getWeapons(ShipDataI ship) {
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
