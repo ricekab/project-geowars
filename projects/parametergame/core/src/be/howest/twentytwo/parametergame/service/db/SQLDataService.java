@@ -101,10 +101,8 @@ public class SQLDataService implements IDataService {
 			prep.setString(1, shipName);
 			ResultSet res = prep.executeQuery();
 			while(res.next()) {
-				System.out.println("building: " + res.getString("ID"));
 				WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
 				WeaponDataI weapon = builder.setId(res.getString("ID")).setOffsetX(res.getFloat("offsetX")).setOffsetY(res.getFloat("offsetY")).setBulletDamage(res.getFloat("bulletDamage")).setShotConeAngle(res.getFloat("shotConeAngle")).setFireRate(res.getFloat("firerate")).setRange(res.getFloat("range")).setTimeDelay(res.getFloat("detonationDelay")).setBulletsPerShot(res.getInt("bulletsPerShot")).setBulletSpeed(res.getFloat("bulletSpeed")).setBulletMass(res.getFloat("bulletMass")).setTurnSpeed(res.getFloat("turnSpeed")).setAmmoCount(res.getInt("ammo")).setBulletSize(new Vector2(res.getFloat("bulletSizeX"), res.getFloat("bulletSizeY"))).build();
-				System.out.println("built: " + weapon);
 				weapons.add(weapon);
 			}
 		}catch(Exception e) {
@@ -144,6 +142,7 @@ public class SQLDataService implements IDataService {
 				ShipDataBuilder builder = new ShipDataBuilder();
 				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).setGravityResistance(res.getFloat("gravityResistance")).setPhysicsData(getPhysics(res.getString("physicsdataID"))).setWeapons(getWeapons(res.getString("shipName"))).build();
 				PlayerShipDataI playerShip = new PlayerShipData(ship, res.getString("ID"), res.getFloat("mass"),res.getInt("exp"), res.getInt("lvl"), res.getFloat("geomRadius"));
+				playerShips.add(playerShip);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -151,6 +150,9 @@ public class SQLDataService implements IDataService {
 		return playerShips;
 	}
 	
+	/**
+	 * @return always returns null
+	 */
 	@Deprecated
 	public Collection<ShipDataI> getShips(UserDataI user) {
 		Collection<ShipDataI> playerShips = new HashSet<>();
