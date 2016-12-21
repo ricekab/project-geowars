@@ -96,6 +96,20 @@ public class WeaponData implements WeaponDataI {
 	public Vector2 getBulletSize() {
 		return bulletSize;
 	}
+	
+	@Override
+	public int hashCode() {
+		return getID().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || ! (obj instanceof WeaponData)){
+			return false;
+		}
+		WeaponData other = (WeaponData)obj;
+		return this.getID().equals(other.getID());
+	}
 
 	public static class WeaponDataBuilder {
 

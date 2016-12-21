@@ -2,7 +2,9 @@ package be.howest.twentytwo.parametergame.factory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -127,7 +129,7 @@ public class LevelFactory {
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
 		// ENTITY CREATION
-		Collection<WeaponDataI> allWeapons = new ArrayList<WeaponDataI>();
+		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
 
 		Collection<ShipDataI> ships = dataService.getShips(dataService.getUser("TEST"));
 		if (ships.isEmpty()) {
@@ -135,10 +137,11 @@ public class LevelFactory {
 		}
 		// TODO: Currently just selecting a random ship.
 		ShipDataI shipData = ships.iterator().next();
+		Collection<WeaponDataI> shipWeapons = dataService.getWeapons(shipData);
 		PlayerShipDataI playerShipData = new PlayerShipData(shipData);
 
 		// TODO: This is getting messy, needed for spawn system.
-		allWeapons.addAll(shipData.getWeapons());
+		allWeapons.addAll(shipWeapons);
 
 		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets, playerShipData);
 		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
