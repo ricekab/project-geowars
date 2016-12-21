@@ -23,7 +23,7 @@ public interface IDataService {
 	
 	public Collection<DroneDataI> getDrones(UserDataI user);
 	
-	public Collection<WeaponDataI> getWeapons(ShipDataI ship);
+	//public Collection<WeaponDataI> getWeapons(ShipDataI ship);
 	
 	public void saveUser(UserDataI data);
 	

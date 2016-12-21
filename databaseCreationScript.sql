@@ -37,7 +37,9 @@ create table ship(
     `shipSizeX` float,
     `shipSizeY` float,
     `gravityResistance` float,
-    primary key (`name`)
+    `physicsdataID` varchar(128),
+    primary key (`name`),
+    foreign key (`physicsdataID`) references physicsdata(`ID`)
 );
 
 create table weapon(
@@ -52,6 +54,11 @@ create table weapon(
     `bulletsPerShot` int,
     `bulletSpeed` float,
     `shipName` varchar(128),
+    `bulletMass` float,
+    `turnSpeed` float,
+    `ammo` int,
+    `bulletSizeX` float,
+    `bulletSizeY` float,
     primary key (`ID`),
     foreign key (`shipName`) references Ship(`name`)
 );
