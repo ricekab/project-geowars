@@ -15,10 +15,14 @@ public class SplashScreen extends BaseScreen {
 	private float splashTime;
 
 	private Texture[] logos;
-
-	public SplashScreen(ScreenContext context) {
+	
+	public SplashScreen(ScreenContext context, float splashTime) {
 		super(context);
-		this.splashTime = 1.5f;
+		this.splashTime = splashTime;
+	}
+	
+	public SplashScreen(ScreenContext context) {
+		this(context, 1.5f);
 	}
 
 	@Override
@@ -37,8 +41,10 @@ public class SplashScreen extends BaseScreen {
 
 	@Override
 	public void render(float delta) {
+		System.out.println(splashTime);
 		if(splashTime < 0f) {
 			getContext().setScreen(new MenuScreen(getContext()));
+			return;
 		}
 		SpriteBatch batch = getContext().getSpriteBatch();
 		

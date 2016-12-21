@@ -46,6 +46,7 @@ public class MenuScreen extends BaseScreen {
 			}
 		});
 		startBtn.pad(5f, 10f, 5f, 10f);
+		startBtn.getLabelCell().pad(5f);
 		root.add(startBtn).pad(5f, 5f, 5f, 5f);
 		
 		root.row();
@@ -69,6 +70,7 @@ public class MenuScreen extends BaseScreen {
 			}
 		});
 		exitBtn.pad(5f, 10f, 5f, 10f);
+		exitBtn.getLabelCell().pad(10f);
 		root.add(exitBtn).pad(5f);
 
 		// Set stage to receive input events
