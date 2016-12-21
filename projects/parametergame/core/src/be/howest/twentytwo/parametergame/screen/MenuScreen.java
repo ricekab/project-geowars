@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MenuScreen extends BaseScreen {
 
 	private Stage uiStage;
+	private Viewport viewport;
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
@@ -25,11 +27,10 @@ public class MenuScreen extends BaseScreen {
 	@Override
 	public void show() {
 		// Loading ui skin
-		getContext().getAssetManager().load("ui/uiskin.json", Skin.class);
-		getContext().getAssetManager().finishLoading();
-		Skin skin = getContext().getAssetManager().get("ui/uiskin.json", Skin.class);
+		Skin skin = getContext().getAssetManager().get(ParameterGame.UI_SKIN, Skin.class);
 		// Create main menu stage
-		uiStage = new Stage(new ScreenViewport(), getContext().getSpriteBatch());
+		viewport = new ScreenViewport();
+		uiStage = new Stage(viewport, getContext().getSpriteBatch());
 		Table root = new Table();
 		root.setFillParent(true);
 		uiStage.addActor(root);
@@ -94,7 +95,7 @@ public class MenuScreen extends BaseScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		System.out.println("resize");
+		viewport.update(width, height, true);
 	}
 
 	@Override

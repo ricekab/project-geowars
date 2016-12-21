@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame;
 import javax.inject.Inject;
 
 import be.howest.twentytwo.parametergame.screen.MenuScreen;
+import be.howest.twentytwo.parametergame.screen.SplashScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
  * Creates necessary globals and initializes the first screen. Access point for global objects for
@@ -22,6 +24,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class ParameterGame extends Game {
 
 	public static final boolean DEBUG_ENABLED = true;
+	
+	public static final String UI_SKIN = "ui/neon-ui.json";
 
 	private final IPlatformService platformService;
 	private final IDataService dataService;
@@ -41,7 +45,7 @@ public class ParameterGame extends Game {
 		if(DEBUG_ENABLED) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		} else {
-			Gdx.app.setLogLevel(Application.LOG_INFO);
+			Gdx.app.setLogLevel(Application.LOG_ERROR);
 		}
 
 		// Has to be created here since this is libgdx tied
@@ -53,7 +57,8 @@ public class ParameterGame extends Game {
 		// For testing it's easier to not have the menu pop up
 		// setScreen(new GameScreen(context));
 
-		setScreen(new MenuScreen(context));
+		setScreen(new SplashScreen(context));
+		// setScreen(new MenuScreen(context));
 	}
 
 	@Override
