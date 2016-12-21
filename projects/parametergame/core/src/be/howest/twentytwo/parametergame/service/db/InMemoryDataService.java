@@ -55,7 +55,7 @@ public class InMemoryDataService implements IDataService {
 		List<WeaponDataI> weapons = new ArrayList<WeaponDataI>();
 		weapons.addAll(getWeapons(null));
 		ShipData ship = new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f,
-				0.1f, 1.0f, weapons, physicsData, 10f, 10f);
+				0.1f, 1.0f, weapons, physicsData, 10f, 10f, 0);
 		data.add(ship);
 		// END TEMPORARY MEEASURE FOR TESING
 
