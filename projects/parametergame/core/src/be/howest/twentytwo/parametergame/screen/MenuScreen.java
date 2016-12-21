@@ -53,7 +53,8 @@ public class MenuScreen extends BaseUIScreen {
 	private class PlayVersusListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			// TODO
+			getContext().setScreen(new ControllerTestScreen(getContext()));
+			dispose();
 		}
 	}
 
