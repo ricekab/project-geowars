@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 
 public class AIComponent implements Component, Poolable {
 
@@ -13,6 +14,7 @@ public class AIComponent implements Component, Poolable {
 
 	private Body target;
 	private IAIMoveBehaviour moveBehaviour;
+        private IAIShootBehaviour shootBehaviour;
 
 	public Body getTarget() {
 		return target;
@@ -28,6 +30,14 @@ public class AIComponent implements Component, Poolable {
 
 	public void setMoveBehaviour(IAIMoveBehaviour moveBehaviour) {
 		this.moveBehaviour = moveBehaviour;
+	}
+        
+        public IAIShootBehaviour getShootBehaviour() {
+		return shootBehaviour;
+	}
+
+	public void setShootBehaviour(IAIShootBehaviour shootBehaviour) {
+		this.shootBehaviour = shootBehaviour;
 	}
 
 	@Override

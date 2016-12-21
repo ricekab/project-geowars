@@ -99,7 +99,8 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		ship.add(movement);
 
 		// WEAPON
-		List<WeaponDataI> weaponsData = shipData.getWeapons();
+		List<WeaponDataI> weaponsData = new ArrayList<WeaponDataI>();
+		weaponsData.addAll(shipData.getWeapons());
 		if (weaponsData.size() > 0) {
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
