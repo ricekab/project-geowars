@@ -118,20 +118,20 @@ public class ShipData implements ShipDataI{
 	
 	public static class ShipDataBuilder{
 		
-		private String name;				//
-		private String texture;				//
-		private int health;					//
-		private float maxLinearSpeed;		//
-		private float maxAngularSpeed;		//
-		private float linearAcceleration;	//
-		private float angularAcceleration;	//
-		private float linearDamping;		//
-		private float angularDamping;		//
-		private Collection<WeaponDataI> weapons;	//
-		private PhysicsDataI physicsData;	//
-		private float shipSizeX;			//
-		private float shipSizeY;			//
-		private float gravityResistance;	//
+		private String name;				
+		private String texture;				
+		private int health;					
+		private float maxLinearSpeed;		
+		private float maxAngularSpeed;		
+		private float linearAcceleration;	
+		private float angularAcceleration;	
+		private float linearDamping;		
+		private float angularDamping;		
+		private Collection<WeaponDataI> weapons;	
+		private PhysicsDataI physicsData;	
+		private float shipSizeX;			
+		private float shipSizeY;			
+		private float gravityResistance;	
 
 		public ShipData build() {
 			//TEMP CODE BELOW
