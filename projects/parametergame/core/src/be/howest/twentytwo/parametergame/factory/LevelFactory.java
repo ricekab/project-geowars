@@ -140,11 +140,10 @@ public class LevelFactory {
 		}
 		// TODO: Currently just selecting a random ship.
 		ShipDataI shipData = ships.iterator().next();
-		Collection<WeaponDataI> shipWeapons = dataService.getWeapons(shipData);
-		PlayerShipDataI playerShipData = new PlayerShipData(shipData);
+		PlayerShipData playerShipData = new PlayerShipData(shipData, "ID", 5f, 10, 1, 50f);
 
 		// TODO: This is getting messy, needed for spawn system.
-		allWeapons.addAll(shipWeapons);
+		allWeapons.addAll(shipData.getWeapons());
 
 		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets, playerShipData);
 		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
