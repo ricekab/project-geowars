@@ -25,6 +25,10 @@ public abstract class BaseUIScreen extends BaseScreen {
 
 	public BaseUIScreen(ScreenContext context) {
 		super(context);
+		if(!getContext().getAssetManager().isLoaded(ParameterGame.UI_SKIN, Skin.class)){
+			getContext().getAssetManager().load(ParameterGame.UI_SKIN, Skin.class);
+			getContext().getAssetManager().finishLoading();
+		}
 		skin = getContext().getAssetManager().get(ParameterGame.UI_SKIN, Skin.class);
 		viewport = new ScreenViewport();
 		stage = new Stage(viewport, getContext().getSpriteBatch());

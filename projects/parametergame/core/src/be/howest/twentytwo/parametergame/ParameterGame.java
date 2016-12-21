@@ -51,7 +51,7 @@ public class ParameterGame extends Game {
 				new ShapeRenderer(), platformService, dataService, fileService);
 		Texture.setAssetManager(context.getAssetManager());
 		
-		float splashScreenTime = -1f;
+		float splashScreenTime = -2f;
 		setScreen(new SplashScreen(context, splashScreenTime));
 	}
 
