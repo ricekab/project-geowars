@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 
-public interface AIMoveBehaviour {
+public interface IAIMoveBehaviour {
 
 	public float getOptimalDistance();
 

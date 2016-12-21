@@ -30,7 +30,10 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.ai.SimpleAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.BrutalizerAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.BrutalizerAIShootBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.ScoutAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.SuiciderAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
@@ -154,17 +157,38 @@ public class LevelFactory {
 		engine.addEntity(playerShip);
 
 		Body playerBody = BodyComponent.MAPPER.get(playerShip).getBody();
-
-		Collection<EnemyDataI> enemies = dataService.getEnemies("scouter", "bomber", "brutalizer");
+                
+                //AI creation
+		Collection<EnemyDataI> enemies = dataService.getEnemies("scouter", "brutalizer", "suicider", "obstacle", "suicideSquad");
 		EnemyDataI enemy = enemies.iterator().next();
-		AIShipFactory aiShipFactory = new AIShipFactory(engine, world, assets, enemy.getShipData(), playerBody,
-				new SimpleAIMoveBehaviour(15f));
-		aiShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
-		aiShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
-		aiShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
-		aiShipFactory.spawnEntity(new Vector2(30f, -180f), 0f, new Vector2(0f, 0f));
-		aiShipFactory.spawnEntity(new Vector2(30f, -190f), 0f, new Vector2(0f, 0f));
-
+                //Spawn scout ship
+		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets, enemy.getShipData(), playerBody,
+				new ScoutAIMoveBehaviour(15f));
+		aiScoutShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(30f, -180f), 0f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(30f, -190f), 0f, new Vector2(0f, 0f));
+                
+                //Spawn brutalizer ship
+                AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets, enemy.getShipData(), playerBody,
+				new BrutalizerAIMoveBehaviour(225f, 20f, 25f), new BrutalizerAIShootBehaviour());
+                aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
+                
+                //Spawn obstacle
+                AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets, enemy.getShipData(), playerBody);
+                aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
+                
+                //Spawn suidicer
+                AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets, enemy.getShipData(), playerBody,
+				new SuiciderAIMoveBehaviour(225f, 20f, 25f));
+                aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
+                
+                //Spawn suicide squad --> optional
+                
+                
+                //End AI creation
+                
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet0", 10f, 40f)));
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet2", 5f, 24f)));
 
