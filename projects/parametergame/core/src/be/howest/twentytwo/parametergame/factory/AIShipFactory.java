@@ -1,12 +1,6 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
-import be.howest.twentytwo.parametergame.model.ai.AIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.SimpleAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 
@@ -16,27 +10,38 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 
-public class AIShipFactory implements ISpawnFactory {
-
+public class AIShipFactory implements ISpawnFactory {      
 	private ShipFactory shipFactory;
-
 	private PooledEngine engine;
 	private World world;
 	private AssetManager assets;
 
 	private Body target;
-	private AIMoveBehaviour moveBehaviour;
+	private IAIMoveBehaviour moveBehaviour;
+        private IAIShootBehaviour shootBehaviour;
 
 	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData, Body target,
-			AIMoveBehaviour moveBehaviour) {
-		this.shipFactory = new ShipFactory(engine, world, assets, shipData);
-		this.engine = engine;
-		this.world = world;
-		this.assets = assets;
-		this.target = target;
-		this.moveBehaviour = moveBehaviour;
+			IAIMoveBehaviour moveBehaviour) {
+            this(engine, world, assets, shipData, target);
+            this.moveBehaviour = moveBehaviour;	
 	}
+
+        public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData, Body target,
+			IAIMoveBehaviour moveBehaviour, IAIShootBehaviour shootBehaviour) {
+            this(engine, world, assets, shipData, target, moveBehaviour);
+            this.shootBehaviour = shootBehaviour;
+        }
+
+        public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData, Body target) {
+            this.shipFactory = new ShipFactory(engine, world, assets, shipData);
+            this.engine = engine;
+            this.world = world;
+            this.assets = assets;
+            this.target = target;
+        }
 
 	@Override
 	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,

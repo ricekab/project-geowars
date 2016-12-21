@@ -1,22 +1,17 @@
 package be.howest.twentytwo.parametergame.model.ai;
 
-import javax.swing.plaf.ActionMapUIResource;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.physics.message.LinearForceMessage;
-import be.howest.twentytwo.parametergame.screen.GameScreen;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
-public class SimpleAIMoveBehaviour implements AIMoveBehaviour {
-
+public class ScoutAIMoveBehaviour implements IAIMoveBehaviour {
 	private float optimalDistance;
 
-	public SimpleAIMoveBehaviour(float optimalDistance) {
+	public ScoutAIMoveBehaviour(float optimalDistance) {
 		this.optimalDistance = optimalDistance;
 	}
 
