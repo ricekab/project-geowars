@@ -12,6 +12,8 @@ import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData.ShipDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -107,10 +109,36 @@ public class SQLDataService implements IDataService {
 		return weapons;
 	}
 
+	
+	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
+		Collection<PlayerShipDataI> playerShips = new HashSet<>();
+		try{
+			String sql = "select * from parametergame.playerShipProperty pp join playerShip ps on pp.playerShipID = ps.ID join parametergame.ship s on s.name = ps.shipName where pp.playerName = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, user.getUser());
+			ResultSet res = prep.executeQuery();
+			while(res.next()) {
+				ShipDataBuilder builder = new ShipDataBuilder();
+				ShipDataI ship = builder/*TODO*/.build();
+				PlayerShipDataI playerShip = new PlayerShipData(ship);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return playerShips;
+	}
+	
+	@Deprecated
+	public Collection<ShipDataI> getShips(UserDataI user) {
+		Collection<ShipDataI> playerShips = new HashSet<>();
+		//TODO
+		return playerShips;
+	}
+/*
 	public Collection<ShipDataI> getShips(UserDataI user) {	//NOTE this needs to be playerShipData, need to clean this, make it private, and make a get for the turrets, then mix'n'match
 //TODO this should be playerShipDataI
 		Collection<ShipDataI> ships = new HashSet<>();
-/*
+
 		try {
 			String sql = "select * from parametergame.playerShip ps join parametergame.playerShipProperty pp on ps.ID = pp.playerShipID join parametergame.player p on p.name = pp.playerName join parametergame.ship s on s.name = ps.shipName where p.name = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
@@ -130,9 +158,10 @@ public class SQLDataService implements IDataService {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-*/
+
 		return ships;
 	}
+*/
 
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
