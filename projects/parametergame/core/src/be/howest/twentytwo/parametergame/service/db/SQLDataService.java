@@ -159,34 +159,7 @@ public class SQLDataService implements IDataService {
 		//TODO
 		return playerShips;
 	}
-/*
-	public Collection<ShipDataI> getShips(UserDataI user) {	//NOTE this needs to be playerShipData, need to clean this, make it private, and make a get for the turrets, then mix'n'match
-//TODO this should be playerShipDataI
-		Collection<ShipDataI> ships = new HashSet<>();
 
-		try {
-			String sql = "select * from parametergame.playerShip ps join parametergame.playerShipProperty pp on ps.ID = pp.playerShipID join parametergame.player p on p.name = pp.playerName join parametergame.ship s on s.name = ps.shipName where p.name = ?";
-			PreparedStatement prep = con.prepareStatement(sql);
-			prep.setString(1, user.getUser());
-			ResultSet res = prep.executeQuery();
-			while(res.next()) {
-				ShipDataBuilder builder = new ShipData.ShipDataBuilder();
-				//a small visualisation
-				for(int i = 1; i < 25; i++){
-					System.out.print(res.getString(i) + "\t");
-				}
-				System.out.println();
-				//end of the visualisation
-				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).setGravityResistance(res.getFloat("gravityResistance")).build();
-				ships.add(ship);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-
-		return ships;
-	}
-*/
 
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
@@ -205,11 +178,6 @@ public class SQLDataService implements IDataService {
 		return drones;
 	}
 	
-	/*
-	public Collection<WeaponDataI> getWeapons(ShipDataI ship) {
-		return null;
-	}
-	*/
 
 	public void saveUser(UserDataI data) {
 
