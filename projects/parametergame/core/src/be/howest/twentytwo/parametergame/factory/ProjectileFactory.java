@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
 public class ProjectileFactory implements ISpawnFactory, Disposable {
-	private static final String PROJECTILE_SPRITE_PACK = "sprites/ships.pack";
+	private static final String PROJECTILE_SPRITE_PACK = "sprites/game.pack";
 
 	private final PooledEngine engine;
 	private final World world;
@@ -29,7 +29,6 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	private WeaponDataI weaponData;
 	private BodyDef bodyDef;
 	private FixtureDef fixtureDef;
-	private SpriteComponent spriteComponent;
 	private TextureRegion region;
 	private float timeToLive;
 
@@ -58,10 +57,8 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		fixtureDef.shape = box;
 
 		// TEXTURE/SPRITE
-		spriteComponent = engine.createComponent(SpriteComponent.class);
 		TextureAtlas spritesheet = assets.get(PROJECTILE_SPRITE_PACK, TextureAtlas.class);
 		region = spritesheet.findRegion(weaponData.getID());
-		spriteComponent.setRegion(region);
 		
 		timeToLive = weaponData.getRange() / weaponData.getBulletSpeed();
 	}

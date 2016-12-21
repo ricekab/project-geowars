@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class BackgroundRenderSystem extends EntitySystem {
+	
+	public static final String BACKGROUND_SPRITE_PACK = "sprites/tiles.pack";
 
 	public final static int PRIORITY = 0;
 
@@ -43,11 +45,11 @@ public class BackgroundRenderSystem extends EntitySystem {
 
 	public BackgroundRenderSystem(SpriteBatch batch, AssetManager assetManager, Viewport viewport,
 			float tileWidth, float tileHeight) {
-		this(batch, assetManager, viewport, "sprites/tiles.pack", tileWidth, tileHeight);
+		this(batch, assetManager, viewport, BACKGROUND_SPRITE_PACK, tileWidth, tileHeight);
 	}
 
 	public BackgroundRenderSystem(SpriteBatch batch, AssetManager assetManager, Viewport viewport) {
-		this(batch, assetManager, viewport, "sprites/tiles.pack", 50f, 50f);
+		this(batch, assetManager, viewport, BACKGROUND_SPRITE_PACK, 50f, 50f);
 	}
 
 	@Override

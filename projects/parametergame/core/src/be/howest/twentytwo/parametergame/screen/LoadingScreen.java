@@ -45,6 +45,7 @@ public class LoadingScreen extends BaseScreen {
 		assetMgr.load("sprites/geowars.pack", TextureAtlas.class);
 		assetMgr.load("sprites/tiles.pack", TextureAtlas.class);
 		assetMgr.load("sprites/AI.pack", TextureAtlas.class);
+		assetMgr.load("sprites/game.pack", TextureAtlas.class);
 	}
 
 	@Override
