@@ -22,7 +22,6 @@ import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
@@ -30,10 +29,8 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.ai.BrutalizerAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.BrutalizerAIShootBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.ScoutAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.SuiciderAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.BasicAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.BasicAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
@@ -48,7 +45,7 @@ import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactPr
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.system.AIMovementSystem;
-import be.howest.twentytwo.parametergame.model.system.AiSystem;
+import be.howest.twentytwo.parametergame.model.system.AIShootSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
@@ -115,13 +112,13 @@ public class LevelFactory {
 		PhysicsSystem physicsSystem = new PhysicsSystem(world, physicsMessageQueue);
 		engine.addSystem(physicsSystem);
 		// engine.addEntityListener(physicsSystem);
-		engine.addSystem(new AiSystem(physicsMessageQueue));
 		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
 		engine.addSystem(new TimerSystem(eventQueue));
 		engine.addSystem(new AIMovementSystem());
+                engine.addSystem(new AIShootSystem());
 		// engine.addSystem(new AISystem());
 		// Sound, Animation, ...
 		// engine.addSystem(new EntityDestroyerSystem());
@@ -167,7 +164,8 @@ public class LevelFactory {
 		EnemyDataI enemy = enemies.iterator().next();
 		// Spawn scout ship
 		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new ScoutAIMoveBehaviour(15f));
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
+                                new BasicAIShootBehaviour(60, 80));//adjust for range
 		aiScoutShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
 		aiScoutShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
 		aiScoutShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
@@ -176,8 +174,8 @@ public class LevelFactory {
 
 		// Spawn brutalizer ship
 		AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BrutalizerAIMoveBehaviour(225f, 20f, 25f),
-				new BrutalizerAIShootBehaviour());
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), //adjust for range
+				new BasicAIShootBehaviour(120, 50)); //Fires every 4seconds (120/30), 50 = range
 		aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
 
 		// Spawn obstacle
@@ -187,7 +185,7 @@ public class LevelFactory {
 
 		// Spawn suidicer
 		AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new SuiciderAIMoveBehaviour(225f, 20f, 25f));
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); //adjust for range
 		aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
 
 		// Spawn suicide squad --> optional
