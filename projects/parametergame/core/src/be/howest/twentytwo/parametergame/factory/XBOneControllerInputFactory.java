@@ -11,7 +11,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 
-public class ControllerInputFactory extends AbstractInputFactory {
+public class XBOneControllerInputFactory extends AbstractInputFactory {
 
 	public ControllerListener createControllerListener(Entity player){
 		Map<Integer, InputAction> buttons = new HashMap<Integer, InputAction>();

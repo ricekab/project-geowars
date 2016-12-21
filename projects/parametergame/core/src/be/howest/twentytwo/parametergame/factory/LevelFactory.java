@@ -11,6 +11,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -225,15 +226,18 @@ public class LevelFactory {
 		settings.addPlayer(user);
 		Map<String, String> keyActionMap = settings.getKeyBinds(user);
 
-		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
-				playerShip);
 		// 0. Get player 1 - Keyboard assumed for now
 		// 1. Get keymap from file service (string: string)
 		// 2. Convert to keycode: action
 
 		// For controller,s input is slightly different (but same actions
 		// mostly)
+		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
+				playerShip);
 		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
+		
+		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
+		Controllers.addListener(cif.createControllerListener(playerShip));
 
 		eventQueue.register(EventEnum.PLAYER_KILLED, new IEventListener() {
 
