@@ -1,24 +1,15 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class MenuScreen extends BaseScreen {
-
-	private Stage uiStage;
-	private Viewport viewport;
+public class MenuScreen extends BaseUIScreen {
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
@@ -26,100 +17,58 @@ public class MenuScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		// Loading ui skin
-		Skin skin = getContext().getAssetManager().get(ParameterGame.UI_SKIN, Skin.class);
-		// Create main menu stage
-		viewport = new ScreenViewport();
-		uiStage = new Stage(viewport, getContext().getSpriteBatch());
-		Table root = new Table();
-		root.setFillParent(true);
-		uiStage.addActor(root);
+		TextButtonStyle textBtnStyle = getSkin().get("default", TextButtonStyle.class);
+		Table root = getRoot();
+
 		// Table - Children
-		TextButtonStyle textBtnStyle = skin.get("default", TextButtonStyle.class);
+		root.add(createButton("Play Arcade", textBtnStyle, new PlayArcadeListener()));
 
-		TextButton startBtn = new TextButton("Start Game - Load level", textBtnStyle);
-		startBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				getContext().setScreen(new LoadingScreen(getContext()));
-				dispose();
-			}
-		});
-		startBtn.pad(5f, 10f, 5f, 10f);
-		startBtn.getLabelCell().pad(5f);
-		root.add(startBtn).pad(5f, 5f, 5f, 5f);
-		
 		root.row();
-		TextButton loadBtn = new TextButton("Start Game - AI Debug", textBtnStyle);
-		loadBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				getContext().setScreen(new GameScreen(getContext()));
-				dispose();
-			}
-		});
-		loadBtn.pad(5f, 10f, 5f, 10f);
-		root.add(loadBtn).pad(5f, 5f, 5f, 5f);
-		
+		root.add(createButton("Play Local Versus", textBtnStyle, new PlayVersusListener()));
+
 		root.row();
-		TextButton exitBtn = new TextButton("Exit Game", textBtnStyle);
-		exitBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				Gdx.app.exit();
-			}
-		});
-		exitBtn.pad(5f, 10f, 5f, 10f);
-		exitBtn.getLabelCell().pad(10f);
-		root.add(exitBtn).pad(5f);
+		root.add(createButton("Credits", textBtnStyle, new CreditsListener()));
 
-		// Set stage to receive input events
-		Gdx.input.setInputProcessor(uiStage);
-
-		// Debug
-		root.setDebug(ParameterGame.DEBUG_ENABLED);
-
-		// Unload any resources we no longer need
-		// game.assetMgr.unload("ui/uiskin.json"); // Or maybe keep for game screen?
-		
-		/*Music music = Gdx.audio.newMusic(Gdx.files.internal("hsmain.mp3"));
-		music.setLooping(true);
-		music.setVolume(0.3f);
-		music.play();*/
+		root.row();
+		root.add(createButton("Exit Game", textBtnStyle, new ExitListener()));
 	}
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		// stage.act(delta);
-		uiStage.draw();
+	private TextButton createButton(String label, TextButtonStyle style, ChangeListener listener) {
+		TextButton btn = new TextButton(label, style);
+		btn.addListener(listener);
+		btn.pad(5f);
+		btn.getLabelCell().pad(10f);
+		return btn;
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		viewport.update(width, height, true);
+	private class PlayArcadeListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			// TODO: Switch to selection screen with relevant data
+			getContext().setScreen(new LoadingScreen(getContext()));
+			dispose();
+		}
 	}
 
-	@Override
-	public void pause() {
-		System.out.println("pause");
+	private class PlayVersusListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			// TODO
+		}
 	}
 
-	@Override
-	public void resume() {
-		System.out.println("resume");
+	private class CreditsListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			getContext().setScreen(new CreditsScreen(getContext()));
+			dispose();
+		}
 	}
 
-	@Override
-	public void hide() {
-		System.out.println("hide");
-		this.dispose();
+	private class ExitListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			Gdx.app.exit();
+		}
 	}
-
-	@Override
-	public void dispose() {
-		System.out.println("dispose");
-		uiStage.dispose();
-	}
-
 }

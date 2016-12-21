@@ -15,12 +15,12 @@ public class SplashScreen extends BaseScreen {
 	private float splashTime;
 
 	private Texture[] logos;
-	
+
 	public SplashScreen(ScreenContext context, float splashTime) {
 		super(context);
 		this.splashTime = splashTime;
 	}
-	
+
 	public SplashScreen(ScreenContext context) {
 		this(context, 1.5f);
 	}
@@ -47,7 +47,7 @@ public class SplashScreen extends BaseScreen {
 			return;
 		}
 		SpriteBatch batch = getContext().getSpriteBatch();
-		
+
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
 		int maxWidth = width / 3;
@@ -72,23 +72,15 @@ public class SplashScreen extends BaseScreen {
 	}
 
 	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
 	public void hide() {
-
+		this.dispose();
 	}
 
 	@Override
 	public void dispose() {
-
+		for (Texture t : logos) {
+			t.dispose();
+		}
 	}
 
 }
