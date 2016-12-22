@@ -6,8 +6,12 @@ import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
+import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -18,9 +22,18 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 /**
  * An intermediary screen shown during loading of levels.
  */
-public class LoadingScreen extends BaseScreen {
+public class LoadingScreen extends BaseUIBackgroundScreen {
 
 	private final String levelFile;
+
+	public LoadingScreen(ScreenContext context, Engine engine, String levelFile) {
+		super(context, engine);
+		this.levelFile = levelFile;
+	}
+
+	public LoadingScreen(ScreenContext context, Engine engine) {
+		this(context, engine, "arcade01");
+	}
 
 	public LoadingScreen(ScreenContext context, String levelFile) {
 		super(context);
@@ -36,17 +49,15 @@ public class LoadingScreen extends BaseScreen {
 		// Queue up assets for loading
 		AssetManager assetMgr = getContext().getAssetManager();
 
-		// TODO: If loading screen needs assets, load those first before queuing
-		// the others.
-		// assetMgr.load(loadingscreenstuff)
-		// assetMgr.finishLoading() // --> blocks until queue is cleared
 		// Setup loading bar or whatever
 		assetMgr.load("sprites/ships.pack", TextureAtlas.class);
 		assetMgr.load("sprites/geowars.pack", TextureAtlas.class);
 		assetMgr.load("sprites/AI.pack", TextureAtlas.class);
-		
+
 		assetMgr.load("sprites/game.pack", TextureAtlas.class);
 		assetMgr.load("sprites/tiles.pack", TextureAtlas.class);
+		
+		// TODO: Progress bar and stuff
 	}
 
 	@Override
@@ -54,6 +65,7 @@ public class LoadingScreen extends BaseScreen {
 		AssetManager assets = getContext().getAssetManager();
 		while (assets.update() == false) { // Still loading
 			float progress = assets.getProgress();
+			System.out.println(progress);
 			// Update loading bar
 			// Gdx.app.log("LoadingScreen", String.format("Loading: %f",
 			// progress));
@@ -67,8 +79,8 @@ public class LoadingScreen extends BaseScreen {
 		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in
 															// world units)
 		/*
-		 * B) ScreenViewport = full size without stretching, but shown field is different based on
-		 * aspect ratio --> possible balance concern
+		 * B) ScreenViewport = full size without stretching, but shown field is
+		 * different based on aspect ratio --> possible balance concern
 		 */
 		// ScreenViewport sv = new ScreenViewport();
 		// sv.setUnitsPerPixel(0.25f);
@@ -77,24 +89,22 @@ public class LoadingScreen extends BaseScreen {
 		LevelFactory levelFactory = new LevelFactory();
 		EventQueue eventQueue = new EventQueue();
 
-		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue,
-				levelFile);
+		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue, levelFile);
 
 		Gdx.app.log("LoadingScreen", "Initializing events...");
 		registerSoundEvents(eventQueue);
 		registerGameEvents(eventQueue);
-		
-		Gdx.app.log("LoadingScreen",
-				String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
+
+		Gdx.app.log("LoadingScreen", String.format("Loading done - %d ms", (System.nanoTime() - start) / 1000000));
 		getContext().setScreen(new GameScreen(getContext(), engine, viewport, eventQueue));
 	}
-	
-	private void registerSoundEvents(EventQueue eventQueue){
+
+	private void registerSoundEvents(EventQueue eventQueue) {
 		// register event handlers on event queue to send sound messages.
 		// Will need another chain of objects to filter the messages
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 	}
-	
+
 	private void registerGameEvents(EventQueue eventQueue){
 		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
 			
@@ -104,26 +114,8 @@ public class LoadingScreen extends BaseScreen {
 				// Add score points and stuff.
 			}
 		});
+		
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
 	}
-
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void hide() {
-	}
-
-	@Override
-	public void dispose() {
-	}
-
+	
 }

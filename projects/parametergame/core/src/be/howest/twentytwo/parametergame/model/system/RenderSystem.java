@@ -19,11 +19,6 @@ public class RenderSystem extends IteratingSystem {
 
 	public final static int PRIORITY = 0;
 
-	@Deprecated
-	public final static float PIXELS_PER_METER = 16f;
-	@Deprecated
-	public final static float METERS_PER_PIXEL = 1f / PIXELS_PER_METER;
-
 	private Viewport viewport;
 	private SpriteBatch batch;
 

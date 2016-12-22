@@ -23,7 +23,7 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		BoxDataI world = new BoxData(1000f, 500f, 0f, 0f);
 		BoxDataI spawnBox = new BoxData(250f, 125f, 500f, 250f);
 		PlanetDataI planet = new PlanetData(377f, 183f, 125f, "texture.png", 500f, 175f);
-		ClusterDataI cluster = new ClusterData(1f, 1, 0f, 1, 1);
+		ClusterDataI cluster = new ClusterData(1f, 1, 0f, 1, 1, "bomber");
 		// "boss" cluster: 1 group containging 1 enemy, 100% chance to spawn, no delay. exists only once in this case.
 		SpawnPoolDataI spawnPool = new SpawnPoolData();
 		LevelDataI data = new LevelData();

@@ -2,12 +2,14 @@ package be.howest.twentytwo.parametergame.service.db;
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 /*
  * Reads all data regarding the game, but not the level. This contains data about users, ships, drones & enemies
  */
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
@@ -22,8 +24,10 @@ public interface IDataService {
 	public Collection<ShipDataI> getShips(UserDataI user);
 	
 	public Collection<DroneDataI> getDrones(UserDataI user);
+
+	public Collection<PowerupDataI> getPowerups();
 	
-	//public Collection<WeaponDataI> getWeapons(ShipDataI ship);
+	public Collection<DifficultyDataI> getDifficulties();
 	
 	public void saveUser(UserDataI data);
 	

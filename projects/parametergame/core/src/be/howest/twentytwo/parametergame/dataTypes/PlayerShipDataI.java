@@ -13,7 +13,6 @@ public interface PlayerShipDataI {
 	private float geomRadius;*/
 
 	public void setShipData(ShipDataI ship);
-	// TODO: @Nick -- Doesn't a ship only have one drone during the game?
 	public void setDrones(Collection<DroneDataI> drones);	
 	
 	public void setId(String id);

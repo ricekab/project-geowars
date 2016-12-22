@@ -16,18 +16,18 @@ public class CreditsScreen extends BaseUIBackgroundScreen {
 
 	// Just doing it this way since I don't want to spend too much time on this.
 	private static final String creditsText = "Geowars project - Group 22\n\n"
-			+ "Floris Cobbaert - Lead Artist & Systems Engineer\n"
-			+ "Nick Dewitte - Database Engineer\n" + "Kevin Tang - Lead Systems Designer\n"
-			+ "Ward Van den Berghe - Lead AI Engineer\n\n\n" + "Special Thanks to\n"
+			+ "Floris Cobbaert - Lead Artist & Junior Systems Engineer\n"
+			+ "Nick Dewitte - Lead Database Engineer & Senior Game Designer\n"
+			+ "Kevin Tang - Lead Systems Engineer & Associate Game Designer\n"
+			+ "Ward Van den Berghe - Project Manager & Lead AI Engineer\n\n\n" + "Special Thanks to\n"
 			+ "All the lectors and project collaborators for providing valuable feedback\n"
-			+ "Badlogic Games for providing the libGDX engine\n"
-			+ "Box2D for their awesome physics engine\n"
+			+ "Badlogic Games for providing the libGDX engine\n" + "Box2D for their awesome physics engine\n"
 			+ "Raymond \"Raeleus\" Buckley for his excellent UI Skin (Neon)\n";
 
-	public CreditsScreen(ScreenContext context, Engine engine){
+	public CreditsScreen(ScreenContext context, Engine engine) {
 		super(context, engine);
 	}
-	
+
 	public CreditsScreen(ScreenContext context) {
 		super(context);
 	}

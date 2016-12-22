@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
+
 import com.badlogic.gdx.math.Vector2;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyData;
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
@@ -16,6 +20,8 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupData;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData.ShipDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -26,11 +32,13 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public class SQLDataService implements IDataService {
+	
+	//TODO CLOSE STUFF AFTER USING IT
 
 	private static SQLDataService instance;
-	private final String URL = "jdbc:mysql://localhost/parametergame";
-	private final String USR = "user22"; // TODO change this
-	private final String PWD = "22"; // TODO change this
+	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
+	private final String USR = "user22";
+	private final String PWD = "22"; 
 	private Connection con;
 
 	private SQLDataService() {
@@ -89,6 +97,10 @@ public class SQLDataService implements IDataService {
 		return enemyShip;
 	}	
 
+	/**
+	 * @param names: A string or an array of strings that contain the name(s) of the enemy/enemies
+	 * @return HashSet of enemies, if the enemy is not found, there will be a null value
+	 */
 	public Collection<EnemyDataI> getEnemies(String... names) {
 		Collection<EnemyDataI> enemies = new HashSet<>();
 		for(String name : names) {
@@ -97,7 +109,7 @@ public class SQLDataService implements IDataService {
 		System.out.println("getEnemies returns: " + enemies);
 		return enemies;
 	}
-	
+
 	private Collection<WeaponDataI> getWeapons(String shipName) {
 		Collection<WeaponDataI> weapons = new HashSet<>();
 		try {
@@ -134,7 +146,7 @@ public class SQLDataService implements IDataService {
 	
 	/**
 	 * @Param user: an implementation of UserDataI that can provide a getUser() method to call the user's name
-	 * @Return returns a playerShip with an empty collection of drones
+	 * @Return returns a playerShip with an empty collection of drones, or a new HashSet if no playerShips are found
 	 */
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> playerShips = new HashSet<>();
@@ -165,11 +177,13 @@ public class SQLDataService implements IDataService {
 		return playerShips;
 	}
 
-
+	/**
+	 * @return returns an empty HashSet if no drones are found
+	 */
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
 		try {
-			String sql = "select * from drone where playerName = ?";
+			String sql = "select * from parametergame.drone where playerName = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, user.getUser());
 			ResultSet res = prep.executeQuery();
@@ -181,6 +195,44 @@ public class SQLDataService implements IDataService {
 			e.printStackTrace();
 		}
 		return drones;
+	}
+	
+	/**
+	 * @return returns an empty HashSet if no powerups are found
+	 */
+	public Collection<PowerupDataI> getPowerups() {
+		Collection<PowerupDataI> powerups = new HashSet<>();
+		try {
+			String sql = "select * from parametergame.powerup p join parametergame.powerupEffect pe on p.ID = pe.powerupID join parametergame.effect e on e.ID = pe.effectID";
+			Statement stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(sql);
+			while(res.next()) {
+				PowerupDataI powerup = new PowerupData(res.getString("powerupID"), res.getString("effectID"), res.getInt("duration"), res.getInt("lifetime"), res.getString("type"), res.getInt("strength"));
+				powerups.add(powerup);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return powerups;
+	}
+	
+	/**
+	 * @return returns an empty HashSet if no difficulties are found
+	 */
+	public Collection<DifficultyDataI> getDifficulties() {
+		Collection<DifficultyDataI> difficulties = new HashSet<>();
+		try {
+			String sql = "select * from parametergame.difficulty";
+			Statement stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(sql);
+			while(res.next()) {
+				DifficultyDataI difficulty = new DifficultyData(res.getString("ID"), res.getFloat("healthModifier"), res.getFloat("movementModifier"), res.getFloat("firerateModifier"), res.getFloat("scoreModifier"));
+				difficulties.add(difficulty);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return difficulties;
 	}
 	
 
