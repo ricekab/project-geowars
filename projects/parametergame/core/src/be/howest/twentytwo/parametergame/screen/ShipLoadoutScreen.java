@@ -67,7 +67,7 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 		root.row();
 
 		// Retrieve difficulties
-		// TODO: DIFFICULTIES WHERE?
+		// TODO: @Nick - Difficulty retrieval where?
 		Collection<DifficultyDataI> difficulties = new ArrayList<DifficultyDataI>();
 		difficultyGroup = new ButtonGroup<CheckBox>();
 		for (DifficultyDataI diff : difficulties) {
