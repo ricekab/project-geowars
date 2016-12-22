@@ -9,6 +9,7 @@ import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
+import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.PooledEngine;
@@ -115,16 +116,6 @@ public class LoadingScreen extends BaseUIBackgroundScreen {
 		});
 		
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
-	}
-	
-	private class PlayerKilledEndGameListener extends BasePlayerKilledListener{
-
-		@Override
-		public void handleEvent(PlayerKilledEvent event) {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 	
 }

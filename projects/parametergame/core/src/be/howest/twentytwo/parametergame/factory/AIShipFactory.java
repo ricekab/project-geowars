@@ -2,7 +2,7 @@ package be.howest.twentytwo.parametergame.factory;
 
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -51,8 +51,8 @@ public class AIShipFactory implements ISpawnFactory {
 	@Override
 	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
 			short physicsCategory, short physicsMask) {
-		Entity aiShip = shipFactory.createShip(pos, rotation, Constants.BULLET_ENEMY_CATEGORY,
-				Constants.BULLET_ENEMY_MASK);
+		Entity aiShip = shipFactory.createShip(pos, rotation, Collision.BULLET_ENEMY_CATEGORY,
+				Collision.BULLET_ENEMY_MASK);
 		AIComponent ai = engine.createComponent(AIComponent.class);
 		ai.setMoveBehaviour(moveBehaviour);
                 ai.setShootBehaviour(shootBehaviour);
@@ -64,8 +64,8 @@ public class AIShipFactory implements ISpawnFactory {
 
 	@Override
 	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
-		return spawnEntity(pos, rotation, initialVelocity, Constants.BULLET_ENEMY_CATEGORY,
-				Constants.BULLET_ENEMY_MASK);
+		return spawnEntity(pos, rotation, initialVelocity, Collision.BULLET_ENEMY_CATEGORY,
+				Collision.BULLET_ENEMY_MASK);
 	}
 
 	@Override

@@ -28,7 +28,7 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 public class InMemoryDataService implements IDataService {
 	// for the time being, this will have hard-coded data, and is later DELETED
@@ -54,7 +54,7 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<ShipDataI> getShips(UserDataI user) {
 		List<ShipDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 
 		// KEVIN: TEMPORARY MEEASURE FOR TESING -- ORIGINAL LINE BELOW
@@ -83,7 +83,7 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<EnemyDataI> getEnemies(String... name) {
 		List<EnemyDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_COLLISION_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Collision.ENEMY_CATEGORY, Collision.ENEMY_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();

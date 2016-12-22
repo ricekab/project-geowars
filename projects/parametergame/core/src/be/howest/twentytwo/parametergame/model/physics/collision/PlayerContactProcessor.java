@@ -30,16 +30,16 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 	protected boolean handleBeginContact(Contact contact) {
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if(categoryA == Constants.PLAYER_CATEGORY) {
+		if(categoryA == Collision.PLAYER_CATEGORY) {
 			return processBeginContact(contact.getFixtureA().getBody(), contact.getFixtureB());
-		} else if(categoryB == Constants.PLAYER_CATEGORY) {
+		} else if(categoryB == Collision.PLAYER_CATEGORY) {
 			return processBeginContact(contact.getFixtureB().getBody(), contact.getFixtureA());
 		}
 		return false;
 	}
 
 	private boolean processBeginContact(Body player, Fixture target) {
-		if((target.getFilterData().categoryBits & Constants.PLAYER_HIT_FILTER_MASK) > 0) {
+		if((target.getFilterData().categoryBits & Collision.PLAYER_HIT_FILTER_MASK) > 0) {
 			Gdx.app.log("PlayerCP", "Player-Enemy contact");
 			
 			getEventQueue().send(new PlayerHitEvent());
@@ -49,7 +49,7 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 
 			getPhysicsQueue().add(
 					new ExplosionPhysicsMessage(player, pushRange, pushForce,
-							Constants.PLAYER_EXPLOSION_MASK));
+							Collision.PLAYER_EXPLOSION_MASK));
 
 			return true;
 		}

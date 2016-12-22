@@ -30,14 +30,14 @@ public class BulletContactProcessor extends BaseContactProcessor {
 	protected boolean handleBeginContact(Contact contact) {
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if(categoryA == Constants.BULLET_PLAYER_CATEGORY) {
+		if(categoryA == Collision.BULLET_PLAYER_CATEGORY) {
 			return handlePlayerBullet(contact.getFixtureA(), contact.getFixtureB());
-		} else if(categoryB == Constants.BULLET_PLAYER_CATEGORY) {
+		} else if(categoryB == Collision.BULLET_PLAYER_CATEGORY) {
 			return handlePlayerBullet(contact.getFixtureB(), contact.getFixtureA());
 		}
-		if(categoryA == Constants.BULLET_ENEMY_CATEGORY) {
+		if(categoryA == Collision.BULLET_ENEMY_CATEGORY) {
 			return handleEnemyBullet(contact.getFixtureA(), contact.getFixtureB());
-		} else if(categoryB == Constants.BULLET_ENEMY_CATEGORY) {
+		} else if(categoryB == Collision.BULLET_ENEMY_CATEGORY) {
 			return handleEnemyBullet(contact.getFixtureB(), contact.getFixtureA());
 		}
 		return false;
@@ -45,14 +45,15 @@ public class BulletContactProcessor extends BaseContactProcessor {
 
 	private boolean handlePlayerBullet(Fixture playerBullet, Fixture target) {
 		short targetCategory = target.getFilterData().categoryBits;
-		if((targetCategory & Constants.PLANET_CATEGORY) > 0){
+		if((targetCategory & Collision.PLANET_CATEGORY) > 0){
 			Gdx.app.debug("BulletContact", "DestroyBulletFired");
 			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
 			return true;
 		}
-		if((targetCategory & Constants.ENEMY_CATEGORY) > 0){
-			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
+		if((targetCategory & Collision.ENEMY_CATEGORY) > 0){
+			
 			getEventQueue().send(new DestroyEntityEvent((Entity)target.getBody().getUserData()));
+			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
 		}
 		return false;
 	}
