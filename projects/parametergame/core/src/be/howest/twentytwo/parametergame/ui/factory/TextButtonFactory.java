@@ -13,8 +13,13 @@ public class TextButtonFactory {
 	}
 	
 	public TextButton createButton(String label, ChangeListener listener) {
-		TextButton btn = new TextButton(label, style);
+		TextButton btn = createButton(label);
 		btn.addListener(listener);
+		return btn;
+	}
+	
+	public TextButton createButton(String label) {
+		TextButton btn = new TextButton(label, style);
 		btn.pad(5f);
 		btn.getLabelCell().pad(10f);
 		return btn;

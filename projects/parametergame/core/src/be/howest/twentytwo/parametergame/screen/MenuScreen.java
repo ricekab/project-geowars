@@ -69,6 +69,10 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 			passwordField.setText("DEBUG");
 			doLogin();
 		}
+		
+		if(getContext().getUser() != null){
+			setLoggedIn(getContext().getUser());
+		}
 	}
 
 	private Window createLoginWindow(TextButtonFactory tbf) {
@@ -165,6 +169,10 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private void doLogin() {
 		// TODO: Can I get null back, how are non-existant users handled (DOCS!!!)
 		UserDataI user = getContext().getDataService().getUser(userField.getText());
+		setLoggedIn(user);
+	}
+	
+	private void setLoggedIn(UserDataI user){
 		if(user != null) {
 			loginStatusLabel.setText("Active Login: " + user.getUser());
 			getContext().setUser(user);
