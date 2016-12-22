@@ -29,6 +29,8 @@ import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.ai.BasicAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.BasicAIShootBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
@@ -172,6 +174,7 @@ public class LevelFactory {
 
 		// ENEMIES / AI FACTORIES
 		Collection<String> enemyNames = new HashSet<String>();
+		Collection<ShipDataI> enemyShips = new HashSet<ShipDataI>();
 
 		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
 		Queue<SpawnPoolDataI> tempPools = new LinkedList<SpawnPoolDataI>(spawnPools);
@@ -191,28 +194,28 @@ public class LevelFactory {
 			allWeapons.addAll(enemy.getShipData().getWeapons());
 		}
 
-		EnemyDataI enemy = enemies.iterator().next();
-		// Spawn scout ship
-		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
-				new BasicAIShootBehaviour(60, 80));// adjust for range
-
-		// Spawn brutalizer ship
-		AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
-				new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds
-														// (120/30), 50 = range
-		aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
-
-		// Spawn obstacle
-		AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody);
-		aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
-
-		// Spawn suidicer
-		AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
-		aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
+		// EnemyDataI enemy = enemies.iterator().next();
+		// // Spawn scout ship
+		// AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
+		// new BasicAIShootBehaviour(60, 80));// adjust for range
+		//
+		// // Spawn brutalizer ship
+		// AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
+		// new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds
+		// // (120/30), 50 = range
+		// aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
+		//
+		// // Spawn obstacle
+		// AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody);
+		// aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
+		//
+		// // Spawn suidicer
+		// AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
+		// aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
 
 		// Spawn suicide squad --> optional
 
@@ -230,11 +233,19 @@ public class LevelFactory {
 		engine.addEntity(cameraEntity);
 
 		// Create projectile factories for spawner
-		for (WeaponDataI w : allWeapons) {
-			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, w));
+		for (WeaponDataI wpn : allWeapons) {
+			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, wpn));
 		}
-
-		// TODO: Create ship factories (of ai) for spawner
+		
+		AIMoveBehaviourFactory moveFactory = new AIMoveBehaviourFactory();
+		AIShootBehaviourFactory shootFactory = new AIShootBehaviourFactory();
+		for(EnemyDataI enemy : enemies){
+			String behaviourString = enemy.getBehaviour();
+			// TODO: Convert behaviour string into concrete behaviours
+			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
+			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
+			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, shipData, selections.getDifficulty(), playerBody, move, shoot));
+		}
 
 		// INPUT
 		InputFactory inputFactory = new InputFactory();
