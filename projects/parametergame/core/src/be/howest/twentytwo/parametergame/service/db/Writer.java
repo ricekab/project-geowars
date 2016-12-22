@@ -8,12 +8,9 @@ public class Writer {
 	public static void main(String[] args) {
 		
 		SQLDataService db = SQLDataService.getInstance();
-		UserData user = new UserData("nick","123456");
+		UserData user = new UserData("The_Legend_27","123457","Advanced JS difficulty");
 
-		Collection<PlayerShipDataI>playerShips = db.getPlayerShips(user);
-		for(PlayerShipDataI playerShip : playerShips) {
-			System.out.println(playerShip.getShipData().getGravityResistance());
-		}
+		db.saveUser(user);
 		
 		
 		

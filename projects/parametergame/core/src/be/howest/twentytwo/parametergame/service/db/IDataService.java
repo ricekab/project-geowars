@@ -52,7 +52,12 @@ public interface IDataService {
 	 * @return returns an empty HashSet if no difficulties are found
 	 */
 	public Collection<DifficultyDataI> getDifficulties();
-	
+	/**
+	 * This method looks an user up in the database, searching on the username. 
+	 * If an user is found, it will modify the data in the database to match the passed object.
+	 * If no user is found, it will create a new record matching the passed object.
+	 * @param data the user we want to save
+	 */
 	public void saveUser(UserDataI data);
 	
 	public void saveShip(ShipDataI data);

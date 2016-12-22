@@ -35,8 +35,8 @@ public class SQLDataService implements IDataService {
 
 	private static SQLDataService instance;
 	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
-	private final String USR = "user22";
-	private final String PWD = "22"; 
+	private final String USR = "root";	//user22
+	private final String PWD = "";		//22 
 	private Connection con;
 
 	private SQLDataService() {
@@ -229,7 +229,29 @@ public class SQLDataService implements IDataService {
 	
 
 	public void saveUser(UserDataI data) {
-
+		try {
+			String sqlSave ="";
+			String sql = "select * from parametergame.player where name = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, data.getUser());
+			ResultSet res = prep.executeQuery();
+			
+			if(res.next()) {
+				sqlSave= "update parametergame.player set password=?, difficultyID=? where name = ?";
+			} else {
+				sqlSave = "insert into parametergame.player(`password`,`difficultyID`,`name`) values (?, ?, ?)";
+			}
+			PreparedStatement ps = con.prepareStatement(sqlSave);
+			ps.setString(1, data.getPasswordHashed());
+			ps.setString(2, data.getDifficulty());	//TODO get the id
+			ps.setString(3, data.getUser());
+			ps.executeUpdate();
+			ps.close();
+			res.close();
+			prep.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void saveShip(ShipDataI data) {
