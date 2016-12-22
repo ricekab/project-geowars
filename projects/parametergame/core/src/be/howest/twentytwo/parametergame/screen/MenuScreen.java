@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen extends BaseUIBackgroundScreen {
@@ -38,6 +37,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
+                /*
                 SoundSequencer seq = new SoundSequencer();
                 SoundEngine se = new SoundEngine();
                 se.playMusic("music/finished_long.ogg", true);  
@@ -47,8 +47,9 @@ public class MenuScreen extends BaseUIBackgroundScreen {
                 for(int i=0; i < 5; i++){
                     seq.play(1);
                     //System.out.println(seq.getSize());
-                   // System.out.println(seq.getIndex());
+                    //System.out.println(seq.getIndex());
                 }
+*/
                 
                 
                 
