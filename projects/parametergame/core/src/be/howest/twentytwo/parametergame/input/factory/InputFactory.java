@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.factory;
+package be.howest.twentytwo.parametergame.input.factory;
 
 import java.util.HashMap;
 import java.util.Map;

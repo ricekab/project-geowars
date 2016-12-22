@@ -9,6 +9,10 @@ import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 
+/**
+ * This system process {@link ISpawnMessage} requests and creates the requested entity according to
+ * the message.
+ */
 public class SpawnSystem extends IntervalSystem {
 
 	public static final int PRIORITY = 1;
@@ -24,7 +28,7 @@ public class SpawnSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
-		for(ISpawnMessage m : messages){
+		for (ISpawnMessage m : messages) {
 			processMessage(m);
 		}
 		messages.clear();
@@ -32,7 +36,7 @@ public class SpawnSystem extends IntervalSystem {
 
 	private void processMessage(ISpawnMessage msg) {
 		for (ISpawnFactory factory : factories) {
-			if (factory.getType().equals(msg.getType())) {
+			if(factory.getType().equals(msg.getType())) {
 				msg.execute(factory);
 				return;
 			}

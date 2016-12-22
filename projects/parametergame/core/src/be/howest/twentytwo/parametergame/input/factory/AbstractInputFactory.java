@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.factory;
+package be.howest.twentytwo.parametergame.input.factory;
 
 import be.howest.twentytwo.parametergame.input.Inputs;
 import be.howest.twentytwo.parametergame.input.actions.AccelerateBackwardAction;

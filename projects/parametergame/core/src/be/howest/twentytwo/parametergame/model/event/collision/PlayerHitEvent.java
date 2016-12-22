@@ -8,7 +8,6 @@ public class PlayerHitEvent extends BaseCollisionEvent {
 	
 	public PlayerHitEvent(Fixture subject, Fixture collider) {
 		super(subject, collider);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
