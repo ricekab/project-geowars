@@ -120,7 +120,7 @@ public class InMemoryDataService implements IDataService {
 	public List<EnemyDataI> getEnemies(String... name) {
 		List<EnemyDataI> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK);
-		physicsData.addFixture(new FixtureData("circle", 4f, 4f, 0, 0, 0.5f, 0.1f, 0f));
+		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.5f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
 		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
@@ -137,8 +137,8 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f,
-				10.0f, 0.1f, 1.0f, weapons, physicsData, 10f, 15f, 0f);
+		ShipData shipData = new ShipData("enemy01", "scouter", 3, 30.0f, 30.0f, 10.0f,
+				10.0f, 0.1f, 1.0f, weapons, physicsData, 8f, 8f, 0f);
 
 		data.add(new EnemyData("enemyID", 5f, 100, "behaviourString", shipData));
 		return data;

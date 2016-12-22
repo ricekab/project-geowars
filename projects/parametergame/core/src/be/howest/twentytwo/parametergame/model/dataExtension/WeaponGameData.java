@@ -5,7 +5,8 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Wrapper around WeaponDataI to add more functionality to it.
+ * Wrapper around WeaponDataI to add more functionality to it and extract entity specific data (ammo
+ * count)
  */
 public class WeaponGameData implements WeaponDataI {
 
@@ -44,7 +45,7 @@ public class WeaponGameData implements WeaponDataI {
 		}
 		// Can fire - decrement ammo and start cool down.
 		if(getAmmoCount() != WeaponDataI.INFINITE_AMMO) {
-			setAmmoCount(weapon.getAmmoCount() - 1);
+			setAmmoCount(getAmmoCount() - 1);
 		}
 		resetCooldown();
 		return true;

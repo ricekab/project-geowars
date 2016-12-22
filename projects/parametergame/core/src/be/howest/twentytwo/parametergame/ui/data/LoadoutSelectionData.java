@@ -26,7 +26,7 @@ public class LoadoutSelectionData {
 		return playerShip;
 	}
 
-	public Collection<DroneDataI> getDrone() {
+	public Collection<DroneDataI> getDrones() {
 		return drones;
 	}
 
