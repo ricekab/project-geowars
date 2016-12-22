@@ -18,10 +18,10 @@ public class SQLDataServiceTests {
 	}
 
 	@Test
-	public void test() {
+	public void testGetUser() {
 		String desiredUsername = "The_Legend_27";
 		UserDataI user = db.getUser(desiredUsername);
-		assertTrue("success!", user.getUser().equals(desiredUsername));
+		assertEquals("\ntestGetUser failed\n", desiredUsername, user.getUser());
 	}
 
 }

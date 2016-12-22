@@ -1,6 +1,6 @@
 package be.howest.twentytwo.parametergame.service.db;
 
-import java.util.Collection;
+import java.util.Queue;
 
 import be.howest.twentytwo.parametergame.dataTypes.*;
 
@@ -14,6 +14,11 @@ public class Writer {
 		
 		System.out.println(db.getUser("The_Legend_27").getPasswordHashed());
 		
+		LevelDataI leveldata = new LevelData();
+		Queue<SpawnPoolDataI> spawnpools = leveldata.getSpawnPools();
+		SpawnPoolDataI spawnpool = spawnpools.poll();
+		ClusterDataI clusterdata = spawnpool.getRandomCluster();
+		String enemyname = clusterdata.getEnemyName();
 		
 		
 	}
