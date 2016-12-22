@@ -1,5 +1,6 @@
-drop database if exists parametergame;
+drop database parametergame;
 create database parametergame;
+set foreign_key_checks=0;
 
 use parametergame;
 
@@ -16,7 +17,7 @@ create table difficulty(
     primary key (`ID`)
 );
 
-create table player (
+create table player(
 	`name` varchar(128) not null,
     `password` varchar(128) not null,
     `difficultyID` varchar(128),
@@ -124,6 +125,7 @@ create table gameID(
     primary key(`mode`, `uniqueID`),
     foreign key (`difficultyID`) references difficulty(`ID`)
 );
+
 
 create table  playedGame(
 	`playerShipID` varchar(128) not null,
