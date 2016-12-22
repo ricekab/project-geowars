@@ -20,6 +20,7 @@ public interface PlayerShipDataI {
 	public void setExp(int exp);
 	public void setLvl(int lvl);
 	public void setGeomRadius(float radius);
+	public void setCampaignLevel(int campaignLevel);
 
 	
 	public ShipDataI getShipData();
@@ -31,4 +32,5 @@ public interface PlayerShipDataI {
 	public int getExp();
 	public int getLvl();
 	public float getGeomRadius();
+	public int getCampaignLevel();
 }

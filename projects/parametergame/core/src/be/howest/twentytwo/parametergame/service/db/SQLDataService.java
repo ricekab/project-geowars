@@ -60,8 +60,14 @@ public class SQLDataService implements IDataService {
 		}
 		return instance;
 	}
+	
+	public UserDataI getUser(String username, String hashedPassword) {
+		UserDataI user = null;
+		//TODO
+		return user;
+	}
 
-	public UserDataI getUser(String username) {
+	public UserDataI getUser(String username) {		//TODO check on password
 		UserDataI user = null;
 		try {
 			String sql = "select * from parametergame.player where name = ?";
@@ -237,13 +243,13 @@ public class SQLDataService implements IDataService {
 	public void saveUser(UserDataI data) {
 		try {
 			String sqlSave ="";
-			String sql = "select * from parametergame.player where name = ?";
+			String sql = "select * from parametergame.player where `name` = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, data.getUser());
 			ResultSet res = prep.executeQuery();
 			
 			if(res.next()) {
-				sqlSave= "update parametergame.player set password=?, difficultyID=? where name = ?";
+				sqlSave= "update parametergame.player set `password`=?, `difficultyID`=? where `name` = ?";
 			} else {
 				sqlSave = "insert into parametergame.player(`password`,`difficultyID`,`name`) values (?, ?, ?)";
 			}
@@ -260,22 +266,37 @@ public class SQLDataService implements IDataService {
 		}
 	}
 
-	public void saveShip(ShipDataI data) {
+	public void saveShip(ShipDataI data) {	//TODO make private after once kevin doesn't use it anymore
 		//TODO
 	}
 	
 	public void savePlayerShip(PlayerShipDataI data) {
 		try {
 			String sqlSave = "";
-			String sql = "select * from parametergame.playerShip where ID = ?";
+			String sql = "select * from parametergame.playerShip where `ID` = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, data.getId());
 			ResultSet res = prep.executeQuery();
 			if(res.next()) {
-				sqlSave = "update parametergame.playerShip set "/*TODO*/+"where ID = ?";
+				sqlSave = "update parametergame.playerShip set `mass`=?, `exp`=?, `lvl`=?, `shipName`=?, `campaignLevel`=?, `geomRadius`=? where `ID` = ?";
 			} else {
-				sqlSave = "insert into parametergame.playerShip("/*TODO*/+") values(?, ?, ?, ?, ?, ?, ?";
+				saveShip(data.getShipData());
+				sqlSave = "insert into parametergame.playerShip(`mass`,`exp`,`lvl`,`shipName`,`campaignLevel`,`geomRadius`,`ID`) values(?, ?, ?, ?, ?, ?, ?)";
 			}
+			PreparedStatement ps = con.prepareStatement(sqlSave);
+			System.out.println(ps);
+			ps.setFloat(1, data.getMass());
+			ps.setInt(2, data.getExp());
+			ps.setInt(3, data.getLvl());
+			ps.setString(4, data.getShipData().getName());
+			ps.setInt(5, data.getCampaignLevel());
+			ps.setFloat(6, data.getGeomRadius());
+			ps.setString(7, data.getId());
+			System.out.println(ps);
+			ps.executeUpdate();
+			ps.close();
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

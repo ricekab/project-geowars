@@ -14,7 +14,25 @@ public class PlayerShipData implements PlayerShipDataI{
 	private int exp;
 	private int lvl;
 	private float geomRadius;
+	private int campaignLevel;
+
+	public PlayerShipData(ShipDataI ship, Collection<DroneDataI> drones, String id, float mass, int exp, int lvl, float geomRadius, int campaignLevel) {
+		setShipData(ship);
+		setDrones(drones);
+		setId(id);
+		setMass(mass);
+		setExp(exp);
+		setLvl(lvl);
+		setGeomRadius(geomRadius);
+		setCampaignLevel(campaignLevel);
+	}
 	
+	public PlayerShipData(ShipDataI ship, String id, float mass, int exp, int lvl, float geomRadius, int campaignLevel) {
+		this(ship, new HashSet<DroneDataI>(), id, mass, exp, lvl, geomRadius, campaignLevel);
+	}	
+	
+	//TODO OLD CONSTRUCTORS BELOW
+	@Deprecated
 	public PlayerShipData(ShipDataI ship, Collection<DroneDataI> drones, String id, float mass, int exp, int lvl, float geomRadius) {
 		setShipData(ship);
 		setDrones(drones);
@@ -25,6 +43,7 @@ public class PlayerShipData implements PlayerShipDataI{
 		setGeomRadius(geomRadius);
 	}
 	
+	@Deprecated
 	public PlayerShipData(ShipDataI ship, String id, float mass, int exp, int lvl, float geomRadius) {
 		this(ship, new HashSet<DroneDataI>(), id, mass, exp, lvl, geomRadius);
 	}
@@ -39,6 +58,7 @@ public class PlayerShipData implements PlayerShipDataI{
 	public PlayerShipData(ShipDataI ship){
 		this(ship, new HashSet<DroneDataI>());
 	}
+	//TODO OLD CONSTRUCTORS ABOVE
 	
 	//	SETTERS
 
@@ -82,6 +102,11 @@ public class PlayerShipData implements PlayerShipDataI{
 		drones.add(drone);
 	}
 	
+	@Override
+	public void setCampaignLevel(int campaignLevel) {
+		this.campaignLevel = campaignLevel;
+	}
+	
 	//	GETTERS
 
 	@Override
@@ -117,6 +142,10 @@ public class PlayerShipData implements PlayerShipDataI{
 	@Override
 	public float getGeomRadius() {
 		return geomRadius;
+	}
+	
+	public int getCampaignLevel() {
+		return campaignLevel;
 	}
 
 }

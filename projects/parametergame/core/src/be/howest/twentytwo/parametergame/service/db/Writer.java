@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.service.db;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Queue;
 
 import be.howest.twentytwo.parametergame.dataTypes.*;
@@ -8,17 +10,25 @@ public class Writer {
 	public static void main(String[] args) {
 		
 		SQLDataService db = SQLDataService.getInstance();
-		UserData user = new UserData("The_Legend_27","12345678","Advanced JS difficulty");
+		InMemoryDataService im = new InMemoryDataService();
+		
+		UserData user = new UserData("Nick","nick","Advanced JS difficulty");
+		Collection<PlayerShipDataI> playerShips = im.getPlayerShips(user);
 
-		db.saveUser(user);
+		for(PlayerShipDataI p : playerShips) {
+			int campaignLevel = p.getCampaignLevel();
+			System.out.println("\n----------------------------------------------------------------------------------------------------Ship: " + p.getShipData().getName());
+			System.out.println("Initial campaign level: " + campaignLevel);
+			campaignLevel++;
+			p.setCampaignLevel(campaignLevel);
+			db.savePlayerShip(p);
+		}
 		
-		System.out.println(db.getUser("The_Legend_27").getPasswordHashed());
+		playerShips = db.getPlayerShips(user);
 		
-		LevelDataI leveldata = new LevelData();
-		Queue<SpawnPoolDataI> spawnpools = leveldata.getSpawnPools();
-		SpawnPoolDataI spawnpool = spawnpools.poll();
-		ClusterDataI clusterdata = spawnpool.getRandomCluster();
-		String enemyname = clusterdata.getEnemyName();
+		for(PlayerShipDataI p : playerShips) {
+			System.out.println("Campaign level from db: " + p.getCampaignLevel());
+		}
 		
 		
 	}
