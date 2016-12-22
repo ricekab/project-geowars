@@ -2,10 +2,13 @@ package be.howest.twentytwo.parametergame.service.db;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyData;
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
@@ -13,8 +16,8 @@ import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupData;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
@@ -140,6 +143,20 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public void saveWeapon(WeaponDataI weapon) {
 
+	}
+
+	@Override
+	public Collection<PowerupDataI> getPowerups() {
+		Collection<PowerupDataI> powerups = new HashSet<>();
+		powerups.add(new PowerupData("shiny orb","redbull", -1, 180, "movementSpeed", 3));
+		return powerups;
+	}
+
+	@Override
+	public Collection<DifficultyDataI> getDifficulties() {
+		Collection<DifficultyDataI> difficulties = new HashSet<>();
+		difficulties.add(new DifficultyData("advanced JS", 0.1f, 0.33f, 0.2f, 25f));
+		return difficulties;
 	}
 
 }
