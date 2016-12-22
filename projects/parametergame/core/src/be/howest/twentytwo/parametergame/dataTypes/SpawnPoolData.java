@@ -79,7 +79,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable { // a collec
 		reduceAmount(randomCluster);
 		return randomCluster;
 	}
-
+	
 	public float getSpawnTreshold() {
 		return spawnTreshold;
 	}
