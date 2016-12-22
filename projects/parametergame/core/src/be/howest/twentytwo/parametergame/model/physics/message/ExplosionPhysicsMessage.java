@@ -46,9 +46,9 @@ public class ExplosionPhysicsMessage extends SinglePhysicsMessage {
 		for (Body targetBody : bodies) {
 			Vector2 forceVector = new Vector2(targetBody.getPosition());
 			forceVector.sub(sourceBody.getPosition()).nor().scl(force);
-			Gdx.app.log("EPE",
-					String.format("%s , %s", sourceBody.getPosition().toString(), targetBody.getPosition().toString()));
-			Gdx.app.log("EPE", forceVector.toString());
+//			Gdx.app.debug("EPE",
+//					String.format("%s , %s", sourceBody.getPosition().toString(), targetBody.getPosition().toString()));
+//			Gdx.app.debug("EPE", forceVector.toString());
 			IPhysicsMessage instantEvent = new LinearForceMessage(targetBody, forceVector);
 			instantEvent.execute();
 			// Can be shortened to one line but leaving this for clarity.
