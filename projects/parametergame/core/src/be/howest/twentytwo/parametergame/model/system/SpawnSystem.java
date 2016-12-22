@@ -24,11 +24,10 @@ public class SpawnSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
-		Iterator<ISpawnMessage> it = messages.iterator();
-		while (it.hasNext()) {
-			processMessage(it.next());
-			it.remove();
+		for(ISpawnMessage m : messages){
+			processMessage(m);
 		}
+		messages.clear();
 	}
 
 	private void processMessage(ISpawnMessage msg) {

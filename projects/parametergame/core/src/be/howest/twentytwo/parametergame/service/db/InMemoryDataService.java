@@ -49,7 +49,8 @@ public class InMemoryDataService implements IDataService {
 	 * 
 	 * @Return returns null for weapons, should be added after getting them from the DB separately.
 	 */
-	@Override @Deprecated
+	@Override
+	@Deprecated
 	public List<ShipDataI> getShips(UserDataI user) {
 		List<ShipDataI> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
@@ -80,32 +81,32 @@ public class InMemoryDataService implements IDataService {
 
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
+		WeaponDataI primaryWeapon = builder.setId("bullet_basic").setOffsetX(0f).setOffsetY(0f)
 				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
 				.setBulletSpeed(75f).setBulletMass(5f).setRange(250f)
-				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
+				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(2f, 0.5f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
 		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
 		// 5f,
 		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
 		// TODO: Switch to builder to clarify arguments.
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
-				3500f, 0f, 0.5f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataI secondaryWeapon = new WeaponData("missile_projectile", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
+				3500f, 0f, 0.5f, 25, new Vector2(5f, 2f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
-		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f,
-				0f, 1.0f, weapons, physicsData, 8f, 8f, 1f);
+		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0f, 1.0f,
+				weapons, physicsData, 8f, 8f, 1f);
 		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f);
 		ships.add(playerShip);
-		
+
 		// JUGGERNAUT
 		physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
 		physicsData.addFixture(new FixtureData("box", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
-		 ship = new ShipData("Juggernaught", "juggernaught", 3, 35.0f, 30.0f, 10.0f, 15.0f,
-				0f, 0.5f, weapons, physicsData, 16f, 16f, 1f);
-		 playerShip = new PlayerShipData(ship, "Juggernaughty", 10f, 0, 1, 50f);
+		ship = new ShipData("Juggernaught", "juggernaught", 3, 35.0f, 30.0f, 10.0f, 15.0f, 0f,
+				0.5f, weapons, physicsData, 16f, 16f, 1f);
+		playerShip = new PlayerShipData(ship, "Juggernaughty", 10f, 0, 1, 50f);
 		ships.add(playerShip);
-		
+
 		return ships;
 	}
 
@@ -120,10 +121,10 @@ public class InMemoryDataService implements IDataService {
 	public List<EnemyDataI> getEnemies(String... name) {
 		List<EnemyDataI> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK);
-		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.5f, 0.1f, 0f));
+		physicsData.addFixture(new FixtureData("circle", 6f, 6f, 0, 0, 0.5f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
+		WeaponDataI primaryWeapon = builder.setId("bullet_basic").setOffsetX(0f).setOffsetY(0f)
 				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
 				.setBulletSpeed(75f).setBulletMass(5f).setRange(250f)
 				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
@@ -137,8 +138,8 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-		ShipData shipData = new ShipData("enemy01", "scouter", 3, 30.0f, 30.0f, 10.0f,
-				10.0f, 0.1f, 1.0f, weapons, physicsData, 8f, 8f, 0f);
+		ShipData shipData = new ShipData("enemy01", "scouter", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f,
+				1.0f, weapons, physicsData, 8f, 8f, 0f);
 
 		data.add(new EnemyData("enemyID", 5f, 100, "behaviourString", shipData));
 		return data;

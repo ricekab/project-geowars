@@ -21,7 +21,7 @@ public class InMemoryFileAccessor implements IFileAccessor{
 	@Override
 	public LevelDataI loadLevel(String justPutARandomString) {
 		BoxDataI world = new BoxData(1000f, 500f, 0f, 0f);
-		BoxDataI spawnBox = new BoxData(25f, 25f, 0f, 0f);
+		BoxDataI spawnBox = new BoxData(10f, 10f, -10f, -10f);
 		
 		ClusterDataI cluster = new ClusterData(1f, 1, 0f, 1, 1, "bomber");
 		// "boss" cluster: 1 group containging 1 enemy, 100% chance to spawn, no delay. exists only once in this case.

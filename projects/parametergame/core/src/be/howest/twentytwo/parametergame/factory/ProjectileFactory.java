@@ -8,6 +8,7 @@ import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,7 +33,8 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	private TextureRegion region;
 	private float timeToLive;
 
-	public ProjectileFactory(PooledEngine engine, World world, AssetManager assets, WeaponDataI weaponData) {
+	public ProjectileFactory(PooledEngine engine, World world, AssetManager assets,
+			WeaponDataI weaponData) {
 		this.engine = engine;
 		this.world = world;
 		this.assets = assets;
@@ -59,7 +61,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		// TEXTURE/SPRITE
 		TextureAtlas spritesheet = assets.get(PROJECTILE_SPRITE_PACK, TextureAtlas.class);
 		region = spritesheet.findRegion(weaponData.getID());
-		
+
 		timeToLive = weaponData.getRange() / weaponData.getBulletSpeed();
 	}
 
@@ -70,10 +72,21 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	}
 
 	@Override
-	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity, short physicsCategory,
-			short physicsMask) {
-		Entity projectile = engine.createEntity();
+	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
+			short physicsCategory, short physicsMask) {
+		Entity projectile = createEntity(pos, rotation, initialVelocity, physicsCategory,
+				physicsMask);
+		try {
+			engine.addEntity(projectile);
+		} catch (IllegalArgumentException iae) {
+Gdx.app.error("ProjectileFactory", "ERR: " + iae.getMessage());		}
 
+		return projectile;
+	}
+
+	private Entity createEntity(Vector2 pos, float rotation, Vector2 initialVelocity,
+			short physicsCategory, short physicsMask) {
+		Entity projectile = engine.createEntity();
 		// TRANSFORM
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(pos);
@@ -87,7 +100,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		bodyDef.position.set(pos.x, pos.y);
 		bodyDef.angle = rotation;
 		bodyDef.linearVelocity.set(initialVelocity);
-		
+
 		Body rigidBody = world.createBody(bodyDef); // Put in world
 		rigidBody.setUserData(projectile);
 		bodyComponent.setBody(rigidBody);
@@ -103,7 +116,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 
 		// TEXTURE/SPRITE
 		SpriteComponent sc = engine.createComponent(SpriteComponent.class);
-		// projectile.add(spriteComponent);
+		projectile.add(sc);
 		sc.setRegion(region);
 		projectile.add(sc);
 
@@ -111,15 +124,14 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		TimedLifeComponent timedComponent = engine.createComponent(TimedLifeComponent.class);
 		timedComponent.setTimeRemaining(timeToLive);
 		projectile.add(timedComponent);
-		
-		engine.addEntity(projectile);
-		
+
 		return projectile;
 	}
 
 	@Override
 	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
-		return spawnEntity(pos, rotation, initialVelocity, fixtureDef.filter.categoryBits, fixtureDef.filter.maskBits);
+		return spawnEntity(pos, rotation, initialVelocity, fixtureDef.filter.categoryBits,
+				fixtureDef.filter.maskBits);
 	}
 
 	@Override

@@ -6,10 +6,10 @@ import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 
 /**
- * Responsible for
+ * Responsible for creating the game screen, be it a single player single view or multiplayer versus
+ * split screen.
  * 
- * @author KCYT
- *
+ * See: {@link SPGameFactory} and {@link MPVersusGameFactory}
  */
 public abstract class BaseGameFactory {
 

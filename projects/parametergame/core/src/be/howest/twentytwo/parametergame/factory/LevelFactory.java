@@ -107,10 +107,10 @@ public class LevelFactory {
 		world.setContactListener(getCollisionChain(eventQueue, physicsMessageQueue));
 		engine.addEntityListener(Family.all(BodyComponent.class).get(),
 				new PhysicsBodyEntityListener(world));
-		
+
 		// UI Init
 		Stage uiStage = createUI();
-		
+
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
 		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(),
@@ -174,6 +174,11 @@ public class LevelFactory {
 		// AI creation
 		Collection<EnemyDataI> enemies = dataService.getEnemies("scouter", "brutalizer",
 				"suicider", "obstacle", "suicideSquad");
+
+		for (EnemyDataI enemy : enemies) {
+			allWeapons.addAll(enemy.getShipData().getWeapons());
+		}
+
 		EnemyDataI enemy = enemies.iterator().next();
 		// Spawn scout ship
 		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
@@ -270,7 +275,7 @@ public class LevelFactory {
 		return collisionListener;
 	}
 
-	private Stage createUI(){
+	private Stage createUI() {
 		Stage stage = new Stage();
 		Gdx.app.error("LevelFactory", "UI NOT IMPLEMENTED");
 		return stage;

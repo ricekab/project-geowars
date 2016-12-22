@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import javafx.concurrent.Task;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
 import be.howest.twentytwo.parametergame.factory.LevelFactory;
@@ -13,6 +14,7 @@ import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGam
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -36,10 +38,6 @@ public class LoadingScreen extends BaseUIBackgroundScreen {
 		AssetManager assetMgr = getContext().getAssetManager();
 
 		// Setup loading bar or whatever
-		assetMgr.load("sprites/ships.pack", TextureAtlas.class);
-		assetMgr.load("sprites/geowars.pack", TextureAtlas.class);
-		assetMgr.load("sprites/AI.pack", TextureAtlas.class);
-
 		assetMgr.load("sprites/game.pack", TextureAtlas.class);
 		assetMgr.load("sprites/tiles.pack", TextureAtlas.class);
 
@@ -51,17 +49,15 @@ public class LoadingScreen extends BaseUIBackgroundScreen {
 		AssetManager assets = getContext().getAssetManager();
 		while (assets.update() == false) { // Still loading
 			float progress = assets.getProgress();
-			System.out.println(progress);
 			// Update loading bar
-			// Gdx.app.log("LoadingScreen", String.format("Loading: %f",
-			// progress));
+			// Gdx.app.debug("LoadingScreen", String.format("Loading: %f", progress));
 		}
 		long start = System.nanoTime();
 		Gdx.app.log("LoadingScreen", "Building universe...");
 
 		getContext().setScreen(gameFactory.createGameScreen());
 
-		Gdx.app.log("LoadingScreen",
+		Gdx.app.debug("LoadingScreen",
 				String.format("Universe built in %d ms", (System.nanoTime() - start) / 1000000));
 
 	}
