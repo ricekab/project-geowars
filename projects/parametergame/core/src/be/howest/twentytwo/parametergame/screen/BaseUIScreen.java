@@ -35,7 +35,7 @@ public abstract class BaseUIScreen extends BaseScreen {
 
 		root = new Table();
 		root.setFillParent(true);
-		root.setDebug(ParameterGame.DEBUG_ENABLED);
+		root.setDebug(ParameterGame.DEBUG_ENABLED, true);
 		stage.addActor(root);
 
 		Gdx.input.setInputProcessor(stage);
@@ -43,9 +43,23 @@ public abstract class BaseUIScreen extends BaseScreen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if(!preDraw(delta)){
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
+		};
 		stage.act(delta);
 		stage.draw();
+		postDraw(delta);
+	}
+	
+	/**
+	 * Return true if pre stage drawing is done so the screen doesn't have to clear.
+	 */
+	public boolean preDraw(float delta){
+		return false;
+	}
+	
+	public void postDraw(float delta){
+		return;
 	}
 
 	@Override
