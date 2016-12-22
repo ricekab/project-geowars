@@ -255,7 +255,24 @@ public class SQLDataService implements IDataService {
 	}
 
 	public void saveShip(ShipDataI data) {
-
+		//TODO
+	}
+	
+	public void savePlayerShip(PlayerShipDataI data) {
+		try {
+			String sqlSave = "";
+			String sql = "select * from parametergame.playerShip where ID = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, data.getId());
+			ResultSet res = prep.executeQuery();
+			if(res.next()) {
+				sqlSave = "update parametergame.playerShip set "/*TODO*/+"where ID = ?";
+			} else {
+				sqlSave = "insert into parametergame.playerShip("/*TODO*/+") values(?, ?, ?, ?, ?, ?, ?";
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void saveDrone(DroneDataI data) {

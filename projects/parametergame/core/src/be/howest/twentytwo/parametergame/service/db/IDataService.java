@@ -8,6 +8,7 @@ import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
  */
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -60,7 +61,10 @@ public interface IDataService {
 	 */
 	public void saveUser(UserDataI data);
 	
+	@Deprecated
 	public void saveShip(ShipDataI data);
+	
+	public void savePlayerShip(PlayerShipDataI data);
 	
 	public void saveDrone(DroneDataI data);
 	

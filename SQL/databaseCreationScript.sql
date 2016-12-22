@@ -7,14 +7,6 @@ create user if not exists user22@localhost identified by '22';
 grant select, insert, update, delete on parametergame.* to user22@localhost;
 
 
-create table player (
-	`name` varchar(128) not null,
-    `password` varchar(128) not null,
-    `difficultyID` varchar(128),
-    primary key (`name`),
-    foreign key (`difficultyID`) references difficulty(`ID`)
-);
-
 create table difficulty(
 	`ID` varchar(128) not null,
     `movementModifier` float,
@@ -22,6 +14,14 @@ create table difficulty(
     `healthModifier` float,
     `firerateModifier` float,
     primary key (`ID`)
+);
+
+create table player (
+	`name` varchar(128) not null,
+    `password` varchar(128) not null,
+    `difficultyID` varchar(128),
+    primary key (`name`),
+    foreign key (`difficultyID`) references difficulty(`ID`)
 );
 
 create table ship(
@@ -117,6 +117,14 @@ create table playerShipProperty(
     foreign key(`playerName`) references player(`name`)
 );
 
+create table gameID(
+	`mode` varchar(128) not null,
+    `uniqueID` varchar(128) not null,
+    `difficultyID` varchar(128),
+    primary key(`mode`, `uniqueID`),
+    foreign key (`difficultyID`) references difficulty(`ID`)
+);
+
 create table  playedGame(
 	`PlayerShipID` varchar(128) not null,
     `gameUniqueID` varchar(128) not null,
@@ -125,14 +133,6 @@ create table  playedGame(
     primary key(`PlayerShipID`, `gameUniqueID`),
     foreign key(`PlayerShipID`) references playerShip(`ID`),
     foreign key(`GameUniqueID`) references gameID(`uniqueID`)
-);
-
-create table gameID(
-	`mode` varchar(128) not null,
-    `uniqueID` varchar(128) not null,
-    `difficultyID` varchar(128),
-    primary key(`mode`, `uniqueID`),
-    foreign key (`difficultyID`) references difficulty(`ID`)
 );
 
 create table powerup(
