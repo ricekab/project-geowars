@@ -6,18 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
@@ -42,10 +30,10 @@ import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
-import be.howest.twentytwo.parametergame.model.physics.collision.PlayerBulletContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlanetContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.collision.PlayerBulletContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
@@ -63,6 +51,18 @@ import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Builds up the physics {@link World} as well as all populates the ECS engine
@@ -194,8 +194,8 @@ public class LevelFactory {
 
 		// End AI creation
 
-		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet0", 500f, 40f)));
-		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet2", 500f, 24f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet0", 100f, 40f)));
+		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet2", 50f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();

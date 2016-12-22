@@ -38,11 +38,11 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 	}
 
 	private boolean processBeginContact(Fixture planet, Fixture target){
-		System.out.println("Planet contact");
 		// Anything a planet touches dies
 		short targetCategory = target.getFilterData().categoryBits;
 		if((targetCategory & Collision.PLAYER_CATEGORY) > 0){
 			getEventQueue().send(new PlayerKilledEvent());
+			return true;	// Player killed has to be handled more delicately
 		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0){
 			getEventQueue().send(new EnemyKilledEvent());
 		}
@@ -52,7 +52,6 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 	
 	@Override
 	protected boolean handleEndContact(Contact contact) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

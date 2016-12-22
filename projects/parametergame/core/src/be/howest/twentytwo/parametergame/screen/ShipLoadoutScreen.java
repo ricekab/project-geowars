@@ -2,6 +2,16 @@ package be.howest.twentytwo.parametergame.screen;
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.ui.factory.CheckBoxFactory;
+import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
+
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -13,15 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
-import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
-import be.howest.twentytwo.parametergame.service.db.IDataService;
-import be.howest.twentytwo.parametergame.ui.factory.CheckBoxFactory;
-import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
 
 public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 
@@ -48,13 +49,13 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 
 		Table rowTable;
 		// Retrieve and show ships
-		Collection<ShipDataI> ships = dataService.getShips(user);
+		Collection<PlayerShipDataI> ships = dataService.getPlayerShips(user);
 		shipGroup = new ButtonGroup<CheckBox>();
 		rowTable = new Table();
 		root.add(rowTable);
 		rowTable.add(new Label("Ship: ", getSkin().get(LabelStyle.class)));
-		for (ShipDataI ship : ships) {
-			CheckBox c = cbf.createCheckBox(ship.getName());
+		for (PlayerShipDataI ship : ships) {
+			CheckBox c = cbf.createCheckBox(String.format("%s [%s]", ship.getId(), ship.getShipData().getName()));
 			shipGroup.add(c);
 			rowTable.add(c);
 		}

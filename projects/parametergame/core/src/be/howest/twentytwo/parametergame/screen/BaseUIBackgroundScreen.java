@@ -1,11 +1,11 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
+
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 
 public abstract class BaseUIBackgroundScreen extends BaseUIScreen {
 

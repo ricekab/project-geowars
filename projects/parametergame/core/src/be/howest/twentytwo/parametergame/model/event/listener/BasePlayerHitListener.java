@@ -2,7 +2,6 @@ package be.howest.twentytwo.parametergame.model.event.listener;
 
 import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
-import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
 
 public abstract class BasePlayerHitListener implements IEventListener {
 

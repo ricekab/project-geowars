@@ -1,5 +1,8 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.ScreenContext;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -7,9 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import be.howest.twentytwo.parametergame.ParameterGame;
-import be.howest.twentytwo.parametergame.ScreenContext;
 
 /**
  * Base class for screens that only use scene2d.ui for displaying information and handle input.
