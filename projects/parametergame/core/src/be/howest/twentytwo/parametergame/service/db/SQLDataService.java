@@ -32,8 +32,6 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public class SQLDataService implements IDataService {
-	
-	//TODO CLOSE STUFF AFTER USING IT
 
 	private static SQLDataService instance;
 	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
@@ -68,6 +66,8 @@ public class SQLDataService implements IDataService {
 			if(res.next()) {
 				user = new UserData(res.getString("name"), res.getString("password"), res.getString("difficultyID"));
 			}
+			res.close();
+			prep.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,6 +90,8 @@ public class SQLDataService implements IDataService {
 			} else {
 				System.err.println("no enemy found for: " + name);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -106,7 +108,6 @@ public class SQLDataService implements IDataService {
 		for(String name : names) {
 			enemies.add(getEnemy(name));
 		}
-		System.out.println("getEnemies returns: " + enemies);
 		return enemies;
 	}
 
@@ -122,6 +123,8 @@ public class SQLDataService implements IDataService {
 				WeaponDataI weapon = builder.setId(res.getString("ID")).setOffsetX(res.getFloat("offsetX")).setOffsetY(res.getFloat("offsetY")).setBulletDamage(res.getFloat("bulletDamage")).setShotConeAngle(res.getFloat("shotConeAngle")).setFireRate(res.getFloat("firerate")).setRange(res.getFloat("range")).setTimeDelay(res.getFloat("detonationDelay")).setBulletsPerShot(res.getInt("bulletsPerShot")).setBulletSpeed(res.getFloat("bulletSpeed")).setBulletMass(res.getFloat("bulletMass")).setTurnSpeed(res.getFloat("turnSpeed")).setAmmoCount(res.getInt("ammo")).setBulletSize(new Vector2(res.getFloat("bulletSizeX"), res.getFloat("bulletSizeY"))).build();
 				weapons.add(weapon);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -138,6 +141,8 @@ public class SQLDataService implements IDataService {
 			if(res.next()) {
 				physics = new PhysicsData(res.getShort("physicsCategory"),res.getShort("physicsMask"));
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -161,6 +166,8 @@ public class SQLDataService implements IDataService {
 				PlayerShipDataI playerShip = new PlayerShipData(ship, res.getString("ID"), res.getFloat("mass"),res.getInt("exp"), res.getInt("lvl"), res.getFloat("geomRadius"));
 				playerShips.add(playerShip);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -191,6 +198,8 @@ public class SQLDataService implements IDataService {
 				DroneDataI drone = new DroneData(res.getString("ID"), res.getInt("offenseUpgradeLevel"), res.getInt("utilityupgradeLevel"));
 				drones.add(drone);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -210,6 +219,8 @@ public class SQLDataService implements IDataService {
 				PowerupDataI powerup = new PowerupData(res.getString("powerupID"), res.getString("effectID"), res.getInt("duration"), res.getInt("lifetime"), res.getString("type"), res.getInt("strength"));
 				powerups.add(powerup);
 			}
+			stmt.close();
+			res.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -229,6 +240,8 @@ public class SQLDataService implements IDataService {
 				DifficultyDataI difficulty = new DifficultyData(res.getString("ID"), res.getFloat("healthModifier"), res.getFloat("movementModifier"), res.getFloat("firerateModifier"), res.getFloat("scoreModifier"));
 				difficulties.add(difficulty);
 			}
+			stmt.close();
+			res.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
