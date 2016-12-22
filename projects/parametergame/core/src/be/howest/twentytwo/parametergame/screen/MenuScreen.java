@@ -2,10 +2,11 @@ package be.howest.twentytwo.parametergame.screen;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.audio.SoundEngine;
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
-
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuScreen extends BaseUIBackgroundScreen {
 
@@ -35,6 +37,22 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
+                /*
+                SoundSequencer seq = new SoundSequencer();
+                SoundEngine se = new SoundEngine();
+                se.playMusic("music/finished_long.ogg", true);  
+                for(int i=0; i < 5; i++){
+                    seq.addSound("sound/switch25.wav");
+                }
+                for(int i=0; i < 5; i++){
+                    seq.play(1);
+                    //System.out.println(seq.getSize());
+                    //System.out.println(seq.getIndex());
+                }
+*/
+                
+                
+                
 	}
 
 	@Override
