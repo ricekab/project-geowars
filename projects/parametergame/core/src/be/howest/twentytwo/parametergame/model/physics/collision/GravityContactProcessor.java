@@ -56,11 +56,9 @@ public class GravityContactProcessor extends BaseContactProcessor {
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
 		if(categoryA == Collision.GRAVITY_CATEGORY) {
 			removeEvent(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
-			Gdx.app.log("ContactListener", "Fixture A is a gravity field");
 			return true;
 		} else if(categoryB == Collision.GRAVITY_CATEGORY) {
 			removeEvent(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
-			Gdx.app.log("ContactListener", "Fixture B is a gravity field");
 			return true;
 		}
 		return false;

@@ -20,12 +20,12 @@ public class PhysicsBodyEntityListener implements EntityListener {
 
 	@Override
 	public void entityAdded(Entity entity) {
-		Gdx.app.debug("EntityListener", "Entity added");
+		// Gdx.app.debug("EntityListener", "Entity added");
 	}
 
 	@Override
 	public void entityRemoved(Entity entity) {
-		Gdx.app.debug("EntityListener", "Entity removed");
+		// Gdx.app.debug("EntityListener", "Entity removed");
 		if(fam.matches(entity)){
 			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
 		}

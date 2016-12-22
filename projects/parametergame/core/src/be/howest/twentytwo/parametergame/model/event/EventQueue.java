@@ -3,7 +3,9 @@ package be.howest.twentytwo.parametergame.model.event;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 
@@ -25,11 +27,11 @@ public class EventQueue {
 	// }
 	// });
 	
-	private final Collection<IEvent> events;
+	private final Queue<IEvent> events;
 	private final Map<EventEnum, Collection<IEventListener>> eventListeners;
 
 	public EventQueue() {
-		this.events = new ArrayList<IEvent>();
+		this.events = new LinkedList<IEvent>();
 		this.eventListeners = new HashMap<EventEnum, Collection<IEventListener>>();
 	}
 

@@ -185,7 +185,6 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	}
 
 	private void doLogin() {
-		// TODO: @Nick -- Can I get null back, how are non-existant users handled (Missing documentation)
 		UserDataI user = getContext().getDataService().getUser(userField.getText());
 		setLoggedIn(user);
 	}

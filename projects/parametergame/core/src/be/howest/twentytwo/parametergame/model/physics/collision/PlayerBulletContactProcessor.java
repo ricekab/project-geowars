@@ -3,6 +3,8 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
@@ -14,15 +16,13 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class BulletContactProcessor extends BaseContactProcessor {
-
-	public BulletContactProcessor(ContactListener next, EventQueue eventQueue,
-			Collection<IPhysicsMessage> events) {
+public class PlayerBulletContactProcessor extends BaseContactProcessor {
+	
+	public PlayerBulletContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
 		super(next, eventQueue, events);
-		// TODO Auto-generated constructor stub
 	}
 
-	public BulletContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+	public PlayerBulletContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
 		this(new NullContactProcessor(), eventQueue, events);
 	}
 
@@ -30,36 +30,25 @@ public class BulletContactProcessor extends BaseContactProcessor {
 	protected boolean handleBeginContact(Contact contact) {
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if(categoryA == Collision.BULLET_PLAYER_CATEGORY) {
+		if (categoryA == Collision.BULLET_PLAYER_CATEGORY) {
 			return handlePlayerBullet(contact.getFixtureA(), contact.getFixtureB());
-		} else if(categoryB == Collision.BULLET_PLAYER_CATEGORY) {
+		} else if (categoryB == Collision.BULLET_PLAYER_CATEGORY) {
 			return handlePlayerBullet(contact.getFixtureB(), contact.getFixtureA());
-		}
-		if(categoryA == Collision.BULLET_ENEMY_CATEGORY) {
-			return handleEnemyBullet(contact.getFixtureA(), contact.getFixtureB());
-		} else if(categoryB == Collision.BULLET_ENEMY_CATEGORY) {
-			return handleEnemyBullet(contact.getFixtureB(), contact.getFixtureA());
 		}
 		return false;
 	}
 
 	private boolean handlePlayerBullet(Fixture playerBullet, Fixture target) {
 		short targetCategory = target.getFilterData().categoryBits;
-		if((targetCategory & Collision.PLANET_CATEGORY) > 0){
-			Gdx.app.debug("BulletContact", "DestroyBulletFired");
-			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
+		if ((targetCategory & Collision.PLANET_CATEGORY) > 0) {
+			getEventQueue().send(new DestroyEntityEvent((Entity) playerBullet.getBody().getUserData()));
 			return true;
 		}
-		if((targetCategory & Collision.ENEMY_CATEGORY) > 0){
-			
-			getEventQueue().send(new DestroyEntityEvent((Entity)target.getBody().getUserData()));
-			getEventQueue().send(new DestroyEntityEvent((Entity)playerBullet.getBody().getUserData()));
+		if ((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
+			// TODO: Damage enemy --> handled by event queue?
+			getEventQueue().send(new EnemyHitEvent(target, playerBullet));
+			getEventQueue().send(new DestroyEntityEvent((Entity) playerBullet.getBody().getUserData()));
 		}
-		return false;
-	}
-
-	private boolean handleEnemyBullet(Fixture enemyBullet, Fixture target) {
-		// TODO
 		return false;
 	}
 
