@@ -2,12 +2,14 @@ package be.howest.twentytwo.parametergame.factory;
 
 import be.howest.twentytwo.parametergame.dataTypes.DefaultDifficultyData;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.EnemyComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 import com.badlogic.ashley.core.Entity;
@@ -23,31 +25,33 @@ public class AIShipFactory implements ISpawnFactory {
 	private World world;
 	private AssetManager assets;
 
+	private EnemyDataI enemyData;
 	private DifficultyDataI difficulty;
 	private Body target;
 	private IAIMoveBehaviour moveBehaviour;
 	private IAIShootBehaviour shootBehaviour;
 
-	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData,
+	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, EnemyDataI shipData,
 			DifficultyDataI difficulty, Body target, IAIMoveBehaviour moveBehaviour,
 			IAIShootBehaviour shootBehaviour) {
-		this.shipFactory = new ShipFactory(engine, world, assets, shipData, difficulty);
+		this.shipFactory = new ShipFactory(engine, world, assets, shipData.getShipData(), difficulty);
 		this.engine = engine;
 		this.world = world;
 		this.assets = assets;
+		this.enemyData = enemyData;
 		this.difficulty = difficulty;
 		this.target = target;
 		this.moveBehaviour = moveBehaviour;
 		this.shootBehaviour = shootBehaviour;
 	}
 
-	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData,
+	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, EnemyDataI shipData,
 			DifficultyDataI difficulty, Body target, IAIMoveBehaviour moveBehaviour) {
 		this(engine, world, assets, shipData, difficulty, target, moveBehaviour,
 				new NullAIShootBehaviour());
 	}
 
-	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData,
+	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, EnemyDataI shipData,
 			DifficultyDataI difficulty, Body target) {
 		this(engine, world, assets, shipData, difficulty, target,
 				new NullAIMoveBehaviour(), new NullAIShootBehaviour());
@@ -64,6 +68,10 @@ public class AIShipFactory implements ISpawnFactory {
 		ai.setTarget(target);
 		aiShip.add(ai);
 		engine.addEntity(aiShip);
+		
+		EnemyComponent ec = engine.createComponent(EnemyComponent.class);
+		
+		aiShip.add(ec);
 		return aiShip;
 	}
 

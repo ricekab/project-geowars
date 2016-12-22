@@ -3,7 +3,6 @@ package be.howest.twentytwo.parametergame.factory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
@@ -15,9 +14,7 @@ import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -27,8 +24,6 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.ai.BasicAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.BasicAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
@@ -119,17 +114,14 @@ public class LevelFactory {
 
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
-		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(),
-				assets, viewport);
 		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
 		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
-		PhysicsSystem physicsSystem = new PhysicsSystem(world, physicsMessageQueue);
-		engine.addSystem(physicsSystem);
-		// engine.addEntityListener(physicsSystem);
+		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());
-		engine.addSystem(bgRenderSys);
+		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(),
+				assets, viewport));
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
@@ -174,7 +166,6 @@ public class LevelFactory {
 
 		// ENEMIES / AI FACTORIES
 		Collection<String> enemyNames = new HashSet<String>();
-		Collection<ShipDataI> enemyShips = new HashSet<ShipDataI>();
 
 		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
 		Queue<SpawnPoolDataI> tempPools = new LinkedList<SpawnPoolDataI>(spawnPools);
@@ -239,12 +230,12 @@ public class LevelFactory {
 		
 		AIMoveBehaviourFactory moveFactory = new AIMoveBehaviourFactory();
 		AIShootBehaviourFactory shootFactory = new AIShootBehaviourFactory();
-		for(EnemyDataI enemy : enemies){
-			String behaviourString = enemy.getBehaviour();
+		for(EnemyDataI enemyData : enemies){
+			String behaviourString = enemyData.getBehaviour();
 			// TODO: Convert behaviour string into concrete behaviours
 			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
 			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
-			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, shipData, selections.getDifficulty(), playerBody, move, shoot));
+			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(), playerBody, move, shoot));
 		}
 
 		// INPUT

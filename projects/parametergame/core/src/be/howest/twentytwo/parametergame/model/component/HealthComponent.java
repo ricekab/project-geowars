@@ -11,10 +11,17 @@ public class HealthComponent implements Component, Poolable {
 
 	private float health;
 
-	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
 
+	public float getHealth() {
+		return health;
 	}
 
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	@Override
+	public void reset() {
+		
+	}
 }
