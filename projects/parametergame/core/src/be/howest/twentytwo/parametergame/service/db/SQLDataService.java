@@ -35,8 +35,14 @@ public class SQLDataService implements IDataService {
 
 	private static SQLDataService instance;
 	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
-	private final String USR = "root";	//user22
-	private final String PWD = "";		//22 
+	private final String USR = "user22";
+	private final String PWD = "22";
+	
+	//FOR DB
+	//private final String URL = "jdbc:mysql://www.webworm.tk/u174713690_00001";
+	//private final String USR = "u174713690_00001";	//user22 or root
+	//private final String PWD = "123456";		//22 or ""
+	
 	private Connection con;
 
 	private SQLDataService() {

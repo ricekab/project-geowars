@@ -1,5 +1,6 @@
-package be.howest.twentytwo.parametergame.model.component.ai;
+package be.howest.twentytwo.parametergame.model.component;
 
+import be.howest.twentytwo.parametergame.model.ai.AITargetBehaviour;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,6 +16,7 @@ public class AIComponent implements Component, Poolable {
 	private Body target;
 	private IAIMoveBehaviour moveBehaviour;
         private IAIShootBehaviour shootBehaviour;
+        private AITargetBehaviour targetBehaviour;
 
 	public Body getTarget() {
 		return target;
@@ -39,6 +41,14 @@ public class AIComponent implements Component, Poolable {
 	public void setShootBehaviour(IAIShootBehaviour shootBehaviour) {
 		this.shootBehaviour = shootBehaviour;
 	}
+
+        public AITargetBehaviour getTargetBehaviour() {
+            return targetBehaviour;
+        }
+
+        public void setTargetBehaviour(AITargetBehaviour targetBehaviour) {
+            this.targetBehaviour = targetBehaviour;
+        }
 
 	@Override
 	public void reset() {

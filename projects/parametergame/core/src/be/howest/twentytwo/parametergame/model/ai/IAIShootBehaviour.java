@@ -13,9 +13,11 @@ public interface IAIShootBehaviour {
     
     public float getCooldown();
     public float getRange();
+    public void setCanShoot(boolean canShoot);
+    public boolean getCanShoot();
     
     /** Modifies the given move component to achieve it's objective. */
-	public void titsAndSugar(Body ai,WeaponComponent weapon, Vector2 target);
+	public void shoot(Body ai,WeaponComponent weapon, Vector2 target);
 
     
 }

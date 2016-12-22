@@ -94,7 +94,7 @@ insert into effect(`ID`,`type`,`strength`)
         ("SUGAR","fire-rate",3);
       
       
-insert into powerupeffect(`powerupID`,`effectID`)
+insert into powerupEffect(`powerupID`,`effectID`)
 	values
 		("3MINF","R3D8U11"),
 		("INF3M","SUGAR");

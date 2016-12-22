@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.AIComponent;
 
 public class AIMovementSystem extends IntervalIteratingSystem {
 	
