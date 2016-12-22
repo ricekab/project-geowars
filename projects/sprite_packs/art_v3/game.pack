@@ -5,274 +5,274 @@ filter: Nearest,Nearest
 repeat: none
 ammo_emp
   rotate: false
-  xy: 1, 1442
+  xy: 1, 1413
   size: 800, 600
   orig: 800, 600
   offset: 0, 0
   index: -1
 laser_transparent
   rotate: false
-  xy: 1, 800
+  xy: 1, 771
   size: 640, 640
   orig: 640, 640
   offset: 0, 0
   index: -1
 scouter
   rotate: false
-  xy: 1, 179
-  size: 647, 619
-  orig: 647, 619
+  xy: 1, 122
+  size: 619, 647
+  orig: 619, 647
   offset: 0, 0
   index: -1
 suicider
   rotate: false
-  xy: 803, 1434
+  xy: 803, 1405
   size: 614, 608
   orig: 614, 608
   offset: 0, 0
   index: -1
 obstacle
   rotate: false
-  xy: 1419, 1450
+  xy: 1419, 1421
   size: 586, 592
   orig: 586, 592
   offset: 0, 0
   index: -1
 encloser
   rotate: false
-  xy: 2007, 1485
-  size: 474, 557
-  orig: 474, 557
+  xy: 2007, 1539
+  size: 557, 474
+  orig: 557, 474
   offset: 0, 0
   index: -1
 ammo_missile
   rotate: false
-  xy: 2483, 1530
+  xy: 2566, 1501
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet0
   rotate: false
-  xy: 2997, 1530
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet1
-  rotate: false
-  xy: 3511, 1530
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet2
-  rotate: false
-  xy: 643, 920
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet3
-  rotate: false
-  xy: 650, 406
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet4
-  rotate: false
-  xy: 1157, 920
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet5
-  rotate: false
-  xy: 1164, 406
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet6
-  rotate: false
-  xy: 1671, 936
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet7
-  rotate: false
-  xy: 1678, 422
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet8
-  rotate: false
-  xy: 2185, 971
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-planet9
-  rotate: false
-  xy: 2192, 457
+  xy: 3080, 1501
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 geom
   rotate: false
-  xy: 2699, 1059
+  xy: 3594, 1544
   size: 488, 469
   orig: 488, 469
   offset: 0, 0
   index: -1
+planet1
+  rotate: false
+  xy: 643, 891
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet2
+  rotate: false
+  xy: 1157, 891
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet3
+  rotate: false
+  xy: 1671, 907
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet4
+  rotate: false
+  xy: 643, 377
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet5
+  rotate: false
+  xy: 1157, 377
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet6
+  rotate: false
+  xy: 1671, 393
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+juggernaught
+  rotate: false
+  xy: 622, 6
+  size: 435, 369
+  orig: 435, 369
+  offset: 0, 0
+  index: -1
+bomber
+  rotate: false
+  xy: 1059, 89
+  size: 282, 286
+  orig: 282, 286
+  offset: 0, 0
+  index: -1
+planet7
+  rotate: false
+  xy: 2185, 987
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet8
+  rotate: false
+  xy: 2185, 473
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+planet9
+  rotate: false
+  xy: 2699, 987
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 fake_1-up_colorized
   rotate: false
-  xy: 3189, 1103
+  xy: 2699, 560
   size: 419, 425
   orig: 419, 425
   offset: 0, 0
   index: -1
 shield
   rotate: false
-  xy: 3610, 1114
+  xy: 3213, 1085
   size: 419, 414
   orig: 419, 414
   offset: 0, 0
   index: -1
-juggernaught
-  rotate: false
-  xy: 2706, 622
-  size: 369, 435
-  orig: 369, 435
-  offset: 0, 0
-  index: -1
-bomber
-  rotate: false
-  xy: 650, 122
-  size: 286, 282
-  orig: 286, 282
-  offset: 0, 0
-  index: -1
 fighter
   rotate: false
-  xy: 938, 152
-  size: 223, 252
-  orig: 223, 252
+  xy: 1343, 152
+  size: 252, 223
+  orig: 252, 223
   offset: 0, 0
   index: -1
 disable_weapons
   rotate: false
-  xy: 1163, 204
+  xy: 3634, 1342
   size: 206, 200
   orig: 206, 200
   offset: 0, 0
   index: -1
 minus_gun
   rotate: false
-  xy: 1371, 204
+  xy: 3634, 1140
   size: 206, 200
   orig: 206, 200
   offset: 0, 0
   index: -1
 plus_gun
   rotate: false
-  xy: 2706, 420
+  xy: 3842, 1342
   size: 206, 200
   orig: 206, 200
   offset: 0, 0
   index: -1
 ammo_bomb
   rotate: false
-  xy: 2914, 420
+  xy: 3842, 1140
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 recon
   rotate: false
-  xy: 1, 51
-  size: 119, 126
-  orig: 119, 126
+  xy: 1, 1
+  size: 126, 119
+  orig: 126, 119
   offset: 0, 0
   index: -1
 ammo
   rotate: false
-  xy: 3077, 921
+  xy: 3120, 849
   size: 106, 136
   orig: 106, 136
   offset: 0, 0
   index: -1
 drone_geom_collector
   rotate: false
-  xy: 4025, 1977
+  xy: 1059, 22
   size: 60, 65
   orig: 60, 65
   offset: 0, 0
   index: -1
 drone_gravitator
   rotate: false
-  xy: 1579, 339
+  xy: 2007, 1472
   size: 60, 65
   orig: 60, 65
   offset: 0, 0
   index: -1
 drone_minigun
   rotate: false
-  xy: 122, 112
+  xy: 2185, 406
   size: 60, 65
   orig: 60, 65
   offset: 0, 0
   index: -1
 bullet_bomber
   rotate: false
-  xy: 1163, 152
+  xy: 2699, 508
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 projectile_bomb
   rotate: false
-  xy: 1, 1
+  xy: 1343, 102
   size: 46, 48
   orig: 46, 48
   offset: 0, 0
   index: -1
 missile_projectile
   rotate: false
-  xy: 3077, 857
-  size: 26, 62
-  orig: 26, 62
+  xy: 1597, 349
+  size: 62, 26
+  orig: 62, 26
   offset: 0, 0
   index: -1
 laser_projectile
   rotate: false
-  xy: 2007, 1453
+  xy: 3594, 1512
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
-bullet_shooter
+bullet_drone
   rotate: false
-  xy: 643, 893
-  size: 5, 25
-  orig: 5, 25
+  xy: 643, 1405
+  size: 25, 6
+  orig: 25, 6
   offset: 0, 0
   index: -1
 bullet_basic
   rotate: false
-  xy: 2483, 1489
-  size: 10, 39
-  orig: 10, 39
+  xy: 1419, 1409
+  size: 39, 10
+  orig: 39, 10
   offset: 0, 0
   index: -1
-bullet_drone
+bullet_shooter
   rotate: false
-  xy: 3189, 1076
-  size: 6, 25
-  orig: 6, 25
+  xy: 1671, 386
+  size: 25, 5
+  orig: 25, 5
   offset: 0, 0
   index: -1

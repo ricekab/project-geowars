@@ -84,14 +84,14 @@ public class InMemoryDataService implements IDataService {
 		WeaponDataI primaryWeapon = builder.setId("bullet_basic").setOffsetX(0f).setOffsetY(0f)
 				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
 				.setBulletSpeed(75f).setBulletMass(5f).setRange(250f)
-				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(2f, 0.5f))
+				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.5f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
 		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
 		// 5f,
 		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
 		// TODO: Switch to builder to clarify arguments.
-		WeaponDataI secondaryWeapon = new WeaponData("missile_projectile", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
-				3500f, 0f, 0.5f, 25, new Vector2(5f, 2f));
+		WeaponDataI secondaryWeapon = new WeaponData("bullet_drone", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
+				3500f, 0f, 0.5f, 25, new Vector2(4f, 1f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0f, 1.0f,
