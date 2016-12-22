@@ -23,19 +23,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-public class MenuScreen extends BaseUIScreen {
-
-	private final Engine engine;
+public class MenuScreen extends BaseUIBackgroundScreen {
 
 	private TextButton arcade, versus;
 	private TextField userField, passwordField;
 	private Label loginStatusLabel;
 
+	public MenuScreen(ScreenContext context, Engine backgroundEngine) {
+		super(context, backgroundEngine);
+	}
+
 	public MenuScreen(ScreenContext context) {
 		super(context);
-		engine = new Engine();
-		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), context
-				.getAssetManager(), getViewport(), 125f, 125f));
 	}
 
 	@Override
@@ -64,19 +63,12 @@ public class MenuScreen extends BaseUIScreen {
 		menu.add(tbf.createButton("Exit Game", new ExitListener()));
 
 		root.add(createLoginWindow(tbf)).width(300f);
-		
-		if(ParameterGame.DEBUG_ENABLED){
+
+		if(ParameterGame.DEBUG_ENABLED) {
 			userField.setText("debug");
 			passwordField.setText("DEBUG");
 			doLogin();
 		}
-	}
-
-	@Override
-	public boolean preDraw(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		engine.update(delta);
-		return true;
 	}
 
 	private Window createLoginWindow(TextButtonFactory tbf) {
@@ -111,6 +103,8 @@ public class MenuScreen extends BaseUIScreen {
 		public void changed(ChangeEvent event, Actor actor) {
 			// TODO: Switch to selection screen with relevant data
 			getContext().setScreen(new LoadingScreen(getContext()));
+			// getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(), new
+			// ArcadeLoadoutListener()));
 			dispose();
 		}
 	}
@@ -119,7 +113,9 @@ public class MenuScreen extends BaseUIScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			// TODO: Switch to versus
-			getContext().setScreen(new ControllerTestScreen(getContext()));
+			// getContext().setScreen(new ControllerTestScreen(getContext()));
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener()));
 			dispose();
 		}
 	}
@@ -127,7 +123,7 @@ public class MenuScreen extends BaseUIScreen {
 	private class CreditsListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			getContext().setScreen(new CreditsScreen(getContext()));
+			getContext().setScreen(new CreditsScreen(getContext(), getEngine()));
 			dispose();
 		}
 	}
@@ -155,6 +151,15 @@ public class MenuScreen extends BaseUIScreen {
 			}
 			return false;
 		}
+	}
+
+	private class ArcadeLoadoutListener extends ChangeListener {
+
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			System.out.println("ArcadeLoadoutListener");
+		}
+
 	}
 
 	private void doLogin() {
