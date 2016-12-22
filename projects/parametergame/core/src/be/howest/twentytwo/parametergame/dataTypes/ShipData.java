@@ -3,8 +3,8 @@ package be.howest.twentytwo.parametergame.dataTypes;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class ShipData implements ShipDataI{
-	
+public class ShipData implements ShipDataI {
+
 	private String name;
 	private String texture;
 	private int health;
@@ -19,8 +19,11 @@ public class ShipData implements ShipDataI{
 	private float shipSizeX;
 	private float shipSizeY;
 	private float gravityResistance;
-	
-	public ShipData(String name, String texture, int health, float maxLinearSpeed, float maxAngularSpeed, float linearAcceleration, float angularAcceleration, float linearDamping, float angularDamping, Collection<WeaponDataI> weapons, PhysicsDataI physicsData, float shipSizeX, float shipSizeY, float gravityResistance){
+
+	public ShipData(String name, String texture, int health, float maxLinearSpeed,
+			float maxAngularSpeed, float linearAcceleration, float angularAcceleration,
+			float linearDamping, float angularDamping, Collection<WeaponDataI> weapons,
+			PhysicsDataI physicsData, float shipSizeX, float shipSizeY, float gravityResistance) {
 		this.name = name;
 		this.texture = texture;
 		this.maxLinearSpeed = maxLinearSpeed;
@@ -30,7 +33,7 @@ public class ShipData implements ShipDataI{
 		this.linearDamping = linearDamping;
 		this.angularDamping = angularDamping;
 		this.weapons = new HashSet<>();
-		for(WeaponDataI weapon : weapons) {
+		for (WeaponDataI weapon : weapons) {
 			addWeapon(weapon);
 		}
 		this.physicsData = physicsData;
@@ -38,12 +41,12 @@ public class ShipData implements ShipDataI{
 		this.shipSizeY = shipSizeY;
 		this.gravityResistance = gravityResistance;
 	}
-	
+
 	public void addWeapon(WeaponDataI weapon) {
 		this.weapons.add(weapon);
 	}
-	
-	//	GETTERS
+
+	// GETTERS
 
 	@Override
 	public String getName() {
@@ -114,42 +117,61 @@ public class ShipData implements ShipDataI{
 	public float getGravityResistance() {
 		return gravityResistance;
 	}
-	
-	//	BUILDER
-	
-	public static class ShipDataBuilder{
-		
-		private String name;				
-		private String texture;				
-		private int health;					
-		private float maxLinearSpeed;		
-		private float maxAngularSpeed;		
-		private float linearAcceleration;	
-		private float angularAcceleration;	
-		private float linearDamping;		
-		private float angularDamping;		
-		private Collection<WeaponDataI> weapons;	
-		private PhysicsDataI physicsData;	
-		private float shipSizeX;			
-		private float shipSizeY;			
-		private float gravityResistance;	
+
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof ShipData) {
+			ShipData other = (ShipData) obj;
+			if(this.getName().equals(other.getName())
+					&& this.getTexture().equals(other.getTexture())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// BUILDER
+
+	public static class ShipDataBuilder {
+
+		private String name;
+		private String texture;
+		private int health;
+		private float maxLinearSpeed;
+		private float maxAngularSpeed;
+		private float linearAcceleration;
+		private float angularAcceleration;
+		private float linearDamping;
+		private float angularDamping;
+		private Collection<WeaponDataI> weapons;
+		private PhysicsDataI physicsData;
+		private float shipSizeX;
+		private float shipSizeY;
+		private float gravityResistance;
 
 		public ShipData build() {
-			//TEMP CODE BELOW
-			for(WeaponDataI weapon : weapons) {
-				System.out.println("logging weapons from within the builder: " + weapon.getID());	
+			// TEMP CODE BELOW
+			for (WeaponDataI weapon : weapons) {
+				System.out.println("logging weapons from within the builder: " + weapon.getID());
 			}
-			//TEMP CODE ABOVE
-			return new ShipData(name, texture, health, maxLinearSpeed, maxAngularSpeed, linearAcceleration, angularAcceleration, linearDamping, angularDamping, weapons, physicsData, shipSizeX, shipSizeY, gravityResistance);
+			// TEMP CODE ABOVE
+			return new ShipData(name, texture, health, maxLinearSpeed, maxAngularSpeed,
+					linearAcceleration, angularAcceleration, linearDamping, angularDamping,
+					weapons, physicsData, shipSizeX, shipSizeY, gravityResistance);
 		}
-		
-		//	SETTERS
+
+		// SETTERS
 
 		public ShipDataBuilder setName(String name) {
 			this.name = name;
 			return this;
 		}
-		
+
 		public ShipDataBuilder setTexture(String texture) {
 			this.texture = texture;
 			return this;
@@ -209,16 +231,12 @@ public class ShipData implements ShipDataI{
 			this.shipSizeY = shipSizeY;
 			return this;
 		}
-		
+
 		public ShipDataBuilder setGravityResistance(float gravityResistance) {
 			this.gravityResistance = gravityResistance;
 			return this;
 		}
-		
+
 	}
 
 }
-
-
-
-

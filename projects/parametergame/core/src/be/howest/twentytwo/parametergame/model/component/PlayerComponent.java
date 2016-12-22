@@ -9,7 +9,24 @@ public class PlayerComponent implements Component, Poolable {
 	public static final ComponentMapper<PlayerComponent> MAPPER = ComponentMapper
 			.getFor(PlayerComponent.class);
 	
-	
+	private float score;
+	private float geomRadius;
+
+	public float getScore() {
+		return score;
+	}
+
+	public float getGeomRadius() {
+		return geomRadius;
+	}
+
+	public void setScore(float score) {
+		this.score = score;
+	}
+
+	public void setGeomRadius(float geomRadius) {
+		this.geomRadius = geomRadius;
+	}
 
 	@Override
 	public void reset() {

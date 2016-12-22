@@ -3,7 +3,6 @@ package be.howest.twentytwo.parametergame.factory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
@@ -15,9 +14,7 @@ import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -26,16 +23,20 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
+import be.howest.twentytwo.parametergame.input.factory.InputFactory;
+import be.howest.twentytwo.parametergame.input.factory.XBOneControllerInputFactory;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.ai.BasicAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.BasicAIShootBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
+import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlanetContactProcessor;
@@ -117,17 +118,14 @@ public class LevelFactory {
 
 		// SYSTEMS
 		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
-		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(),
-				assets, viewport);
 		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
 		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
-		PhysicsSystem physicsSystem = new PhysicsSystem(world, physicsMessageQueue);
-		engine.addSystem(physicsSystem);
-		// engine.addEntityListener(physicsSystem);
+		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());
-		engine.addSystem(bgRenderSys);
+		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(),
+				assets, viewport));
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
@@ -172,53 +170,47 @@ public class LevelFactory {
 
 		// ENEMIES / AI FACTORIES
 		Collection<String> enemyNames = new HashSet<String>();
-		
+
 		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
 		Queue<SpawnPoolDataI> tempPools = new LinkedList<SpawnPoolDataI>(spawnPools);
-		while(!tempPools.isEmpty()){
+		while (!tempPools.isEmpty()) {
 			SpawnPoolDataI pool = tempPools.poll();
-			for(ClusterDataI cluster : pool.getAllClusters()){
+			for (ClusterDataI cluster : pool.getAllClusters()) {
 				String name = cluster.getEnemyName();
-				enemyNames.add(name);				
+				enemyNames.add(name);
 			}
 		}
-		
-		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames.toArray(new String[enemyNames.size()]));
+
+		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames
+				.toArray(new String[enemyNames.size()]));
 
 		for (EnemyDataI enemy : enemies) {
 			// Adding all weapons for projectile factories
 			allWeapons.addAll(enemy.getShipData().getWeapons());
 		}
 
-		EnemyDataI enemy = enemies.iterator().next();
-		// Spawn scout ship
-		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
-				new BasicAIShootBehaviour(60, 80));// adjust
-													// for
-													// range
-		aiScoutShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(30f, -180f), 0f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(30f, -190f), 0f, new Vector2(0f, 0f));
-
-		// Spawn brutalizer ship
-		AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
-				new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds
-														// (120/30), 50 = range
-		aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
-
-		// Spawn obstacle
-		AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody);
-		aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
-
-		// Spawn suidicer
-		AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
-		aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
+		// EnemyDataI enemy = enemies.iterator().next();
+		// // Spawn scout ship
+		// AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
+		// new BasicAIShootBehaviour(60, 80));// adjust for range
+		//
+		// // Spawn brutalizer ship
+		// AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
+		// new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds
+		// // (120/30), 50 = range
+		// aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
+		//
+		// // Spawn obstacle
+		// AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody);
+		// aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
+		//
+		// // Spawn suidicer
+		// AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
+		// aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
 
 		// Spawn suicide squad --> optional
 
@@ -236,11 +228,19 @@ public class LevelFactory {
 		engine.addEntity(cameraEntity);
 
 		// Create projectile factories for spawner
-		for (WeaponDataI w : allWeapons) {
-			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, w));
+		for (WeaponDataI wpn : allWeapons) {
+			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, wpn));
 		}
-
-		// TODO: Create ship factories (of ai) for spawner
+		
+		AIMoveBehaviourFactory moveFactory = new AIMoveBehaviourFactory();
+		AIShootBehaviourFactory shootFactory = new AIShootBehaviourFactory();
+		for(EnemyDataI enemyData : enemies){
+			String behaviourString = enemyData.getBehaviour();
+			// TODO: Convert behaviour string into concrete behaviours
+			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
+			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
+			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(), playerBody, move, shoot));
+		}
 
 		// INPUT
 		InputFactory inputFactory = new InputFactory();
@@ -262,16 +262,9 @@ public class LevelFactory {
 		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
 		Controllers.addListener(cif.createControllerListener(playerShip));
 
-		eventQueue.register(EventEnum.PLAYER_KILLED, new IEventListener() {
-
-			@Override
-			public void handle(IEvent event) {
-				// TODO: Disable input handling??
-			}
-		});
-
-		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
-
+		registerGameEvents(context, eventQueue, engine);
+		registerSoundEvents(context, eventQueue, engine);
+		
 		return engine;
 	}
 
@@ -290,5 +283,26 @@ public class LevelFactory {
 		Stage stage = new Stage();
 		Gdx.app.error("LevelFactory", "UI NOT IMPLEMENTED");
 		return stage;
+	}
+	
+	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+		// register event handlers on event queue to send sound messages.
+		// Will need another chain of objects to filter the messages
+		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+	}
+
+	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
+		
+		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
+
+			@Override
+			public void handle(IEvent event) {
+				EnemyKilledEvent e = (EnemyKilledEvent) event;
+				// Add score points and stuff.
+			}
+		});
+
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
 	}
 }

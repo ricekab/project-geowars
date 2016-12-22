@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.model.dataExtension;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 import com.badlogic.gdx.math.Vector2;
@@ -16,12 +17,14 @@ public class WeaponGameData implements WeaponDataI {
 
 	private int ammoCount;
 	private float currentCooldown;
+	private DifficultyDataI modifier;
 
-	public WeaponGameData(WeaponDataI weapon) {
+	public WeaponGameData(WeaponDataI weapon, DifficultyDataI difficulty) {
 		this.weapon = weapon;
 		this.cooldownTime = 1f / weapon.getFireRate();
 		setAmmoCount(weapon.getAmmoCount());
 		setCurrentCooldown(0f);
+		this.modifier = difficulty;
 	}
 
 	/**
@@ -86,7 +89,7 @@ public class WeaponGameData implements WeaponDataI {
 
 	@Override
 	public float getFireRate() {
-		return weapon.getFireRate();
+		return weapon.getFireRate() * modifier.getFirerateModifier();
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 
 		// FIXTURE DEFS
 		fixtureDef = new FixtureDef();
-		fixtureDef.density = 1f;
+		fixtureDef.density = weaponData.getBulletMass();
 		PolygonShape box = new PolygonShape();
 		box.setAsBox(weaponData.getBulletSize().x, weaponData.getBulletSize().y);
 		fixtureDef.shape = box;
@@ -79,7 +79,9 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 		try {
 			engine.addEntity(projectile);
 		} catch (IllegalArgumentException iae) {
-Gdx.app.error("ProjectileFactory", "ERR: " + iae.getMessage());		}
+			Gdx.app.error("ProjectileFactory", "ERR: " + iae.getMessage());
+			return spawnEntity(pos, rotation, initialVelocity, physicsCategory, physicsMask);
+		}
 
 		return projectile;
 	}
@@ -90,7 +92,7 @@ Gdx.app.error("ProjectileFactory", "ERR: " + iae.getMessage());		}
 		// TRANSFORM
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(pos);
-		transform.setWorldSize(weaponData.getBulletSize());
+		transform.setWorldSize(weaponData.getBulletSize().cpy().scl(2));
 		transform.setRotation(rotation);
 		projectile.add(transform);
 

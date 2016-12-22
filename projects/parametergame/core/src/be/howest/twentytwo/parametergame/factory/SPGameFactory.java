@@ -22,7 +22,6 @@ public class SPGameFactory extends BaseGameFactory {
 
 	public SPGameFactory(ScreenContext context, String levelFile) {
 		super(context, levelFile);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

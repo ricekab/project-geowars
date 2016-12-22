@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public final class VectorMath {
+	
+	public static final float EPSILON = 1E-6f;
 
 	/**
 	 * Return the smaller of the 2 vectors based on the vector's length. The

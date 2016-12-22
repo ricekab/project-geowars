@@ -1,7 +1,7 @@
 package be.howest.twentytwo.parametergame.model.ai;
 
 // @author Ward Van den Berghe
-
+/*
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 import com.badlogic.gdx.math.MathUtils;
@@ -56,4 +56,4 @@ public class DroneAIMoveBehaviour implements IAIMoveBehaviour{
 			movement.setTurnRight(false);
 		}
         }
-}
+}*/
