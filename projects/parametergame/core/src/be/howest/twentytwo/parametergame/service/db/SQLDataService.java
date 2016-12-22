@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.HashSet;
+
 import com.badlogic.gdx.math.Vector2;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
@@ -16,6 +18,7 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData.ShipDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -89,6 +92,10 @@ public class SQLDataService implements IDataService {
 		return enemyShip;
 	}	
 
+	/**
+	 * @param names: A string or an array of strings that contain the name(s) of the enemy/enemies
+	 * @return HashSet of enemies, if the enemy is not found, there will be a null value
+	 */
 	public Collection<EnemyDataI> getEnemies(String... names) {
 		Collection<EnemyDataI> enemies = new HashSet<>();
 		for(String name : names) {
@@ -97,7 +104,7 @@ public class SQLDataService implements IDataService {
 		System.out.println("getEnemies returns: " + enemies);
 		return enemies;
 	}
-	
+
 	private Collection<WeaponDataI> getWeapons(String shipName) {
 		Collection<WeaponDataI> weapons = new HashSet<>();
 		try {
@@ -134,7 +141,7 @@ public class SQLDataService implements IDataService {
 	
 	/**
 	 * @Param user: an implementation of UserDataI that can provide a getUser() method to call the user's name
-	 * @Return returns a playerShip with an empty collection of drones
+	 * @Return returns a playerShip with an empty collection of drones, or a new HashSet if no playerShips are found
 	 */
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> playerShips = new HashSet<>();
@@ -165,7 +172,9 @@ public class SQLDataService implements IDataService {
 		return playerShips;
 	}
 
-
+	/**
+	 * @return returns an empty HashSet if no drones are found
+	 */
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
 		try {
@@ -181,6 +190,24 @@ public class SQLDataService implements IDataService {
 			e.printStackTrace();
 		}
 		return drones;
+	}
+	
+	/**
+	 * @return returns an empty HashSet if no powerups are found
+	 */
+	public Collection<PowerupDataI> getPowerups() {
+		Collection<PowerupDataI> powerups = new HashSet<>();
+		//TODO
+		return powerups;
+	}
+	
+	/**
+	 * @return returns an empty HashSet if no difficulties are found
+	 */
+	public Collection<DifficultyDataI> getDifficulties() {
+		Collection<DifficultyDataI> difficulties = new HashSet<>();
+		//TODO
+		return difficulties;
 	}
 	
 
