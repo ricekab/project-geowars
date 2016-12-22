@@ -5,7 +5,7 @@ import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
-import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.AIComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 import com.badlogic.ashley.core.Entity;

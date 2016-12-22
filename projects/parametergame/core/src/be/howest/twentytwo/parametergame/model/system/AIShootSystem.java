@@ -6,9 +6,8 @@ import com.badlogic.ashley.systems.IntervalIteratingSystem;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
-import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.AIComponent;
 
 public class AIShootSystem extends IntervalIteratingSystem {
 	
@@ -21,13 +20,10 @@ public class AIShootSystem extends IntervalIteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity) {
-            
-           
-            
 		AIComponent ai = AIComponent.MAPPER.get(entity);
                 WeaponComponent weapon = WeaponComponent.MAPPER.get(entity);
 		Body aiBody = BodyComponent.MAPPER.get(entity).getBody();
-		ai.getShootBehaviour().titsAndSugar(aiBody, weapon, ai.getTarget().getPosition());
+		ai.getShootBehaviour().shoot(aiBody, weapon, ai.getTarget().getPosition());
 	}
 
 }
