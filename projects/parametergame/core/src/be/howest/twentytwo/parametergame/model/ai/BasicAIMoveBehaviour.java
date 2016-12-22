@@ -8,10 +8,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
 
-public class ScoutAIMoveBehaviour implements IAIMoveBehaviour {
+public class BasicAIMoveBehaviour implements IAIMoveBehaviour {
 	private float optimalDistance;
 
-	public ScoutAIMoveBehaviour(float optimalDistance) {
+	public BasicAIMoveBehaviour(float optimalDistance) {
 		this.optimalDistance = optimalDistance;
 	}
 

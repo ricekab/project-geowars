@@ -55,6 +55,7 @@ public class AIShipFactory implements ISpawnFactory {
 				Constants.BULLET_ENEMY_MASK);
 		AIComponent ai = engine.createComponent(AIComponent.class);
 		ai.setMoveBehaviour(moveBehaviour);
+                ai.setShootBehaviour(shootBehaviour);
 		ai.setTarget(target);
 		aiShip.add(ai);
 		engine.addEntity(aiShip);

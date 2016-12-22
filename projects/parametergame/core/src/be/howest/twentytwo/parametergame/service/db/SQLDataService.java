@@ -69,19 +69,23 @@ public class SQLDataService implements IDataService {
 	private EnemyDataI getEnemy(String name) {
 		EnemyDataI enemyShip = null;
 		try {
-			String sql = "select e.ID, e.geomDroprate, e.baseScore, e.behaviour, s.* from parametergame.enemyShip e join parametergame.ship s on s.name = e.shipName where e.ID in (?)"; //("bomber","fighter") valid format
+			String sql = "select e.ID, e.geomDroprate, e.baseScore, e.behaviour, s.* from parametergame.enemyShip e join parametergame.ship s on s.name = e.shipName where e.ID = ?"; //("bomber","fighter") valid format
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, name);
 			System.out.println(prep);
 			ResultSet res = prep.executeQuery();
 			if(res.next()) {
 				ShipDataBuilder builder = new ShipData.ShipDataBuilder();
-				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).build();
+				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).setWeapons(getWeapons(res.getString("name"))).setPhysicsData(getPhysics(res.getString("physicsDataID"))).setGravityResistance(res.getFloat("gravityResistance")).build();
+				System.out.println("getEnemy ShipData is: " + ship);
 				enemyShip = new EnemyData(res.getString("ID"), res.getFloat("geomDroprate"), res.getInt("baseScore"), res.getString("behaviour"), ship);
+			} else {
+				System.err.println("no enemy found for: " + name);
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("getEnemy returns: " + enemyShip);
 		return enemyShip;
 	}	
 
@@ -90,6 +94,7 @@ public class SQLDataService implements IDataService {
 		for(String name : names) {
 			enemies.add(getEnemy(name));
 		}
+		System.out.println("getEnemies returns: " + enemies);
 		return enemies;
 	}
 	

@@ -9,37 +9,29 @@ import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.factory.InputFactory;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
-import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.component.ai.AIBrutalizerComponent;
-import be.howest.twentytwo.parametergame.model.component.ai.AIScoutComponent;
-import be.howest.twentytwo.parametergame.model.component.ai.AISuiciderComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
-import be.howest.twentytwo.parametergame.model.system.AiSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
-import be.howest.twentytwo.parametergame.service.db.IDataService;
-import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -120,7 +112,6 @@ public class GameScreen extends BaseScreen {
 				getContext().getAssetManager(), viewport);
 		engine.addSystem(new MovementSystem(events));
 		engine.addSystem(new PhysicsSystem(world, events));
-		engine.addSystem(new AiSystem(events));
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
@@ -154,30 +145,6 @@ public class GameScreen extends BaseScreen {
 		engine.addEntity(createStaticCircle(100f, 50f, 1f));
 		engine.addEntity(createStaticCircle(150f, 50f, 1f));
 		engine.addEntity(camEntity);
-
-		int numberOfScoutEnemies = 4;
-		for (int x = 0; x < numberOfScoutEnemies; x++) {
-			Entity scoutShip = createAIShip((x - numberOfScoutEnemies / 2) * 20, 100, "scouter");
-			AIScoutComponent scoutComponent = engine.createComponent(AIScoutComponent.class);
-			scoutShip.add(scoutComponent);
-			engine.addEntity(scoutShip);
-		}
-
-		int numberOfSuiciderEnemies = 4;
-		for (int x = 0; x < numberOfSuiciderEnemies; x++) {
-			Entity aiShip = createAIShip((x - numberOfSuiciderEnemies / 2) * 20, 2, "suicider");
-			AISuiciderComponent suiciderComponent = engine.createComponent(AISuiciderComponent.class);
-			aiShip.add(suiciderComponent);
-			engine.addEntity(aiShip);
-		}
-
-		int numberOfBrutalizerEnemies = 4;
-		for (int x = 0; x < numberOfBrutalizerEnemies; x++) {
-			Entity brutalizerShip = createAIShip((x - numberOfBrutalizerEnemies / 2) * 20, -100, "brutalizer");
-			AIBrutalizerComponent brutalizerComponent = engine.createComponent(AIBrutalizerComponent.class);
-			brutalizerShip.add(brutalizerComponent);
-			engine.addEntity(brutalizerShip);
-		}
 
 		UserDataI user = getContext().getDataService().getUser("SOMEUSER");
 		SettingsDataI settings = getContext().getFileService().loadSettings("Some_Location", user);

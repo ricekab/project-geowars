@@ -23,14 +23,15 @@ insert into ship(`name`,`health`,`linearAcceleration`,`angularAcceleration`,`max
 		("juggernaut",4,1,1,5,5,"juggernaut.png",2,2,50,100, 0.75,"DATA_99"),
         ("fighter",3, 3,3,8,8,"fighter.png",3,3,30,50, 0.5,"DATA_01"),
         ("recon", 2, 5,5,15,15, "recon.png",15,10,15,25, 0.25,"DATA_01"),
-        ("bomber", 1, 3, 3, 6, 6, "bomber.png",0,0,10,15, 0,"DATA_01"),
+        ("bomber", 1, 3, 3, 6, 6, "bomber.png",0,0,10,15, 0.33,"DATA_01"),
 		("myCustomName",4,1,1,5,5,"juggernaut.png",2,2,50,100, 0.75,"DATA_99");
     
     
 insert into weapon(`ID`,`offsetX`,`offsetY`,`bulletDamage`,`shotConeAngle`,`firerate`,`range`,`detonationDelay`,`bulletsPerShot`,`bulletSpeed`,`shipName`,`bulletMass`,`turnSpeed`,`ammo`,`bulletSizeX`,`bulletSizeY`)
 	values
 		("PSTL01-01", 0, 0, 1, 0, 1, 500, 0, 1, 175, "recon", 0.5, 10, -1, 2, 2),
-        ("L4ZRB34M", 0, 0, 0.2, 1, 15, 9001, 0.1, 10, 2500, "juggernaut", 0.05, 2, 300, 4, 0.5);
+        ("L4ZRB34M", 0, 0, 0.2, 1, 15, 9001, 0.1, 10, 2500, "juggernaut", 0.05, 2, 300, 4, 0.5),
+        ("RPB666", 0, 0, 5, 0, 0.2, 9001, 0.25, 1, 1000, "bomber", 10, 4, 25, 5, 5);
     
     
 insert into physicsdata(`ID`,`physicsMask`,`physicsCategory`)
