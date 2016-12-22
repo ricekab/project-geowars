@@ -60,7 +60,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 	
 	//	GETTERS
 	
-	public ClusterDataI getRandomCluster() {
+	public ClusterDataI getRandomCluster() {	//TODO @Nick DOCUMENT
 		ClusterDataI randomCluster = selectRandomCluster();
 		reduceAmount(randomCluster);
 		return randomCluster;
