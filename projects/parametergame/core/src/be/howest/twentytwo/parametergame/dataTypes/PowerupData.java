@@ -9,7 +9,7 @@ public class PowerupData implements PowerupDataI {
 	private String effectTpe;
 	private int effectStrength;
 	
-	public PowerupData(String PowerupId, String effectId, int powerupDuration, int powerupLifetime, String effectType, int effectStrength) {
+	public PowerupData(String powerupId, String effectId, int powerupDuration, int powerupLifetime, String effectType, int effectStrength) {
 		this.powerupId = powerupId;
 		this.effectId = effectId;
 		this.powerupDuration = powerupDuration;

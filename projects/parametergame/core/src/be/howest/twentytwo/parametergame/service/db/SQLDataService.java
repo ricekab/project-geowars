@@ -20,6 +20,7 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupData;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData.ShipDataBuilder;
@@ -182,7 +183,7 @@ public class SQLDataService implements IDataService {
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
 		try {
-			String sql = "select * from drone where playerName = ?";
+			String sql = "select * from parametergame.drone where playerName = ?";
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, user.getUser());
 			ResultSet res = prep.executeQuery();
@@ -201,7 +202,17 @@ public class SQLDataService implements IDataService {
 	 */
 	public Collection<PowerupDataI> getPowerups() {
 		Collection<PowerupDataI> powerups = new HashSet<>();
-		//TODO
+		try {
+			String sql = "select * from parametergame.powerup p join parametergame.powerupEffect pe on p.ID = pe.powerupID join parametergame.effect e on e.ID = pe.effectID";
+			Statement stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(sql);
+			while(res.next()) {
+				PowerupDataI powerup = new PowerupData(res.getString("powerupID"), res.getString("effectID"), res.getInt("duration"), res.getInt("lifetime"), res.getString("type"), res.getInt("strength"));
+				powerups.add(powerup);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return powerups;
 	}
 	
@@ -211,7 +222,7 @@ public class SQLDataService implements IDataService {
 	public Collection<DifficultyDataI> getDifficulties() {
 		Collection<DifficultyDataI> difficulties = new HashSet<>();
 		try {
-			String sql = "select * from difficulty";
+			String sql = "select * from parametergame.difficulty";
 			Statement stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery(sql);
 			while(res.next()) {

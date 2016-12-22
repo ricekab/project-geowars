@@ -11,11 +11,19 @@ public class Writer {
 		UserData user = new UserData("nick","123456");
 
 		String strings = "BMB01";
-		Collection<EnemyDataI> enemies = db.getEnemies(strings);
-		
-		for(EnemyDataI enemy : enemies) {
-			System.out.println("Enemy received resists: " + (enemy.getShipData().getGravityResistance() * 100f) + " percent gravity!");	//TODO maybe i need to ask help on this...
+		Collection<DifficultyDataI> difficulties = db.getDifficulties();
+		for(DifficultyDataI difficulty : difficulties) {
+			System.out.println(difficulty.getID());
 		}
+		
+		System.out.println();
+		
+		Collection<PowerupDataI> powerups = db.getPowerups();
+		for(PowerupDataI powerup : powerups) {
+			System.out.println(powerup.getEffectId() + " " + powerup.getPowerupId());
+		}
+		
+		
 		
 		
 	}
