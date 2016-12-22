@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,6 +65,10 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable{	//a collecti
 		ClusterDataI randomCluster = selectRandomCluster();
 		reduceAmount(randomCluster);
 		return randomCluster;
+	}
+	
+	public Collection<ClusterDataI> getAllClusters() {
+		return clusters;
 	}
 	
 	public float getSpawnTreshold() {
