@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
@@ -18,6 +20,7 @@ import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
@@ -167,13 +170,23 @@ public class LevelFactory {
 		}
 
 		// ENEMIES / AI FACTORIES
+		Collection<String> enemyNames = new HashSet<String>();
+		
 		// TODO: @Nick -- Where get enemy data, doesn't seem to be in
 		// spawnpooldata
 		// levelData.getSpawnPools().peek().????
-
+		// ////
+		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
+		Queue<SpawnPoolDataI> tempPools = new LinkedList<SpawnPoolDataI>(spawnPools);
+		while(!tempPools.isEmpty()){
+			SpawnPoolDataI pool = tempPools.poll();
+			// TODO: Pool.getAllClusters()->getEnemyName();
+			String name = "";
+			enemyNames.add(name);
+		}
+		
 		// AI creation
-		Collection<EnemyDataI> enemies = dataService.getEnemies("scouter", "brutalizer",
-				"suicider", "obstacle", "suicideSquad");
+		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames.toArray(new String[enemyNames.size()]));
 
 		for (EnemyDataI enemy : enemies) {
 			allWeapons.addAll(enemy.getShipData().getWeapons());
