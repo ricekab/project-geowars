@@ -1,7 +1,18 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import java.util.ArrayList;
 import java.util.Collection;
+
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
@@ -11,17 +22,6 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.factory.CheckBoxFactory;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
-
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 
@@ -46,44 +46,55 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 
 		Table root = getRoot();
 
+		Table rowTable;
 		// Retrieve and show ships
 		Collection<ShipDataI> ships = dataService.getShips(user);
 		shipGroup = new ButtonGroup<CheckBox>();
-		// shipGroup.setMaxCheckCount(1); // These are default values
-		// shipGroup.setMinCheckCount(1);
+		rowTable = new Table();
+		root.add(rowTable);
+		rowTable.add(new Label("Ship: ", getSkin().get(LabelStyle.class)));
 		for (ShipDataI ship : ships) {
 			CheckBox c = cbf.createCheckBox(ship.getName());
 			shipGroup.add(c);
-			root.add(c);
+			rowTable.add(c);
 		}
 		root.row();
 
 		// Retrieve and show drones
 		Collection<DroneDataI> drones = dataService.getDrones(user);
 		droneGroup = new ButtonGroup<CheckBox>();
+		droneGroup.setMaxCheckCount(2); // TODO: Based on ship level
+		rowTable = new Table();
+		root.add(rowTable);
+		rowTable.add(new Label("Drones: ", getSkin().get(LabelStyle.class)));
 		for (DroneDataI drone : drones) {
 			CheckBox c = cbf.createCheckBox(drone.getID());
 			droneGroup.add(c);
-			root.add(c);
+			rowTable.add(c);
 		}
 		root.row();
 
 		// Retrieve difficulties
-		// TODO: @Nick - Difficulty retrieval where?
-		Collection<DifficultyDataI> difficulties = new ArrayList<DifficultyDataI>();
+		Collection<DifficultyDataI> difficulties = dataService.getDifficulties();
 		difficultyGroup = new ButtonGroup<CheckBox>();
+		rowTable = new Table();
+		root.add(rowTable);
+		rowTable.add(new Label("Difficulty: ", getSkin().get(LabelStyle.class)));
 		for (DifficultyDataI diff : difficulties) {
 			CheckBox c = cbf.createCheckBox(diff.getID());
 			difficultyGroup.add(c);
-			root.add(c);
+			rowTable.add(c);
 		}
 		root.row();
 
+		rowTable = new Table();
+		root.add(rowTable);
+		
 		TextButton back = tbf.createButton("Back");
 		back.addListener(new BackChangeListener());
-		root.add(back);
+		rowTable.add(back);
 		TextButton next = tbf.createButton("Continue", confirmListener);
-		root.add(next);
+		rowTable.add(next);
 	}
 
 	@Override
