@@ -13,20 +13,20 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 /**
  * Classes that implement this handle specific physics collision interactions.
  */
-public abstract class ContactProcessor implements ContactListener {
+public abstract class BaseContactProcessor implements ContactListener {
 
 	private ContactListener next;
 	
 	private final EventQueue eventQueue;
 	private final Collection<IPhysicsMessage> messageQueue;
 
-	public ContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+	public BaseContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
 		setNextProcessor(next);
 		this.eventQueue = eventQueue;
 		this.messageQueue = events;
 	}
 
-	public ContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+	public BaseContactProcessor(EventQueue eventQueue, Collection<IPhysicsMessage> events) {
 		this(new NullContactProcessor(), eventQueue, events);
 	}
 
@@ -45,15 +45,15 @@ public abstract class ContactProcessor implements ContactListener {
 	 * Note that this replaces any processors previously chained to the given
 	 * processor.
 	 */
-	public void insertProcessor(ContactProcessor processor) {
+	public void insertProcessor(BaseContactProcessor processor) {
 		processor.setNextProcessor(this.next);
 		setNextProcessor(processor);
 	}
 	
 	/**
-	 * Alias for {@link #insertProcessor(ContactProcessor)}.
+	 * Alias for {@link #insertProcessor(BaseContactProcessor)}.
 	 */
-	public void addProcessor(ContactProcessor processor){
+	public void addProcessor(BaseContactProcessor processor){
 		insertProcessor(processor);
 	}
 

@@ -42,7 +42,7 @@ import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.physics.collision.BulletContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
@@ -101,7 +101,7 @@ public class LevelFactory {
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 
-		ContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
+		BaseContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
 				physicsMessageQueue);
 		collisionListener.addProcessor(new PlayerContactProcessor(eventQueue, physicsMessageQueue));
 		collisionListener.addProcessor(new BulletContactProcessor(eventQueue, physicsMessageQueue));
@@ -275,7 +275,7 @@ public class LevelFactory {
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 
-		ContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
+		BaseContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
 				physicsMessageQueue);
 		collisionListener.addProcessor(new PlayerContactProcessor(eventQueue, physicsMessageQueue));
 		collisionListener.addProcessor(new BulletContactProcessor(eventQueue, physicsMessageQueue));

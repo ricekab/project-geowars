@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class PlayerContactProcessor extends ContactProcessor {
+public class PlayerContactProcessor extends BaseContactProcessor {
 
 	public PlayerContactProcessor(ContactListener next, EventQueue eventQueue,
 			Collection<IPhysicsMessage> physicsMessages) {
