@@ -11,15 +11,20 @@ public class ClusterData implements ClusterDataI, Serializable{
 	private int groups;		//groups of enemies spawned in this cluster
 	private int enemies;	//amount of enemies spawned per group
 	private float weight;	//the weight each enemy ship carries
+	private String enemyName;
 	
-	public ClusterData(float chance, int amountStored, float delay, int groups, int enemies) {
+	public ClusterData(float chance, int amountStored, float delay, int groups, int enemies, String enemyName) {
 		setChance(chance);
 		setAmountStored(amountStored);
 		setDelay(delay);
 		setGroups(groups);
 		setEnemies(enemies);
 		setWeight();
+		setEnemyName(enemyName);
 	}
+	
+	@Deprecated
+	public ClusterData(float chance, int amountStored, float delay, int groups, int enemies) {}
 	
 	public void takeOne() {
 		amountStored--;
@@ -51,6 +56,10 @@ public class ClusterData implements ClusterDataI, Serializable{
 		this.weight = 1 / (groups * enemies);
 	}
 	
+	public void setEnemyName(String enemyName) {
+		this.enemyName = enemyName;
+	}
+	
 	//	GETTERS
 	
 	public float getChance() {
@@ -75,6 +84,10 @@ public class ClusterData implements ClusterDataI, Serializable{
 	
 	public float getWeight() {
 		return weight;
+	}
+	
+	public String getEnemyName() {
+		return enemyName;
 	}
 
 }

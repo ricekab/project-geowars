@@ -14,9 +14,6 @@ public class Writer {
 		Collection<EnemyDataI> enemies = db.getEnemies(strings);
 		
 		for(EnemyDataI enemy : enemies) {
-			System.out.println("Enemy received in Writer: " + enemy);
-			System.out.println("Enemy received has weapon: " + enemy.getShipData().getWeapons());
-			System.out.println("Enemy received has physics: " + enemy.getShipData().getPhysicsData());
 			System.out.println("Enemy received resists: " + (enemy.getShipData().getGravityResistance() * 100f) + " percent gravity!");	//TODO maybe i need to ask help on this...
 		}
 		
