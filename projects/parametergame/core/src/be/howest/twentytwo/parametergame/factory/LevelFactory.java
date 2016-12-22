@@ -12,6 +12,7 @@ import java.util.Set;
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
+import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
@@ -172,23 +173,20 @@ public class LevelFactory {
 		// ENEMIES / AI FACTORIES
 		Collection<String> enemyNames = new HashSet<String>();
 		
-		// TODO: @Nick -- Where get enemy data, doesn't seem to be in
-		// spawnpooldata
-		// levelData.getSpawnPools().peek().????
-		// ////
 		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
 		Queue<SpawnPoolDataI> tempPools = new LinkedList<SpawnPoolDataI>(spawnPools);
 		while(!tempPools.isEmpty()){
 			SpawnPoolDataI pool = tempPools.poll();
-			// TODO: Pool.getAllClusters()->getEnemyName();
-			String name = "";
-			enemyNames.add(name);
+			for(ClusterDataI cluster : pool.getAllClusters()){
+				String name = cluster.getEnemyName();
+				enemyNames.add(name);				
+			}
 		}
 		
-		// AI creation
 		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames.toArray(new String[enemyNames.size()]));
 
 		for (EnemyDataI enemy : enemies) {
+			// Adding all weapons for projectile factories
 			allWeapons.addAll(enemy.getShipData().getWeapons());
 		}
 
