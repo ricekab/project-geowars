@@ -126,13 +126,13 @@ create table gameID(
 );
 
 create table  playedGame(
-	`PlayerShipID` varchar(128) not null,
+	`playerShipID` varchar(128) not null,
     `gameUniqueID` varchar(128) not null,
     `points` int,
     `date` timestamp,
-    primary key(`PlayerShipID`, `gameUniqueID`),
-    foreign key(`PlayerShipID`) references playerShip(`ID`),
-    foreign key(`GameUniqueID`) references gameID(`uniqueID`)
+    primary key(`playerShipID`, `gameUniqueID`),
+    foreign key(`playerShipID`) references playerShip(`ID`),
+    foreign key(`gameUniqueID`) references gameID(`uniqueID`)
 );
 
 create table powerup(
