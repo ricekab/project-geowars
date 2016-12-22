@@ -15,14 +15,24 @@ import java.util.List;
  *
  * @author Floris
  */
-public class SoundSequencer {
+public class SoundSequencer implements Runnable {
 
    List<Sound> sounds = new ArrayList<Sound>();
    int index = 0;
    double delay;
    double lastPlayed;
 
+   @Override
+   public void run(){
+       try{
+           System.out.println("audio thread is running");
+       }catch(Exception e){
+           
+       }
+   }
    
+   
+
    public void addSound(String path) {
       Sound sound = Gdx.audio.newSound(Gdx.files.internal(path));
       //if (sounds.contains(sound, true))

@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame;
 
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import javax.inject.Inject;
 
 import be.howest.twentytwo.parametergame.screen.SplashScreen;
@@ -53,6 +54,9 @@ public class ParameterGame extends Game {
 		
 		float splashScreenTime = -2f;
 		setScreen(new SplashScreen(context, splashScreenTime));
+                
+                Thread audio = new Thread(new SoundSequencer());
+                audio.start();
 	}
 
 	@Override
