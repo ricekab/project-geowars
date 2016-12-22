@@ -1,19 +1,24 @@
 package be.howest.twentytwo.parametergame.factory;
 
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
+import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class PlanetFactory {
+	private static final String PLANET_SPRITE_PACK = "sprites/game.pack";
 
 	private PooledEngine engine;
 	private World world;
@@ -26,15 +31,15 @@ public class PlanetFactory {
 	}
 
 	/**
-	 * Creates a planet entity using the given planet data. The entity and its
-	 * components are created from the supplied {@link PooledEngine}.
+	 * Creates a planet entity using the given planet data. The entity and its components are
+	 * created from the supplied {@link PooledEngine}.
 	 */
-	public Entity createPlanet(PlanetData pdata) {
+	public Entity createPlanet(PlanetDataI pdata) {
 		Entity planet = engine.createEntity();
 
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
 		transform.setPos(pdata.getXCoord(), pdata.getYCoord());
-		transform.setWorldSize(pdata.getPlanetRadius(), pdata.getPlanetRadius());
+		transform.setWorldSize(pdata.getPlanetRadius()*2, pdata.getPlanetRadius()*2);
 		transform.setRotation((float) Math.random() * 360f); // Random rotation
 		planet.add(transform);
 
@@ -53,8 +58,8 @@ public class PlanetFactory {
 		FixtureFactory fixtureFactory = new FixtureFactory();
 
 		// PLANET
-		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle", pdata.getPlanetRadius() * 2,
-				pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
+		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle",
+				pdata.getPlanetRadius() * 2, pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
 		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
 		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
 		rigidBody.createFixture(fixtureDef);
@@ -72,14 +77,12 @@ public class PlanetFactory {
 		planet.add(bodyComponent);
 
 		// TEXTURE/SPRITE
-		// SpriteComponent sprite =
-		// engine.createComponent(SpriteComponent.class);
-		// TextureAtlas spritesheet = assets.get("sprites/geowars.pack",
-		// TextureAtlas.class);
-		// TextureRegion region =
-		// spritesheet.findRegion(pdata.getTextureString());
-		// sprite.setRegion(region);
-		// planet.add(sprite);
+		SpriteComponent sprite = engine.createComponent(SpriteComponent.class);
+		TextureAtlas spritesheet = assets.get(PLANET_SPRITE_PACK, TextureAtlas.class);
+		//TextureRegion region = spritesheet.findRegion(pdata.getTextureString());
+		TextureRegion region = spritesheet.findRegion(pdata.getTextureString());
+		sprite.setRegion(region);
+		planet.add(sprite);
 
 		return planet;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 public interface ShipDataI {
 
 	public String getName();	// Used to retrieve sprites
+	public String getTexture();	// Better way to retrieve sprites
 	
 	public int getHealth();
 	
@@ -17,11 +18,12 @@ public interface ShipDataI {
 	public float getAngularDamping();
 	public float getShipSizeX();
 	public float getShipSizeY();
+	public float getGravityResistance();
 	
 	/**
 	 * 
 	 */
-	public List<WeaponDataI> getWeapons();
+	public Collection<WeaponDataI> getWeapons();
 	
 	public PhysicsDataI getPhysicsData();
 	

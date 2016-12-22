@@ -7,8 +7,10 @@ import java.util.Collection;
  */
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public interface IDataService {
 	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....
@@ -21,10 +23,14 @@ public interface IDataService {
 	
 	public Collection<DroneDataI> getDrones(UserDataI user);
 	
+	//public Collection<WeaponDataI> getWeapons(ShipDataI ship);
+	
 	public void saveUser(UserDataI data);
 	
 	public void saveShip(ShipDataI data);
 	
 	public void saveDrone(DroneDataI data);
+	
+	public void saveWeapon(WeaponDataI weapon);
 	
 }

@@ -43,8 +43,10 @@ public class LoadingScreen extends BaseScreen {
 		// Setup loading bar or whatever
 		assetMgr.load("sprites/ships.pack", TextureAtlas.class);
 		assetMgr.load("sprites/geowars.pack", TextureAtlas.class);
-		assetMgr.load("sprites/tiles.pack", TextureAtlas.class);
 		assetMgr.load("sprites/AI.pack", TextureAtlas.class);
+		
+		assetMgr.load("sprites/game.pack", TextureAtlas.class);
+		assetMgr.load("sprites/tiles.pack", TextureAtlas.class);
 	}
 
 	@Override

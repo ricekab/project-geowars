@@ -4,22 +4,37 @@ import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.audio.SoundEngine;
 import be.howest.twentytwo.parametergame.audio.SoundSequencer;
-
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
+import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen extends BaseScreen {
+public class MenuScreen extends BaseUIBackgroundScreen {
 
-	private Stage uiStage;
+	private TextButton arcade, versus;
+	private TextField userField, passwordField;
+	private Label loginStatusLabel;
+
+	public MenuScreen(ScreenContext context, Engine backgroundEngine) {
+		super(context, backgroundEngine);
+	}
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
@@ -32,7 +47,7 @@ public class MenuScreen extends BaseScreen {
                 for(int i=0; i < 5; i++){
                     seq.play(1);
                     //System.out.println(seq.getSize());
-                    System.out.println(seq.getIndex());
+                   // System.out.println(seq.getIndex());
                 }
                 
                 
@@ -41,99 +56,145 @@ public class MenuScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		// Loading ui skin
-		getContext().getAssetManager().load("ui/uiskin.json", Skin.class);
-		getContext().getAssetManager().finishLoading();
-		Skin skin = getContext().getAssetManager().get("ui/uiskin.json", Skin.class);
-		// Create main menu stage
-		uiStage = new Stage(new ScreenViewport(), getContext().getSpriteBatch());
-		Table root = new Table();
-		root.setFillParent(true);
-		uiStage.addActor(root);
+		TextButtonStyle textBtnStyle = getSkin().get("default", TextButtonStyle.class);
+		TextButtonFactory tbf = new TextButtonFactory(textBtnStyle);
+
+		Table root = getRoot();
+
+		Table menu = new Table();
+		root.add(menu);
 		// Table - Children
-		TextButtonStyle textBtnStyle = skin.get("default", TextButtonStyle.class);
+		arcade = tbf.createButton("Play Arcade", new PlayArcadeListener());
+		arcade.setDisabled(true);
+		menu.add(arcade);
 
-		TextButton startBtn = new TextButton("Start Game - Load level", textBtnStyle);
-		startBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				getContext().setScreen(new LoadingScreen(getContext()));
-				dispose();
-			}
-		});
-		startBtn.pad(5f, 10f, 5f, 10f);
-		root.add(startBtn).pad(5f, 5f, 5f, 5f);
+		menu.row();
+		versus = tbf.createButton("Play Local Versus", new PlayVersusListener());
+		versus.setDisabled(true);
+		menu.add(versus);
+
+		menu.row();
+		menu.add(tbf.createButton("Credits", new CreditsListener()));
+
+		menu.row();
+		menu.add(tbf.createButton("Exit Game", new ExitListener()));
+
+		root.add(createLoginWindow(tbf)).width(300f);
+
+		if(ParameterGame.DEBUG_ENABLED) {
+			userField.setText("debug");
+			passwordField.setText("DEBUG");
+			doLogin();
+		}
 		
-		root.row();
-		TextButton loadBtn = new TextButton("Start Game - AI Debug", textBtnStyle);
-		loadBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				getContext().setScreen(new GameScreen(getContext()));
-				dispose();
+		if(getContext().getUser() != null){
+			setLoggedIn(getContext().getUser());
+		}
+	}
+
+	private Window createLoginWindow(TextButtonFactory tbf) {
+		Window window = new Window("Login", getSkin());
+		window.setDebug(ParameterGame.DEBUG_ENABLED, true);
+
+		window.getTitleTable().padBottom(15f);
+		window.getTitleLabel().setStyle(getSkin().get("pressed", LabelStyle.class));
+		Table login = new Table();
+		window.add(login);
+
+		InputListener enterInput = new LoginInputListener();
+		userField = new TextField("Username", getSkin());
+		login.add(new Label("User", getSkin(), "default"), userField);
+		userField.addListener(enterInput);
+		login.row();
+		passwordField = new TextField("", getSkin());
+		passwordField.setPasswordCharacter('*');
+		passwordField.setPasswordMode(true);
+		login.add(new Label("Password", getSkin(), "default"), passwordField);
+		passwordField.addListener(enterInput);
+		login.row();
+		login.add(tbf.createButton("Confirm", new LoginListener()));
+		loginStatusLabel = new Label("Not logged in", getSkin());
+		login.add(loginStatusLabel);
+
+		return window;
+	}
+
+	private class PlayArcadeListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			// TODO: Switch to selection screen with relevant data
+			getContext().setScreen(new LoadingScreen(getContext()));
+			// getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(), new
+			// ArcadeLoadoutListener()));
+			dispose();
+		}
+	}
+
+	private class PlayVersusListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			// TODO: Switch to versus
+			// getContext().setScreen(new ControllerTestScreen(getContext()));
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener()));
+			dispose();
+		}
+	}
+
+	private class CreditsListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			getContext().setScreen(new CreditsScreen(getContext(), getEngine()));
+			dispose();
+		}
+	}
+
+	private class ExitListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			Gdx.app.exit();
+		}
+	}
+
+	private class LoginListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			doLogin();
+		}
+	}
+
+	private class LoginInputListener extends InputListener {
+
+		@Override
+		public boolean keyDown(InputEvent event, int keycode) {
+			if(Keys.ENTER == keycode) {
+				doLogin();
 			}
-		});
-		loadBtn.pad(5f, 10f, 5f, 10f);
-		root.add(loadBtn).pad(5f, 5f, 5f, 5f);
-		
-		root.row();
-		TextButton exitBtn = new TextButton("Exit Game", textBtnStyle);
-		exitBtn.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				Gdx.app.exit();
-			}
-		});
-		exitBtn.pad(5f, 10f, 5f, 10f);
-		root.add(exitBtn).pad(5f);
-
-		// Set stage to receive input events
-		Gdx.input.setInputProcessor(uiStage);
-
-		// Debug
-		root.setDebug(ParameterGame.DEBUG_ENABLED);
-
-		// Unload any resources we no longer need
-		// game.assetMgr.unload("ui/uiskin.json"); // Or maybe keep for game screen?
-		
-		/*Music music = Gdx.audio.newMusic(Gdx.files.internal("hsmain.mp3"));
-		music.setLooping(true);
-		music.setVolume(0.3f);
-		music.play();*/
+			return false;
+		}
 	}
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		// stage.act(delta);
-		uiStage.draw();
+	private class ArcadeLoadoutListener extends ChangeListener {
+
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			System.out.println("ArcadeLoadoutListener");
+		}
+
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		System.out.println("resize");
+	private void doLogin() {
+		// TODO: @Nick -- Can I get null back, how are non-existant users handled (Missing documentation)
+		UserDataI user = getContext().getDataService().getUser(userField.getText());
+		setLoggedIn(user);
 	}
-
-	@Override
-	public void pause() {
-		System.out.println("pause");
+	
+	private void setLoggedIn(UserDataI user){
+		if(user != null) {
+			loginStatusLabel.setText("Active Login: " + user.getUser());
+			getContext().setUser(user);
+			arcade.setDisabled(false);
+			versus.setDisabled(false);
+		}
 	}
-
-	@Override
-	public void resume() {
-		System.out.println("resume");
-	}
-
-	@Override
-	public void hide() {
-		System.out.println("hide");
-		this.dispose();
-	}
-
-	@Override
-	public void dispose() {
-		System.out.println("dispose");
-		uiStage.dispose();
-	}
-
 }

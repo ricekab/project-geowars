@@ -36,9 +36,10 @@ create table ship(
     `angularDamping` float,
     `shipSizeX` float,
     `shipSizeY` float,
-    #`playerShipID` varchar(128), --WHUT?? fix this
-    primary key (`name`)
-    #--foreign key (`playerShipID`) references playerShip(`ID`)
+    `gravityResistance` float,
+    `physicsdataID` varchar(128),
+    primary key (`name`),
+    foreign key (`physicsdataID`) references physicsdata(`ID`)
 );
 
 create table weapon(
@@ -53,6 +54,11 @@ create table weapon(
     `bulletsPerShot` int,
     `bulletSpeed` float,
     `shipName` varchar(128),
+    `bulletMass` float,
+    `turnSpeed` float,
+    `ammo` int,
+    `bulletSizeX` float,
+    `bulletSizeY` float,
     primary key (`ID`),
     foreign key (`shipName`) references Ship(`name`)
 );
@@ -93,7 +99,9 @@ create table drone(
 	`ID` varchar(128) not null,
     `offenseUpgradeLevel` tinyint,
     `utilityUpgradeLevel` tinyint,
-    primary key (`ID`)
+	`playerName` varchar(128) not null,
+    primary key (`ID`),
+	foreign key(`playerName`) references player(`name`)
 );
 
 create table playerShip(
@@ -103,11 +111,18 @@ create table playerShip(
     `lvl` int,
     `shipName` varchar(128),
     `campaignLevel` int,
+    `geomRadius` float,
     primary key (`ID`),
     foreign key (`shipName`) references ship(`name`)
 );
 
-
+create table playerShipProperty(
+	`playerShipID` varchar(128) not null,
+    `playerName` varchar(128) not null,
+    primary key(`playerShipID`, `playerName`),
+    foreign key(`playerShipID`) references playerShip(`ID`),
+    foreign key(`playerName`) references player(`name`)
+);
 
 create table  playedGame(
 	`PlayerShipID` varchar(128) not null,

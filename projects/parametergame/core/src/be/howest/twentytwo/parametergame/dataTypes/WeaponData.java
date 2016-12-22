@@ -4,20 +4,20 @@ import com.badlogic.gdx.math.Vector2;
 
 public class WeaponData implements WeaponDataI {
 
-	private String id;
-	private float offsetX;
-	private float offsetY;
-	private float fireRate;
-	private int bulletsPerShot;
-	private float shotConeAngle;
-	private float mass;
-	private float bulletDamage;
-	private float bulletSpeed;
-	private float range;
-	private float timeDelay;
-	private float turnSpeed;
-	private int ammoCount;
-	private Vector2 bulletSize;
+	private String id;				//
+	private float offsetX;			//
+	private float offsetY;			//
+	private float fireRate;			//
+	private int bulletsPerShot;		//
+	private float shotConeAngle;	//
+	private float bulletMass;		//
+	private float bulletDamage;		//
+	private float bulletSpeed;		//
+	private float range;			//
+	private float timeDelay;		//
+	private float turnSpeed;		//
+	private int ammoCount;			//
+	private Vector2 bulletSize;		//		
 
 	public WeaponData(String id, float offsetX, float offsetY, float fireRate, int bulletsPerShot,
 			float shotConeAngle, float damage, float bulletMass, float bulletSpeed, float range,
@@ -29,7 +29,7 @@ public class WeaponData implements WeaponDataI {
 		this.bulletsPerShot = bulletsPerShot;
 		this.shotConeAngle = shotConeAngle;
 		this.bulletDamage = damage;
-		this.mass = bulletMass;
+		this.bulletMass = bulletMass;
 		this.bulletSpeed = bulletSpeed;
 		this.range = range;
 		this.timeDelay = timeDelay;
@@ -58,7 +58,7 @@ public class WeaponData implements WeaponDataI {
 
 	@Override
 	public float getBulletMass() {
-		return mass;
+		return bulletMass;
 	}
 
 	public int getBulletsPerShot() {
@@ -96,6 +96,20 @@ public class WeaponData implements WeaponDataI {
 	public Vector2 getBulletSize() {
 		return bulletSize;
 	}
+	
+	@Override
+	public int hashCode() {
+		return getID().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || ! (obj instanceof WeaponData)){
+			return false;
+		}
+		WeaponData other = (WeaponData)obj;
+		return this.getID().equals(other.getID());
+	}
 
 	public static class WeaponDataBuilder {
 
@@ -105,7 +119,7 @@ public class WeaponData implements WeaponDataI {
 		private float fireRate;
 		private int bulletsPerShot;
 		private float shotConeAngle;
-		private float mass;
+		private float bulletMass;
 		private float bulletDamage;
 		private float bulletSpeed;
 		private float range;
@@ -116,7 +130,7 @@ public class WeaponData implements WeaponDataI {
 
 		public WeaponData build() {
 			return new WeaponData(id, offsetX, offsetY, fireRate, bulletsPerShot, shotConeAngle,
-					bulletDamage, mass, bulletSpeed, range, timeDelay, turnSpeed, ammoCount,
+					bulletDamage, bulletMass, bulletSpeed, range, timeDelay, turnSpeed, ammoCount,
 					bulletSize);
 		}
 
@@ -151,7 +165,7 @@ public class WeaponData implements WeaponDataI {
 		}
 
 		public WeaponDataBuilder setBulletMass(float mass) {
-			this.mass = mass;
+			this.bulletMass = mass;
 			return this;
 		}
 

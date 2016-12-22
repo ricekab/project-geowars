@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame;
 
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
 import be.howest.twentytwo.parametergame.service.platform.IPlatformService;
@@ -22,6 +23,8 @@ public class ScreenContext {
 	private final IDataService dataService;
 	private final IFileAccessor fileService;
 	private final Game game;
+	
+	private UserDataI user;
 
 	// private I18NBundle internationalization;
 
@@ -68,6 +71,14 @@ public class ScreenContext {
 		getGame().setScreen(screen);
 	}
 	
+	public UserDataI getUser() {
+		return user;
+	}
+
+	public void setUser(UserDataI user) {
+		this.user = user;
+	}
+
 	public void dispose(){
 		getAssetManager().clear();
 		getAssetManager().dispose();
