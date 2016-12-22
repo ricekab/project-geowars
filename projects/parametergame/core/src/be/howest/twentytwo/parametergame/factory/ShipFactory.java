@@ -63,7 +63,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		FixtureFactory fixtureFactory = new FixtureFactory();
 		for (FixtureDataI fd : fixturesData) {
 			fixtureDef = fixtureFactory.createFixtureDef(fd.getShape(), fd.getWidth(), fd.getHeight(), fd.getOffsetX(),
-					fd.getOffsetY(), fd.getDensity(), fd.getFriction(), fd.getRestitution());
+					fd.getOffsetY(), fd.getDensity()/shipData.getGravityResistance(), fd.getFriction(), fd.getRestitution());
 			fixtureDef.filter.categoryBits = physicsData.getPhysicsCategory();
 			fixtureDef.filter.maskBits = physicsData.getPhysicsMask();
 			fixtureDefs.add(fixtureDef);
@@ -101,6 +101,9 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		List<WeaponDataI> weaponsData = new ArrayList<WeaponDataI>();
 		weaponsData.addAll(shipData.getWeapons());
 		if (weaponsData.size() > 0) {
+			System.out.println(weaponsData);
+			System.out.println(weaponsData.get(0).getID());
+			System.out.println(weaponsData.get(1).getID());
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);

@@ -172,18 +172,19 @@ public class LevelFactory {
 
 		// ENEMIES / AI FACTORIES
 		Collection<String> enemyNames = new HashSet<String>();
-		
+
 		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
 		Queue<SpawnPoolDataI> tempPools = new LinkedList<SpawnPoolDataI>(spawnPools);
-		while(!tempPools.isEmpty()){
+		while (!tempPools.isEmpty()) {
 			SpawnPoolDataI pool = tempPools.poll();
-			for(ClusterDataI cluster : pool.getAllClusters()){
+			for (ClusterDataI cluster : pool.getAllClusters()) {
 				String name = cluster.getEnemyName();
-				enemyNames.add(name);				
+				enemyNames.add(name);
 			}
 		}
-		
-		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames.toArray(new String[enemyNames.size()]));
+
+		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames
+				.toArray(new String[enemyNames.size()]));
 
 		for (EnemyDataI enemy : enemies) {
 			// Adding all weapons for projectile factories
@@ -194,14 +195,7 @@ public class LevelFactory {
 		// Spawn scout ship
 		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
 				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
-				new BasicAIShootBehaviour(60, 80));// adjust
-													// for
-													// range
-		aiScoutShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(30f, -180f), 0f, new Vector2(0f, 0f));
-		aiScoutShipFactory.spawnEntity(new Vector2(30f, -190f), 0f, new Vector2(0f, 0f));
+				new BasicAIShootBehaviour(60, 80));// adjust for range
 
 		// Spawn brutalizer ship
 		AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
