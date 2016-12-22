@@ -46,7 +46,6 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 		Body playerBody = player.getBody();
 		short targetCategory = target.getFilterData().categoryBits;
 		if ((targetCategory & Collision.PLAYER_HIT_FILTER_MASK) > 0) {
-			Gdx.app.log("PlayerCP", "Player hit by enemy or enemy bullet");
 			getEventQueue().send(new PlayerHitEvent(player, target));
 
 			// TODO: Move this into some playerHitEventHandler?

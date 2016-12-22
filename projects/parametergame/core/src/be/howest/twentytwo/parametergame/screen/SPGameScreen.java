@@ -8,17 +8,17 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GameScreen extends BaseScreen {
+public class SPGameScreen extends BaseScreen {
 
 	private World world;
 	private PooledEngine engine;
 	private Viewport viewport; // Needs to be saved for resizes
-	private EventQueue eventQueue; // Have event queue out of engine for some ui
-									// events.
+	private EventQueue eventQueue;
 
 	public static Entity mainPlayer = null;
 
-	public GameScreen(ScreenContext context, PooledEngine engine, Viewport vp, EventQueue eventQueue) {
+	public SPGameScreen(ScreenContext context, PooledEngine engine, Viewport vp,
+			EventQueue eventQueue) {
 		super(context);
 		this.engine = engine;
 		this.viewport = vp;

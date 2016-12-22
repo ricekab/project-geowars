@@ -309,7 +309,7 @@ public class LevelFactory {
 		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
 
 		// PLAYER
-		ShipDataI shipData = selections.getShip();
+		ShipDataI shipData = selections.getPlayerShip().getShipData();
 		PlayerShipData playerShipData = new PlayerShipData(shipData, "ID", 5f, 10, 1, 50f);
 
 		allWeapons.addAll(shipData.getWeapons());

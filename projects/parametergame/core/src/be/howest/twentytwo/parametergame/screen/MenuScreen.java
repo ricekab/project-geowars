@@ -3,6 +3,9 @@ package be.howest.twentytwo.parametergame.screen;
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
+import be.howest.twentytwo.parametergame.factory.MPVersusGameFactory;
+import be.howest.twentytwo.parametergame.factory.SPGameFactory;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
 
 import com.badlogic.ashley.core.Engine;
@@ -32,22 +35,13 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
-                /*
-                SoundSequencer seq = new SoundSequencer();
-                SoundEngine se = new SoundEngine();
-                se.playMusic("music/finished_long.ogg", true);  
-                for(int i=0; i < 5; i++){
-                    seq.addSound("sound/switch25.wav");
-                }
-                for(int i=0; i < 5; i++){
-                    seq.play(1);
-                    //System.out.println(seq.getSize());
-                    //System.out.println(seq.getIndex());
-                }
-*/
-                
-                
-                
+		/*
+		 * SoundSequencer seq = new SoundSequencer(); SoundEngine se = new SoundEngine();
+		 * se.playMusic("music/finished_long.ogg", true); for(int i=0; i < 5; i++){
+		 * seq.addSound("sound/switch25.wav"); } for(int i=0; i < 5; i++){ seq.play(1);
+		 * //System.out.println(seq.getSize()); //System.out.println(seq.getIndex()); }
+		 */
+
 	}
 
 	@Override
@@ -82,8 +76,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 			passwordField.setText("DEBUG");
 			doLogin();
 		}
-		
-		if(getContext().getUser() != null){
+
+		if(getContext().getUser() != null) {
 			setLoggedIn(getContext().getUser());
 		}
 	}
@@ -118,10 +112,10 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private class PlayArcadeListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			// TODO: Switch to selection screen with relevant data
-			getContext().setScreen(new LoadingScreen(getContext()));
-			// getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(), new
-			// ArcadeLoadoutListener()));
+			BaseGameFactory gameFactory = new SPGameFactory(getContext(), "arcade01");
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
+							gameFactory), gameFactory));
 			dispose();
 		}
 	}
@@ -129,10 +123,10 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private class PlayVersusListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			// TODO: Switch to versus
-			// getContext().setScreen(new ControllerTestScreen(getContext()));
+			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), "arcade01");
 			getContext().setScreen(
-					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener()));
+					new ShipLoadoutScreen(getContext(), getEngine(), new VersusLoadoutListener(
+							gameFactory), gameFactory, "Loadout - Player 1"));
 			dispose();
 		}
 	}
@@ -172,19 +166,44 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 	private class ArcadeLoadoutListener extends ChangeListener {
 
-		@Override
-		public void changed(ChangeEvent event, Actor actor) {
-			System.out.println("ArcadeLoadoutListener");
+		private BaseGameFactory factory;
+
+		private ArcadeLoadoutListener(BaseGameFactory gameFactory) {
+			this.factory = gameFactory;
 		}
 
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			getContext().setScreen(new LoadingScreen(getContext(), getEngine(), factory));
+		}
+	}
+
+	/**
+	 * Show loadout screen twice, once for each player.
+	 */
+	private class VersusLoadoutListener extends ChangeListener {
+
+		private BaseGameFactory factory;
+
+		private VersusLoadoutListener(BaseGameFactory gameFactory) {
+			this.factory = gameFactory;
+		}
+
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			Gdx.app.debug("MenuScreen", "Versus Mode selected");
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
+							factory), factory, "Loadout - Player 2"));
+		}
 	}
 
 	private void doLogin() {
 		UserDataI user = getContext().getDataService().getUser(userField.getText());
 		setLoggedIn(user);
 	}
-	
-	private void setLoggedIn(UserDataI user){
+
+	private void setLoggedIn(UserDataI user) {
 		if(user != null) {
 			loginStatusLabel.setText("Active Login: " + user.getUser());
 			getContext().setUser(user);
