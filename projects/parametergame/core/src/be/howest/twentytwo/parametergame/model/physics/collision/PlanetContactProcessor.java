@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 import java.util.Collection;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -42,7 +43,8 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 		short targetCategory = target.getFilterData().categoryBits;
 		if((targetCategory & Collision.PLAYER_CATEGORY) > 0){
 			getEventQueue().send(new PlayerKilledEvent());
-			return true;	// Player killed has to be handled more delicately
+			Gdx.input.setInputProcessor(null);
+			return true;	// Player entity destruction has to be handled more delicately
 		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0){
 			getEventQueue().send(new EnemyKilledEvent());
 		}

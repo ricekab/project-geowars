@@ -19,6 +19,7 @@ public class FixtureFactory {
 				circle.setRadius(width/2f);
 				fix.shape = circle;
 				break;
+			case "box":
 			case "rect":
 			case "rectangle":
 				PolygonShape box = new PolygonShape();

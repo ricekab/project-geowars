@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.factory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
@@ -51,6 +53,7 @@ import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
+import be.howest.twentytwo.parametergame.ui.message.UIMessage;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -100,6 +103,7 @@ public class LevelFactory {
 		// MESSAGING OBJECTS
 		Collection<IPhysicsMessage> physicsMessageQueue = new ArrayList<IPhysicsMessage>();
 		Collection<ISpawnMessage> spawnMessageQueue = new ArrayList<ISpawnMessage>();
+		Collection<UIMessage> uiMessageQueue = new ArrayList<UIMessage>();
 
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
@@ -136,12 +140,18 @@ public class LevelFactory {
 		// ENTITY CREATION
 		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
 
-		Collection<ShipDataI> ships = dataService.getShips(dataService.getUser("TEST"));
+		Collection<PlayerShipDataI> playerShips = dataService.getPlayerShips(dataService.getUser("TEST"));
+		Collection<ShipDataI> ships = new ArrayList<ShipDataI>();
+		for(PlayerShipDataI s : playerShips){
+			ships.add(s.getShipData());
+		}
 		if (ships.isEmpty()) {
 			Gdx.app.error("LevelFactory", "ERR: NO SHIPS FOR USER");
 		}
 		// TODO: Currently just selecting a random ship.
-		ShipDataI shipData = ships.iterator().next();
+		Iterator<ShipDataI> it = ships.iterator();
+		it.next();
+		ShipDataI shipData = it.next();
 		PlayerShipData playerShipData = new PlayerShipData(shipData, "ID", 5f, 10, 1, 50f);
 
 		// TODO: This is getting messy, needed for spawn system.
@@ -151,7 +161,7 @@ public class LevelFactory {
 		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
 
 		// TODO: get position from start bounding box
-		Entity playerShip = playerFactory.createPlayerShip(8.0f, 8.0f); // 5, 5
+		Entity playerShip = playerFactory.createPlayerShip(15f, 0f); // 5, 5
 																		// original
 																		// size
 

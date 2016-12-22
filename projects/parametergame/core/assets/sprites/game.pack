@@ -5,273 +5,273 @@ filter: Nearest,Nearest
 repeat: none
 ammo_emp
   rotate: false
-  xy: 1, 1402
+  xy: 1, 1442
   size: 800, 600
   orig: 800, 600
   offset: 0, 0
   index: -1
 laser_transparent
   rotate: false
-  xy: 1, 760
+  xy: 1, 800
   size: 640, 640
   orig: 640, 640
   offset: 0, 0
   index: -1
 scouter
   rotate: false
-  xy: 1, 139
+  xy: 1, 179
   size: 647, 619
   orig: 647, 619
   offset: 0, 0
   index: -1
 suicider
   rotate: false
-  xy: 803, 1394
+  xy: 803, 1434
   size: 614, 608
   orig: 614, 608
   offset: 0, 0
   index: -1
 obstacle
   rotate: false
-  xy: 1419, 1410
+  xy: 1419, 1450
   size: 586, 592
   orig: 586, 592
   offset: 0, 0
   index: -1
 encloser
   rotate: false
-  xy: 2007, 1445
+  xy: 2007, 1485
   size: 474, 557
   orig: 474, 557
   offset: 0, 0
   index: -1
 ammo_missile
   rotate: false
-  xy: 2483, 1490
+  xy: 2483, 1530
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet0
   rotate: false
-  xy: 2997, 1490
+  xy: 2997, 1530
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet1
   rotate: false
-  xy: 3511, 1490
+  xy: 3511, 1530
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet2
   rotate: false
-  xy: 643, 880
+  xy: 643, 920
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet3
   rotate: false
-  xy: 650, 366
+  xy: 650, 406
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet4
   rotate: false
-  xy: 1157, 880
+  xy: 1157, 920
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet5
   rotate: false
-  xy: 1164, 366
+  xy: 1164, 406
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet6
   rotate: false
-  xy: 1671, 896
+  xy: 1671, 936
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet7
   rotate: false
-  xy: 1678, 382
+  xy: 1678, 422
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet8
   rotate: false
-  xy: 2185, 931
+  xy: 2185, 971
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 planet9
   rotate: false
-  xy: 2192, 417
+  xy: 2192, 457
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 geom
   rotate: false
-  xy: 2699, 1019
+  xy: 2699, 1059
   size: 488, 469
   orig: 488, 469
   offset: 0, 0
   index: -1
 fake_1-up_colorized
   rotate: false
-  xy: 3189, 1063
+  xy: 3189, 1103
   size: 419, 425
   orig: 419, 425
   offset: 0, 0
   index: -1
 shield
   rotate: false
-  xy: 3610, 1074
+  xy: 3610, 1114
   size: 419, 414
   orig: 419, 414
   offset: 0, 0
   index: -1
 juggernaught
   rotate: false
-  xy: 2706, 648
-  size: 435, 369
-  orig: 435, 369
+  xy: 2706, 622
+  size: 369, 435
+  orig: 369, 435
   offset: 0, 0
   index: -1
 bomber
   rotate: false
-  xy: 2706, 364
+  xy: 650, 122
   size: 286, 282
   orig: 286, 282
   offset: 0, 0
   index: -1
 fighter
   rotate: false
-  xy: 650, 112
+  xy: 938, 152
   size: 223, 252
   orig: 223, 252
   offset: 0, 0
   index: -1
 disable_weapons
   rotate: false
-  xy: 875, 164
+  xy: 1163, 204
   size: 206, 200
   orig: 206, 200
   offset: 0, 0
   index: -1
 minus_gun
   rotate: false
-  xy: 1083, 164
+  xy: 1371, 204
   size: 206, 200
   orig: 206, 200
   offset: 0, 0
   index: -1
 plus_gun
   rotate: false
-  xy: 1291, 164
+  xy: 2706, 420
   size: 206, 200
   orig: 206, 200
   offset: 0, 0
   index: -1
 ammo_bomb
   rotate: false
-  xy: 1499, 164
+  xy: 2914, 420
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 recon
   rotate: false
-  xy: 2994, 520
+  xy: 1, 51
   size: 119, 126
   orig: 119, 126
   offset: 0, 0
   index: -1
 ammo
   rotate: false
-  xy: 1, 1
+  xy: 3077, 921
   size: 106, 136
   orig: 106, 136
   offset: 0, 0
   index: -1
 drone_geom_collector
   rotate: false
-  xy: 4025, 1937
+  xy: 4025, 1977
   size: 60, 65
   orig: 60, 65
   offset: 0, 0
   index: -1
 drone_gravitator
   rotate: false
-  xy: 2994, 453
+  xy: 1579, 339
   size: 60, 65
   orig: 60, 65
   offset: 0, 0
   index: -1
 drone_minigun
   rotate: false
-  xy: 109, 72
+  xy: 122, 112
   size: 60, 65
   orig: 60, 65
   offset: 0, 0
   index: -1
 bullet_bomber
   rotate: false
-  xy: 875, 112
+  xy: 1163, 152
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 projectile_bomb
   rotate: false
-  xy: 4025, 1887
+  xy: 1, 1
   size: 46, 48
   orig: 46, 48
   offset: 0, 0
   index: -1
 missile_projectile
   rotate: false
-  xy: 3143, 955
+  xy: 3077, 857
   size: 26, 62
   orig: 26, 62
   offset: 0, 0
   index: -1
 laser_projectile
   rotate: false
-  xy: 2007, 1413
+  xy: 2007, 1453
   size: 30, 30
   orig: 30, 30
   offset: 0, 0
   index: -1
 bullet_shooter
   rotate: false
-  xy: 643, 853
+  xy: 643, 893
   size: 5, 25
   orig: 5, 25
   offset: 0, 0
   index: -1
 bullet_basic
   rotate: false
-  xy: 2483, 1449
+  xy: 2483, 1489
   size: 10, 39
   orig: 10, 39
   offset: 0, 0
   index: -1
 bullet_drone
   rotate: false
-  xy: 3189, 1036
+  xy: 3189, 1076
   size: 6, 25
   orig: 6, 25
   offset: 0, 0

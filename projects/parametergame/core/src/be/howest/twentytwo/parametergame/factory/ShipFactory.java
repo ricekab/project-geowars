@@ -29,7 +29,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
 public class ShipFactory implements ISpawnFactory, Disposable {
-	private static final String SHIP_SPRITE_PACK = "sprites/ships.pack";
+	private static final String SHIP_SPRITE_PACK = "sprites/game.pack";
 
 	private final PooledEngine engine;
 	private final World world;
@@ -74,7 +74,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 
 		// TEXTURE/SPRITE
 		TextureAtlas spritesheet = assets.get(SHIP_SPRITE_PACK, TextureAtlas.class);
-		TextureRegion region = spritesheet.findRegion(shipData.getName());
+		TextureRegion region = spritesheet.findRegion(shipData.getTexture());
 		this.sprite = region;
 	}
 
