@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input.Keys;
 

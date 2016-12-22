@@ -1,9 +1,7 @@
 package be.howest.twentytwo.parametergame.model.physics.message;
 
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -58,9 +56,10 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof GravityPhysicsMessage) {
+		if(obj != null && obj instanceof GravityPhysicsMessage) {
 			GravityPhysicsMessage other = (GravityPhysicsMessage) obj;
-			if (getSourceBody().equals(other.getSourceBody()) && getTargetBody().equals(other.getTargetBody())) {
+			if(getSourceBody().equals(other.getSourceBody())
+					&& getTargetBody().equals(other.getTargetBody())) {
 				return true;
 			}
 		}

@@ -1,6 +1,5 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.ShapeComponent;

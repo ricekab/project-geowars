@@ -1,9 +1,8 @@
 package be.howest.twentytwo.parametergame.model.dataExtension;
 
-import com.badlogic.gdx.math.Vector2;
-
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
-import be.howest.twentytwo.parametergame.model.spawn.message.SpawnProjectileMessage;
+
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Wrapper around WeaponDataI to add more functionality to it.

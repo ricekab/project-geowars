@@ -1,6 +1,10 @@
 package be.howest.twentytwo.parametergame.factory;
 
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
+import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
@@ -10,11 +14,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-
-import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
 
 public class AIShipFactory implements ISpawnFactory {
 	private ShipFactory shipFactory;

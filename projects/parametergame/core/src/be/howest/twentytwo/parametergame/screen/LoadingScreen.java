@@ -6,8 +6,6 @@ import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
-import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
-import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 

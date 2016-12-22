@@ -1,47 +1,11 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
 import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
-import be.howest.twentytwo.parametergame.factory.InputFactory;
-import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
-import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
-import be.howest.twentytwo.parametergame.model.component.CameraComponent;
-import be.howest.twentytwo.parametergame.model.component.MovementComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
-import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
-import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
-import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.CameraSystem;
-import be.howest.twentytwo.parametergame.model.system.MovementSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
-import be.howest.twentytwo.parametergame.model.system.RenderSystem;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen extends BaseScreen {
