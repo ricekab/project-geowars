@@ -13,6 +13,7 @@ import be.howest.twentytwo.parametergame.ui.factory.CheckBoxFactory;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 
@@ -77,7 +79,9 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 		}
 		root.row();
 
-
+		TextButton back = tbf.createButton("Back");
+		back.addListener(new BackChangeListener());
+		root.add(back);
 		TextButton next = tbf.createButton("Continue", confirmListener);
 		root.add(next);
 	}
@@ -85,6 +89,14 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 	@Override
 	public void show() {
 
+	}
+
+	private class BackChangeListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			getContext().setScreen(new MenuScreen(getContext(), getEngine()));
+			dispose();
+		}
 	}
 
 }
