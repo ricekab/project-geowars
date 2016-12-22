@@ -99,10 +99,6 @@ public class SQLDataService implements IDataService {
 		return enemyShip;
 	}	
 
-	/**
-	 * @param names: A string or an array of strings that contain the name(s) of the enemy/enemies
-	 * @return HashSet of enemies, if the enemy is not found, there will be a null value
-	 */
 	public Collection<EnemyDataI> getEnemies(String... names) {
 		Collection<EnemyDataI> enemies = new HashSet<>();
 		for(String name : names) {
@@ -149,10 +145,6 @@ public class SQLDataService implements IDataService {
 		return physics;
 	}
 	
-	/**
-	 * @Param user: an implementation of UserDataI that can provide a getUser() method to call the user's name
-	 * @Return returns a playerShip with an empty collection of drones, or a new HashSet if no playerShips are found
-	 */
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> playerShips = new HashSet<>();
 		try{
@@ -174,19 +166,12 @@ public class SQLDataService implements IDataService {
 		return playerShips;
 	}
 	
-	/**
-	 * @return always returns null
-	 */
-	@Deprecated
 	public Collection<ShipDataI> getShips(UserDataI user) {
 		Collection<ShipDataI> playerShips = new HashSet<>();
 		//TODO
 		return playerShips;
 	}
 
-	/**
-	 * @return returns an empty HashSet if no drones are found
-	 */
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
 		try {
@@ -206,9 +191,6 @@ public class SQLDataService implements IDataService {
 		return drones;
 	}
 	
-	/**
-	 * @return returns an empty HashSet if no powerups are found
-	 */
 	public Collection<PowerupDataI> getPowerups() {
 		Collection<PowerupDataI> powerups = new HashSet<>();
 		try {
@@ -227,9 +209,6 @@ public class SQLDataService implements IDataService {
 		return powerups;
 	}
 	
-	/**
-	 * @return returns an empty HashSet if no difficulties are found
-	 */
 	public Collection<DifficultyDataI> getDifficulties() {
 		Collection<DifficultyDataI> difficulties = new HashSet<>();
 		try {

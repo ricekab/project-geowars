@@ -36,6 +36,7 @@ public class ShipData implements ShipDataI{
 		this.physicsData = physicsData;
 		this.shipSizeX = shipSizeX;
 		this.shipSizeY = shipSizeY;
+		this.gravityResistance = gravityResistance;
 	}
 	
 	public void addWeapon(WeaponDataI weapon) {

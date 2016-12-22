@@ -18,15 +18,39 @@ public interface IDataService {
 	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....
 	
 	public UserDataI getUser(String username);
-	
-	public Collection<EnemyDataI> getEnemies(String... name);	//allows you to write getEnemies("Str1","Str2) instead of getEnemies(Str[])
-	
+
+	/**
+	 * @param names A string or an array of strings that contain the name(s) of the enemy/enemies
+	 * @return HashSet of enemies, if the enemy is not found, there will be a null value
+	 */
+	public Collection<EnemyDataI> getEnemies(String... names);	//allows you to write getEnemies("Str1","Str2) instead of getEnemies(Str[])
+
+	/**
+	 * @param user an implementation of UserDataI that can provide a getUser() method to call the user's name
+	 * @return returns a playerShip with an empty collection of drones, or a new HashSet if no playerShips are found
+	 */
+	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user);
+
+	/**
+	 * @param user an implementation of UserDataI that can provide a getUser() method to call the user's name
+	 * @return always returns null
+	 */
+	@Deprecated
 	public Collection<ShipDataI> getShips(UserDataI user);
-	
+
+	/**
+	 * @return returns an empty HashSet if no drones are found
+	 */
 	public Collection<DroneDataI> getDrones(UserDataI user);
 
+	/**
+	 * @return returns an empty HashSet if no powerups are found
+	 */
 	public Collection<PowerupDataI> getPowerups();
-	
+
+	/**
+	 * @return returns an empty HashSet if no difficulties are found
+	 */
 	public Collection<DifficultyDataI> getDifficulties();
 	
 	public void saveUser(UserDataI data);
