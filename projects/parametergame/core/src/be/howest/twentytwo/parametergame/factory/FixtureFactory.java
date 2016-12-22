@@ -1,6 +1,6 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -34,8 +34,8 @@ public class FixtureFactory {
 		fix.friction = friction;
 		fix.restitution = restitution;
 
-		fix.filter.categoryBits = Constants.PLAYER_CATEGORY;
-		fix.filter.maskBits = Constants.PLAYER_COLLISION_MASK;
+		fix.filter.categoryBits = Collision.PLAYER_CATEGORY;
+		fix.filter.maskBits = Collision.PLAYER_MASK;
 
 		return fix;
 	}

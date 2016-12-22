@@ -1,10 +1,12 @@
 package be.howest.twentytwo.parametergame.model.physics.message;
 
+import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 /**
  * Physics Event describing a body being attracted towards another body.
@@ -14,17 +16,18 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 	// TODO: This might be overkill? Real life value is quite small and will be
 	// inaccurate as a float.
 	// Real life value = 6.674E-11
-	public static final float GRAVITATIONAL_CONSTANT = 3f; // 6.674E-3f
+	public static final float GRAVITATIONAL_CONSTANT = 5f; // 6.674E-3f
 
+	private PlanetDataI planetData;
 	private Body sourceBody;
 	private Body targetBody;
-	// private IAttractable attractable;
 
-	public GravityPhysicsMessage(Body source, Body target/* , IAttractable attr */) {
+	public GravityPhysicsMessage(Fixture source, Body target) {
 		super();
-		this.sourceBody = source;
+		// PlanetData in gravity fixture
+		this.planetData = (PlanetDataI) source.getUserData();
+		this.sourceBody = source.getBody();
 		this.targetBody = target;
-		// this.attractable = attr;
 	}
 
 	@Override
@@ -34,8 +37,7 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 		/* Turns out static bodies have 0 mass. So simulate it (pass by data) */
 		gravityVector.scl(GRAVITATIONAL_CONSTANT).scl(1f / distanceSquared);
-		// TODO: Use planetdata mass
-		gravityVector.scl(500f); // Simulate planet masss
+		gravityVector.scl(planetData.getMass()); // Simulate planet masss
 		// Fg = m(planet) * G(constant) / (r*r)
 		targetBody.applyForceToCenter(gravityVector, true);
 	}

@@ -7,7 +7,7 @@ import be.howest.twentytwo.parametergame.model.component.ShapeComponent;
 import be.howest.twentytwo.parametergame.model.component.ShapeComponent.ShapeDraw;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
-import be.howest.twentytwo.parametergame.model.physics.collision.Constants;
+import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -55,7 +56,7 @@ public class PlanetFactory {
 		// ships?
 		bodyDef.position.set(pdata.getXCoord(), pdata.getYCoord());
 		Body rigidBody = world.createBody(bodyDef); // Put in world
-		rigidBody.setUserData(planet);
+		rigidBody.setUserData(pdata);
 		bodyComponent.setBody(rigidBody);
 
 		FixtureFactory fixtureFactory = new FixtureFactory();
@@ -63,8 +64,8 @@ public class PlanetFactory {
 		// PLANET
 		FixtureDef fixtureDef = fixtureFactory.createFixtureDef("circle", pdata.getPlanetRadius() * 2,
 				pdata.getPlanetRadius() * 2, 0f, 0f, 5f, 0.5f, 0f);
-		fixtureDef.filter.categoryBits = Constants.PLANET_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
+		fixtureDef.filter.categoryBits = Collision.PLANET_CATEGORY;
+		fixtureDef.filter.maskBits = Collision.PLANET_MASK;
 		rigidBody.createFixture(fixtureDef);
 		fixtureDef.shape.dispose();
 
@@ -72,9 +73,10 @@ public class PlanetFactory {
 		fixtureDef = fixtureFactory.createFixtureDef("circle", pdata.getGravityRadius() * 2f,
 				pdata.getGravityRadius() * 2f, 0f, 0f, 1f, 1f, 0f);
 		fixtureDef.isSensor = true;
-		fixtureDef.filter.categoryBits = Constants.GRAVITY_CATEGORY;
-		fixtureDef.filter.maskBits = Constants.PLANET_MASK;
-		rigidBody.createFixture(fixtureDef);
+		fixtureDef.filter.categoryBits = Collision.GRAVITY_CATEGORY;
+		fixtureDef.filter.maskBits = Collision.PLANET_MASK;
+		Fixture grav = rigidBody.createFixture(fixtureDef);
+		grav.setUserData(pdata);
 		fixtureDef.shape.dispose();
 
 		planet.add(bodyComponent);

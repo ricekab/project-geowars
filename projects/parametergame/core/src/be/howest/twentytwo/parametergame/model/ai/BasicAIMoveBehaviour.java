@@ -29,50 +29,36 @@ public class BasicAIMoveBehaviour implements IAIMoveBehaviour {
 		// Turn enemy to look in player direction
 		Vector2 distanceToPlayer = VectorMath.subtract(target, aiBody.getPosition());
 
-		System.out.println(forwardUnitVector.toString());
-		System.out.println(distanceToPlayer.toString());
-
 		float angleInRad = MathUtils.atan2(distanceToPlayer.y, distanceToPlayer.x)
 				- MathUtils.atan2(forwardUnitVector.y, forwardUnitVector.x);
 		if (angleInRad < 0) {
 			angleInRad += MathUtils.PI * 2;
 		}
 		float angle = angleInRad * MathUtils.radiansToDegrees;
-		System.out.println("angle (rad): " + angleInRad);
-		System.out.println("angle: " + angle);
 		if (5f < angle && angle < 180f) {
-			System.out.println("Turn left");
 			movement.setTurnLeft(true);
 			movement.setTurnRight(false);
 		} else if (180f < angle && angle < 355f) {
 			movement.setTurnLeft(false);
 			movement.setTurnRight(true);
-			System.out.println("Turn right");
 		} else if (angle < 180f) {
-			System.out.println("don't turn");
 			movement.setTurnLeft(false);
 			movement.setTurnRight(false);
 		}
 		// Set movement forward/backward
 		if (angle < 30f || angle > 330f) {
 			float actualDistance = distanceToPlayer.len();
-			System.out.println("OPTIMAL: " + optimalDistance);
-			System.out.println("ACTUAL: " + actualDistance);
 			if (actualDistance > optimalDistance + 2.5f) {
-				System.out.println("move forward");
 				movement.setAccelerateForward(true);
 				movement.setAccelerateBackward(false);
 			} else if (actualDistance < optimalDistance + 2.5f) {
-				System.out.println("move back");
 				movement.setAccelerateForward(false);
 				movement.setAccelerateBackward(true);
 			} else {
-				System.out.println("stop");
 				movement.setAccelerateForward(false);
 				movement.setAccelerateBackward(false);
 			}
 		} else {
-			System.out.println("stop");
 			movement.setAccelerateForward(false);
 			movement.setAccelerateBackward(false);
 		}

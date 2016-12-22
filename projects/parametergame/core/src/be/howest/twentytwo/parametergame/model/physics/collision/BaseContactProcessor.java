@@ -44,17 +44,20 @@ public abstract class BaseContactProcessor implements ContactListener {
 	 * 
 	 * Note that this replaces any processors previously chained to the given
 	 * processor.
+	 * 
+	 * Returns this ContactProcessor for chaining.
 	 */
-	public void insertProcessor(BaseContactProcessor processor) {
+	public BaseContactProcessor insertProcessor(BaseContactProcessor processor) {
 		processor.setNextProcessor(this.next);
 		setNextProcessor(processor);
+		return this;
 	}
 	
 	/**
 	 * Alias for {@link #insertProcessor(BaseContactProcessor)}.
 	 */
-	public void addProcessor(BaseContactProcessor processor){
-		insertProcessor(processor);
+	public BaseContactProcessor addProcessor(BaseContactProcessor processor){
+		return insertProcessor(processor);
 	}
 
 	/**
