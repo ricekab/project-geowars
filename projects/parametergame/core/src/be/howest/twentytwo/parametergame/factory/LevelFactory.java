@@ -33,8 +33,10 @@ import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
+import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlanetContactProcessor;
@@ -260,16 +262,9 @@ public class LevelFactory {
 		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
 		Controllers.addListener(cif.createControllerListener(playerShip));
 
-		eventQueue.register(EventEnum.PLAYER_KILLED, new IEventListener() {
-
-			@Override
-			public void handle(IEvent event) {
-				// TODO: Disable input handling??
-			}
-		});
-
-		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
-
+		registerGameEvents(context, eventQueue, engine);
+		registerSoundEvents(context, eventQueue, engine);
+		
 		return engine;
 	}
 
@@ -288,5 +283,26 @@ public class LevelFactory {
 		Stage stage = new Stage();
 		Gdx.app.error("LevelFactory", "UI NOT IMPLEMENTED");
 		return stage;
+	}
+	
+	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+		// register event handlers on event queue to send sound messages.
+		// Will need another chain of objects to filter the messages
+		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+	}
+
+	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
+		
+		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
+
+			@Override
+			public void handle(IEvent event) {
+				EnemyKilledEvent e = (EnemyKilledEvent) event;
+				// Add score points and stuff.
+			}
+		});
+
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
 	}
 }
