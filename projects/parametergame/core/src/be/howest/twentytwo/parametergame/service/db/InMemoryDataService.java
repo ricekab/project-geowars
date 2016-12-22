@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.service.db;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -18,6 +19,7 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupData;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -125,16 +127,18 @@ public class InMemoryDataService implements IDataService {
 
 	@Override
 	public Collection<PowerupDataI> getPowerups() {
-		Gdx.app.error("InMemoryDB", "ERR: getPowerups() NOT IMPLEMENTED");
-		return null;
+		Collection<PowerupDataI> powerups = new HashSet<>();
+		powerups.add(new PowerupData("shiny orb","redbull", -1, 180, "movementSpeed", 3));
+		return powerups;
 	}
-
+	
 	@Override
 	public Collection<DifficultyDataI> getDifficulties() {
 		Collection<DifficultyDataI> difficulties = new ArrayList<DifficultyDataI>();
 		difficulties.add(new DifficultyData("Casual", 0.25f, 0.5f, 0.5f, 0.25f));
 		difficulties.add(new DifficultyData("Normal", 1f, 1f, 1f, 1f));
 		difficulties.add(new DifficultyData("Dark Souls", 3f, 3f, 4f, 5f));
+		difficulties.add(new DifficultyData("Advanced JS", 0.1f, 0.33f, 0.2f, 25f));
 		return difficulties;
 	}
 

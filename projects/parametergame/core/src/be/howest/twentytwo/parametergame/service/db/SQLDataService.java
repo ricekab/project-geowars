@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 
 import com.badlogic.gdx.math.Vector2;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyData;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
@@ -29,11 +31,13 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public class SQLDataService implements IDataService {
+	
+	//TODO CLOSE STUFF AFTER USING IT
 
 	private static SQLDataService instance;
-	private final String URL = "jdbc:mysql://localhost/parametergame";
-	private final String USR = "user22"; // TODO change this
-	private final String PWD = "22"; // TODO change this
+	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
+	private final String USR = "user22";
+	private final String PWD = "22"; 
 	private Connection con;
 
 	private SQLDataService() {
@@ -206,7 +210,17 @@ public class SQLDataService implements IDataService {
 	 */
 	public Collection<DifficultyDataI> getDifficulties() {
 		Collection<DifficultyDataI> difficulties = new HashSet<>();
-		//TODO
+		try {
+			String sql = "select * from difficulty";
+			Statement stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(sql);
+			while(res.next()) {
+				DifficultyDataI difficulty = new DifficultyData(res.getString("ID"), res.getFloat("healthModifier"), res.getFloat("movementModifier"), res.getFloat("firerateModifier"), res.getFloat("scoreModifier"));
+				difficulties.add(difficulty);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return difficulties;
 	}
 	
