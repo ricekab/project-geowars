@@ -13,6 +13,4 @@ public interface EnemyDataI {
 	public int getBaseScore();
 	public String getBehaviour();
 	public ShipDataI getShipData();
-	
-	// TODO: AI BEHAVIOURS?!
 }

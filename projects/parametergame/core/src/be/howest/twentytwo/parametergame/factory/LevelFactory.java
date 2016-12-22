@@ -19,9 +19,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
+import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
@@ -57,6 +59,7 @@ import be.howest.twentytwo.parametergame.model.system.SpawnSystem;
 import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
+import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 
 /**
  * Builds up the physics {@link World} as well as all populates the ECS engine with level-defined
@@ -79,6 +82,8 @@ public class LevelFactory {
 	public LevelFactory() {
 	}
 
+	@Deprecated
+	/** Only for testing, this is going away in the live version */
 	public PooledEngine createWorld(ScreenContext context, Viewport viewport,
 			EventQueue eventQueue, String levelName) {
 		LevelDataI levelData = context.getFileService().loadLevel(levelName);
@@ -119,7 +124,7 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new TimerSystem(eventQueue));
 		engine.addSystem(new AIMovementSystem());
-                engine.addSystem(new AIShootSystem());
+		engine.addSystem(new AIShootSystem());
 		// engine.addSystem(new AISystem());
 		// Sound, Animation, ...
 		// engine.addSystem(new EntityDestroyerSystem());
@@ -166,7 +171,7 @@ public class LevelFactory {
 		// Spawn scout ship
 		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
 				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
-                                new BasicAIShootBehaviour(60, 80));//adjust for range
+				new BasicAIShootBehaviour(60, 80));// adjust for range
 		aiScoutShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
 		aiScoutShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
 		aiScoutShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
@@ -175,8 +180,8 @@ public class LevelFactory {
 
 		// Spawn brutalizer ship
 		AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), //adjust for range
-				new BasicAIShootBehaviour(120, 50)); //Fires every 4seconds (120/30), 50 = range
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
+				new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds (120/30), 50 = range
 		aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
 
 		// Spawn obstacle
@@ -186,7 +191,7 @@ public class LevelFactory {
 
 		// Spawn suidicer
 		AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
-				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); //adjust for range
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
 		aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
 
 		// Spawn suicide squad --> optional
@@ -233,7 +238,181 @@ public class LevelFactory {
 		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
 				playerShip);
 		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
+
+		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
+		Controllers.addListener(cif.createControllerListener(playerShip));
+
+		eventQueue.register(EventEnum.PLAYER_KILLED, new IEventListener() {
+
+			@Override
+			public void handle(IEvent event) {
+				// TODO: Disable input handling??
+			}
+		});
+
+		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
+
+		return engine;
+	}
+
+	// --> The real deal yo
+	public PooledEngine createWorld(ScreenContext context, Viewport viewport,
+			EventQueue eventQueue, String levelName, LoadoutSelectionData selections) {
+		LevelDataI levelData = context.getFileService().loadLevel(levelName);
+		IDataService dataService = context.getDataService();
+		AssetManager assets = context.getAssetManager();
+		UserDataI user = context.getUser();
+
+		// ENGINE
+		PooledEngine engine = new PooledEngine();
+
+		// MESSAGING OBJECTS
+		Collection<IPhysicsMessage> physicsMessageQueue = new ArrayList<IPhysicsMessage>();
+		Collection<ISpawnMessage> spawnMessageQueue = new ArrayList<ISpawnMessage>();
+
+		// PHYSICS INIT
+		World world = new World(new Vector2(0f, 0f), true);
+
+		ContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
+				physicsMessageQueue);
+		collisionListener.addProcessor(new PlayerContactProcessor(eventQueue, physicsMessageQueue));
+		collisionListener.addProcessor(new BulletContactProcessor(eventQueue, physicsMessageQueue));
+		// TODO: Add other contact listeners here.
+
+		world.setContactListener(collisionListener);
+
+		// SYSTEMS
+		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
+		BackgroundRenderSystem bgRenderSys = new BackgroundRenderSystem(context.getSpriteBatch(),
+				assets, viewport);
+		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
+		engine.addSystem(new MovementSystem(physicsMessageQueue));
+		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
+		PhysicsSystem physicsSystem = new PhysicsSystem(world, physicsMessageQueue);
+		engine.addSystem(physicsSystem);
+		// engine.addEntityListener(physicsSystem);
+		engine.addSystem(spawnSystem);
+		engine.addSystem(new CameraSystem());
+		engine.addSystem(bgRenderSys);
+		engine.addSystem(renderSys);
+		engine.addSystem(new TimerSystem(eventQueue));
+		engine.addSystem(new AIMovementSystem());
+		engine.addSystem(new AIShootSystem());
+		// engine.addSystem(new AISystem());
+		// Sound, Animation, ...
+		// engine.addSystem(new EntityDestroyerSystem());
+
+		if(ParameterGame.DEBUG_ENABLED) {
+			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context
+					.getShapeRenderer()));
+		}
+
+		engine.addEntityListener(Family.all(BodyComponent.class).get(),
+				new PhysicsBodyEntityListener(world));
+
+		// ENTITY CREATION
+		// Needed to prepare projectile factories
+		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
+
+		// PLAYER
+		ShipDataI shipData = selections.getShip();
+		PlayerShipData playerShipData = new PlayerShipData(shipData, "ID", 5f, 10, 1, 50f);
+
+		allWeapons.addAll(shipData.getWeapons());
+
+		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets,
+				playerShipData);
+		BoxDataI spawnBox = levelData.getSpawnBox();
+		Entity playerShip = playerFactory.createPlayerShip(
+				spawnBox.getXCoord() + (float) Math.random() * spawnBox.getWidth(),
+				spawnBox.getYCoord() + (float) Math.random() * spawnBox.getHeight());
+
+		engine.addEntity(playerShip);
+
+		Body playerBody = BodyComponent.MAPPER.get(playerShip).getBody();
+
+		// PLANETS
+		PlanetFactory planetFactory = new PlanetFactory(engine, world, assets);
 		
+		for(PlanetDataI pdata : levelData.getPlanets()){
+			engine.addEntity(planetFactory.createPlanet(pdata));
+		}
+		
+		// ENEMIES / AI FACTORIES
+		// TODO: @Nick -- Where get enemy data, doesn't seem to be in spawnpooldata
+		// levelData.getSpawnPools().peek().????
+		
+		
+		// AI creation
+		Collection<EnemyDataI> enemies = dataService.getEnemies("scouter", "brutalizer",
+				"suicider", "obstacle", "suicideSquad");
+		EnemyDataI enemy = enemies.iterator().next();
+		// Spawn scout ship
+		AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
+				new BasicAIShootBehaviour(60, 80));// adjust for range
+		aiScoutShipFactory.spawnEntity(new Vector2(-40, -20), 0f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(0, -50f), 1f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(0f, -60f), 45f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(30f, -180f), 0f, new Vector2(0f, 0f));
+		aiScoutShipFactory.spawnEntity(new Vector2(30f, -190f), 0f, new Vector2(0f, 0f));
+
+		// Spawn brutalizer ship
+		AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
+				new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds (120/30), 50 = range
+		aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
+
+		// Spawn obstacle
+		AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets,
+				enemy.getShipData(), playerBody);
+		aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
+
+		// Spawn suidicer
+		AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
+				enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
+		aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
+
+		// Spawn suicide squad --> optional
+
+		// End AI creation
+
+	
+		// ENTITY CREATION - CAMERA
+		Entity cameraEntity = engine.createEntity();
+
+		CameraComponent camComp = engine.createComponent(CameraComponent.class);
+		camComp.setCamera(viewport.getCamera());
+		camComp.addTrackPoint(playerShip, 1);
+
+		cameraEntity.add(camComp);
+
+		engine.addEntity(cameraEntity);
+
+		// Create projectile factories for spawner
+		for (WeaponDataI w : allWeapons) {
+			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, w));
+		}
+
+		// TODO: Create ship factories (of ai) for spawner
+
+		// INPUT
+		InputFactory inputFactory = new InputFactory();
+		
+		SettingsDataI settings = context.getFileService().loadSettings("settings.ini", user);
+		settings.addPlayer(user);
+		Map<String, String> keyActionMap = settings.getKeyBinds(user);
+
+		// 0. Get player 1 - Keyboard assumed for now
+		// 1. Get keymap from file service (string: string)
+		// 2. Convert to keycode: action
+
+		// For controller,s input is slightly different (but same actions
+		// mostly)
+		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
+				playerShip);
+		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
+
 		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
 		Controllers.addListener(cif.createControllerListener(playerShip));
 

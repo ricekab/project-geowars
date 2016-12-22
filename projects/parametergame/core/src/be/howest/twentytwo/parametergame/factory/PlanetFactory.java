@@ -1,6 +1,7 @@
 package be.howest.twentytwo.parametergame.factory;
 
 import be.howest.twentytwo.parametergame.dataTypes.PlanetData;
+import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
@@ -33,7 +34,7 @@ public class PlanetFactory {
 	 * Creates a planet entity using the given planet data. The entity and its components are
 	 * created from the supplied {@link PooledEngine}.
 	 */
-	public Entity createPlanet(PlanetData pdata) {
+	public Entity createPlanet(PlanetDataI pdata) {
 		Entity planet = engine.createEntity();
 
 		TransformComponent transform = engine.createComponent(TransformComponent.class);
