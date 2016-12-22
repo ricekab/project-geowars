@@ -75,7 +75,7 @@ public class InMemoryDataService implements IDataService {
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> ships = new ArrayList<PlayerShipDataI>();
 		PhysicsDataI physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
-		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
+		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.5f, 0.1f, 0f));
 
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
@@ -93,7 +93,7 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f,
-				0.1f, 1.0f, weapons, physicsData, 8f, 8f, 0);
+				0.1f, 1.0f, weapons, physicsData, 8f, 8f, 1f);
 		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f);
 		ships.add(playerShip);
 		return ships;
@@ -110,7 +110,7 @@ public class InMemoryDataService implements IDataService {
 	public List<EnemyDataI> getEnemies(String... name) {
 		List<EnemyDataI> data = new ArrayList<>();
 		PhysicsDataI physicsData = new PhysicsData(Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK);
-		physicsData.addFixture(new FixtureData("circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
+		physicsData.addFixture(new FixtureData("circle", 4f, 4f, 0, 0, 0.5f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
 		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)

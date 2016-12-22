@@ -35,7 +35,7 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 		/* Turns out static bodies have 0 mass. So simulate it (pass by data) */
 		gravityVector.scl(GRAVITATIONAL_CONSTANT).scl(1f / distanceSquared);
-		gravityVector.scl(planetData.getMass()); // Simulate planet masss
+		gravityVector.scl(planetData.getMass() * targetBody.getMass()); // Simulate planet masss
 		// Fg = m(planet) * G(constant) / (r*r)
 		targetBody.applyForceToCenter(gravityVector, true);
 	}
