@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 
-public class BaseUIBackgroundScreen extends BaseUIScreen {
+public abstract class BaseUIBackgroundScreen extends BaseUIScreen {
 
 	private final Engine engine;
 	
@@ -21,12 +21,6 @@ public class BaseUIBackgroundScreen extends BaseUIScreen {
 		engine = new Engine();
 		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), context
 				.getAssetManager(), getViewport(), 125f, 125f));
-	}
-
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
 	}
 	
 	public Engine getEngine(){

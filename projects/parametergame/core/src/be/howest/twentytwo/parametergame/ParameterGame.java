@@ -16,13 +16,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
- * Creates necessary globals and initializes the first screen. Access point for global objects for
- * now.
+ * Creates necessary globals and initializes the first screen. Access point for
+ * global objects for now.
  */
 public class ParameterGame extends Game {
 
 	public static final boolean DEBUG_ENABLED = true;
-	
+
 	public static final String UI_SKIN = "ui/neon-ui.json";
 
 	private final IPlatformService platformService;
@@ -31,8 +31,7 @@ public class ParameterGame extends Game {
 	private ScreenContext context;
 
 	@Inject
-	public ParameterGame(IPlatformService platform, IDataService dataService,
-			IFileAccessor fileService) {
+	public ParameterGame(IPlatformService platform, IDataService dataService, IFileAccessor fileService) {
 		this.platformService = platform;
 		this.dataService = dataService;
 		this.fileService = fileService;
@@ -40,18 +39,18 @@ public class ParameterGame extends Game {
 
 	@Override
 	public void create() {
-		if(DEBUG_ENABLED) {
+		if (DEBUG_ENABLED) {
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		} else {
 			Gdx.app.setLogLevel(Application.LOG_ERROR);
 		}
 
 		// Has to be created here since this is libgdx tied
-		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(),
-				new ShapeRenderer(), platformService, dataService, fileService);
+		context = new ScreenContext(this, new AssetManager(), new SpriteBatch(), new ShapeRenderer(), platformService,
+				dataService, fileService);
 		Texture.setAssetManager(context.getAssetManager());
-		
-		float splashScreenTime = -2f;
+
+		float splashScreenTime = -3f;
 		setScreen(new SplashScreen(context, splashScreenTime));
 	}
 

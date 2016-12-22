@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class GravityContactProcessor extends ContactProcessor {
+public class GravityContactProcessor extends BaseContactProcessor {
 
 	private Collection<GravityPhysicsMessage> gravityEvents;
 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyData;
@@ -16,6 +17,8 @@ import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupData;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipData;
@@ -41,31 +44,31 @@ public class InMemoryDataService implements IDataService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see be.howest.twentytwo.parametergame.service.db.IDataService#getShips(be.howest.twentytwo.
-	 * parametergame.dataTypes.UserDataI)
+	 * @see
+	 * be.howest.twentytwo.parametergame.service.db.IDataService#getShips(be.
+	 * howest.twentytwo. parametergame.dataTypes.UserDataI)
 	 * 
-	 * @Return returns null for weapons, should be added after getting them from the DB separately.
+	 * @Return returns null for weapons, should be added after getting them from
+	 * the DB separately.
 	 */
 	@Override
 	public List<ShipDataI> getShips(UserDataI user) {
 		List<ShipDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY,
-				Constants.PLAYER_COLLISION_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Constants.PLAYER_CATEGORY, Constants.PLAYER_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
-
 
 		// KEVIN: TEMPORARY MEEASURE FOR TESING -- ORIGINAL LINE BELOW
 		List<WeaponDataI> weapons = new ArrayList<WeaponDataI>();
 		weapons.addAll(getWeapons(null));
-		ShipData ship = new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f,
-				0.1f, 1.0f, weapons, physicsData, 10f, 10f, 0);
+		ShipData ship = new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
+				physicsData, 10f, 10f, 0);
 		data.add(ship);
 		// END TEMPORARY MEEASURE FOR TESING
 
 		// ORIGINAL LINE
-//		data.add(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f,
-//				1.0f, null, physicsData, 10f, 10f));
-
+		// data.add(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f,
+		// 25.0f, 20.0f, 0.1f,
+		// 1.0f, null, physicsData, 10f, 10f));
 
 		return data;
 	}
@@ -80,27 +83,25 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public List<EnemyDataI> getEnemies(String... name) {
 		List<EnemyDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY,
-				Constants.ENEMY_COLLISION_MASK);
+		PhysicsDataI physicsData = new PhysicsData(Constants.ENEMY_CATEGORY, Constants.ENEMY_COLLISION_MASK);
 		physicsData.addFixture(new FixtureData("circle", 4f, 4f, 0, 0, 0.25f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
-				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
-				.setBulletSpeed(75f).setBulletMass(5f).setRange(250f)
-				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
+		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f).setFireRate(7.5f)
+				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(5f)
+				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
 		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
 		// 5f,
 		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
 		// TODO: Switch to builder to clarify arguments.
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
-				3500f, 0f, 1f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f, 1f, 25,
+				new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, weapons, physicsData,10f,15f, 0f);
-
+		ShipData shipData = new ShipData("enemy01", "noTextureAvailable", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f,
+				weapons, physicsData, 10f, 15f, 0f);
 
 		data.add(new EnemyData(shipData));
 		return data;
@@ -109,20 +110,36 @@ public class InMemoryDataService implements IDataService {
 	public Collection<WeaponDataI> getWeapons(ShipDataI ship) {
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f)
-				.setFireRate(7.5f).setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f)
-				.setBulletSpeed(75f).setBulletMass(5f).setRange(250f)
-				.setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
+		WeaponDataI primaryWeapon = builder.setId("P001").setOffsetX(0f).setOffsetY(0f).setFireRate(7.5f)
+				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(5f)
+				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
 		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
 		// 5f,
 		// WeaponDataI.INFINITE_AMMO, new Vector2(1f, 0.25f));
 		// TODO: Switch to builder to clarify arguments.
-		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f,
-				3500f, 0f, 1f, 25, new Vector2(2.5f, 0.5f));
+		WeaponDataI secondaryWeapon = new WeaponData("W02", 0f, 0f, 0.75f, 1, 0f, 1f, 10f, 100f, 3500f, 0f, 1f, 25,
+				new Vector2(2.5f, 0.5f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		return weapons;
+	}
+
+	@Override
+	public Collection<PowerupDataI> getPowerups() {
+		Collection<PowerupDataI> powerups = new HashSet<>();
+		powerups.add(new PowerupData("shiny orb","redbull", -1, 180, "movementSpeed", 3));
+		return powerups;
+	}
+	
+	@Override
+	public Collection<DifficultyDataI> getDifficulties() {
+		Collection<DifficultyDataI> difficulties = new ArrayList<DifficultyDataI>();
+		difficulties.add(new DifficultyData("Casual", 0.25f, 0.5f, 0.5f, 0.25f));
+		difficulties.add(new DifficultyData("Normal", 1f, 1f, 1f, 1f));
+		difficulties.add(new DifficultyData("Dark Souls", 3f, 3f, 4f, 5f));
+		difficulties.add(new DifficultyData("Advanced JS", 0.1f, 0.33f, 0.2f, 25f));
+		return difficulties;
 	}
 
 	@Override
@@ -145,33 +162,20 @@ public class InMemoryDataService implements IDataService {
 
 	}
 
-	@Override
-	public Collection<PowerupDataI> getPowerups() {
-		Collection<PowerupDataI> powerups = new HashSet<>();
-		powerups.add(new PowerupData("shiny orb","redbull", -1, 180, "movementSpeed", 3));
-		return powerups;
-	}
-
-	@Override
-	public Collection<DifficultyDataI> getDifficulties() {
-		Collection<DifficultyDataI> difficulties = new HashSet<>();
-		difficulties.add(new DifficultyData("advanced JS", 0.1f, 0.33f, 0.2f, 25f));
-		return difficulties;
-	}
-
 }
 
 /*
  * Collector drones effects
  * 
- * @param range(utility) the range in which geoms will be accelerated towards the ships current
- * position.
+ * @param range(utility) the range in which geoms will be accelerated towards
+ * the ships current position.
  * 
- * @param acceleration(power) the speed the geoms are accelerated with. this is uncapped, and is
- * only limited by the initial speed. geoms stop moving (?decelerate?) if the ship flies away and
- * they get out of the range again.
+ * @param acceleration(power) the speed the geoms are accelerated with. this is
+ * uncapped, and is only limited by the initial speed. geoms stop moving
+ * (?decelerate?) if the ship flies away and they get out of the range again.
  * 
- * @return geoms are only collected once they reach the ship's actual collect position
+ * @return geoms are only collected once they reach the ship's actual collect
+ * position
  */
 
 /*
@@ -189,8 +193,8 @@ public class InMemoryDataService implements IDataService {
  * 
  * @param gravityReduction(utility) the percentage of gravity ignored
  * 
- * @param antigravitation(power) creates a negative gravity field, making it harder for enemies to
- * close in to you. (suicider & suicide squadron mainly)
+ * @param antigravitation(power) creates a negative gravity field, making it
+ * harder for enemies to close in to you. (suicider & suicide squadron mainly)
  * 
  * @return has a static range, for antigravitation only
  */

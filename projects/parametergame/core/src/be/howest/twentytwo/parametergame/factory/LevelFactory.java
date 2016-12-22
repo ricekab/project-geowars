@@ -42,7 +42,7 @@ import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.physics.collision.BulletContactProcessor;
-import be.howest.twentytwo.parametergame.model.physics.collision.ContactProcessor;
+import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
@@ -55,6 +55,7 @@ import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 import be.howest.twentytwo.parametergame.model.system.RenderSystem;
+import be.howest.twentytwo.parametergame.model.system.ShapeRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.SpawnSystem;
 import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
@@ -100,7 +101,7 @@ public class LevelFactory {
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 
-		ContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
+		BaseContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
 				physicsMessageQueue);
 		collisionListener.addProcessor(new PlayerContactProcessor(eventQueue, physicsMessageQueue));
 		collisionListener.addProcessor(new BulletContactProcessor(eventQueue, physicsMessageQueue));
@@ -122,6 +123,7 @@ public class LevelFactory {
 		engine.addSystem(new CameraSystem());
 		engine.addSystem(bgRenderSys);
 		engine.addSystem(renderSys);
+		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
@@ -273,7 +275,7 @@ public class LevelFactory {
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 
-		ContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
+		BaseContactProcessor collisionListener = new GravityContactProcessor(eventQueue,
 				physicsMessageQueue);
 		collisionListener.addProcessor(new PlayerContactProcessor(eventQueue, physicsMessageQueue));
 		collisionListener.addProcessor(new BulletContactProcessor(eventQueue, physicsMessageQueue));
