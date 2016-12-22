@@ -25,18 +25,17 @@ public class MenuScreen extends BaseScreen {
 		super(context);
                 SoundSequencer seq = new SoundSequencer();
                 SoundEngine se = new SoundEngine();
-                //se.playMusic("music/Floating-Space-loo.mp3", true);  
-                
-                for(int i = 0; i < 5; i++){
+                se.playMusic("music/finished_long.ogg", true);  
+                for(int i=0; i < 5; i++){
                     seq.addSound("sound/switch25.wav");
                 }
-                boolean memes = true;
-                while(memes = true){
-                    seq.play(1, 1);
-                    if (seq.getSize() == 2){
-                        memes = true;
-                    }
+                for(int i=0; i < 5; i++){
+                    seq.play(1);
+                    //System.out.println(seq.getSize());
+                    System.out.println(seq.getIndex());
                 }
+                
+                
                 
 	}
 

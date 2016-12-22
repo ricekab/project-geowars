@@ -43,7 +43,9 @@ public class SoundSequencer {
          play(volume);
       }
       else{
-          nextTrack();
+          //nextTrack();
+          // TODO: change this to skiptrack?
+          removeTrack();
       }
       
    }
@@ -54,20 +56,20 @@ public class SoundSequencer {
     * @param volume 0 - 1
     */
    public void play(float volume) {
-      if (sounds.get(index) != null) {
-         sounds.get(index).play(volume);
-         sounds.remove(index);
-         System.out.println(index);
+      if (sounds.get(0) != null) {
+         sounds.get(0).play(volume);
+         removeTrack();
+         //System.out.println(index);
          lastPlayed = TimeUtils.nanoTime();
       }
-      nextTrack();
+      //nextTrack();
    }
 
    /** Move to the next track on the play list */
    private void nextTrack() {
       
       if (index + 1 > sounds.size() - 1) {
-         index = 0;
+         index = 1;
       } else {
          index += 1;
       }
@@ -76,7 +78,21 @@ public class SoundSequencer {
       
    }
    
-   public int getSize(){
-       return sounds.size();
+   private void removeTrack(){
+       sounds.remove(0);
    }
+   
+   public int getSize(){
+       if(sounds.get(0) != null){
+           return sounds.size();
+       }
+       else{
+           return 100;
+       }       
+   }
+   /*
+   public int getIndex(){
+       return index;
+   }
+*/
 }
