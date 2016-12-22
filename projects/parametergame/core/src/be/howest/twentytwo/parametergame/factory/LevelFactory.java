@@ -201,9 +201,9 @@ public class LevelFactory {
 		// End AI creation
 
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(60.0f, 80.0f, 4f, "planet0",
-				10f, 40f)));
+				500f, 40f)));
 		engine.addEntity(planetFactory.createPlanet(new PlanetData(-15.0f, 30.0f, 2f, "planet2",
-				5f, 24f)));
+				500f, 24f)));
 
 		// ENTITY CREATION - CAMERA
 		Entity cameraEntity = engine.createEntity();

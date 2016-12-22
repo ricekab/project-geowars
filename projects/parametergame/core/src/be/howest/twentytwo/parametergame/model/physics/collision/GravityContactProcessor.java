@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class GravityContactProcessor extends BaseContactProcessor {
@@ -33,19 +34,18 @@ public class GravityContactProcessor extends BaseContactProcessor {
 	protected boolean handleBeginContact(Contact contact) {
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if(categoryA == Constants.GRAVITY_CATEGORY) {
-			addEvent(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
-			// eventQueue.addEvent(new GravityEvent(...));
+		if(categoryA == Collision.GRAVITY_CATEGORY) {
+			addEvent(contact.getFixtureA(), contact.getFixtureB().getBody());
 			return true;
-		} else if(categoryB == Constants.GRAVITY_CATEGORY) {
-			addEvent(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
+		} else if(categoryB == Collision.GRAVITY_CATEGORY) {
+			addEvent(contact.getFixtureB(), contact.getFixtureA().getBody());
 			return true;
 		}
 		return false;
 	}
 
-	private void addEvent(Body planet, Body target) {
-		GravityPhysicsMessage evt = new GravityPhysicsMessage(planet, target);
+	private void addEvent(Fixture gravity, Body target) {
+		GravityPhysicsMessage evt = new GravityPhysicsMessage(gravity, target);
 		getPhysicsQueue().add(evt);
 		this.gravityEvents.add(evt);
 	}
@@ -54,11 +54,11 @@ public class GravityContactProcessor extends BaseContactProcessor {
 	protected boolean handleEndContact(Contact contact) {
 		short categoryA = contact.getFixtureA().getFilterData().categoryBits;
 		short categoryB = contact.getFixtureB().getFilterData().categoryBits;
-		if(categoryA == Constants.GRAVITY_CATEGORY) {
+		if(categoryA == Collision.GRAVITY_CATEGORY) {
 			removeEvent(contact.getFixtureA().getBody(), contact.getFixtureB().getBody());
 			Gdx.app.log("ContactListener", "Fixture A is a gravity field");
 			return true;
-		} else if(categoryB == Constants.GRAVITY_CATEGORY) {
+		} else if(categoryB == Collision.GRAVITY_CATEGORY) {
 			removeEvent(contact.getFixtureB().getBody(), contact.getFixtureA().getBody());
 			Gdx.app.log("ContactListener", "Fixture B is a gravity field");
 			return true;
