@@ -11,34 +11,20 @@ public class Writer {
 		
 		SQLDataService db = SQLDataService.getInstance();
 		InMemoryDataService im = new InMemoryDataService();
-		
-		UserData user = new UserData("Nick","nick","Advanced JS difficulty");
-		Collection<DroneDataI> drones =  db.getDrones(user);
-		DroneDataI drone = null;
-		for(DroneDataI d : drones) {
-			drone = d;
-		}
-		//ABOVE GETS A DRONE
-		
-		System.out.println(drone.getOffenseUpgradeLevel());
-		//PRINT THE LVL OF THE DRONE
-		
-		int i = drone.getOffenseUpgradeLevel();
-		i--;
-		//LVL -1
-		
-		drone.setOffenseUpgradeLevel(i);
-		//WRITE LVL TO DRONE
-		
-		db.saveDrone(drone, user);
-		//SAVE THE DRONE
-		
-		Collection<DroneDataI> dronezzz = db.getDrones(user);
-		for(DroneDataI dr : dronezzz) {
-			System.out.println(dr.getOffenseUpgradeLevel());
-			//PRINT THE LVL OF THE DRONE FOR EACH DRONE
+		UserDataI user = db.getUser("Nick", "nickH4CK3D");
+		Collection<PlayerShipDataI> ships = db.getPlayerShips(user);
+		PlayerShipDataI ship = null;
+		for(PlayerShipDataI s : ships) {
+			ship = s;	//Set the last ship "s" as "ship"
 		}
 		
+		WeaponDataI weapon = null;
+		Collection<WeaponDataI> weapons = im.getWeapons(ship.getShipData());
+		for(WeaponDataI w : weapons) {
+			weapon = w;		//set the last weapon "w" as "weapon"
+		}
+
+		db.saveWeapon(weapon, ship.getShipData());
 
 		
 		
