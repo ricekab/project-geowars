@@ -41,6 +41,12 @@ public class InMemoryDataService implements IDataService {
 		return data;
 	}
 
+	@Override
+	public UserDataI getUser(String username, String hashedPassword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

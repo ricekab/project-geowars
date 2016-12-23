@@ -30,10 +30,13 @@ import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
+import be.howest.twentytwo.parametergame.model.component.TimedLifeComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitListener;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
@@ -57,6 +60,7 @@ import be.howest.twentytwo.parametergame.model.system.SpawnSystem;
 import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.UISystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
+import be.howest.twentytwo.parametergame.model.time.ITimeoutCallback;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 import be.howest.twentytwo.parametergame.ui.message.UIMessage;
@@ -124,8 +128,7 @@ public class LevelFactory {
 		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());
-		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(),
-				assets, viewport));
+		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport));
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
@@ -231,15 +234,16 @@ public class LevelFactory {
 		for (WeaponDataI wpn : allWeapons) {
 			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, wpn));
 		}
-		
+
 		AIMoveBehaviourFactory moveFactory = new AIMoveBehaviourFactory();
 		AIShootBehaviourFactory shootFactory = new AIShootBehaviourFactory();
-		for(EnemyDataI enemyData : enemies){
+		for (EnemyDataI enemyData : enemies) {
 			String behaviourString = enemyData.getBehaviour();
 			// TODO: Convert behaviour string into concrete behaviours
 			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
 			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
-			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(), playerBody, move, shoot));
+			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections
+					.getDifficulty(), playerBody, move, shoot));
 		}
 
 		// INPUT
@@ -264,7 +268,7 @@ public class LevelFactory {
 
 		registerGameEvents(context, eventQueue, engine);
 		registerSoundEvents(context, eventQueue, engine);
-		
+
 		return engine;
 	}
 
@@ -284,8 +288,9 @@ public class LevelFactory {
 		Gdx.app.error("LevelFactory", "UI NOT IMPLEMENTED");
 		return stage;
 	}
-	
-	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+
+	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue,
+			PooledEngine engine) {
 		// register event handlers on event queue to send sound messages.
 		// Will need another chain of objects to filter the messages
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
@@ -302,7 +307,34 @@ public class LevelFactory {
 				// Add score points and stuff.
 			}
 		});
+		
+		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
 
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
+	}
+
+	private class PlayerHitHandler extends BasePlayerHitListener {
+
+		private final PooledEngine engine;
+
+		private PlayerHitHandler(PooledEngine engine) {
+			this.engine = engine;
+		}
+
+		@Override
+		public void handleEvent(PlayerHitEvent event) {
+			Entity timed = engine.createEntity();
+			
+			TimedLifeComponent delayedCB = engine.createComponent(TimedLifeComponent.class);
+			delayedCB.setCallback(new ITimeoutCallback() {
+				
+				@Override
+				public void execute() {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
+
 	}
 }

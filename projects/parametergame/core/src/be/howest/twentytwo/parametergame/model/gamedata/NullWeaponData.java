@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.dataExtension;
+package be.howest.twentytwo.parametergame.model.gamedata;
 
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 

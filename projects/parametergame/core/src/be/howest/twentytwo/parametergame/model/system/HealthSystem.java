@@ -20,7 +20,7 @@ public class HealthSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		HealthComponent hp = HealthComponent.MAPPER.get(entity);
-		if(hp.getHealth() < VectorMath.EPSILON){
+		if(hp.getHealthData().getHealth() < VectorMath.EPSILON){
 			// TODO: Possibly not needed --> event system?
 		}
 	}

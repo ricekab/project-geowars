@@ -15,8 +15,8 @@ import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
-import be.howest.twentytwo.parametergame.model.dataExtension.NullWeaponData;
-import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
+import be.howest.twentytwo.parametergame.model.gamedata.NullWeaponData;
+import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;

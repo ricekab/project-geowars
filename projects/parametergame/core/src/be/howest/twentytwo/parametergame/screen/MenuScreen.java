@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
 import be.howest.twentytwo.parametergame.factory.MPVersusGameFactory;
 import be.howest.twentytwo.parametergame.factory.SPGameFactory;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
+import be.howest.twentytwo.parametergame.utils.PassUtils;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
@@ -199,7 +200,10 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	}
 
 	private void doLogin() {
-		UserDataI user = getContext().getDataService().getUser(userField.getText());
+		String username = userField.getText();
+		String plainPass = passwordField.getText();
+		String encryptedPass = PassUtils.encrypt(plainPass);
+		UserDataI user = getContext().getDataService().getUser(username, encryptedPass);
 		setLoggedIn(user);
 	}
 

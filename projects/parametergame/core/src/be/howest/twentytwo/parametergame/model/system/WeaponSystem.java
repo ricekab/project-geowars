@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
-import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.game.WeaponFiredEvent;
+import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.SpawnProjectileMessage;
 

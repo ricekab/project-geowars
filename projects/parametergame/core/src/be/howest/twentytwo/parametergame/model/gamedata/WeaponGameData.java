@@ -1,4 +1,4 @@
-package be.howest.twentytwo.parametergame.model.dataExtension;
+package be.howest.twentytwo.parametergame.model.gamedata;
 
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
@@ -12,18 +12,13 @@ import com.badlogic.gdx.math.Vector2;
 public class WeaponGameData implements WeaponDataI {
 
 	private final WeaponDataI weapon;
-	/** Time (in seconds) for it to cool down between shots. */
-	private final float cooldownTime;
 
-	private int ammoCount;
-	private float currentCooldown;
+	private AmmoData ammo;
 	private DifficultyDataI modifier;
 
 	public WeaponGameData(WeaponDataI weapon, DifficultyDataI difficulty) {
 		this.weapon = weapon;
-		this.cooldownTime = 1f / weapon.getFireRate();
-		setAmmoCount(weapon.getAmmoCount());
-		setCurrentCooldown(0f);
+		setAmmoData(new AmmoData(weapon.getAmmoCount(), 1f / weapon.getFireRate()));
 		this.modifier = difficulty;
 	}
 
@@ -32,7 +27,7 @@ public class WeaponGameData implements WeaponDataI {
 	 * ammo.
 	 */
 	public boolean isCooledDown() {
-		return getCurrentCooldown() <= 0f ? true : false;
+		return getAmmoData().getCurrentCooldown() <= 0f ? true : false;
 	}
 
 	/**
@@ -56,21 +51,14 @@ public class WeaponGameData implements WeaponDataI {
 
 	/** Starts the cooldown time on the weapon. */
 	public void resetCooldown() {
-		setCurrentCooldown(cooldownTime);
+		getAmmoData().setCurrentCooldown(getAmmoData().getCooldownTme());
 	}
 
 	/** Coolds down the weapon for the given amount of time */
 	public void cooldown(float dt) {
-		setCurrentCooldown(Math.max(-1f, getCurrentCooldown() - dt));
+		getAmmoData().setCurrentCooldown(Math.max(-1f, getAmmoData().getCurrentCooldown() - dt));
 	}
 
-	public float getCurrentCooldown() {
-		return currentCooldown;
-	}
-
-	public void setCurrentCooldown(float cd) {
-		this.currentCooldown = cd;
-	}
 
 	@Override
 	public String getID() {
@@ -104,11 +92,11 @@ public class WeaponGameData implements WeaponDataI {
 
 	@Override
 	public int getAmmoCount() {
-		return ammoCount;
+		return getAmmoData().getAmmoCount();
 	}
 
 	public void setAmmoCount(int ammoCount) {
-		this.ammoCount = ammoCount;
+		getAmmoData().setAmmoCount(ammoCount);
 	}
 
 	@Override
@@ -144,6 +132,14 @@ public class WeaponGameData implements WeaponDataI {
 	@Override
 	public float getTimeDelay() {
 		return weapon.getTimeDelay();
+	}
+
+	public AmmoData getAmmoData() {
+		return ammo;
+	}
+
+	public void setAmmoData(AmmoData ammo) {
+		this.ammo = ammo;
 	}
 
 }
