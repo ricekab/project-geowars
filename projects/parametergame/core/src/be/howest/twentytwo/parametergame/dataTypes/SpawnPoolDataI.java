@@ -12,5 +12,7 @@ public interface SpawnPoolDataI {
 	public void addCluster(ClusterDataI cluster);
 	public void setSpawnTreshold(float spawnTreshold);
 	public void setSpawnTresholdIncrease(float spawnTresholdIncrease);
+	
+	public boolean isEmpty();
 
 }

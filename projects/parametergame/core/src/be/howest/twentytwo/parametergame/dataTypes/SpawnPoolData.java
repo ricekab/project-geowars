@@ -14,7 +14,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable { // a collec
 	private float spawnTreshold;
 	private float spawnTresholdIncrease;
 
-	public SpawnPoolData() {
+	public SpawnPoolData() { 
 		clusters = new HashSet<>();
 	}
 
@@ -91,5 +91,10 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable { // a collec
 	@Override
 	public Collection<ClusterDataI> getAllClusters() {
 		return clusters;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return getAllClusters().isEmpty();
 	}
 }

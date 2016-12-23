@@ -6,6 +6,15 @@ public class PlayerData extends Observable{
 	private float score;
 	private float geomRadius;
 
+	public PlayerData(float score, float geomRadius){
+		this.score = score;
+		this.geomRadius = geomRadius;
+	}
+	
+	public PlayerData(float geomRadius){
+		this(0f, geomRadius);
+	}
+	
 	public float getScore() {
 		return score;
 	}
