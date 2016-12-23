@@ -13,22 +13,15 @@ public class Writer {
 		InMemoryDataService im = new InMemoryDataService();
 		
 		UserData user = new UserData("Nick","nick","Advanced JS difficulty");
-		Collection<PlayerShipDataI> playerShips = im.getPlayerShips(user);
+		Collection<PlayerShipDataI> playerShips = db.getPlayerShips(user);
 
-		for(PlayerShipDataI p : playerShips) {
-			int campaignLevel = p.getCampaignLevel();
-			System.out.println("\n----------------------------------------------------------------------------------------------------Ship: " + p.getShipData().getName());
-			System.out.println("Initial campaign level: " + campaignLevel);
-			campaignLevel++;
-			p.setCampaignLevel(campaignLevel);
-			db.savePlayerShip(p);
-		}
 		
-		playerShips = db.getPlayerShips(user);
-		
-		for(PlayerShipDataI p : playerShips) {
-			System.out.println("Campaign level from db: " + p.getCampaignLevel());
-		}
+		UserDataI u = db.getUser(user.getUser(), user.getPasswordHashed());
+		System.out.println(u.getPasswordHashed());
+		UserDataI u2 = new UserData(u.getUser(), u.getPasswordHashed() + "H4CK3D", u.getDifficulty());
+		db.saveUser(u2);
+		u = db.getUser(u2.getUser(), u2.getPasswordHashed());
+		System.out.println(u.getPasswordHashed());
 		
 		
 	}

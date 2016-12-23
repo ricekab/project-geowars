@@ -17,16 +17,13 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public interface IDataService {
 	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....
-	
-	public UserDataI getUser(String username, String hashedPassword);
-	
 	/**
-	 * fetches an user from the DB, doesn't check on password
-	 * @param username
-	 * @return the first user found, or null if none found
+	 * fetches an user from the db, based on username and hashed password
+	 * @param username the username that is checked upon
+	 * @param hashedPassword the hashed password, this must be equal to the value in the database
+	 * @return the first user found, or null if none is found or the passwords don't match
 	 */
-	@Deprecated
-	public UserDataI getUser(String username);
+	public UserDataI getUser(String username, String hashedPassword);
 
 	/**
 	 * @param names A string or an array of strings that contain the name(s) of the enemy/enemies
@@ -39,13 +36,6 @@ public interface IDataService {
 	 * @return returns a playerShip with an empty collection of drones, or a new HashSet if no playerShips are found
 	 */
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user);
-
-	/**
-	 * @param user an implementation of UserDataI that can provide a getUser() method to call the user's name
-	 * @return always returns null
-	 */
-	@Deprecated
-	public Collection<ShipDataI> getShips(UserDataI user);
 
 	/**
 	 * @return returns an empty HashSet if no drones are found
@@ -68,9 +58,6 @@ public interface IDataService {
 	 * @param data the user we want to save
 	 */
 	public void saveUser(UserDataI data);
-	
-	@Deprecated
-	public void saveShip(ShipDataI data);
 	
 	public void savePlayerShip(PlayerShipDataI data);
 	

@@ -4,17 +4,17 @@ import com.badlogic.gdx.math.Vector2;
 
 public class WeaponData implements WeaponDataI {
 
-	private String id;				//
-	private float offsetX;			//
-	private float offsetY;			//
-	private float fireRate;			//
-	private int bulletsPerShot;		//
-	private float shotConeAngle;	//
+	private String id;				
+	private float offsetX;			
+	private float offsetY;			
+	private float fireRate;			
+	private int bulletsPerShot;		
+	private float shotConeAngle;	
 	private float bulletMass;		//
-	private float bulletDamage;		//
-	private float bulletSpeed;		//
-	private float range;			//
-	private float timeDelay;		//
+	private float bulletDamage;		
+	private float bulletSpeed;		
+	private float range;			
+	private float timeDelay;		
 	private float turnSpeed;		//
 	private int ammoCount;			//
 	private Vector2 bulletSize;		//		

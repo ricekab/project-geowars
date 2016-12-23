@@ -1,11 +1,27 @@
-drop database parametergame;
+
+drop database if exists parametergame;
 create database parametergame;
-set foreign_key_checks=0;
 
 use parametergame;
 
 /*create user if not exists user22@localhost identified by '22';
 grant select, insert, update, delete on parametergame.* to user22@localhost;*/
+
+
+/*
+use sql8150650;
+
+
+
+
+SET FOREIGN_KEY_CHECKS=0;
+
+SELECT Concat('TRUNCATE TABLE ',table_schema,'.',TABLE_NAME, ';') 
+FROM INFORMATION_SCHEMA.TABLES where  table_schema in 'sql8150650';
+
+SET FOREIGN_KEY_CHECKS=1;
+
+*/
 
 
 create table difficulty(
@@ -38,7 +54,9 @@ create table ship(
     `shipSizeX` float,
     `shipSizeY` float,
     `gravityResistance` float,
-    primary key (`name`)
+	`physicsdataID` varchar(128),
+    primary key (`name`),
+	foreign key (`physicsdataID`) references physicsdata(`ID`)
 );
 
 create table weapon(
@@ -53,6 +71,11 @@ create table weapon(
     `bulletsPerShot` int,
     `bulletSpeed` float,
     `shipName` varchar(128),
+    `bulletMass` float,
+    `turnSpeed` float,
+    `ammo` int,
+    `bulletSizeX` float,
+    `bulletSizeY` float,
     primary key (`ID`),
     foreign key (`shipName`) references Ship(`name`)
 );
