@@ -33,7 +33,7 @@ public class InMemoryFileAccessor implements IFileAccessor {
 		spawnPool.addCluster(cluster);
 		data.setWorld(world);
 		data.setSpawnBox(spawnBox);
-		PlanetDataI planet = new PlanetData(125, 125, 20, "planet0", 75f, 100f);
+		PlanetDataI planet = new PlanetData(140, 140, 20, "planet0", 90f, 100f);
 		data.addPlanet(planet);
 		planet = new PlanetData(150f, -125, 5f, "planet5", 20f, 40f);
 		data.addPlanet(planet);

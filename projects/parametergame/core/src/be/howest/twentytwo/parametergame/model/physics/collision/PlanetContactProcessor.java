@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import be.howest.twentytwo.parametergame.model.component.EnemyComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
@@ -46,7 +47,8 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 			getEventQueue().send(new PlayerKilledEvent());
 			return true; // Player entity destruction has to be handled more delicately
 		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
-			getEventQueue().send(new EnemyKilledEvent());
+			EnemyComponent ec = EnemyComponent.MAPPER.get((Entity)target.getBody().getUserData());
+			getEventQueue().send(new EnemyKilledEvent(target.getBody().getPosition(), ec.getScoreValue(), ec.getGeomDropRate()));
 		}
 		getEventQueue().send(new DestroyEntityEvent((Entity) target.getBody().getUserData()));
 		return true;

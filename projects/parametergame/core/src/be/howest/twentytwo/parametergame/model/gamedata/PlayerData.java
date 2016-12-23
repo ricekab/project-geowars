@@ -2,19 +2,19 @@ package be.howest.twentytwo.parametergame.model.gamedata;
 
 import java.util.Observable;
 
-public class PlayerData extends Observable{
+public class PlayerData extends Observable {
 	private float score;
 	private float geomRadius;
 
-	public PlayerData(float score, float geomRadius){
+	public PlayerData(float score, float geomRadius) {
 		this.score = score;
 		this.geomRadius = geomRadius;
 	}
-	
-	public PlayerData(float geomRadius){
+
+	public PlayerData(float geomRadius) {
 		this(0f, geomRadius);
 	}
-	
+
 	public float getScore() {
 		return score;
 	}
@@ -26,6 +26,10 @@ public class PlayerData extends Observable{
 	public void setScore(float score) {
 		this.score = score;
 		notifyObservers();
+	}
+
+	public void addScore(float score) {
+		setScore(getScore() + score);
 	}
 
 	public void setGeomRadius(float geomRadius) {

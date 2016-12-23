@@ -68,7 +68,8 @@ public class AIShipFactory implements ISpawnFactory {
 		engine.addEntity(aiShip);
 		
 		EnemyComponent ec = engine.createComponent(EnemyComponent.class);
-		// TODO: ENEMY COMPONENT HERE
+		ec.setScoreValue(enemyData.getBaseScore() * difficulty.getScoreModifier());
+		ec.setGeomDropRate(enemyData.getGeomDropRate());
 		aiShip.add(ec);
 		return aiShip;
 	}
