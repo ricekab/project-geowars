@@ -79,7 +79,7 @@ public class AISpawnSystem extends IntervalSystem {
 		// Retrieve cluster to spawn
 		if (currentPool == null || currentPool.isEmpty()) {
 			if (spawnpools.isEmpty()) {
-				System.out.println("GAME END");
+				System.out.println("SPAWN END");
 				this.active = false;
 				// No enemies left, player win.
 				// 1. UI Message --> player won

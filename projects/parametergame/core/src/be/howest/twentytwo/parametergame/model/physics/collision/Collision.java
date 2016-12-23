@@ -29,7 +29,7 @@ public final class Collision {
 	public static final short PLAYER_EXPLOSION_MASK = ENEMY_CATEGORY | BULLET_ENEMY_CATEGORY;
 	public static final short PLANET_MASK = PLAYER_CATEGORY | ENEMY_CATEGORY | BULLET_PLAYER_CATEGORY
 			| BULLET_ENEMY_CATEGORY;
-	public static final short PICKUP_MASK = PLAYER_CATEGORY | PLAYER_PICKUPS;
+	public static final short PICKUP_MASK = PLAYER_CATEGORY;
 
 	// EVENT FILTER MASKS -- Used to filter a collision down to some event
 	public static final short DRONE_TARGET_FILTER_MASK = ENEMY_CATEGORY;

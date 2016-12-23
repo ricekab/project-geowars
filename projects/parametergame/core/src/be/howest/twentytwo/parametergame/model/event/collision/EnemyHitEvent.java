@@ -9,12 +9,12 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 
 public class EnemyHitEvent extends BaseCollisionEvent {
 
-	private final HealthData playerHealth;
+	private final HealthData enemyHealth;
 	private final float damage;
 
 	public EnemyHitEvent(Fixture subject, Fixture collider, float damage) {
 		super(subject, collider);
-		this.playerHealth = HealthComponent.MAPPER.get(getEnemyEntity()).getHealthData();
+		this.enemyHealth = HealthComponent.MAPPER.get(getEnemyEntity()).getHealthData();
 		this.damage = damage;
 	}
 
@@ -26,7 +26,7 @@ public class EnemyHitEvent extends BaseCollisionEvent {
 	}
 
 	public HealthData getPlayerHealth() {
-		return playerHealth;
+		return enemyHealth;
 	}
 
 	public float getDamage() {

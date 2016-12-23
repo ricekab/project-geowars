@@ -233,6 +233,7 @@ public class LevelFactory {
 		}
 
 		// PICKUP FACTORY PREPARATION
+		spawnSystem.addFactory(new GeomFactory(engine, world, assets, selections.getDifficulty()));
 		// TODO -- Pickup stuff
 
 		// INPUT
