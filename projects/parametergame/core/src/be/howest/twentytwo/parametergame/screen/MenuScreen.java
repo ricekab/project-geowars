@@ -75,8 +75,12 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		menu.add(tbf.createButton("Exit Game", new ExitListener()));
 
 		root.add(createLoginWindow(tbf)).width(300f);
-		
-		
+                
+                if(getContext().getMusicService().getMusic() != null  && getContext().getMusicService().getFile() != "music/finished_long.ogg"){
+                    getContext().getMusicService().disposeMusic();
+                }
+                if(getContext().getMusicService().getFile() != "music/finished_long.ogg")
+		getContext().getMusicService().playMusic("music/finished_long.ogg");
 
 		if (ParameterGame.DEBUG_ENABLED) {
 			userField.setText("debug");
@@ -188,6 +192,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			getContext().setScreen(new LoadingScreen(getContext(), getEngine(), factory));
+                        getContext().getMusicService().disposeMusic();
+                        getContext().getMusicService().playMusic("music/Tranquil_Trance_Express.ogg");
 		}
 	}
 
