@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.model.system;
 
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
@@ -20,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class WeaponSystem extends IteratingSystem {
 
 	public static final int PRIORITY = 1;
-
+        SoundSequencer weaponSound = new SoundSequencer();
 	private final Collection<ISpawnMessage> spawnMessages;
 	private final EventQueue eventQueue;
 
@@ -43,10 +44,14 @@ public class WeaponSystem extends IteratingSystem {
 		if(wc.isFirePrimary()) {
 			WeaponGameData primary = wc.getPrimary();
 			fireWeapon(primary, body, wc.getPhysicsCategory(), wc.getPhysicsMask());
+                        weaponSound.addSound("sound/secondary.mp3");
+                        weaponSound.play(1,0.2);
 		}
 		if(wc.isFireSecondary()) {
 			WeaponGameData secondary = wc.getActiveSecondaryWeapon();
 			fireWeapon(secondary, body, wc.getPhysicsCategory(), wc.getPhysicsMask());
+                        weaponSound.addSound("sound/primary.wav");
+                        weaponSound.play(1,0.2);
 		}
 
 	}
