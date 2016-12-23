@@ -142,4 +142,21 @@ public class ProjectileFactory implements ISpawnFactory, Disposable {
 	public void dispose() {
 		fixtureDef.shape.dispose();
 	}
+	
+	
+	@Override
+	public int hashCode() {
+		return getType().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof ProjectileFactory){
+			ProjectileFactory other = (ProjectileFactory) obj;
+			if(this.getType().equals(other.getType())){
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -203,13 +203,16 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	
 	@Override
 	public int hashCode() {
-		return getType().hashCode():
+		return getType().hashCode();
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj != null && obj instanceof ShipFactory){
-			
+			ShipFactory other = (ShipFactory) obj;
+			if(this.getType().equals(other.getType())){
+				return true;
+			}
 		}
 		return false;
 	}
