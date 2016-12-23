@@ -55,8 +55,10 @@ import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.system.AIMovementSystem;
 import be.howest.twentytwo.parametergame.model.system.AIShootSystem;
+import be.howest.twentytwo.parametergame.model.system.AISpawnSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
+import be.howest.twentytwo.parametergame.model.system.HealthSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
@@ -141,9 +143,11 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
+		engine.addSystem(new AISpawnSystem(eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
 		engine.addSystem(new UISystem(uiMessageQueue, uiStage));
+		engine.addSystem(new HealthSystem(eventQueue));
 		// engine.addSystem(new AISystem());
 		// Sound, Animation, ...
 
