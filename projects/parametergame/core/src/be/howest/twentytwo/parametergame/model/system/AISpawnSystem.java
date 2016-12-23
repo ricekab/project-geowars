@@ -11,7 +11,8 @@ import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
 import be.howest.twentytwo.parametergame.factory.ProjectileFactory;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
-import be.howest.twentytwo.parametergame.model.event.game.GameEndEvent;
+import be.howest.twentytwo.parametergame.model.event.game.GameLoseEvent;
+import be.howest.twentytwo.parametergame.model.event.game.GameSpawnDepletedEvent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
@@ -71,7 +72,8 @@ public class AISpawnSystem extends IntervalSystem {
 				// No enemies left, player win.
 				// 1. UI Message --> player won
 				// 2. Upgrade screen/next level after some timedelay
-				events.send(new GameEndEvent());
+				events.send(new GameLoseEvent());	// TODO: TEMP
+				events.send(new GameSpawnDepletedEvent());
 				return;
 			}
 			currentPool = spawnpools.poll();

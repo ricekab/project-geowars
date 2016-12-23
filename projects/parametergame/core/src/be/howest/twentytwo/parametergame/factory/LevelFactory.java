@@ -56,6 +56,7 @@ import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHan
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
+import be.howest.twentytwo.parametergame.model.event.listener.GameEndSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
@@ -274,6 +275,7 @@ public class LevelFactory {
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 		eventQueue.register(EventEnum.WEAPON_FIRED, new WeaponFiredSoundHandler(context.getSoundService()));
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledSoundHandler(context.getSoundService()));
+		eventQueue.register(EventEnum.GAME_LOSE, new GameEndSoundHandler(context.getSoundService()));
 	}
 
 	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine,

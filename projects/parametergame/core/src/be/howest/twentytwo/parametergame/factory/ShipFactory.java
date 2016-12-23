@@ -119,7 +119,6 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		List<WeaponDataI> weaponsData = new ArrayList<WeaponDataI>();
 		weaponsData.addAll(shipData.getWeapons());
 		if(weaponsData.size() > 0) {
-			Gdx.app.debug("ShipFact", weaponsData.toString());
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);

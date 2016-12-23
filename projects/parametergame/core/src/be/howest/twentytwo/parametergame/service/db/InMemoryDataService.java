@@ -168,17 +168,18 @@ public class InMemoryDataService implements IDataService {
 	}
 
 	@Override
-	public void saveWeapon(WeaponDataI weapon) {
-
-	}
-
-	@Override
 	public void savePlayerShip(PlayerShipDataI data) {
 	}
 
 	@Override
 	public void saveDrone(DroneDataI data, UserDataI user) {
 
+	}
+
+	@Override
+	public void saveWeapon(WeaponDataI weapon, ShipDataI ship) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
