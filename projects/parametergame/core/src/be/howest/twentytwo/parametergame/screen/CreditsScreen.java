@@ -41,6 +41,7 @@ public class CreditsScreen extends BaseUIBackgroundScreen {
 		Window window = new Window("Credits", getSkin());
 		window.getTitleLabel().setAlignment(Align.center);
 		window.getTitleLabel().setStyle(getSkin().get("pressed", LabelStyle.class));
+		window.getTitleTable().padBottom(10f);
 		Label label = new Label(creditsText, getSkin());
 		label.setAlignment(Align.center);
 		window.add(label);

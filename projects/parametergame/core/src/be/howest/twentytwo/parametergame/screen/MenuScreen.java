@@ -16,6 +16,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -75,6 +76,12 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 		menu.row();
 		menu.add(tbf.createButton("Exit Game", new ExitListener()));
+		
+		menu.row();
+		CheckBox debugCB = new CheckBox("Enable Debug", getSkin());
+		debugCB.setChecked(ParameterGame.DEBUG_ENABLED);
+		debugCB.addListener(new DebugCheckBoxListener());
+		menu.add(debugCB);
 
 		root.add(createLoginWindow(tbf)).width(300f);
 
@@ -170,6 +177,14 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			doLogin();
+		}
+	}
+	
+	private class DebugCheckBoxListener extends ChangeListener{
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			CheckBox c = (CheckBox)event.getListenerActor();
+			ParameterGame.DEBUG_ENABLED = c.isChecked();
 		}
 	}
 

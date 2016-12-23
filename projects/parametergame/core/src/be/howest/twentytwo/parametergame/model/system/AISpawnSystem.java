@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
@@ -23,6 +24,7 @@ public class AISpawnSystem extends IntervalSystem {
 	public static final int PRIORITY = 0;
 	private static final float SPAWN_CHECK_INTERVAL = 0.5f;
 
+	private final World world;
 	private final EventQueue events;
 	private final Collection<ISpawnMessage> spawner;
 	private final Queue<SpawnPoolDataI> spawnpools;
@@ -32,9 +34,10 @@ public class AISpawnSystem extends IntervalSystem {
 	private float spawnInterval;
 	private boolean active;
 
-	public AISpawnSystem(EventQueue eventQueue, Collection<ISpawnMessage> spawnMessageQueue,
+	public AISpawnSystem(World world, EventQueue eventQueue, Collection<ISpawnMessage> spawnMessageQueue,
 			Queue<SpawnPoolDataI> queue, float spawnInterval) {
 		super(SPAWN_CHECK_INTERVAL, PRIORITY);
+		this.world = world;
 		this.events = eventQueue;
 		this.spawner = spawnMessageQueue;
 		this.spawnpools = queue;
@@ -44,9 +47,9 @@ public class AISpawnSystem extends IntervalSystem {
 		this.timeSinceLastSpawn = 0f;
 	}
 
-	public AISpawnSystem(EventQueue eventQueue, Collection<ISpawnMessage> spawnMessageQueue,
+	public AISpawnSystem(World world, EventQueue eventQueue, Collection<ISpawnMessage> spawnMessageQueue,
 			Queue<SpawnPoolDataI> queue) {
-		this(eventQueue, spawnMessageQueue, queue, 2f);
+		this(world, eventQueue, spawnMessageQueue, queue, 2f);
 	}
 
 	@Override
@@ -71,9 +74,7 @@ public class AISpawnSystem extends IntervalSystem {
 			}
 			currentPool = spawnpools.poll();
 		}
-		System.out.println("GETTING RANDOM CLUSTER");
 		ClusterDataI cluster = currentPool.getRandomCluster();
-		System.out.println("amount stored: " + cluster.getAmountStored());
 		cluster.getEnemyName();
 		spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), findSpawnPosition(), new Vector2(), 0f,
 				Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK));
