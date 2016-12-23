@@ -1,9 +1,7 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import be.howest.twentytwo.parametergame.dataTypes.DefaultDifficultyData;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
