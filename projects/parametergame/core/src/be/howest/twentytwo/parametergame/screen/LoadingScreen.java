@@ -1,24 +1,12 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import javafx.concurrent.Task;
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
-import be.howest.twentytwo.parametergame.factory.LevelFactory;
-import be.howest.twentytwo.parametergame.model.event.EventEnum;
-import be.howest.twentytwo.parametergame.model.event.EventQueue;
-import be.howest.twentytwo.parametergame.model.event.IEvent;
-import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
-import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
-import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
-
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
 
 /**
  * An intermediary screen shown during loading of levels.

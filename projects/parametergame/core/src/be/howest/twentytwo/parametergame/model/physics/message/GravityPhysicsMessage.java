@@ -14,7 +14,7 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 	// TODO: This might be overkill? Real life value is quite small and will be
 	// inaccurate as a float.
 	// Real life value = 6.674E-11
-	public static final float GRAVITATIONAL_CONSTANT = 15f; // 6.674E-3f
+	public static final float GRAVITATIONAL_CONSTANT = 10f; // 6.674E-3f
 
 	private PlanetDataI planetData;
 	private Body sourceBody;

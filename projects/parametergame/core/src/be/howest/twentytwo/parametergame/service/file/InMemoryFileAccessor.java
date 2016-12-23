@@ -23,7 +23,7 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		BoxDataI world = new BoxData(1000f, 500f, 0f, 0f);
 		BoxDataI spawnBox = new BoxData(10f, 10f, -10f, -10f);
 		
-		ClusterDataI cluster = new ClusterData(1f, 1, 0f, 1, 1, "bomber");
+		ClusterDataI cluster = new ClusterData(1f, 1, 0f, 1, 1, "scouter");
 		// "boss" cluster: 1 group containging 1 enemy, 100% chance to spawn, no delay. exists only once in this case.
 		SpawnPoolDataI spawnPool = new SpawnPoolData();
 		
@@ -33,9 +33,9 @@ public class InMemoryFileAccessor implements IFileAccessor{
 		spawnPool.addCluster(cluster);
 		data.setWorld(world);
 		data.setSpawnBox(spawnBox);
-		PlanetDataI planet = new PlanetData(125, 125, 20, "planet0", 100f, 100f);
+		PlanetDataI planet = new PlanetData(125, 125, 20, "planet0", 75f, 100f);
 		data.addPlanet(planet);
-		planet = new PlanetData(-50, -200, 30, "planet2", 150f, 135f);
+		planet = new PlanetData(-50, -200, 30, "planet2", 125f, 135f);
 		data.addPlanet(planet);
 		data.addSpawnPool(spawnPool);
 		return data;

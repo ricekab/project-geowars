@@ -9,7 +9,7 @@ import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.game.WeaponFiredEvent;
 import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
-import be.howest.twentytwo.parametergame.model.spawn.message.SpawnProjectileMessage;
+import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -60,7 +60,7 @@ public class WeaponSystem extends IteratingSystem {
 		if(weapon.fire()){
 			Vector2 velocity = new Vector2(1, 0).rotateRad(source.getAngle()).scl(
 					weapon.getBulletSpeed());
-			spawnMessages.add(new SpawnProjectileMessage(weapon.getID(), source.getPosition(),
+			spawnMessages.add(new SpawnEntityMessage(weapon.getID(), source.getPosition(),
 					velocity, source.getAngle(), category, mask));
 			eventQueue.send(new WeaponFiredEvent());
 		}

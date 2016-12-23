@@ -100,7 +100,7 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0f, 1.0f,
-				weapons, physicsData, 8f, 8f, 3f);
+				weapons, physicsData, 8f, 8f, 5f);
 		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f);
 		ships.add(playerShip);
 
@@ -143,10 +143,10 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
 
-		ShipData shipData = new ShipData("enemy01", "scouter", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f,
+		ShipData shipData = new ShipData("scouter", "scouter", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f,
 				1.0f, weapons, physicsData, 8f, 8f, 1f);
 
-		data.add(new EnemyData("enemyID", 5f, 100, "behaviourString", shipData));
+		data.add(new EnemyData("scouter", 5f, 100, "Scouter", shipData));
 		return data;
 	}
 
