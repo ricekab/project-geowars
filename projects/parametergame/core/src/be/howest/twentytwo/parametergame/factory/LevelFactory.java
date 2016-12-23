@@ -204,6 +204,7 @@ public class LevelFactory {
 		while (!tempPools.isEmpty()) {
 			SpawnPoolDataI pool = tempPools.poll();
 			for (ClusterDataI cluster : pool.getAllClusters()) {
+				System.out.println("ENEMY NAME: " + cluster.getEnemyName());
 				String name = cluster.getEnemyName();
 				enemyNames.add(name);
 			}
