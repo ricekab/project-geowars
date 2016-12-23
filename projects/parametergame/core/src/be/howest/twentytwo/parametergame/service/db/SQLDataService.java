@@ -36,7 +36,7 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 public class SQLDataService implements IDataService {
 
 	private static SQLDataService instance;
-	private final String WURL = "jdbc:mysql://192.168.30.26:3306";
+	private final String WURL = "jdbc:mysql://192.168.30.26:3306/parametergame";
 	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO create server login for this
 	private final String USR = "user22";
 	private final String PWD = "22";
@@ -47,6 +47,7 @@ public class SQLDataService implements IDataService {
 	private SQLDataService() {
 		try {
 			con = DriverManager.getConnection(WURL, USR, PWD);
+			System.out.println("Webserver up and running! <3");
 		} catch(Exception e) {
 			System.out.println("failed to create a server connection");
 			try{

@@ -11,7 +11,7 @@ public class Writer {
 
 		//TESTS IF LOCALHOST WORKS
 		IDataService db = SQLDataService.getInstance();
-		System.out.println(db.getUser("Nick", "nickH4CK3D").getUser());
+		System.out.println(db.getUser("Nick", "nick").getUser());
 		
 	}
 }

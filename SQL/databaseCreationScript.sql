@@ -4,8 +4,8 @@ create database parametergame;
 
 use parametergame;
 
-/*create user if not exists user22@localhost identified by '22';
-grant select, insert, update, delete on parametergame.* to user22@localhost;*/
+create user if not exists user22@'%' identified by '22';
+grant select, insert, update, delete on parametergame.* to user22@'%';
 
 
 /*
