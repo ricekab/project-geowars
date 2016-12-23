@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame;
 
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
@@ -23,13 +24,14 @@ public class ScreenContext {
 	private final IDataService dataService;
 	private final IFileAccessor fileService;
 	private final Game game;
-	
+	private final SoundSequencer soundService;
+
 	private UserDataI user;
 
 	// private I18NBundle internationalization;
 
-	public ScreenContext(Game game, AssetManager assets, SpriteBatch batch, ShapeRenderer shapes, IPlatformService platform,
-			IDataService dataService, IFileAccessor fileService) {
+	public ScreenContext(Game game, AssetManager assets, SpriteBatch batch, ShapeRenderer shapes,
+			IPlatformService platform, IDataService dataService, IFileAccessor fileService) {
 		this.game = game;
 		this.assetManager = assets;
 		this.spriteBatch = batch;
@@ -37,6 +39,7 @@ public class ScreenContext {
 		this.platformService = platform;
 		this.dataService = dataService;
 		this.fileService = fileService;
+		this.soundService = new SoundSequencer();
 	}
 
 	public AssetManager getAssetManager() {
@@ -58,19 +61,19 @@ public class ScreenContext {
 	public IDataService getDataService() {
 		return dataService;
 	}
-	
-	public IFileAccessor getFileService(){
+
+	public IFileAccessor getFileService() {
 		return fileService;
 	}
-	
-	private Game getGame(){
+
+	private Game getGame() {
 		return game;
 	}
-	
-	public void setScreen(Screen screen){
+
+	public void setScreen(Screen screen) {
 		getGame().setScreen(screen);
 	}
-	
+
 	public UserDataI getUser() {
 		return user;
 	}
@@ -79,10 +82,15 @@ public class ScreenContext {
 		this.user = user;
 	}
 
-	public void dispose(){
+	public SoundSequencer getSoundService() {
+		return soundService;
+	}
+
+	public void dispose() {
 		getAssetManager().clear();
 		getAssetManager().dispose();
 		getSpriteBatch().dispose();
 		getShapeRenderer().dispose();
 	}
+
 }

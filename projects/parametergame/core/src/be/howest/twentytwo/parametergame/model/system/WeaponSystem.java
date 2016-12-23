@@ -21,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class WeaponSystem extends IteratingSystem {
 
 	public static final int PRIORITY = 1;
-        SoundSequencer weaponSound = new SoundSequencer();
+	SoundSequencer weaponSound = new SoundSequencer();
 	private final Collection<ISpawnMessage> spawnMessages;
 	private final EventQueue eventQueue;
 
@@ -36,33 +36,32 @@ public class WeaponSystem extends IteratingSystem {
 		Body body = BodyComponent.MAPPER.get(entity).getBody();
 		WeaponComponent wc = WeaponComponent.MAPPER.get(entity);
 
-		for(WeaponGameData wpn : wc.getAllWeapons()){
+		for (WeaponGameData wpn : wc.getAllWeapons()) {
 			wpn.cooldown(deltaTime);
 		}
-		
+
 		// Input / action processing
-		if(wc.isFirePrimary()) {
+		if (wc.isFirePrimary()) {
 			WeaponGameData primary = wc.getPrimary();
 			fireWeapon(primary, body, wc.getPhysicsCategory(), wc.getPhysicsMask());
-                        weaponSound.addSound("sound/secondary.mp3");
-                        weaponSound.play(1,0.2);
+//			weaponSound.addSound("sound/secondary.mp3");
+//			weaponSound.play(1, 0.2);
 		}
-		if(wc.isFireSecondary()) {
+		if (wc.isFireSecondary()) {
 			WeaponGameData secondary = wc.getActiveSecondaryWeapon();
 			fireWeapon(secondary, body, wc.getPhysicsCategory(), wc.getPhysicsMask());
-                        weaponSound.addSound("sound/primary.wav");
-                        weaponSound.play(1,0.2);
+//			weaponSound.addSound("sound/primary.wav");
+//			weaponSound.play(1, 0.2);
 		}
 
 	}
 
 	private void fireWeapon(WeaponGameData weapon, Body source, short category, short mask) {
-		if(weapon.fire()){
-			Vector2 velocity = new Vector2(1, 0).rotateRad(source.getAngle()).scl(
-					weapon.getBulletSpeed());
-			spawnMessages.add(new SpawnEntityMessage(weapon.getID(), source.getPosition(),
-					velocity, source.getAngle(), category, mask));
-			eventQueue.send(new WeaponFiredEvent());
+		if (weapon.fire()) {
+			Vector2 velocity = new Vector2(1, 0).rotateRad(source.getAngle()).scl(weapon.getBulletSpeed());
+			spawnMessages.add(new SpawnEntityMessage(weapon.getID(), source.getPosition(), velocity, source.getAngle(),
+					category, mask));
+			eventQueue.send(new WeaponFiredEvent((Entity)source.getUserData(), weapon));
 		}
 	}
 
