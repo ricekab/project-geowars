@@ -28,7 +28,7 @@ public interface IDataService {
 	public UserDataI getUser(String username, String hashedPassword);
 
 	/**
-	 * @param names A string or an array of strings that contain the name(s) of the enemy/enemies
+	 * @param names A string or an array of strings that contain the ID('s) of the enemy/enemies
 	 * @return HashSet of enemies, if the enemy is not found, there will be a null value
 	 */
 	public Collection<EnemyDataI> getEnemies(String... names);	//allows you to write getEnemies("Str1","Str2) instead of getEnemies(Str[])

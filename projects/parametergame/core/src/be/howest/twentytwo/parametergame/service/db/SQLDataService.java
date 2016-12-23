@@ -35,16 +35,16 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public class SQLDataService implements IDataService {
 
-	private static SQLDataService instance;
+	//private SQLDataService instance;
 	private final String WURL = "jdbc:mysql://192.168.30.26:3306/parametergame";
-	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO create server login for this
+	private final String URL = "jdbc:mysql://localhost/parametergame";
 	private final String USR = "user22";
 	private final String PWD = "22";
 
 	
 	private Connection con;
 
-	private SQLDataService() {
+	public SQLDataService() {	//was private before
 		try {
 			con = DriverManager.getConnection(WURL, USR, PWD);
 			System.out.println("Webserver up and running! <3");
@@ -56,20 +56,16 @@ public class SQLDataService implements IDataService {
 				ex.printStackTrace();
 				System.out.println("failed to create local connection");
 			}
-			/*
-			ex.printStackTrace();
-			System.out.println("failed to create a Connection...");
-			*/
 		}
 	}
-
+/*
 	public static SQLDataService getInstance() {
 		if (instance == null) {
 			instance = new SQLDataService();
 		}
 		return instance;
 	}
-	
+*/	
 	public UserDataI getUser(String username, String hashedPassword) {
 		UserDataI user = null;
 		try {
