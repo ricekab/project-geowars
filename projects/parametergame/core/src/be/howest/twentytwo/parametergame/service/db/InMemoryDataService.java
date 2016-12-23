@@ -35,7 +35,7 @@ public class InMemoryDataService implements IDataService {
 	// data management josb: faking access to MySQL data and return the
 	// appropriate data
 
-	@Override
+	//@Override
 	public UserData getUser(String name) { // password == name
 		UserData data = new UserData(name, name);
 		return data;
@@ -56,7 +56,7 @@ public class InMemoryDataService implements IDataService {
 	 * @Return returns null for weapons, should be added after getting them from
 	 * the DB separately.
 	 */
-	@Override
+	//@Override
 	@Deprecated
 	public List<ShipDataI> getShips(UserDataI user) {
 		List<ShipDataI> data = new ArrayList<>();
@@ -201,7 +201,7 @@ public class InMemoryDataService implements IDataService {
 
 	}
 
-	@Override
+	//@Override
 	public void saveShip(ShipDataI data) {
 
 	}

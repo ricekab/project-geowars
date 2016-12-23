@@ -13,13 +13,32 @@ import com.badlogic.gdx.audio.Music;
  * @author Floris
  */
 public class SoundEngine {
-    public SoundEngine(){
-        
+   
+    Music music;
+    String file;
+    public void playMusic(String file){
+        this.file = file;
+        this.music = Gdx.audio.newMusic(Gdx.files.internal(file));
+        music.setLooping(true);
+        music.play();
     }
     
     public void playMusic(String file, boolean loop){
-        Music music = Gdx.audio.newMusic(Gdx.files.internal(file));
+        this.file = file;
+        this.music = Gdx.audio.newMusic(Gdx.files.internal(file));
         music.setLooping(loop);
         music.play();
+    }
+    
+    public void disposeMusic(){
+        music.dispose();
+    }
+    
+    public Music getMusic(){
+        return music;
+    }
+    
+    public String getFile(){
+        return file;
     }
 }

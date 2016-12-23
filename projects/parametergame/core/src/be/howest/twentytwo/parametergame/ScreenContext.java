@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame;
 
+import be.howest.twentytwo.parametergame.audio.SoundEngine;
 import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
@@ -25,7 +26,7 @@ public class ScreenContext {
 	private final IFileAccessor fileService;
 	private final Game game;
 	private final SoundSequencer soundService;
-
+        private final SoundEngine musicService;
 	private UserDataI user;
 
 	// private I18NBundle internationalization;
@@ -40,6 +41,7 @@ public class ScreenContext {
 		this.dataService = dataService;
 		this.fileService = fileService;
 		this.soundService = new SoundSequencer();
+                this.musicService = new SoundEngine();
 	}
 
 	public AssetManager getAssetManager() {
@@ -84,6 +86,10 @@ public class ScreenContext {
 
 	public SoundSequencer getSoundService() {
 		return soundService;
+	}
+        
+        public SoundEngine getMusicService() {
+		return musicService;
 	}
 
 	public void dispose() {
