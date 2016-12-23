@@ -48,6 +48,7 @@ import be.howest.twentytwo.parametergame.model.event.listener.BaseWeaponFiredHan
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
+import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.WeaponFiredSoundHandler;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
@@ -290,7 +291,7 @@ public class LevelFactory {
 
 		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue);
 		registerSoundEvents(context, eventQueue, engine);
-
+                registerPlayerKilledEvents(context, eventQueue, engine);
 		return engine;
 	}
 
@@ -314,6 +315,13 @@ public class LevelFactory {
 		// Will need another chain of objects to filter the messages
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 		eventQueue.register(EventEnum.WEAPON_FIRED, new WeaponFiredSoundHandler(context.getSoundService()));
+	}
+        
+        private void registerPlayerKilledEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+		// register event handlers on event queue to send sound messages.
+		// Will need another chain of objects to filter the messages
+		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledSoundHandler(context.getSoundService()));
 	}
 
 	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine,
