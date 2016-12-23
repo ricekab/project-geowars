@@ -44,7 +44,6 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 		short targetCategory = target.getFilterData().categoryBits;
 		if((targetCategory & Collision.PLAYER_CATEGORY) > 0) {
 			getEventQueue().send(new PlayerKilledEvent());
-			Gdx.input.setInputProcessor(null); // TODO: Input disable in handler?
 			return true; // Player entity destruction has to be handled more delicately
 		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
 			getEventQueue().send(new EnemyKilledEvent());

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyData;
@@ -36,49 +35,10 @@ public class InMemoryDataService implements IDataService {
 	// appropriate data
 
 	@Override
-	public UserData getUser(String name) { // password == name
-		UserData data = new UserData(name, name);
-		return data;
-	}
-
-	@Override
 	public UserDataI getUser(String username, String hashedPassword) {
 		return new UserData(username, hashedPassword);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * be.howest.twentytwo.parametergame.service.db.IDataService#getShips(be.
-	 * howest.twentytwo. parametergame.dataTypes.UserDataI)
-	 * 
-	 * @Return returns null for weapons, should be added after getting them from
-	 * the DB separately.
-	 */
-	@Override
-	@Deprecated
-	public List<ShipDataI> getShips(UserDataI user) {
-		List<ShipDataI> data = new ArrayList<>();
-		PhysicsDataI physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
-		physicsData.addFixture(new FixtureData("circle", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
-
-		// KEVIN: TEMPORARY MEEASURE FOR TESING -- ORIGINAL LINE BELOW
-		List<WeaponDataI> weapons = new ArrayList<WeaponDataI>();
-		weapons.addAll(getWeapons(null));
-		ShipData ship = new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0.1f, 1.0f, weapons,
-				physicsData, 10f, 10f, 0);
-		data.add(ship);
-		// END TEMPORARY MEEASURE FOR TESING
-
-		// ORIGINAL LINE
-		// data.add(new ShipData("recon", "noTextureAvailable", 3, 50.0f, 30.0f,
-		// 25.0f, 20.0f, 0.1f,
-		// 1.0f, null, physicsData, 10f, 10f));
-
-		return data;
-	}
-
+	
 	@Override
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> ships = new ArrayList<PlayerShipDataI>();
@@ -102,7 +62,7 @@ public class InMemoryDataService implements IDataService {
 		weapons.add(secondaryWeapon);
 		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0f, 1.0f, weapons, physicsData,
 				8f, 8f, 5f);
-		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f);
+		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);
 
 		// JUGGERNAUT
@@ -110,7 +70,7 @@ public class InMemoryDataService implements IDataService {
 		physicsData.addFixture(new FixtureData("box", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
 		ship = new ShipData("Juggernaught", "juggernaught", 3, 35.0f, 30.0f, 10.0f, 15.0f, 0f, 0.5f, weapons,
 				physicsData, 16f, 16f, 0.75f);
-		playerShip = new PlayerShipData(ship, "Juggernaughty", 10f, 0, 1, 50f);
+		playerShip = new PlayerShipData(ship, "Juggernaughty", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);
 
 		return ships;
@@ -198,11 +158,6 @@ public class InMemoryDataService implements IDataService {
 
 	@Override
 	public void saveUser(UserDataI data) {
-
-	}
-
-	@Override
-	public void saveShip(ShipDataI data) {
 
 	}
 

@@ -134,7 +134,7 @@ public class LevelFactory {
 		Viewport uiViewport = new ScreenViewport();
 		Skin uiSkin = assets.get(ParameterGame.UI_SKIN, Skin.class);
 		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), uiViewport, uiSkin);
-		
+
 		// ENTITY CREATION
 		// Needed to prepare projectile factories
 		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
@@ -257,7 +257,6 @@ public class LevelFactory {
 
 		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue);
 		registerSoundEvents(context, eventQueue, engine);
-                registerPlayerKilledEvents(context, eventQueue, engine);
 		return engine;
 	}
 
@@ -275,12 +274,6 @@ public class LevelFactory {
 		// Will need another chain of objects to filter the messages
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 		eventQueue.register(EventEnum.WEAPON_FIRED, new WeaponFiredSoundHandler(context.getSoundService()));
-	}
-        
-        private void registerPlayerKilledEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
-		// register event handlers on event queue to send sound messages.
-		// Will need another chain of objects to filter the messages
-		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledSoundHandler(context.getSoundService()));
 	}
 
