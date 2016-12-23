@@ -34,23 +34,28 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 public class SQLDataService implements IDataService {
 
 	private static SQLDataService instance;
-	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
+	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO create server login for this
 	private final String USR = "user22";
 	private final String PWD = "22";
-	
-	//FOR DB
-	//private final String URL = "jdbc:mysql://www.webworm.tk/u174713690_00001";
-	//private final String USR = "u174713690_00001";	//user22 or root
-	//private final String PWD = "123456";		//22 or ""
+
 	
 	private Connection con;
 
 	private SQLDataService() {
 		try {
 			con = DriverManager.getConnection(URL, USR, PWD);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch(Exception e) {
+			System.out.println("failed to create a server connection");
+			try{
+				con = DriverManager.getConnection(URL, USR, PWD);
+			} catch(Exception ex) {
+				ex.printStackTrace();
+				System.out.println("failed to create local connection");
+			}
+			/*
+			ex.printStackTrace();
 			System.out.println("failed to create a Connection...");
+			*/
 		}
 	}
 
@@ -63,11 +68,24 @@ public class SQLDataService implements IDataService {
 	
 	public UserDataI getUser(String username, String hashedPassword) {
 		UserDataI user = null;
-		//TODO
+		try {
+			String sql = "select * from parametergame.player where name = ? and password = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, username);
+			prep.setString(2, hashedPassword);
+			ResultSet res = prep.executeQuery();
+			if(res.next()) {
+				user = new UserData(res.getString("name"), res.getString("password"), res.getString("difficultyID"));
+			}
+			res.close();
+			prep.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return user;
 	}
 
-	public UserDataI getUser(String username) {		//TODO check on password
+	public UserDataI getUser(String username) {		//TODO REMOVE
 		UserDataI user = null;
 		try {
 			String sql = "select * from parametergame.player where name = ?";
@@ -167,7 +185,7 @@ public class SQLDataService implements IDataService {
 			while(res.next()) {
 				ShipDataBuilder builder = new ShipDataBuilder();
 				ShipDataI ship = builder.setName(res.getString("name")).setHealth(res.getInt("health")).setLinearAcceleration(res.getFloat("linearAcceleration")).setAngularAcceleration(res.getFloat("angularAcceleration")).setMaxLinearSpeed(res.getFloat("maxLinearSpeed")).setMaxAngularSpeed(res.getFloat("maxAngularSpeed")).setTexture(res.getString("texture")).setLinearDamping(res.getFloat("linearDamping")).setAngularDamping(res.getFloat("angularDamping")).setShipSizeX(res.getFloat("shipSizeX")).setShipSizeY(res.getFloat("shipSizeY")).setGravityResistance(res.getFloat("gravityResistance")).setPhysicsData(getPhysics(res.getString("physicsdataID"))).setWeapons(getWeapons(res.getString("shipName"))).build();
-				PlayerShipDataI playerShip = new PlayerShipData(ship, res.getString("ID"), res.getFloat("mass"),res.getInt("exp"), res.getInt("lvl"), res.getFloat("geomRadius"));
+				PlayerShipDataI playerShip = new PlayerShipData(ship, res.getString("ID"),res.getFloat("mass"), res.getInt("exp"), res.getInt("lvl"), res.getFloat("geomRadius"), res.getInt("campaignLevel"));
 				playerShips.add(playerShip);
 			}
 			res.close();
@@ -180,7 +198,7 @@ public class SQLDataService implements IDataService {
 	
 	public Collection<ShipDataI> getShips(UserDataI user) {
 		Collection<ShipDataI> playerShips = new HashSet<>();
-		//TODO
+		//TODO REMOVE
 		return playerShips;
 	}
 
@@ -243,7 +261,7 @@ public class SQLDataService implements IDataService {
 	public void saveUser(UserDataI data) {
 		try {
 			String sqlSave ="";
-			String sql = "select * from parametergame.player where `name` = ?";
+			String sql = "select * from parametergame.player where `name` = ?";	//TODO call getUser method
 			PreparedStatement prep = con.prepareStatement(sql);
 			prep.setString(1, data.getUser());
 			ResultSet res = prep.executeQuery();
@@ -255,7 +273,7 @@ public class SQLDataService implements IDataService {
 			}
 			PreparedStatement ps = con.prepareStatement(sqlSave);
 			ps.setString(1, data.getPasswordHashed());
-			ps.setString(2, data.getDifficulty());	//TODO get the id
+			ps.setString(2, data.getDifficulty());
 			ps.setString(3, data.getUser());
 			ps.executeUpdate();
 			ps.close();
@@ -267,7 +285,36 @@ public class SQLDataService implements IDataService {
 	}
 
 	public void saveShip(ShipDataI data) {	//TODO make private after once kevin doesn't use it anymore
-		//TODO
+		try{
+			String sqlSave ="";
+			String sql = "select * from parametergame.ship where name = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, data.getName());
+			ResultSet res = prep.executeQuery();
+			if(res.next()) {
+				sqlSave = "update parametergame.ship set `health`=?, `linearAcceleration`=?, `angularAcceleration`=?, `maxLinearSpeed`=?, `maxAngularSpeed`=?, `texture`=?, `linearDamping`=?, `angularDamping`=?, `shipSizeX`=?, `shipSizeY`=?, `gravityResistance`=? where name = ?";
+			} else {
+				sqlSave = "insert into parametergame.ship(`health`, `linearAcceleration`, `angularAcceleration`, `maxLinearSpeed`, `maxAngularSpeed`, `texture`, `linearDamping`, `angularDamping`, `shipSizeX`, `shipSizeY`, `gravityResistance`, `name`) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+			}
+			PreparedStatement ps = con.prepareStatement(sqlSave);
+			ps.setInt(1, data.getHealth());
+			ps.setFloat(2, data.getLinearAcceleration());
+			ps.setFloat(3, data.getAngularAcceleration());
+			ps.setFloat(4, data.getMaxLinearSpeed());
+			ps.setFloat(5, data.getMaxAngularSpeed());
+			ps.setString(6, data.getTexture());
+			ps.setFloat(7, data.getLinearDamping());
+			ps.setFloat(8, data.getAngularDamping());
+			ps.setFloat(9, data.getShipSizeX());
+			ps.setFloat(10, data.getShipSizeY());
+			ps.setFloat(11, data.getGravityResistance());
+			ps.setString(12, data.getName());
+			ps.close();
+			res.close();
+			prep.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void savePlayerShip(PlayerShipDataI data) {

@@ -17,14 +17,19 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public interface IDataService {
 	//This is the general blueprint for different classes, such as MySQLDataService, T-SQLDataService,....
-	
+	/**
+	 * fetches an user from the db, based on username and hashed password
+	 * @param username the username that is checked upon
+	 * @param hashedPassword the hashed password, this must be equal to the value in the database
+	 * @return the first user found, or null if none is found or the passwords don't match
+	 */
 	public UserDataI getUser(String username, String hashedPassword);
 	
 	/**
 	 * fetches an user from the DB, doesn't check on password
 	 * @param username
 	 * @return the first user found, or null if none found
-	 */
+	 */	
 	@Deprecated
 	public UserDataI getUser(String username);
 

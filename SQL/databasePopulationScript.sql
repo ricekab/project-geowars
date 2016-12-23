@@ -18,13 +18,13 @@ insert into difficulty(`ID`,`movementModifier`,`scoreModifier`,`healthModifier`,
         ("Advanced JS difficulty", 0.1,100,0.1,0.33);
   
   
-insert into ship(`name`,`health`,`linearAcceleration`,`angularAcceleration`,`maxLinearSpeed`,`maxAngularSpeed`,`texture`,`linearDamping`,`angularDamping`,`shipSizeX`,`shipSizeY`,`gravityResistance`)
+insert into ship(`name`,`health`,`linearAcceleration`,`angularAcceleration`,`maxLinearSpeed`,`maxAngularSpeed`,`texture`,`linearDamping`,`angularDamping`,`shipSizeX`,`shipSizeY`,`gravityResistance`,`physicsdataID`)
 	values
-		("juggernaut",4,1,1,5,5,"juggernaut.png",2,2,50,100, 0.75),
-        ("fighter",3, 3,3,8,8,"fighter.png",3,3,30,50, 0.5),
-        ("recon", 2, 5,5,15,15, "recon.png",15,10,15,25, 0.25),
-        ("bomber", 1, 3, 3, 6, 6, "bomber.png",0,0,10,15, 0),
-        ("obstacle", 10, 0, 0, 0, 0, "obstacle.png", 0, 0, 10, 10, 9001);
+		("juggernaut",4,1,1,5,5,"juggernaut.png",2,2,50,100, 0.75, "DATA_01"),
+        ("fighter",3, 3,3,8,8,"fighter.png",3,3,30,50, 0.5, "DATA_01"),
+        ("recon", 2, 5,5,15,15, "recon.png",15,10,15,25, 0.25, "DATA_01"),
+        ("bomber", 1, 3, 3, 6, 6, "bomber.png",0,0,10,15, 0, "DATA_01"),
+        ("obstacle", 10, 0, 0, 0, 0, "obstacle.png", 0, 0, 10, 10, 9001, "DATA_99");
     
     
 insert into weapon(`ID`,`offsetX`,`offsetY`,`bulletDamage`,`shotConeAngle`,`firerate`,`range`,`detonationDelay`,`bulletsPerShot`,`bulletSpeed`,`shipName`)
