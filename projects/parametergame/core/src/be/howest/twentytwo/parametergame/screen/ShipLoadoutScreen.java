@@ -14,6 +14,7 @@ import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 import be.howest.twentytwo.parametergame.ui.factory.CheckBoxFactory;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
+import be.howest.twentytwo.parametergame.ui.listener.ButtonChangeSoundListener;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -39,7 +40,8 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 		super(context, engine);
 		this.factory = gameFactory;
 
-		TextButtonFactory tbf = new TextButtonFactory(getSkin().get(TextButtonStyle.class));
+		TextButtonFactory tbf = new TextButtonFactory(getSkin().get(TextButtonStyle.class),
+				new ButtonChangeSoundListener(context.getSoundService()));
 		CheckBoxFactory cbf = new CheckBoxFactory(getSkin().get(CheckBoxStyle.class));
 
 		UserDataI user = getContext().getUser();
@@ -53,7 +55,7 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 		rowTable.add(new Label(title, getSkin().get("pressed", LabelStyle.class))).fill().align(Align.center);
 		root.add(rowTable);
 		root.row();
-		
+
 		// Retrieve and show ships
 		Collection<PlayerShipDataI> ships = dataService.getPlayerShips(user);
 		shipGroup = new ButtonGroup<CheckBox>();
@@ -61,8 +63,7 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 		root.add(rowTable);
 		rowTable.add(new Label("Ship: ", getSkin().get(LabelStyle.class)));
 		for (PlayerShipDataI ship : ships) {
-			CheckBox c = cbf.createCheckBox(String.format("%s [%s]", ship.getId(), ship
-					.getShipData().getName()));
+			CheckBox c = cbf.createCheckBox(String.format("%s [%s]", ship.getId(), ship.getShipData().getName()));
 			c.setUserObject(ship);
 			shipGroup.add(c);
 			rowTable.add(c);
@@ -111,10 +112,10 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 	}
 
 	public ShipLoadoutScreen(ScreenContext context, Engine engine, ChangeListener confirmListener,
-			BaseGameFactory gameFactory){
+			BaseGameFactory gameFactory) {
 		this(context, engine, confirmListener, gameFactory, "Loadout selection");
 	}
-	
+
 	@Override
 	public void show() {
 	}
@@ -127,8 +128,7 @@ public class ShipLoadoutScreen extends BaseUIBackgroundScreen {
 			for (CheckBox cb : droneGroup.getAllChecked()) {
 				drones.add((DroneDataI) cb.getUserObject());
 			}
-			DifficultyDataI difficulty = (DifficultyDataI) difficultyGroup.getChecked()
-					.getUserObject();
+			DifficultyDataI difficulty = (DifficultyDataI) difficultyGroup.getChecked().getUserObject();
 			factory.setSelections(new LoadoutSelectionData(ship, drones, difficulty));
 		}
 	}

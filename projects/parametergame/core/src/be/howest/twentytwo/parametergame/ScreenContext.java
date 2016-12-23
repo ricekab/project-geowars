@@ -26,7 +26,7 @@ public class ScreenContext {
 	private final IFileAccessor fileService;
 	private final Game game;
 	private final SoundSequencer soundService;
-        private final SoundEngine musicService;
+	private final SoundEngine musicService;
 	private UserDataI user;
 
 	// private I18NBundle internationalization;
@@ -41,7 +41,7 @@ public class ScreenContext {
 		this.dataService = dataService;
 		this.fileService = fileService;
 		this.soundService = new SoundSequencer();
-                this.musicService = new SoundEngine();
+		this.musicService = new SoundEngine();
 	}
 
 	public AssetManager getAssetManager() {
@@ -87,8 +87,8 @@ public class ScreenContext {
 	public SoundSequencer getSoundService() {
 		return soundService;
 	}
-        
-        public SoundEngine getMusicService() {
+
+	public SoundEngine getMusicService() {
 		return musicService;
 	}
 
