@@ -37,10 +37,11 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	public MenuScreen(ScreenContext context) {
 		super(context);
 		/*
-		 * SoundSequencer seq = new SoundSequencer(); SoundEngine se = new SoundEngine();
-		 * se.playMusic("music/finished_long.ogg", true); for(int i=0; i < 5; i++){
-		 * seq.addSound("sound/switch25.wav"); } for(int i=0; i < 5; i++){ seq.play(1);
-		 * //System.out.println(seq.getSize()); //System.out.println(seq.getIndex()); }
+		 * SoundSequencer seq = new SoundSequencer(); SoundEngine se = new
+		 * SoundEngine(); se.playMusic("music/finished_long.ogg", true); for(int
+		 * i=0; i < 5; i++){ seq.addSound("sound/switch25.wav"); } for(int i=0;
+		 * i < 5; i++){ seq.play(1); //System.out.println(seq.getSize());
+		 * //System.out.println(seq.getIndex()); }
 		 */
 
 	}
@@ -65,20 +66,25 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		menu.add(versus);
 
 		menu.row();
+		menu.add(tbf.createButton("Keybindings", new ShowKeybindsListener()));
+
+		menu.row();
 		menu.add(tbf.createButton("Credits", new CreditsListener()));
 
 		menu.row();
 		menu.add(tbf.createButton("Exit Game", new ExitListener()));
 
 		root.add(createLoginWindow(tbf)).width(300f);
+		
+		
 
-		if(ParameterGame.DEBUG_ENABLED) {
+		if (ParameterGame.DEBUG_ENABLED) {
 			userField.setText("debug");
 			passwordField.setText("DEBUG");
 			doLogin();
 		}
 
-		if(getContext().getUser() != null) {
+		if (getContext().getUser() != null) {
 			setLoggedIn(getContext().getUser());
 		}
 	}
@@ -114,9 +120,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			BaseGameFactory gameFactory = new SPGameFactory(getContext(), "arcade01");
-			getContext().setScreen(
-					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
-							gameFactory), gameFactory));
+			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(),
+					new ArcadeLoadoutListener(gameFactory), gameFactory));
 			dispose();
 		}
 	}
@@ -125,9 +130,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), "arcade01");
-			getContext().setScreen(
-					new ShipLoadoutScreen(getContext(), getEngine(), new VersusLoadoutListener(
-							gameFactory), gameFactory, "Loadout - Player 1"));
+			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(),
+					new VersusLoadoutListener(gameFactory), gameFactory, "Loadout - Player 1"));
 			dispose();
 		}
 	}
@@ -136,6 +140,14 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			getContext().setScreen(new CreditsScreen(getContext(), getEngine()));
+			dispose();
+		}
+	}
+
+	private class ShowKeybindsListener extends ChangeListener {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			getContext().setScreen(new ShowKeyScreen(getContext(), getEngine()));
 			dispose();
 		}
 	}
@@ -158,7 +170,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 		@Override
 		public boolean keyDown(InputEvent event, int keycode) {
-			if(Keys.ENTER == keycode) {
+			if (Keys.ENTER == keycode) {
 				doLogin();
 			}
 			return false;
@@ -193,9 +205,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			Gdx.app.debug("MenuScreen", "Versus Mode selected");
-			getContext().setScreen(
-					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
-							factory), factory, "Loadout - Player 2"));
+			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(factory),
+					factory, "Loadout - Player 2"));
 		}
 	}
 
@@ -208,7 +219,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	}
 
 	private void setLoggedIn(UserDataI user) {
-		if(user != null) {
+		if (user != null) {
 			loginStatusLabel.setText("Active Login: " + user.getUser());
 			getContext().setUser(user);
 			arcade.setDisabled(false);

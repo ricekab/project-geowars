@@ -92,4 +92,9 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable { // a collec
 	public Collection<ClusterDataI> getAllClusters() {
 		return clusters;
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return getAllClusters().isEmpty();
+	}
 }
