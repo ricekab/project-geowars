@@ -1,4 +1,4 @@
-package jUnit;
+/*package jUnit;
 
 import static org.junit.Assert.*;
 
@@ -24,4 +24,4 @@ public class SQLDataServiceTests {
 		assertEquals("\ntestGetUser failed\n", desiredUsername, user.getUser());
 	}
 
-}
+}*/

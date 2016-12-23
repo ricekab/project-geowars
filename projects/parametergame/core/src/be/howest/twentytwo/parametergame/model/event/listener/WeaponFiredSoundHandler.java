@@ -19,7 +19,16 @@ public class WeaponFiredSoundHandler extends BaseWeaponFiredHandler {
 		String weaponName = event.getWeaponName();
 		switch (weaponName) {
 		case "bullet_basic":
-			// STUFF
+                        sounds.addSound("sound/primary.wav");
+			break;
+                case "bullet_drone":
+                        sounds.addSound("sound/secondary.mp3");
+			break;
+                case "bullet_shooter":
+                        sounds.addSound("sound/shooter.mp3");
+			break;
+                case "missile_projectile":
+                        sounds.addSound("sound/missile.mp3");
 			break;
 		default:
 			Gdx.app.error("LF/WeaponFiredSoundHandler", "ERR: Could not find sound for: " + weaponName);
