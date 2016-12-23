@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -16,6 +17,7 @@ import be.howest.twentytwo.parametergame.dataTypes.DroneData;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.GameIdDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
@@ -34,6 +36,7 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 public class SQLDataService implements IDataService {
 
 	private static SQLDataService instance;
+	private final String WURL = "jdbc:mysql://192.168.30.26:3306";
 	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO create server login for this
 	private final String USR = "user22";
 	private final String PWD = "22";
@@ -43,7 +46,7 @@ public class SQLDataService implements IDataService {
 
 	private SQLDataService() {
 		try {
-			con = DriverManager.getConnection(URL, USR, PWD);	//TODO this has to be web
+			con = DriverManager.getConnection(WURL, USR, PWD);
 		} catch(Exception e) {
 			System.out.println("failed to create a server connection");
 			try{
@@ -421,6 +424,28 @@ public class SQLDataService implements IDataService {
 			prep.setString(16, data.getID());
 			System.out.println(sqlSave);
 			prep.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private GameIdDataI getGameId(GameIdDataI game) {
+		GameIdDataI gid = null;
+		//TODO
+		return gid;
+	}
+	
+	public void saveScore(PlayerShipDataI ship, GameIdDataI game, int points, Timestamp date) {
+		GameIdDataI gameId = getGameId(game);
+		if(gameId == null) {
+			try {
+				String sql = "insert into parametergame.gameID() values()";	//TODO
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			String sql = "insert into parametergame.playedGame(`playerShipID`,`gameUniqueID`,`points`,`date`) values(?,?,?,?)";	//TODO
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
