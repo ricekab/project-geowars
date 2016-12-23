@@ -14,7 +14,7 @@ public class SpawnPoolData implements SpawnPoolDataI, Serializable { // a collec
 	private float spawnTreshold;
 	private float spawnTresholdIncrease;
 
-	public SpawnPoolData() {
+	public SpawnPoolData() { 
 		clusters = new HashSet<>();
 	}
 

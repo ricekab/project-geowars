@@ -15,8 +15,7 @@ public class UserData implements UserDataI{
 	
 	@Deprecated
 	public UserData(String user, String passwordHash) {
-		this.user = user;
-		this.passwordHash = passwordHash;
+		this(user, passwordHash, "Casual");
 	}
 	
 	//	GETTERS
