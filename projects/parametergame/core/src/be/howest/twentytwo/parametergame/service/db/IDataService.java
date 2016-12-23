@@ -69,4 +69,6 @@ public interface IDataService {
 	
 	public void saveScore(PlayerShipDataI ship, GameIdDataI game, int points, Timestamp date);
 	
+	public void closeConnection();
+	
 }

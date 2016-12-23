@@ -1,8 +1,10 @@
-/*package jUnit;
+package jUnit;
 
 import static org.junit.Assert.*;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
@@ -12,16 +14,15 @@ public class SQLDataServiceTests {
 	
 	private SQLDataService db;
 	
-	@Before
-	public void init() {
+	@BeforeClass
+	public void initServer() {
 		db = SQLDataService.getInstance();
 	}
-
-	@Test
-	public void testGetUser() {
-		String desiredUsername = "The_Legend_27";
-		UserDataI user = db.getUser(desiredUsername);
-		assertEquals("\ntestGetUser failed\n", desiredUsername, user.getUser());
+	
+	@AfterClass
+	public void teardownServer() {
+		db.closeConnection();
 	}
 
-}*/
+
+}

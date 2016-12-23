@@ -465,5 +465,13 @@ public class SQLDataService implements IDataService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void closeConnection() {
+		try{
+			con.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 }
