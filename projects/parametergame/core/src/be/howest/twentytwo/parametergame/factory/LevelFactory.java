@@ -56,6 +56,7 @@ import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHan
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
+import be.howest.twentytwo.parametergame.model.event.listener.GameEndSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
@@ -110,8 +111,8 @@ import be.howest.twentytwo.parametergame.ui.message.UIMessage;
  */
 public class LevelFactory {
 
-	public PooledEngine createWorld(ScreenContext context, Viewport viewport, EventQueue eventQueue, String levelName,
-			LoadoutSelectionData selections) {
+	public PooledEngine createWorld(ScreenContext context, Viewport gameViewport, Viewport uiViewport,
+			EventQueue eventQueue, String levelName, LoadoutSelectionData selections) {
 		LevelDataI levelData = context.getFileService().loadLevel(levelName);
 		IDataService dataService = context.getDataService();
 		AssetManager assets = context.getAssetManager();
@@ -131,7 +132,6 @@ public class LevelFactory {
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
 		// UI INIT
-		Viewport uiViewport = new ScreenViewport();
 		Skin uiSkin = assets.get(ParameterGame.UI_SKIN, Skin.class);
 		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), uiViewport, uiSkin);
 
@@ -166,7 +166,7 @@ public class LevelFactory {
 		Entity cameraEntity = engine.createEntity();
 
 		CameraComponent camComp = engine.createComponent(CameraComponent.class);
-		camComp.setCamera(viewport.getCamera());
+		camComp.setCamera(gameViewport.getCamera());
 		camComp.addTrackPoint(playerShip, 1);
 
 		cameraEntity.add(camComp);
@@ -174,16 +174,16 @@ public class LevelFactory {
 		engine.addEntity(cameraEntity);
 
 		// SYSTEMS
-		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
+		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), gameViewport);
 		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
 		engine.addSystem(new MovementSystem(physicsMessageQueue));
 		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
 		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
 		engine.addSystem(spawnSystem);
 		engine.addSystem(new CameraSystem());
-		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport));
+		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), assets, gameViewport));
 		engine.addSystem(renderSys);
-		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
+		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), gameViewport));
 		engine.addSystem(new TimerSystem(eventQueue));
 		engine.addSystem(new AISpawnSystem(world, eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
@@ -275,6 +275,7 @@ public class LevelFactory {
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 		eventQueue.register(EventEnum.WEAPON_FIRED, new WeaponFiredSoundHandler(context.getSoundService()));
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledSoundHandler(context.getSoundService()));
+		eventQueue.register(EventEnum.GAME_LOSE, new GameEndSoundHandler(context.getSoundService()));
 	}
 
 	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine,
@@ -343,7 +344,7 @@ public class LevelFactory {
 
 		@Override
 		public void handleEvent(PlayerKilledEvent event) {
-			if(!active){
+			if (!active) {
 				return;
 			}
 			Gdx.app.debug("LF/PlayerKilledHandler", "Called");

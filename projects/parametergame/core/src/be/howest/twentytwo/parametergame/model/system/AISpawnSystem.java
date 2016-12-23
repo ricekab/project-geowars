@@ -11,7 +11,8 @@ import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
 import be.howest.twentytwo.parametergame.factory.ProjectileFactory;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
-import be.howest.twentytwo.parametergame.model.event.game.GameEndEvent;
+import be.howest.twentytwo.parametergame.model.event.game.GameLoseEvent;
+import be.howest.twentytwo.parametergame.model.event.game.GameSpawnDepletedEvent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
@@ -54,6 +55,7 @@ public class AISpawnSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
+		// Do I need to spawn?
 		if(!active){
 			return;	// No more to be done
 		}
@@ -62,6 +64,7 @@ public class AISpawnSystem extends IntervalSystem {
 			return;
 		}
 		timeSinceLastSpawn = 0f;
+		// Retrieve cluster to spawn
 		if (currentPool == null || currentPool.isEmpty()) {
 			if (spawnpools.isEmpty()) {
 				System.out.println("GAME END");
@@ -69,15 +72,22 @@ public class AISpawnSystem extends IntervalSystem {
 				// No enemies left, player win.
 				// 1. UI Message --> player won
 				// 2. Upgrade screen/next level after some timedelay
-				events.send(new GameEndEvent());
+				events.send(new GameLoseEvent());	// TODO: TEMP
+				events.send(new GameSpawnDepletedEvent());
 				return;
 			}
 			currentPool = spawnpools.poll();
 		}
+		// Start spawning based on cluster information
 		ClusterDataI cluster = currentPool.getRandomCluster();
-		cluster.getEnemyName();
-		spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), findSpawnPosition(), new Vector2(), 0f,
-				Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK));
+		for(int i = 0; i < cluster.getGroups(); i++){
+			// Find appropriate location to spawn.
+			// TODO
+			for(int j = 0; j < cluster.getEnemies(); j++){
+				spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), findSpawnPosition(), new Vector2(), 0f,
+						Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK));		
+			}
+		}
 	}
 
 	private Vector2 findSpawnPosition() {

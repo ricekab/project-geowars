@@ -6,7 +6,7 @@
 package be.howest.twentytwo.parametergame.model.event.listener;
 
 import be.howest.twentytwo.parametergame.audio.SoundSequencer;
-import be.howest.twentytwo.parametergame.model.event.game.GameEndEvent;
+import be.howest.twentytwo.parametergame.model.event.game.GameLoseEvent;
 
 /**
  *
@@ -20,7 +20,7 @@ public class GameEndSoundHandler extends BaseGameEndHandler {
 		this.sounds = soundSequencer;
 	}
     @Override
-    public void handleEvent(GameEndEvent event) {
+    public void handleEvent(GameLoseEvent event) {
         sounds.addSound("sound/victory.wav");
     }
     
