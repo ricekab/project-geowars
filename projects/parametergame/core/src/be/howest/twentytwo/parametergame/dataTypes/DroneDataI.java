@@ -6,5 +6,8 @@ public interface DroneDataI {
 	
 	public int getOffenseUpgradeLevel();
 	public int getUtilityUpgradeLevel();
+	
+	public void setOffenseUpgradeLevel(int lvl);
+	public void setUtilityUpgradeLevel(int lvl);
 
 }

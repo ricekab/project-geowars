@@ -43,7 +43,7 @@ public class SQLDataService implements IDataService {
 
 	private SQLDataService() {
 		try {
-			con = DriverManager.getConnection(URL, USR, PWD);
+			con = DriverManager.getConnection(URL, USR, PWD);	//TODO this has to be web
 		} catch(Exception e) {
 			System.out.println("failed to create a server connection");
 			try{
@@ -306,7 +306,7 @@ public class SQLDataService implements IDataService {
 		}
 	}
 	
-	public void savePlayerShip(PlayerShipDataI data) {
+	public void savePlayerShip(PlayerShipDataI data) {		//TODO getPlayerShipData
 		try {
 			String sqlSave = "";
 			String sql = "select * from parametergame.playerShip where `ID` = ?";
@@ -337,10 +337,40 @@ public class SQLDataService implements IDataService {
 			e.printStackTrace();
 		}
 	}
-
-	public void saveDrone(DroneDataI data) {
+	
+	private DroneDataI getDrone(DroneDataI data) {
+		DroneDataI drone = null;
 		try {
-			
+			String sql = "select * from parametergame.drone";
+			Statement stmt = con.createStatement();
+			ResultSet res = stmt.executeQuery(sql);
+			if(res.next()) {
+				drone = new DroneData(res.getString("ID"), res.getInt("offenseUpgradeLevel"), res.getInt("utilityUpgradeLevel"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return drone;
+	}
+
+	public void saveDrone(DroneDataI data, UserDataI user) {
+		try {
+			String sqlSave = "";
+			DroneDataI drone = getDrone(data);
+			PreparedStatement ps = null;
+			if(drone != null) {
+				sqlSave = "update parametergame.drone set `offenseUpgradeLevel`=?, `utilityUpgradeLevel`=? where `ID` = ?";
+				ps = con.prepareStatement(sqlSave);
+			}else {
+				sqlSave = "insert into parametergame.drone(`offenseUpgradeLevel`,`utilityUpgradeLevel`,`ID`, `playerName`) values(?,?,?,?)";
+				ps = con.prepareStatement(sqlSave);
+				ps.setString(4, user.getUser());
+			}
+			//PreparedStatement ps = con.prepareStatement(sqlSave);
+			ps.setInt(1, data.getOffenseUpgradeLevel());
+			ps.setInt(2, data.getUtilityUpgradeLevel());
+			ps.setString(3, data.getID());
+			ps.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

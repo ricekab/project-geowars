@@ -61,7 +61,7 @@ public interface IDataService {
 	
 	public void savePlayerShip(PlayerShipDataI data);
 	
-	public void saveDrone(DroneDataI data);
+	public void saveDrone(DroneDataI data, UserDataI user);
 	
 	public void saveWeapon(WeaponDataI weapon);
 	
