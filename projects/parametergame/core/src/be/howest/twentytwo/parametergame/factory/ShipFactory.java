@@ -11,10 +11,12 @@ import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+import be.howest.twentytwo.parametergame.model.component.HealthComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
+import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.gamedata.NullWeaponData;
 import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 
@@ -159,8 +161,14 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		sc.setRegion(sprite);
 		ship.add(sc);
 		
-		// TODO: SHIP HEALTH COMPONENT
-
+		HealthComponent hp = engine.createComponent(HealthComponent.class);
+		
+		System.out.println("SHIPDATA HP: " + shipData.getHealth());
+		System.out.println("MODIFER: " + modifiers.getHealthModifier());
+		
+		hp.setHealthData(new HealthData(shipData.getHealth() * modifiers.getHealthModifier()));
+		ship.add(hp);
+		
 		return ship;
 	}
 

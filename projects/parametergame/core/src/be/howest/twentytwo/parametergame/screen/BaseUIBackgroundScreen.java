@@ -21,6 +21,7 @@ public abstract class BaseUIBackgroundScreen extends BaseUIScreen {
 		engine = new Engine();
 		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), context
 				.getAssetManager(), getViewport(), 125f, 125f));
+		// Gdx.input.setInputProcessor(getStage());
 	}
 	
 	public Engine getEngine(){

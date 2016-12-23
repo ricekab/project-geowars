@@ -4,7 +4,7 @@ import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class SpawnProjectileMessage implements ISpawnMessage {
+public class SpawnEntityMessage implements ISpawnMessage {
 
 	private final String type;
 	private final Vector2 pos;
@@ -13,7 +13,7 @@ public class SpawnProjectileMessage implements ISpawnMessage {
 	private final short physicsCategory;
 	private final short physicsMask;
 
-	public SpawnProjectileMessage(String name, Vector2 pos, Vector2 vel, float rotation, short category, short mask) {
+	public SpawnEntityMessage(String name, Vector2 pos, Vector2 vel, float rotation, short category, short mask) {
 		this.type = name;
 		this.pos = pos;
 		this.vel = vel;

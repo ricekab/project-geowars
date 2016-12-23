@@ -1,7 +1,12 @@
 package be.howest.twentytwo.parametergame.factory;
 
+import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
+import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
+
+import java.util.Collection;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -17,21 +22,30 @@ public class PlayerShipFactory implements Disposable {
 	private PooledEngine engine;
 	private World world;
 	private AssetManager assets;
+	
+	private final float geomRadius;
+	private Collection<DroneDataI> drones;
 
 	public PlayerShipFactory(PooledEngine engine, World world, AssetManager assets, PlayerShipDataI playerShipData) {
 		this.shipFactory = new ShipFactory(engine, world, assets, playerShipData.getShipData());
 		this.engine = engine;
 		this.world = world;
 		this.assets = assets;
+		this.drones = playerShipData.getDrones();
+		this.geomRadius = playerShipData.getGeomRadius();
 	}
 
 	public Entity createPlayerShip(Vector2 pos) {
 		Entity player = shipFactory.createShip(pos, 0f, Collision.BULLET_PLAYER_CATEGORY,
 				Collision.BULLET_PLAYER_MASK);
-		// TODO: DRONE FACTORY HERE
 		
-		// TODO: PLAYER COMPONENT HERE
-		return player;
+		PlayerComponent pc = engine.createComponent(PlayerComponent.class);
+		pc.setPlayerData(new PlayerData(geomRadius));
+		player.add(pc);
+		
+		
+		// TODO: DRONE FACTORY HERE
+			return player;
 	}
 
 	public Entity createPlayerShip(float xPos, float yPos) {

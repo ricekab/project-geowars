@@ -10,6 +10,7 @@ import java.util.Set;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
@@ -37,12 +38,18 @@ import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.game.WeaponFiredEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.BaseWeaponFiredHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
+import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.WeaponFiredSoundHandler;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
@@ -53,8 +60,10 @@ import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.system.AIMovementSystem;
 import be.howest.twentytwo.parametergame.model.system.AIShootSystem;
+import be.howest.twentytwo.parametergame.model.system.AISpawnSystem;
 import be.howest.twentytwo.parametergame.model.system.BackgroundRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.CameraSystem;
+import be.howest.twentytwo.parametergame.model.system.HealthSystem;
 import be.howest.twentytwo.parametergame.model.system.MovementSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsDebugRenderSystem;
 import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
@@ -65,6 +74,7 @@ import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.UISystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.model.time.ITimeoutCallback;
+import be.howest.twentytwo.parametergame.model.time.MainMenuCallback;
 import be.howest.twentytwo.parametergame.model.time.RemoveInvulnerabilityCallback;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
@@ -84,25 +94,27 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Builds up the physics {@link World} as well as all populates the ECS engine with level-defined
- * entities.
+ * Builds up the physics {@link World} as well as all populates the ECS engine
+ * with level-defined entities.
  * 
- * Note -- The ECS engine can listen for new entities added and add their body to the world. This
- * simplifies adding entities to the engine without having to pass the World around everywhere just
- * in case it's needed. The downside (?) is that the body definition is required as well.
+ * Note -- The ECS engine can listen for new entities added and add their body
+ * to the world. This simplifies adding entities to the engine without having to
+ * pass the World around everywhere just in case it's needed. The downside (?)
+ * is that the body definition is required as well.
  * 
- * --> Ended up opting for factories having access to the World object. They're responsibly for
- * creating the object in its entirety.
+ * --> Ended up opting for factories having access to the World object. They're
+ * responsibly for creating the object in its entirety.
  * 
- * Logically, it makes sense for most of the builders/factories to keep a copy of body def and
- * fixture def since they'll make a lot of copies. This basically becomes flyweight-esque.
+ * Logically, it makes sense for most of the builders/factories to keep a copy
+ * of body def and fixture def since they'll make a lot of copies. This
+ * basically becomes flyweight-esque.
  *
  * TODO: Fix docs
  */
 public class LevelFactory {
 
-	public PooledEngine createWorld(ScreenContext context, Viewport viewport,
-			EventQueue eventQueue, String levelName, LoadoutSelectionData selections) {
+	public PooledEngine createWorld(ScreenContext context, Viewport viewport, EventQueue eventQueue, String levelName,
+			LoadoutSelectionData selections) {
 		LevelDataI levelData = context.getFileService().loadLevel(levelName);
 		IDataService dataService = context.getDataService();
 		AssetManager assets = context.getAssetManager();
@@ -119,8 +131,7 @@ public class LevelFactory {
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 		world.setContactListener(getCollisionChain(eventQueue, physicsMessageQueue));
-		engine.addEntityListener(Family.all(BodyComponent.class).get(),
-				new PhysicsBodyEntityListener(world));
+		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
 		// UI Init
 		Stage uiStage = createUI();
@@ -137,15 +148,16 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
+		engine.addSystem(new AISpawnSystem(eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
 		engine.addSystem(new UISystem(uiMessageQueue, uiStage));
+		engine.addSystem(new HealthSystem(eventQueue));
 		// engine.addSystem(new AISystem());
 		// Sound, Animation, ...
 
-		if(ParameterGame.DEBUG_ENABLED) {
-			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context
-					.getShapeRenderer()));
+		if (ParameterGame.DEBUG_ENABLED) {
+			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context.getShapeRenderer()));
 		}
 
 		// ENTITY CREATION
@@ -158,8 +170,7 @@ public class LevelFactory {
 		playerShipData.setDrones(selections.getDrones());
 		allWeapons.addAll(shipData.getWeapons());
 
-		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets,
-				playerShipData);
+		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets, playerShipData);
 		BoxDataI spawnBox = levelData.getSpawnBox();
 		Entity playerShip = playerFactory.createPlayerShip(
 				spawnBox.getXCoord() + (float) Math.random() * spawnBox.getWidth(),
@@ -189,8 +200,7 @@ public class LevelFactory {
 			}
 		}
 
-		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames
-				.toArray(new String[enemyNames.size()]));
+		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames.toArray(new String[enemyNames.size()]));
 
 		for (EnemyDataI enemy : enemies) {
 			// Adding all weapons for projectile factories
@@ -199,26 +209,35 @@ public class LevelFactory {
 
 		// EnemyDataI enemy = enemies.iterator().next();
 		// // Spawn scout ship
-		// AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world, assets,
+		// AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world,
+		// assets,
 		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
 		// new BasicAIShootBehaviour(60, 80));// adjust for range
 		//
 		// // Spawn brutalizer ship
-		// AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine, world, assets,
-		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), // adjust for range
+		// AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine,
+		// world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), //
+		// adjust for range
 		// new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds
 		// // (120/30), 50 = range
-		// aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new Vector2(0f, 0f));
+		// aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new
+		// Vector2(0f, 0f));
 		//
 		// // Spawn obstacle
-		// AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine, world, assets,
+		// AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine,
+		// world, assets,
 		// enemy.getShipData(), playerBody);
-		// aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new Vector2(0f, 0f));
+		// aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new
+		// Vector2(0f, 0f));
 		//
 		// // Spawn suidicer
-		// AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine, world, assets,
-		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); // adjust for range
-		// aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new Vector2(0f, 0f));
+		// AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine,
+		// world, assets,
+		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); //
+		// adjust for range
+		// aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new
+		// Vector2(0f, 0f));
 
 		// Spawn suicide squad --> optional
 
@@ -247,8 +266,8 @@ public class LevelFactory {
 			// TODO: Convert behaviour string into concrete behaviours
 			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
 			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
-			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections
-					.getDifficulty(), playerBody, move, shoot));
+			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(),
+					playerBody, move, shoot));
 		}
 
 		// INPUT
@@ -264,8 +283,7 @@ public class LevelFactory {
 
 		// For controller,s input is slightly different (but same actions
 		// mostly)
-		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
-				playerShip);
+		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap, playerShip);
 		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
 
 		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
@@ -273,14 +291,12 @@ public class LevelFactory {
 
 		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue);
 		registerSoundEvents(context, eventQueue, engine);
-
+                registerPlayerKilledEvents(context, eventQueue, engine);
 		return engine;
 	}
 
-	private ContactListener getCollisionChain(EventQueue events,
-			Collection<IPhysicsMessage> physicsMessages) {
-		BaseContactProcessor collisionListener = new GravityContactProcessor(events,
-				physicsMessages);
+	private ContactListener getCollisionChain(EventQueue events, Collection<IPhysicsMessage> physicsMessages) {
+		BaseContactProcessor collisionListener = new GravityContactProcessor(events, physicsMessages);
 		collisionListener.addProcessor(new PlayerContactProcessor(events, physicsMessages))
 				.addProcessor(new PlayerBulletContactProcessor(events, physicsMessages))
 				.addProcessor(new PlanetContactProcessor(events, physicsMessages));
@@ -294,33 +310,29 @@ public class LevelFactory {
 		return stage;
 	}
 
-	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue,
-			PooledEngine engine) {
+	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
 		// register event handlers on event queue to send sound messages.
 		// Will need another chain of objects to filter the messages
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+		eventQueue.register(EventEnum.WEAPON_FIRED, new WeaponFiredSoundHandler(context.getSoundService()));
+	}
+        
+        private void registerPlayerKilledEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+		// register event handlers on event queue to send sound messages.
+		// Will need another chain of objects to filter the messages
+		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledSoundHandler(context.getSoundService()));
 	}
 
-	private void registerGameEvents(ScreenContext context, EventQueue eventQueue,
-			PooledEngine engine, Collection<IPhysicsMessage> physicsMessages,
-			Collection<ISpawnMessage> spawnMessages) {
+	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine,
+			Collection<IPhysicsMessage> physicsMessages, Collection<ISpawnMessage> spawnMessages) {
 		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
-
-		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
-
-			@Override
-			public void handle(IEvent event) {
-				EnemyKilledEvent e = (EnemyKilledEvent) event;
-				// Add score points and stuff.
-			}
-		});
 
 		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
 		eventQueue.register(EventEnum.ENEMY_HIT, new EnemyHitHandler());
 
-		eventQueue.register(EventEnum.ENEMY_KILLED, new EnemyKilledHandler(physicsMessages,
-				spawnMessages));
-		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
+		eventQueue.register(EventEnum.ENEMY_KILLED, new EnemyKilledHandler(engine, physicsMessages, spawnMessages));
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledHandler(context, engine, physicsMessages));
 	}
 
 	private class PlayerHitHandler extends BasePlayerHitHandler {
@@ -339,15 +351,9 @@ public class LevelFactory {
 
 			// Temporary invulnerability
 			playerHP.setInvulnerable(true);
+			spawnTimedEntity(engine, 2f, new RemoveInvulnerabilityCallback(playerHP));
 
-			Entity timed = engine.createEntity();
-			TimedLifeComponent delayedCB = engine.createComponent(TimedLifeComponent.class);
-			delayedCB.setTimeRemaining(2f);
-			delayedCB.setCallback(new RemoveInvulnerabilityCallback(playerHP));
-			timed.add(delayedCB);
-			engine.addEntity(timed);
-
-			// TODO: EXPLOSION PUSH ??
+			// TODO: EXPLOSION PUSH --> handled by collision for now
 		}
 	}
 
@@ -362,22 +368,60 @@ public class LevelFactory {
 
 	}
 
+	private class PlayerKilledHandler extends BasePlayerKilledHandler {
+
+		private final ScreenContext context;
+		private final PooledEngine engine;
+		private final Collection<IPhysicsMessage> physics;
+
+		private PlayerKilledHandler(ScreenContext context, PooledEngine engine,
+				Collection<IPhysicsMessage> physicsMessages) {
+			this.context = context;
+			this.engine = engine;
+			this.physics = physicsMessages;
+		}
+
+		@Override
+		public void handleEvent(PlayerKilledEvent event) {
+			Gdx.app.debug("LevelFactory", "Handle Player kiled");
+			// 1. Disable input
+			Gdx.input.setInputProcessor(null);
+			// 2. UI Message (player died)
+			// TODO UI MESSAGE - PLAYER DIED
+			// 3. Switch to main menu after some time
+			spawnTimedEntity(engine, 2f, new MainMenuCallback(context));
+
+		}
+
+	}
+
 	private class EnemyKilledHandler extends BaseEnemyKilledHandler {
 
-		Collection<IPhysicsMessage> physics;
-		Collection<ISpawnMessage> spawn;
+		private PooledEngine engine;
+		private Collection<IPhysicsMessage> physics;
+		private Collection<ISpawnMessage> spawn;
 
-		public EnemyKilledHandler(Collection<IPhysicsMessage> physicsMessages,
+		private EnemyKilledHandler(PooledEngine engine, Collection<IPhysicsMessage> physicsMessages,
 				Collection<ISpawnMessage> spawnMessages) {
+			this.engine = engine;
 			this.physics = physicsMessages;
 			this.spawn = spawnMessages;
 		}
 
 		@Override
 		public void handleEvent(EnemyKilledEvent event) {
-			// TODO Auto-generated method stub
-
+			// 1. Award points to player (if applicable)
+			// 2. Drop geoms on location (based on enemydata)
 		}
 
+	}
+
+	private void spawnTimedEntity(PooledEngine engine, float timeDelay, ITimeoutCallback callback) {
+		Entity timed = engine.createEntity();
+		TimedLifeComponent delayedCB = engine.createComponent(TimedLifeComponent.class);
+		delayedCB.setTimeRemaining(timeDelay);
+		delayedCB.setCallback(callback);
+		timed.add(delayedCB);
+		engine.addEntity(timed);
 	}
 }

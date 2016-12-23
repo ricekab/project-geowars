@@ -38,6 +38,7 @@ public class SoundSequencer implements Runnable {
       //if (sounds.contains(sound, true))
       //   return;
       sounds.add(sound);
+      play(1,0.2);
    }
 
    /**

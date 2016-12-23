@@ -9,10 +9,11 @@ import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 
 import com.badlogic.ashley.systems.IntervalSystem;
+import com.badlogic.gdx.Gdx;
 
 /**
- * This system process {@link ISpawnMessage} requests and creates the requested entity according to
- * the message.
+ * This system process {@link ISpawnMessage} requests and creates the requested
+ * entity according to the message.
  */
 public class SpawnSystem extends IntervalSystem {
 
@@ -37,11 +38,12 @@ public class SpawnSystem extends IntervalSystem {
 
 	private void processMessage(ISpawnMessage msg) {
 		for (ISpawnFactory factory : factories) {
-			if(factory.getType().equals(msg.getType())) {
+			if (factory.getType().equals(msg.getType())) {
 				msg.execute(factory);
 				return;
 			}
 		}
+		Gdx.app.error("SpawnSystem", "ERR: Could not find appropriate factory for: " + msg.getType());
 	}
 
 	public void addFactory(ISpawnFactory factory) {

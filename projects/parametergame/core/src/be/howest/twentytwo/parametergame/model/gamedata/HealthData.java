@@ -5,6 +5,11 @@ import java.util.Observable;
 public class HealthData extends Observable {
 	private float health;
 	private boolean invulnerable;
+	
+	public HealthData(float health){
+		this.health = health;
+		this.invulnerable = false;
+	}
 
 	public float getHealth() {
 		return health;

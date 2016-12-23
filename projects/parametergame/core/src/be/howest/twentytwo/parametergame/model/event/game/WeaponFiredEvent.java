@@ -11,9 +11,22 @@ public class WeaponFiredEvent implements IEvent {
 	/** Entity that fired the weapon. */
 	private Entity source;
 	private WeaponDataI weapon;
+
+	public WeaponFiredEvent(Entity source, WeaponDataI weapon) {
+		this.source = source;
+		this.weapon = weapon;
+	}
+
+	public Entity getSource() {
+		return source;
+	}
+
+	public String getWeaponName() {
+		return weapon.getID();
+	}
 	
-	public WeaponFiredEvent() {
-		// TODO Auto-generated constructor stub
+	public WeaponDataI getWeaponData(){
+		return weapon;
 	}
 
 	@Override

@@ -32,6 +32,7 @@ public class ShipData implements ShipDataI {
 		this.angularAcceleration = angularAcceleration;
 		this.linearDamping = linearDamping;
 		this.angularDamping = angularDamping;
+		this.health = health;
 		this.weapons = new HashSet<>();
 		for (WeaponDataI weapon : weapons) {
 			addWeapon(weapon);

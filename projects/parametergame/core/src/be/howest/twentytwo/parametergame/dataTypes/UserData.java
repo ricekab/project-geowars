@@ -10,13 +10,12 @@ public class UserData implements UserDataI{
 	public UserData(String user, String passwordHash, String difficulty) {
 		this.user = user;
 		this.passwordHash = passwordHash;
-		setDifficulty(difficulty);		// TODO: @Nick -- Difficulty tied to user??
+		setDifficulty(difficulty);		// TODO @Nick -- Difficulty tied to user??
 	}
 	
 	@Deprecated
 	public UserData(String user, String passwordHash) {
-		this.user = user;
-		this.passwordHash = passwordHash;
+		this(user, passwordHash, "Casual");
 	}
 	
 	//	GETTERS
