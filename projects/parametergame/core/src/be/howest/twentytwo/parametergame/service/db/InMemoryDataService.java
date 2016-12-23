@@ -34,15 +34,9 @@ public class InMemoryDataService implements IDataService {
 	// data management josb: faking access to MySQL data and return the
 	// appropriate data
 
-	//@Override
-	public UserData getUser(String name) { // password == name
-		UserData data = new UserData(name, name);
-		return data;
-	}
-
 	@Override
 	public UserDataI getUser(String username, String hashedPassword) {
-		return new UserData(username, hashedPassword);
+		return new UserData(username, hashedPassword, "Casual");
 	}
 
 	@Override
@@ -168,17 +162,17 @@ public class InMemoryDataService implements IDataService {
 	}
 
 	@Override
-	public void saveDrone(DroneDataI data) {
-
-	}
-
-	@Override
 	public void saveWeapon(WeaponDataI weapon) {
 
 	}
 
 	@Override
 	public void savePlayerShip(PlayerShipDataI data) {
+	}
+
+	@Override
+	public void saveDrone(DroneDataI data, UserDataI user) {
+		
 	}
 
 }
