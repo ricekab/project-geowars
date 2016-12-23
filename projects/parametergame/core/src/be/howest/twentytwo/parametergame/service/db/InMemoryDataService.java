@@ -34,11 +34,17 @@ public class InMemoryDataService implements IDataService {
 	// data management josb: faking access to MySQL data and return the
 	// appropriate data
 
+	//@Override
+	public UserData getUser(String name) { // password == name
+		UserData data = new UserData(name, name);
+		return data;
+	}
+
 	@Override
 	public UserDataI getUser(String username, String hashedPassword) {
 		return new UserData(username, hashedPassword);
 	}
-	
+
 	@Override
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> ships = new ArrayList<PlayerShipDataI>();
