@@ -123,7 +123,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);
 			WeaponDataI primary = weaponsData.get(0);
-			weapon.setPrimary(new WeaponGameData(primary, modifiers));
+			weapon.setPrimary(new WeaponGameData(ship, primary, modifiers));
 			weaponsData.remove(primary);
 			if(weaponsData.size() == 0) {
 				WeaponDataI nullWeapon = new NullWeaponData();
@@ -131,7 +131,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 			}
 			List<WeaponGameData> weaponGameData = new ArrayList<WeaponGameData>();
 			for (WeaponDataI wpn : weaponsData) {
-				weaponGameData.add(new WeaponGameData(wpn, modifiers));
+				weaponGameData.add(new WeaponGameData(ship, wpn, modifiers));
 			}
 			weapon.setSecondaryWeapons(weaponGameData);
 			ship.add(weapon);
