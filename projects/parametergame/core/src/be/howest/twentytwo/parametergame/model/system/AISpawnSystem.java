@@ -54,7 +54,6 @@ public class AISpawnSystem extends IntervalSystem {
 		if(!active){
 			return;	// No more to be done
 		}
-		System.out.println(timeSinceLastSpawn);
 		if(timeSinceLastSpawn < spawnInterval){
 			timeSinceLastSpawn += SPAWN_CHECK_INTERVAL;
 			return;

@@ -8,9 +8,22 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
@@ -34,20 +47,15 @@ import be.howest.twentytwo.parametergame.model.component.CameraComponent;
 import be.howest.twentytwo.parametergame.model.component.TimedLifeComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
-import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
-import be.howest.twentytwo.parametergame.model.event.game.WeaponFiredEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledHandler;
-import be.howest.twentytwo.parametergame.model.event.listener.BaseWeaponFiredHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
-import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
-import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.event.listener.WeaponFiredSoundHandler;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
@@ -78,19 +86,6 @@ import be.howest.twentytwo.parametergame.model.time.RemoveInvulnerabilityCallbac
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 import be.howest.twentytwo.parametergame.ui.message.UIMessage;
-
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Builds up the physics {@link World} as well as all populates the ECS engine
@@ -132,6 +127,11 @@ public class LevelFactory {
 		world.setContactListener(getCollisionChain(eventQueue, physicsMessageQueue));
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
+		// UI INIT
+		Viewport uiViewport = new ScreenViewport();
+		Skin uiSkin = assets.get(ParameterGame.UI_SKIN, Skin.class);
+		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), uiViewport, uiSkin);
+		
 		// ENTITY CREATION
 		// Needed to prepare projectile factories
 		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
@@ -185,7 +185,7 @@ public class LevelFactory {
 		engine.addSystem(new AISpawnSystem(eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
-		engine.addSystem(new UISystem(uiMessageQueue, new LevelUIFactory().createUI(playerShip)));
+		engine.addSystem(new UISystem(uiMessageQueue, uiFactory.createUI(playerShip)));
 		engine.addSystem(new HealthSystem(eventQueue));
 		// Animation, ...
 

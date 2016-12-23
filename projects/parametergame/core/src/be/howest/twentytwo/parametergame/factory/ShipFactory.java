@@ -119,7 +119,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		List<WeaponDataI> weaponsData = new ArrayList<WeaponDataI>();
 		weaponsData.addAll(shipData.getWeapons());
 		if(weaponsData.size() > 0) {
-			Gdx.app.log("ShipFact", weaponsData.toString());
+			Gdx.app.debug("ShipFact", weaponsData.toString());
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);
@@ -162,9 +162,6 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		ship.add(sc);
 		
 		HealthComponent hp = engine.createComponent(HealthComponent.class);
-		
-		System.out.println("SHIPDATA HP: " + shipData.getHealth());
-		System.out.println("MODIFER: " + modifiers.getHealthModifier());
 		
 		hp.setHealthData(new HealthData(shipData.getHealth() * modifiers.getHealthModifier()));
 		ship.add(hp);

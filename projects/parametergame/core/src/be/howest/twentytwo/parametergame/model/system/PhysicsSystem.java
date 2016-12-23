@@ -24,7 +24,9 @@ public class PhysicsSystem extends IteratingSystem implements EntityListener {
 
 	public static final int PRIORITY = 0;
 
-	public static final float PHYSICS_TIMESTEP = 1 / 30f;
+	/** Physics updates per second */
+	public static final float PHYSICS_UPS = 60f;
+	public static final float PHYSICS_TIMESTEP = 1 / PHYSICS_UPS;
 	public static final int VELOCITY_ITERATIONS = 6;
 	public static final int POSITION_ITERATIONS = 3;
 
