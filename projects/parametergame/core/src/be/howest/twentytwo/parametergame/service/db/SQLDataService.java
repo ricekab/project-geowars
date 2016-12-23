@@ -85,7 +85,7 @@ public class SQLDataService implements IDataService {
 		return user;
 	}
 
-	public UserDataI getUser(String username) {		//TODO REMOVE
+	private UserDataI getUser(String username) {
 		UserDataI user = null;
 		try {
 			String sql = "select * from parametergame.player where name = ?";
@@ -195,12 +195,6 @@ public class SQLDataService implements IDataService {
 		}
 		return playerShips;
 	}
-	
-	public Collection<ShipDataI> getShips(UserDataI user) {
-		Collection<ShipDataI> playerShips = new HashSet<>();
-		//TODO REMOVE
-		return playerShips;
-	}
 
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
@@ -261,12 +255,9 @@ public class SQLDataService implements IDataService {
 	public void saveUser(UserDataI data) {
 		try {
 			String sqlSave ="";
-			String sql = "select * from parametergame.player where `name` = ?";	//TODO call getUser method
-			PreparedStatement prep = con.prepareStatement(sql);
-			prep.setString(1, data.getUser());
-			ResultSet res = prep.executeQuery();
+			UserDataI player = getUser(data.getUser());
 			
-			if(res.next()) {
+			if(player != null) {
 				sqlSave= "update parametergame.player set `password`=?, `difficultyID`=? where `name` = ?";
 			} else {
 				sqlSave = "insert into parametergame.player(`password`,`difficultyID`,`name`) values (?, ?, ?)";
@@ -277,14 +268,12 @@ public class SQLDataService implements IDataService {
 			ps.setString(3, data.getUser());
 			ps.executeUpdate();
 			ps.close();
-			res.close();
-			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void saveShip(ShipDataI data) {	//TODO make private after once kevin doesn't use it anymore
+	private void saveShip(ShipDataI data) {	
 		try{
 			String sqlSave ="";
 			String sql = "select * from parametergame.ship where name = ?";
@@ -350,7 +339,11 @@ public class SQLDataService implements IDataService {
 	}
 
 	public void saveDrone(DroneDataI data) {
-
+		try {
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void saveWeapon(WeaponDataI weapon) {

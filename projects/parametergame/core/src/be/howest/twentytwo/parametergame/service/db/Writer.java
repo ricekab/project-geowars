@@ -15,7 +15,13 @@ public class Writer {
 		UserData user = new UserData("Nick","nick","Advanced JS difficulty");
 		Collection<PlayerShipDataI> playerShips = db.getPlayerShips(user);
 
-	
+		
+		UserDataI u = db.getUser(user.getUser(), user.getPasswordHashed());
+		System.out.println(u.getPasswordHashed());
+		UserDataI u2 = new UserData(u.getUser(), u.getPasswordHashed() + "H4CK3D", u.getDifficulty());
+		db.saveUser(u2);
+		u = db.getUser(u2.getUser(), u2.getPasswordHashed());
+		System.out.println(u.getPasswordHashed());
 		
 		
 	}
