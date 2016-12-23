@@ -31,6 +31,15 @@ public class InMemoryFileAccessor implements IFileAccessor {
 		spawnPool.addCluster(cluster);
 		cluster = new ClusterData(1f, 2, 0f, 2, 1, "encloser");
 		spawnPool.addCluster(cluster);
+		data.addSpawnPool(spawnPool);
+
+		spawnPool = new SpawnPoolData();
+		spawnPool.setSpawnTreshold(5f);
+		spawnPool.setSpawnTresholdIncrease(0.75f);
+		cluster = new ClusterData(1f, 2, 1.5f, 2, 5, "scouter");
+		spawnPool.addCluster(cluster);
+		data.addSpawnPool(spawnPool);
+
 		data.setWorld(world);
 		data.setSpawnBox(spawnBox);
 		PlanetDataI planet = new PlanetData(140, 140, 20, "planet0", 90f, 100f);
@@ -41,7 +50,7 @@ public class InMemoryFileAccessor implements IFileAccessor {
 		data.addPlanet(planet);
 		planet = new PlanetData(300, 0, 12f, "planet3", 50f, 80f);
 		data.addPlanet(planet);
-		data.addSpawnPool(spawnPool);
+		
 		return data;
 	}
 

@@ -57,7 +57,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		menu.add(arcade);
 
 		menu.row();
-		versus = tbf.createButton("Play Local Versus", new PlayVersusListener());
+		versus = tbf.createButton("Play Local Versus [DEBUG]", new PlayVersusListener());
 		versus.setDisabled(true);
 		menu.add(versus);
 
@@ -240,7 +240,9 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 			loginStatusLabel.setText("Active Login: " + user.getUser());
 			getContext().setUser(user);
 			arcade.setDisabled(false);
-			versus.setDisabled(false);
+			if(ParameterGame.DEBUG_ENABLED){
+				versus.setDisabled(false);
+			}
 		}
 	}
 }
