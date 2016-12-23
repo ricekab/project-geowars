@@ -32,6 +32,7 @@ public class ShowKeyScreen extends BaseUIBackgroundScreen {
 		Window window = new Window("Keybindings", getSkin());
 		window.getTitleLabel().setAlignment(Align.center);
 		window.getTitleLabel().setStyle(getSkin().get("pressed", LabelStyle.class));
+		window.getTitleTable().padBottom(10f);
 		Label label = new Label(keyBindText, getSkin());
 		label.setAlignment(Align.center);
 		window.add(label);

@@ -185,7 +185,7 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
 		engine.addSystem(new TimerSystem(eventQueue));
-		engine.addSystem(new AISpawnSystem(eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
+		engine.addSystem(new AISpawnSystem(world, eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
 		engine.addSystem(new UISystem(uiMessageQueue, uiFactory.createUI(playerShip)));
@@ -331,23 +331,29 @@ public class LevelFactory {
 		private final ScreenContext context;
 		private final PooledEngine engine;
 		private final Collection<IPhysicsMessage> physics;
+		private boolean active;
 
 		private PlayerKilledHandler(ScreenContext context, PooledEngine engine,
 				Collection<IPhysicsMessage> physicsMessages) {
 			this.context = context;
 			this.engine = engine;
 			this.physics = physicsMessages;
+			active = true;
 		}
 
 		@Override
 		public void handleEvent(PlayerKilledEvent event) {
-			Gdx.app.debug("LevelFactory", "Handle Player kiled");
+			if(!active){
+				return;
+			}
+			Gdx.app.debug("LF/PlayerKilledHandler", "Called");
 			// 1. Disable input
 			Gdx.input.setInputProcessor(null);
 			// 2. UI Message (player died)
 			// TODO UI MESSAGE - PLAYER DIED
 			// 3. Switch to main menu after some time
 			spawnTimedEntity(engine, 2f, new MainMenuCallback(context));
+			active = false;
 
 		}
 
