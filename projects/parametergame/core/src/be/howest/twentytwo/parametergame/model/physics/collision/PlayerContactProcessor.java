@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
@@ -46,7 +47,6 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 		Body playerBody = player.getBody();
 		short targetCategory = target.getFilterData().categoryBits;
 		if ((targetCategory & Collision.PLAYER_HIT_FILTER_MASK) > 0) {
-			getEventQueue().send(new PlayerHitEvent(player, target));
 
 			// TODO: Move this into some playerHitEventHandler?
 			float pushRange = 50f;
@@ -56,9 +56,12 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 					new ExplosionPhysicsMessage(playerBody, pushRange, pushForce, Collision.PLAYER_EXPLOSION_MASK));
 			// END To do
 			if ((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
+				getEventQueue().send(new PlayerHitEvent(player, target, 1f));
 				getEventQueue().send(new EnemyHitEvent(target, player));
 				return true;
 			} else if ((targetCategory & Collision.BULLET_ENEMY_CATEGORY) > 0) {
+				WeaponDataI bulletWeapon = (WeaponDataI)target.getUserData();
+				getEventQueue().send(new PlayerHitEvent(player, target, bulletWeapon.getBulletDamage()));
 				getEventQueue().send(new DestroyEntityEvent((Entity) target.getBody().getUserData()));
 				return true;
 			}

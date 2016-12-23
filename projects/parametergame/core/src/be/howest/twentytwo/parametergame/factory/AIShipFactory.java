@@ -38,7 +38,7 @@ public class AIShipFactory implements ISpawnFactory {
 		this.engine = engine;
 		this.world = world;
 		this.assets = assets;
-		this.enemyData = enemyData;
+		this.enemyData = shipData;
 		this.difficulty = difficulty;
 		this.target = target;
 		this.moveBehaviour = moveBehaviour;
@@ -70,7 +70,7 @@ public class AIShipFactory implements ISpawnFactory {
 		engine.addEntity(aiShip);
 		
 		EnemyComponent ec = engine.createComponent(EnemyComponent.class);
-		
+		// TODO: ENEMY COMPONENT HERE
 		aiShip.add(ec);
 		return aiShip;
 	}

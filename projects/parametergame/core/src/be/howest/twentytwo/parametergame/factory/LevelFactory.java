@@ -34,12 +34,16 @@ import be.howest.twentytwo.parametergame.model.component.TimedLifeComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
-import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitListener;
+import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyHitHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
+import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlanetContactProcessor;
@@ -61,6 +65,7 @@ import be.howest.twentytwo.parametergame.model.system.TimerSystem;
 import be.howest.twentytwo.parametergame.model.system.UISystem;
 import be.howest.twentytwo.parametergame.model.system.WeaponSystem;
 import be.howest.twentytwo.parametergame.model.time.ITimeoutCallback;
+import be.howest.twentytwo.parametergame.model.time.RemoveInvulnerabilityCallback;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 import be.howest.twentytwo.parametergame.ui.message.UIMessage;
@@ -266,7 +271,7 @@ public class LevelFactory {
 		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
 		Controllers.addListener(cif.createControllerListener(playerShip));
 
-		registerGameEvents(context, eventQueue, engine);
+		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue);
 		registerSoundEvents(context, eventQueue, engine);
 
 		return engine;
@@ -296,9 +301,11 @@ public class LevelFactory {
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
 	}
 
-	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+	private void registerGameEvents(ScreenContext context, EventQueue eventQueue,
+			PooledEngine engine, Collection<IPhysicsMessage> physicsMessages,
+			Collection<ISpawnMessage> spawnMessages) {
 		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
-		
+
 		eventQueue.register(EventEnum.ENEMY_KILLED, new IEventListener() {
 
 			@Override
@@ -307,13 +314,16 @@ public class LevelFactory {
 				// Add score points and stuff.
 			}
 		});
-		
-		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
 
+		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
+		eventQueue.register(EventEnum.ENEMY_HIT, new EnemyHitHandler());
+
+		eventQueue.register(EventEnum.ENEMY_KILLED, new EnemyKilledHandler(physicsMessages,
+				spawnMessages));
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledEndGameListener());
 	}
 
-	private class PlayerHitHandler extends BasePlayerHitListener {
+	private class PlayerHitHandler extends BasePlayerHitHandler {
 
 		private final PooledEngine engine;
 
@@ -323,17 +333,50 @@ public class LevelFactory {
 
 		@Override
 		public void handleEvent(PlayerHitEvent event) {
+			HealthData playerHP = event.getPlayerHealth();
+			// Lower hp
+			playerHP.setHealth(playerHP.getHealth() - event.getDamage());
+
+			// Temporary invulnerability
+			playerHP.setInvulnerable(true);
+
 			Entity timed = engine.createEntity();
-			
 			TimedLifeComponent delayedCB = engine.createComponent(TimedLifeComponent.class);
-			delayedCB.setCallback(new ITimeoutCallback() {
-				
-				@Override
-				public void execute() {
-					// TODO Auto-generated method stub
-					
-				}
-			});
+			delayedCB.setTimeRemaining(2f);
+			delayedCB.setCallback(new RemoveInvulnerabilityCallback(playerHP));
+			timed.add(delayedCB);
+			engine.addEntity(timed);
+
+			// TODO: EXPLOSION PUSH ??
+		}
+	}
+
+	private class EnemyHitHandler extends BaseEnemyHitHandler {
+
+		@Override
+		public void handleEvent(EnemyHitEvent event) {
+			HealthData enemyHP = event.getPlayerHealth();
+			// Lower hp
+			enemyHP.setHealth(enemyHP.getHealth() - event.getDamage());
+		}
+
+	}
+
+	private class EnemyKilledHandler extends BaseEnemyKilledHandler {
+
+		Collection<IPhysicsMessage> physics;
+		Collection<ISpawnMessage> spawn;
+
+		public EnemyKilledHandler(Collection<IPhysicsMessage> physicsMessages,
+				Collection<ISpawnMessage> spawnMessages) {
+			this.physics = physicsMessages;
+			this.spawn = spawnMessages;
+		}
+
+		@Override
+		public void handleEvent(EnemyKilledEvent event) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

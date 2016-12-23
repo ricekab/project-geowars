@@ -9,7 +9,7 @@ public class AmmoData extends Observable {
 	private float currentCooldown;
 	
 	public AmmoData(int amount, float cooldown){
-		setAmmoCount(ammoCount);
+		setAmmoCount(amount);
 		setCooldownTme(cooldown);
 		setCurrentCooldown(0f);
 	}

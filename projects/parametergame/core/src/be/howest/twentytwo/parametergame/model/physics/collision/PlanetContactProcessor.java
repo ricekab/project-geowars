@@ -18,7 +18,8 @@ import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 public class PlanetContactProcessor extends BaseContactProcessor {
 
-	public PlanetContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+	public PlanetContactProcessor(ContactListener next, EventQueue eventQueue,
+			Collection<IPhysicsMessage> events) {
 		super(next, eventQueue, events);
 	}
 
@@ -38,20 +39,20 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 		return false;
 	}
 
-	private boolean processBeginContact(Fixture planet, Fixture target){
+	private boolean processBeginContact(Fixture planet, Fixture target) {
 		// Anything a planet touches dies
 		short targetCategory = target.getFilterData().categoryBits;
-		if((targetCategory & Collision.PLAYER_CATEGORY) > 0){
+		if((targetCategory & Collision.PLAYER_CATEGORY) > 0) {
 			getEventQueue().send(new PlayerKilledEvent());
-			Gdx.input.setInputProcessor(null);
-			return true;	// Player entity destruction has to be handled more delicately
-		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0){
+			Gdx.input.setInputProcessor(null); // TODO: Input disable in handler?
+			return true; // Player entity destruction has to be handled more delicately
+		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
 			getEventQueue().send(new EnemyKilledEvent());
 		}
 		getEventQueue().send(new DestroyEntityEvent((Entity) target.getBody().getUserData()));
 		return true;
 	};
-	
+
 	@Override
 	protected boolean handleEndContact(Contact contact) {
 		return false;

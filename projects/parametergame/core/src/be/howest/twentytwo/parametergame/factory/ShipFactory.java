@@ -20,6 +20,7 @@ import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -116,9 +117,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		List<WeaponDataI> weaponsData = new ArrayList<WeaponDataI>();
 		weaponsData.addAll(shipData.getWeapons());
 		if(weaponsData.size() > 0) {
-			System.out.println(weaponsData);
-			System.out.println(weaponsData.get(0).getID());
-			System.out.println(weaponsData.get(1).getID());
+			Gdx.app.log("ShipFact", weaponsData.toString());
 			WeaponComponent weapon = engine.createComponent(WeaponComponent.class);
 			weapon.setPhysicsCategory(bulletCategory);
 			weapon.setPhysicsMask(bulletMask);
@@ -159,6 +158,8 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		SpriteComponent sc = engine.createComponent(SpriteComponent.class);
 		sc.setRegion(sprite);
 		ship.add(sc);
+		
+		// TODO: SHIP HEALTH COMPONENT
 
 		return ship;
 	}
@@ -198,5 +199,18 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 	@Override
 	public String getType() {
 		return getShipType();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getType().hashCode():
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof ShipFactory){
+			
+		}
+		return false;
 	}
 }

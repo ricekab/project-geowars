@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.model.system;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
@@ -23,7 +24,7 @@ public class SpawnSystem extends IntervalSystem {
 	public SpawnSystem(Collection<ISpawnMessage> messageQueue) {
 		super(PhysicsSystem.PHYSICS_TIMESTEP, PRIORITY);
 		this.messages = messageQueue;
-		this.factories = new ArrayList<ISpawnFactory>();
+		this.factories = new HashSet<ISpawnFactory>();
 	}
 
 	@Override

@@ -28,7 +28,9 @@ public class PlayerShipFactory implements Disposable {
 	public Entity createPlayerShip(Vector2 pos) {
 		Entity player = shipFactory.createShip(pos, 0f, Collision.BULLET_PLAYER_CATEGORY,
 				Collision.BULLET_PLAYER_MASK);
-		// TODO: Drone addon
+		// TODO: DRONE FACTORY HERE
+		
+		// TODO: PLAYER COMPONENT HERE
 		return player;
 	}
 

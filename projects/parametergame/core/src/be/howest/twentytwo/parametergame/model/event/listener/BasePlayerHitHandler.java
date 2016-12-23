@@ -3,7 +3,7 @@ package be.howest.twentytwo.parametergame.model.event.listener;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 
-public abstract class BasePlayerHitListener implements IEventListener {
+public abstract class BasePlayerHitHandler implements IEventListener {
 
 
 	@Override
