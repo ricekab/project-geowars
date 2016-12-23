@@ -133,7 +133,7 @@ public class LevelFactory {
 
 		// UI INIT
 		Skin uiSkin = assets.get(ParameterGame.UI_SKIN, Skin.class);
-		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), uiViewport, uiSkin);
+		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), eventQueue, uiViewport, uiSkin);
 
 		// ENTITY CREATION
 		// Needed to prepare projectile factories
@@ -204,7 +204,6 @@ public class LevelFactory {
 		while (!tempPools.isEmpty()) {
 			SpawnPoolDataI pool = tempPools.poll();
 			for (ClusterDataI cluster : pool.getAllClusters()) {
-				System.out.println("ENEMY NAME: " + cluster.getEnemyName());
 				String name = cluster.getEnemyName();
 				enemyNames.add(name);
 			}

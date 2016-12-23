@@ -45,8 +45,9 @@ public class RenderSystem extends IteratingSystem {
 
 		TextureRegion region = spriteComp.getRegion();
 
-		if(region == null) {
-			// Gdx.app.error("RenderSys", "ERR: NULL REGION -- COMPONENT INCOMPLETE");
+		if (region == null) {
+			// Gdx.app.error("RenderSys", "ERR: NULL REGION -- COMPONENT
+			// INCOMPLETE");
 			return;
 		}
 
@@ -63,8 +64,8 @@ public class RenderSystem extends IteratingSystem {
 		float scaleY = transform.getWorldSize().y / region.getRegionHeight();
 		// TODO: Images are rotated here as sprites are all assumed to face
 		// north.
-		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX,
-				offsetY, width, height, scaleX, scaleY, transform.getRotation());
+		batch.draw(region, transform.getPos().x - offsetX, transform.getPos().y - offsetY, offsetX, offsetY, width,
+				height, scaleX, scaleY, transform.getRotation());
 	}
 
 	public Viewport getViewport() {
