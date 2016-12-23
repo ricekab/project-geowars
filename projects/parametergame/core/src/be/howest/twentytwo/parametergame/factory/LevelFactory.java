@@ -132,33 +132,6 @@ public class LevelFactory {
 		world.setContactListener(getCollisionChain(eventQueue, physicsMessageQueue));
 		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
 
-		// UI Init
-		Stage uiStage = createUI();
-
-		// SYSTEMS
-		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
-		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
-		engine.addSystem(new MovementSystem(physicsMessageQueue));
-		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
-		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
-		engine.addSystem(spawnSystem);
-		engine.addSystem(new CameraSystem());
-		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport));
-		engine.addSystem(renderSys);
-		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
-		engine.addSystem(new TimerSystem(eventQueue));
-		engine.addSystem(new AISpawnSystem(eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
-		engine.addSystem(new AIMovementSystem());
-		engine.addSystem(new AIShootSystem());
-		engine.addSystem(new UISystem(uiMessageQueue, uiStage));
-		engine.addSystem(new HealthSystem(eventQueue));
-		// engine.addSystem(new AISystem());
-		// Sound, Animation, ...
-
-		if (ParameterGame.DEBUG_ENABLED) {
-			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context.getShapeRenderer()));
-		}
-
 		// ENTITY CREATION
 		// Needed to prepare projectile factories
 		Set<WeaponDataI> allWeapons = new HashSet<WeaponDataI>();
@@ -186,7 +159,41 @@ public class LevelFactory {
 			engine.addEntity(planetFactory.createPlanet(pdata));
 		}
 
-		// ENEMIES / AI FACTORIES
+		// CAMERA
+		Entity cameraEntity = engine.createEntity();
+
+		CameraComponent camComp = engine.createComponent(CameraComponent.class);
+		camComp.setCamera(viewport.getCamera());
+		camComp.addTrackPoint(playerShip, 1);
+
+		cameraEntity.add(camComp);
+
+		engine.addEntity(cameraEntity);
+
+		// SYSTEMS
+		RenderSystem renderSys = new RenderSystem(context.getSpriteBatch(), viewport);
+		SpawnSystem spawnSystem = new SpawnSystem(spawnMessageQueue);
+		engine.addSystem(new MovementSystem(physicsMessageQueue));
+		engine.addSystem(new WeaponSystem(spawnMessageQueue, eventQueue));
+		engine.addSystem(new PhysicsSystem(world, physicsMessageQueue));
+		engine.addSystem(spawnSystem);
+		engine.addSystem(new CameraSystem());
+		engine.addSystem(new BackgroundRenderSystem(context.getSpriteBatch(), assets, viewport));
+		engine.addSystem(renderSys);
+		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), viewport));
+		engine.addSystem(new TimerSystem(eventQueue));
+		engine.addSystem(new AISpawnSystem(eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
+		engine.addSystem(new AIMovementSystem());
+		engine.addSystem(new AIShootSystem());
+		engine.addSystem(new UISystem(uiMessageQueue, new LevelUIFactory().createUI(playerShip)));
+		engine.addSystem(new HealthSystem(eventQueue));
+		// Animation, ...
+
+		if (ParameterGame.DEBUG_ENABLED) {
+			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context.getShapeRenderer()));
+		}
+
+		// AI FACTORY PREPARATION
 		Collection<String> enemyNames = new HashSet<String>();
 
 		Queue<SpawnPoolDataI> spawnPools = levelData.getSpawnPools();
@@ -206,58 +213,6 @@ public class LevelFactory {
 			allWeapons.addAll(enemy.getShipData().getWeapons());
 		}
 
-		// EnemyDataI enemy = enemies.iterator().next();
-		// // Spawn scout ship
-		// AIShipFactory aiScoutShipFactory = new AIShipFactory(engine, world,
-		// assets,
-		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(75f),
-		// new BasicAIShootBehaviour(60, 80));// adjust for range
-		//
-		// // Spawn brutalizer ship
-		// AIShipFactory aiBrutalizerShipFactory = new AIShipFactory(engine,
-		// world, assets,
-		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(50f), //
-		// adjust for range
-		// new BasicAIShootBehaviour(120, 50)); // Fires every 4seconds
-		// // (120/30), 50 = range
-		// aiBrutalizerShipFactory.spawnEntity(new Vector2(-60, -10), 0f, new
-		// Vector2(0f, 0f));
-		//
-		// // Spawn obstacle
-		// AIShipFactory aiObstacleShipFactory = new AIShipFactory(engine,
-		// world, assets,
-		// enemy.getShipData(), playerBody);
-		// aiObstacleShipFactory.spawnEntity(new Vector2(-80, -40), 0f, new
-		// Vector2(0f, 0f));
-		//
-		// // Spawn suidicer
-		// AIShipFactory aiSuiciderShipFactory = new AIShipFactory(engine,
-		// world, assets,
-		// enemy.getShipData(), playerBody, new BasicAIMoveBehaviour(5f)); //
-		// adjust for range
-		// aiSuiciderShipFactory.spawnEntity(new Vector2(-100, -80), 0f, new
-		// Vector2(0f, 0f));
-
-		// Spawn suicide squad --> optional
-
-		// End AI creation
-
-		// ENTITY CREATION - CAMERA
-		Entity cameraEntity = engine.createEntity();
-
-		CameraComponent camComp = engine.createComponent(CameraComponent.class);
-		camComp.setCamera(viewport.getCamera());
-		camComp.addTrackPoint(playerShip, 1);
-
-		cameraEntity.add(camComp);
-
-		engine.addEntity(cameraEntity);
-
-		// Create projectile factories for spawner
-		for (WeaponDataI wpn : allWeapons) {
-			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, wpn));
-		}
-
 		AIMoveBehaviourFactory moveFactory = new AIMoveBehaviourFactory();
 		AIShootBehaviourFactory shootFactory = new AIShootBehaviourFactory();
 		for (EnemyDataI enemyData : enemies) {
@@ -268,6 +223,14 @@ public class LevelFactory {
 			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(),
 					playerBody, move, shoot));
 		}
+
+		// PROJECTILE FACTORY PREPARATION
+		for (WeaponDataI wpn : allWeapons) {
+			spawnSystem.addFactory(new ProjectileFactory(engine, world, assets, wpn));
+		}
+
+		// PICKUP FACTORY PREPARATION
+		// TODO -- Pickup stuff
 
 		// INPUT
 		InputFactory inputFactory = new InputFactory();
@@ -303,12 +266,6 @@ public class LevelFactory {
 		return collisionListener;
 	}
 
-	private Stage createUI() {
-		Stage stage = new Stage();
-		Gdx.app.error("LevelFactory", "UI NOT IMPLEMENTED");
-		return stage;
-	}
-
 	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
 		// register event handlers on event queue to send sound messages.
 		// Will need another chain of objects to filter the messages
@@ -338,6 +295,11 @@ public class LevelFactory {
 		@Override
 		public void handleEvent(PlayerHitEvent event) {
 			HealthData playerHP = event.getPlayerHealth();
+
+			if (playerHP.isInvulnerable()) {
+				return;
+			}
+
 			// Lower hp
 			playerHP.setHealth(playerHP.getHealth() - event.getDamage());
 
@@ -345,7 +307,7 @@ public class LevelFactory {
 			playerHP.setInvulnerable(true);
 			spawnTimedEntity(engine, 2f, new RemoveInvulnerabilityCallback(playerHP));
 
-			// TODO: EXPLOSION PUSH --> handled by collision for now
+			// EXPLOSION PUSH --> handled by collision for now
 		}
 	}
 
