@@ -23,7 +23,7 @@ public class ButtonChangeSoundListener extends ChangeListener {
 
 	@Override
 	public void changed(ChangeEvent event, Actor actor) {
-		sounds.addSound("sound/button_click.mp3");
+		sounds.addSound("sound/button_click2.wav");
 	}
 
 }
