@@ -7,9 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class TextButtonFactory {
 	
 	private final TextButtonStyle style;
+	private final ChangeListener[] listeners;
 	
-	public TextButtonFactory(TextButtonStyle style){
+	/**
+	 * @param listeners - Listeners to be attached to all buttons made with this factory.
+	 */
+	public TextButtonFactory(TextButtonStyle style, ChangeListener... listeners){
 		this.style = style;
+		this.listeners = listeners;
 	}
 	
 	public TextButton createButton(String label, ChangeListener listener) {
@@ -20,6 +25,9 @@ public class TextButtonFactory {
 	
 	public TextButton createButton(String label) {
 		TextButton btn = new TextButton(label, style);
+		for(ChangeListener listen : listeners){
+			btn.addListener(listen);
+		}
 		btn.pad(5f);
 		btn.getLabelCell().pad(10f);
 		return btn;
