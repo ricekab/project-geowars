@@ -23,8 +23,9 @@ insert into ship(`name`,`health`,`linearAcceleration`,`angularAcceleration`,`max
 		("juggernaut",4,1,1,5,5,"juggernaut.png",2,2,50,100, 0.75, "DATA_01"),
         ("fighter",3, 3,3,8,8,"fighter.png",3,3,30,50, 0.5, "DATA_01"),
         ("recon", 2, 5,5,15,15, "recon.png",15,10,15,25, 0.25, "DATA_01"),
-        ("bomber", 1, 3, 3, 6, 6, "bomber.png",0,0,10,15, 0, "DATA_01"),
-        ("obstacle", 10, 0, 0, 0, 0, "obstacle.png", 0, 0, 10, 10, 9001, "DATA_99");
+        ("encloser", 1, 3, 3, 6, 6, "encloser.png",0,0,10,15, 0, "DATA_01"),
+        ("suicider", 10, 0.5, 5, 18, 25, "suicider.png", 18, 25, 10, 10, 9001, "DATA_99"),
+        ("scouter", 2, 5,5,15,15, "scouter.png",15,10,15,25, 0.25, "DATA_01");
     
     
 insert into weapon(`ID`,`offsetX`,`offsetY`,`bulletDamage`,`shotConeAngle`,`firerate`,`range`,`detonationDelay`,`bulletsPerShot`,`bulletSpeed`,`shipName`)
@@ -47,9 +48,8 @@ insert into fixture(`ID`,`physicsDataID`,`offsetX`,`offsetY`,`height`,`width`,`s
    
 insert into enemyShip(`ID`,`geomDroprate`,`baseScore`,`behaviour`,`shipName`)
 	values
-		("BMB01",0.5,25,"snipe","bomber"),
-        ("RCN42",0.1,10,"chase","recon"),
-        ("W4LL",0.2,15,"sleep","obstacle");
+		("encloser",0.5,25,"Brutalizer","encloser"),
+        ("scouter",0.1,10,"Scouter","scouter");
     
     
 insert into drone(`ID`,`offenseUpgradeLevel`,`utilityUpgradeLevel`,`playerName`)

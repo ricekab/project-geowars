@@ -40,10 +40,11 @@ public class SQLDataServiceTests {
 	
 	@Test
 	public void testGetEnemies() {
-		String[] enemies = {"BMB01","W4LL"};
+		String[] enemies = {"scouter","encloser"};
 		Collection<EnemyDataI> enemyShips = db.getEnemies(enemies);
 		for(EnemyDataI enemy : enemyShips) {
-			
+			System.out.println(enemy);
+			System.out.println(enemy.getId());
 		}
 	}
 

@@ -13,14 +13,18 @@ public class Writer {
 	public static void main(String[] args) {
 
 		//TESTS IF SERVER <3(c) WORKS
-		IDataService db = SQLDataService.getInstance();
+		IDataService db = new SQLDataService();
 		UserDataI user = db.getUser("Nick", "nick");
 		Collection<PlayerShipDataI> playerShips = db.getPlayerShips(user);
-		for(PlayerShipDataI p : playerShips) {
-			GameIdDataI game = new GameIdData("Classic","Advanced JS");
-			Timestamp ts = Timestamp.valueOf("2016-12-23 21:14:34");
-			db.saveScore(p, game, 9001, ts);
+
+		String[] enemies = {"scouter","encloser"};
+		Collection<EnemyDataI> enemyShips = db.getEnemies(enemies);
+		for(EnemyDataI enemy : enemyShips) {
+			System.out.println("-------------------------------------------------------------------------------");
+			System.out.println(enemy);
+			System.out.println(enemy.getId());
+			System.out.println(enemy.getShipData());
+			System.out.println(enemy.getShipData().getName());
 		}
-		
 	}
 }

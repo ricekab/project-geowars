@@ -47,8 +47,8 @@ public class AIMoveBehaviourFactory {
                             map.put(behaviour, suicideSquad);
                             return suicideSquad;
 			default:
-                            Gdx.app.error("IAIMoveFactory",
-                                            "ERR: Could not produce behaviour, returned NullBehaviour instead");
+                            Gdx.app.error("AIMoveFactory",
+                            		"ERR: Could not produce behaviour, returned NullBehaviour instead. BehaviourString: " + behaviour);
                             return new NullAIMoveBehaviour();
 		}
 	}
