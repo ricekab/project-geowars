@@ -13,8 +13,11 @@ import com.badlogic.gdx.audio.Music;
  * @author Floris
  */
 public class SoundEngine {
-    public SoundEngine(){
-        
+   
+    public void playMusic(String file){
+        Music music = Gdx.audio.newMusic(Gdx.files.internal(file));
+        music.setLooping(true);
+        music.play();
     }
     
     public void playMusic(String file, boolean loop){
