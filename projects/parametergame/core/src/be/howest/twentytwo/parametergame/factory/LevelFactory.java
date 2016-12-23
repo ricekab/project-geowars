@@ -370,6 +370,7 @@ public class LevelFactory {
 
 		@Override
 		public void handleEvent(PlayerKilledEvent event) {
+			Gdx.app.debug("LevelFactory", "Handle Player kiled");
 			// 1. Disable input
 			Gdx.input.setInputProcessor(null);
 			// 2. UI Message (player died)
