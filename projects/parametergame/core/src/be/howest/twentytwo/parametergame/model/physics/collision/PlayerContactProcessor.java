@@ -61,6 +61,8 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 				return true;
 			} else if ((targetCategory & Collision.BULLET_ENEMY_CATEGORY) > 0) {
 				WeaponDataI bulletWeapon = (WeaponDataI)target.getUserData();
+				System.out.println("target category: "+ targetCategory);
+				
 				getEventQueue().send(new PlayerHitEvent(player, target, bulletWeapon.getBulletDamage()));
 				getEventQueue().send(new DestroyEntityEvent((Entity) target.getBody().getUserData()));
 				return true;

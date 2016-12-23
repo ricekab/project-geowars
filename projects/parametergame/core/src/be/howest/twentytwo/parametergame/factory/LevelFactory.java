@@ -237,7 +237,9 @@ public class LevelFactory {
 		}
 
 		// PICKUP FACTORY PREPARATION
-		spawnSystem.addFactory(new GeomFactory(engine, world, assets, selections.getDifficulty()));
+		
+		// TODO: Geom spawning creates nullpointer problems with collisions
+		// spawnSystem.addFactory(new GeomFactory(engine, world, assets, selections.getDifficulty()));
 		// TODO -- Pickup stuff
 
 		// INPUT
