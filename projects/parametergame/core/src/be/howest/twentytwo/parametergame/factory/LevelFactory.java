@@ -185,7 +185,7 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), gameViewport));
 		engine.addSystem(new TimerSystem(eventQueue));
-		engine.addSystem(new AISpawnSystem(world, eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
+		engine.addSystem(new AISpawnSystem(levelData.getWorld(), playerBody, eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
 		engine.addSystem(new UISystem(uiMessageQueue, uiFactory.createUI(playerShip)));
