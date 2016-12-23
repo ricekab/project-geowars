@@ -18,7 +18,7 @@ public class SQLDataServiceTests {
 	
 	@BeforeClass
 	public static void initServer() {
-		db = SQLDataService.getInstance();
+		// db = SQLDataService.getInstance();
 	}
 	
 	@AfterClass
