@@ -1,9 +1,7 @@
 package be.howest.twentytwo.parametergame.model.physics.message;
 
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
-import be.howest.twentytwo.parametergame.model.system.PhysicsSystem;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -16,7 +14,7 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 	// TODO: This might be overkill? Real life value is quite small and will be
 	// inaccurate as a float.
 	// Real life value = 6.674E-11
-	public static final float GRAVITATIONAL_CONSTANT = 5f; // 6.674E-3f
+	public static final float GRAVITATIONAL_CONSTANT = 15f; // 6.674E-3f
 
 	private PlanetDataI planetData;
 	private Body sourceBody;
@@ -37,7 +35,7 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 		/* Turns out static bodies have 0 mass. So simulate it (pass by data) */
 		gravityVector.scl(GRAVITATIONAL_CONSTANT).scl(1f / distanceSquared);
-		gravityVector.scl(planetData.getMass()); // Simulate planet masss
+		gravityVector.scl(planetData.getMass() * targetBody.getMass()); // Simulate planet masss
 		// Fg = m(planet) * G(constant) / (r*r)
 		targetBody.applyForceToCenter(gravityVector, true);
 	}
@@ -58,9 +56,10 @@ public class GravityPhysicsMessage extends RepeatingPhysicsMessage {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof GravityPhysicsMessage) {
+		if(obj != null && obj instanceof GravityPhysicsMessage) {
 			GravityPhysicsMessage other = (GravityPhysicsMessage) obj;
-			if (getSourceBody().equals(other.getSourceBody()) && getTargetBody().equals(other.getTargetBody())) {
+			if(getSourceBody().equals(other.getSourceBody())
+					&& getTargetBody().equals(other.getTargetBody())) {
 				return true;
 			}
 		}

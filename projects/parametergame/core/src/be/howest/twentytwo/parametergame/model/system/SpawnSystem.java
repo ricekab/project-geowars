@@ -2,6 +2,7 @@ package be.howest.twentytwo.parametergame.model.system;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
@@ -9,6 +10,10 @@ import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 
+/**
+ * This system process {@link ISpawnMessage} requests and creates the requested entity according to
+ * the message.
+ */
 public class SpawnSystem extends IntervalSystem {
 
 	public static final int PRIORITY = 1;
@@ -19,21 +24,20 @@ public class SpawnSystem extends IntervalSystem {
 	public SpawnSystem(Collection<ISpawnMessage> messageQueue) {
 		super(PhysicsSystem.PHYSICS_TIMESTEP, PRIORITY);
 		this.messages = messageQueue;
-		this.factories = new ArrayList<ISpawnFactory>();
+		this.factories = new HashSet<ISpawnFactory>();
 	}
 
 	@Override
 	protected void updateInterval() {
-		Iterator<ISpawnMessage> it = messages.iterator();
-		while (it.hasNext()) {
-			processMessage(it.next());
-			it.remove();
+		for (ISpawnMessage m : messages) {
+			processMessage(m);
 		}
+		messages.clear();
 	}
 
 	private void processMessage(ISpawnMessage msg) {
 		for (ISpawnFactory factory : factories) {
-			if (factory.getType().equals(msg.getType())) {
+			if(factory.getType().equals(msg.getType())) {
 				msg.execute(factory);
 				return;
 			}

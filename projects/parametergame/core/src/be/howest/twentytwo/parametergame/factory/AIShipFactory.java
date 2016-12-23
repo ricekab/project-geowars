@@ -1,7 +1,15 @@
 package be.howest.twentytwo.parametergame.factory;
 
+import be.howest.twentytwo.parametergame.dataTypes.DefaultDifficultyData;
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
-import be.howest.twentytwo.parametergame.model.component.ai.AIComponent;
+import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
+import be.howest.twentytwo.parametergame.model.component.AIComponent;
+import be.howest.twentytwo.parametergame.model.component.EnemyComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 import com.badlogic.ashley.core.Entity;
@@ -11,41 +19,42 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
-import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
-
 public class AIShipFactory implements ISpawnFactory {
 	private ShipFactory shipFactory;
 	private PooledEngine engine;
 	private World world;
 	private AssetManager assets;
 
+	private EnemyDataI enemyData;
+	private DifficultyDataI difficulty;
 	private Body target;
 	private IAIMoveBehaviour moveBehaviour;
 	private IAIShootBehaviour shootBehaviour;
 
-	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData,
-			Body target, IAIMoveBehaviour moveBehaviour, IAIShootBehaviour shootBehaviour) {
-		this.shipFactory = new ShipFactory(engine, world, assets, shipData);
+	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, EnemyDataI shipData,
+			DifficultyDataI difficulty, Body target, IAIMoveBehaviour moveBehaviour,
+			IAIShootBehaviour shootBehaviour) {
+		this.shipFactory = new ShipFactory(engine, world, assets, shipData.getShipData(), difficulty);
 		this.engine = engine;
 		this.world = world;
 		this.assets = assets;
+		this.enemyData = shipData;
+		this.difficulty = difficulty;
 		this.target = target;
 		this.moveBehaviour = moveBehaviour;
 		this.shootBehaviour = shootBehaviour;
 	}
 
-	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData,
-			Body target, IAIMoveBehaviour moveBehaviour) {
-		this(engine, world, assets, shipData, target, moveBehaviour, new NullAIShootBehaviour());
+	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, EnemyDataI shipData,
+			DifficultyDataI difficulty, Body target, IAIMoveBehaviour moveBehaviour) {
+		this(engine, world, assets, shipData, difficulty, target, moveBehaviour,
+				new NullAIShootBehaviour());
 	}
 
-	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, ShipDataI shipData,
-			Body target) {
-		this(engine, world, assets, shipData, target, new NullAIMoveBehaviour(),
-				new NullAIShootBehaviour());
+	public AIShipFactory(PooledEngine engine, World world, AssetManager assets, EnemyDataI shipData,
+			DifficultyDataI difficulty, Body target) {
+		this(engine, world, assets, shipData, difficulty, target,
+				new NullAIMoveBehaviour(), new NullAIShootBehaviour());
 	}
 
 	@Override
@@ -55,10 +64,14 @@ public class AIShipFactory implements ISpawnFactory {
 				Collision.BULLET_ENEMY_MASK);
 		AIComponent ai = engine.createComponent(AIComponent.class);
 		ai.setMoveBehaviour(moveBehaviour);
-                ai.setShootBehaviour(shootBehaviour);
+		ai.setShootBehaviour(shootBehaviour);
 		ai.setTarget(target);
 		aiShip.add(ai);
 		engine.addEntity(aiShip);
+		
+		EnemyComponent ec = engine.createComponent(EnemyComponent.class);
+		// TODO: ENEMY COMPONENT HERE
+		aiShip.add(ec);
 		return aiShip;
 	}
 
@@ -70,7 +83,6 @@ public class AIShipFactory implements ISpawnFactory {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return shipFactory.getType();
 	}
 }

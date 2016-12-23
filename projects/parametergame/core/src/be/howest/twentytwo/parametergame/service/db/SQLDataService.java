@@ -32,13 +32,17 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
 public class SQLDataService implements IDataService {
-	
-	//TODO CLOSE STUFF AFTER USING IT
 
 	private static SQLDataService instance;
 	private final String URL = "jdbc:mysql://localhost/parametergame"; // TODO change this
 	private final String USR = "user22";
-	private final String PWD = "22"; 
+	private final String PWD = "22";
+	
+	//FOR DB
+	//private final String URL = "jdbc:mysql://www.webworm.tk/u174713690_00001";
+	//private final String USR = "u174713690_00001";	//user22 or root
+	//private final String PWD = "123456";		//22 or ""
+	
 	private Connection con;
 
 	private SQLDataService() {
@@ -56,8 +60,14 @@ public class SQLDataService implements IDataService {
 		}
 		return instance;
 	}
+	
+	public UserDataI getUser(String username, String hashedPassword) {
+		UserDataI user = null;
+		//TODO
+		return user;
+	}
 
-	public UserDataI getUser(String username) {
+	public UserDataI getUser(String username) {		//TODO check on password
 		UserDataI user = null;
 		try {
 			String sql = "select * from parametergame.player where name = ?";
@@ -68,6 +78,8 @@ public class SQLDataService implements IDataService {
 			if(res.next()) {
 				user = new UserData(res.getString("name"), res.getString("password"), res.getString("difficultyID"));
 			}
+			res.close();
+			prep.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,6 +102,8 @@ public class SQLDataService implements IDataService {
 			} else {
 				System.err.println("no enemy found for: " + name);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -97,16 +111,11 @@ public class SQLDataService implements IDataService {
 		return enemyShip;
 	}	
 
-	/**
-	 * @param names: A string or an array of strings that contain the name(s) of the enemy/enemies
-	 * @return HashSet of enemies, if the enemy is not found, there will be a null value
-	 */
 	public Collection<EnemyDataI> getEnemies(String... names) {
 		Collection<EnemyDataI> enemies = new HashSet<>();
 		for(String name : names) {
 			enemies.add(getEnemy(name));
 		}
-		System.out.println("getEnemies returns: " + enemies);
 		return enemies;
 	}
 
@@ -122,6 +131,8 @@ public class SQLDataService implements IDataService {
 				WeaponDataI weapon = builder.setId(res.getString("ID")).setOffsetX(res.getFloat("offsetX")).setOffsetY(res.getFloat("offsetY")).setBulletDamage(res.getFloat("bulletDamage")).setShotConeAngle(res.getFloat("shotConeAngle")).setFireRate(res.getFloat("firerate")).setRange(res.getFloat("range")).setTimeDelay(res.getFloat("detonationDelay")).setBulletsPerShot(res.getInt("bulletsPerShot")).setBulletSpeed(res.getFloat("bulletSpeed")).setBulletMass(res.getFloat("bulletMass")).setTurnSpeed(res.getFloat("turnSpeed")).setAmmoCount(res.getInt("ammo")).setBulletSize(new Vector2(res.getFloat("bulletSizeX"), res.getFloat("bulletSizeY"))).build();
 				weapons.add(weapon);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -138,16 +149,14 @@ public class SQLDataService implements IDataService {
 			if(res.next()) {
 				physics = new PhysicsData(res.getShort("physicsCategory"),res.getShort("physicsMask"));
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return physics;
 	}
 	
-	/**
-	 * @Param user: an implementation of UserDataI that can provide a getUser() method to call the user's name
-	 * @Return returns a playerShip with an empty collection of drones, or a new HashSet if no playerShips are found
-	 */
 	public Collection<PlayerShipDataI> getPlayerShips(UserDataI user) {
 		Collection<PlayerShipDataI> playerShips = new HashSet<>();
 		try{
@@ -161,25 +170,20 @@ public class SQLDataService implements IDataService {
 				PlayerShipDataI playerShip = new PlayerShipData(ship, res.getString("ID"), res.getFloat("mass"),res.getInt("exp"), res.getInt("lvl"), res.getFloat("geomRadius"));
 				playerShips.add(playerShip);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return playerShips;
 	}
 	
-	/**
-	 * @return always returns null
-	 */
-	@Deprecated
 	public Collection<ShipDataI> getShips(UserDataI user) {
 		Collection<ShipDataI> playerShips = new HashSet<>();
 		//TODO
 		return playerShips;
 	}
 
-	/**
-	 * @return returns an empty HashSet if no drones are found
-	 */
 	public Collection<DroneDataI> getDrones(UserDataI user) {
 		Collection<DroneDataI> drones = new HashSet<>();
 		try {
@@ -191,15 +195,14 @@ public class SQLDataService implements IDataService {
 				DroneDataI drone = new DroneData(res.getString("ID"), res.getInt("offenseUpgradeLevel"), res.getInt("utilityupgradeLevel"));
 				drones.add(drone);
 			}
+			res.close();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return drones;
 	}
 	
-	/**
-	 * @return returns an empty HashSet if no powerups are found
-	 */
 	public Collection<PowerupDataI> getPowerups() {
 		Collection<PowerupDataI> powerups = new HashSet<>();
 		try {
@@ -210,15 +213,14 @@ public class SQLDataService implements IDataService {
 				PowerupDataI powerup = new PowerupData(res.getString("powerupID"), res.getString("effectID"), res.getInt("duration"), res.getInt("lifetime"), res.getString("type"), res.getInt("strength"));
 				powerups.add(powerup);
 			}
+			stmt.close();
+			res.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return powerups;
 	}
 	
-	/**
-	 * @return returns an empty HashSet if no difficulties are found
-	 */
 	public Collection<DifficultyDataI> getDifficulties() {
 		Collection<DifficultyDataI> difficulties = new HashSet<>();
 		try {
@@ -229,6 +231,8 @@ public class SQLDataService implements IDataService {
 				DifficultyDataI difficulty = new DifficultyData(res.getString("ID"), res.getFloat("healthModifier"), res.getFloat("movementModifier"), res.getFloat("firerateModifier"), res.getFloat("scoreModifier"));
 				difficulties.add(difficulty);
 			}
+			stmt.close();
+			res.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -237,11 +241,65 @@ public class SQLDataService implements IDataService {
 	
 
 	public void saveUser(UserDataI data) {
-
+		try {
+			String sqlSave ="";
+			String sql = "select * from parametergame.player where `name` = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, data.getUser());
+			ResultSet res = prep.executeQuery();
+			
+			if(res.next()) {
+				sqlSave= "update parametergame.player set `password`=?, `difficultyID`=? where `name` = ?";
+			} else {
+				sqlSave = "insert into parametergame.player(`password`,`difficultyID`,`name`) values (?, ?, ?)";
+			}
+			PreparedStatement ps = con.prepareStatement(sqlSave);
+			ps.setString(1, data.getPasswordHashed());
+			ps.setString(2, data.getDifficulty());	//TODO get the id
+			ps.setString(3, data.getUser());
+			ps.executeUpdate();
+			ps.close();
+			res.close();
+			prep.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void saveShip(ShipDataI data) {
-
+	public void saveShip(ShipDataI data) {	//TODO make private after once kevin doesn't use it anymore
+		//TODO
+	}
+	
+	public void savePlayerShip(PlayerShipDataI data) {
+		try {
+			String sqlSave = "";
+			String sql = "select * from parametergame.playerShip where `ID` = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, data.getId());
+			ResultSet res = prep.executeQuery();
+			if(res.next()) {
+				sqlSave = "update parametergame.playerShip set `mass`=?, `exp`=?, `lvl`=?, `shipName`=?, `campaignLevel`=?, `geomRadius`=? where `ID` = ?";
+			} else {
+				saveShip(data.getShipData());
+				sqlSave = "insert into parametergame.playerShip(`mass`,`exp`,`lvl`,`shipName`,`campaignLevel`,`geomRadius`,`ID`) values(?, ?, ?, ?, ?, ?, ?)";
+			}
+			PreparedStatement ps = con.prepareStatement(sqlSave);
+			System.out.println(ps);
+			ps.setFloat(1, data.getMass());
+			ps.setInt(2, data.getExp());
+			ps.setInt(3, data.getLvl());
+			ps.setString(4, data.getShipData().getName());
+			ps.setInt(5, data.getCampaignLevel());
+			ps.setFloat(6, data.getGeomRadius());
+			ps.setString(7, data.getId());
+			System.out.println(ps);
+			ps.executeUpdate();
+			ps.close();
+			res.close();
+			prep.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void saveDrone(DroneDataI data) {

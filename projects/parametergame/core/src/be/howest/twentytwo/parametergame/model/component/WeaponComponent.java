@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import be.howest.twentytwo.parametergame.model.dataExtension.WeaponGameData;
+import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;

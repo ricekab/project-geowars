@@ -1,14 +1,41 @@
 package be.howest.twentytwo.parametergame.model.event.collision;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
+import be.howest.twentytwo.parametergame.model.component.HealthComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
+import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 
 public class PlayerHitEvent extends BaseCollisionEvent {
-	
-	public PlayerHitEvent(Fixture subject, Fixture collider) {
+
+	private final HealthData playerHealth;
+	private final float damage;
+
+	public PlayerHitEvent(Fixture subject, Fixture collider, float healthDamage) {
 		super(subject, collider);
-		// TODO Auto-generated constructor stub
+		this.playerHealth = HealthComponent.MAPPER.get(getPlayerEntity()).getHealthData();
+		this.damage = healthDamage;
+	}
+
+	/**
+	 * Shorthand constructor to deal 1 damage.
+	 */
+	public PlayerHitEvent(Fixture subject, Fixture collider) {
+		this(subject, collider, 1f);
+	}
+
+	public HealthData getPlayerHealth() {
+		return playerHealth;
+	}
+
+	public float getDamage() {
+		return damage;
+	}
+
+	/** Alias to retrieve collision subject. */
+	public Entity getPlayerEntity() {
+		return super.getSubject();
 	}
 
 	@Override

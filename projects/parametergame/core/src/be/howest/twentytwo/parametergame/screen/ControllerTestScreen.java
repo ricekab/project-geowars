@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import be.howest.twentytwo.parametergame.ScreenContext;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
@@ -7,8 +9,6 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
 
 public class ControllerTestScreen extends BaseScreen {
 

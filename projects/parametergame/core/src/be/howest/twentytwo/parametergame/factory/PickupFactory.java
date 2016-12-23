@@ -22,5 +22,22 @@ public class PickupFactory implements ISpawnFactory {
 	public String getType() {
 		return null;
 	}
+	
+	
+	@Override
+	public int hashCode() {
+		return getType().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof PickupFactory){
+			PickupFactory other = (PickupFactory) obj;
+			if(this.getType().equals(other.getType())){
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

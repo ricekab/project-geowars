@@ -5,7 +5,6 @@ import java.util.List;
 
 import be.howest.twentytwo.parametergame.model.physics.aabb.RetrievalQuery;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -34,7 +33,7 @@ public class ExplosionPhysicsMessage extends SinglePhysicsMessage {
 		Vector2 pos = sourceBody.getPosition();
 		RetrievalQuery retrieval = new RetrievalQuery(mask);
 		sourceBody.getWorld().QueryAABB(retrieval, pos.x - range, pos.y - range, pos.x + range, pos.y + range);
-		List<Body> bodies = new ArrayList<Body>();
+		List<Body> bodies = new ArrayList<>();
 		Body body;
 		for (Fixture fix : retrieval.getFixtures()) {
 			body = fix.getBody();

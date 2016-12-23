@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 import java.util.Collection;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -17,7 +18,8 @@ import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 public class PlanetContactProcessor extends BaseContactProcessor {
 
-	public PlanetContactProcessor(ContactListener next, EventQueue eventQueue, Collection<IPhysicsMessage> events) {
+	public PlanetContactProcessor(ContactListener next, EventQueue eventQueue,
+			Collection<IPhysicsMessage> events) {
 		super(next, eventQueue, events);
 	}
 
@@ -37,22 +39,22 @@ public class PlanetContactProcessor extends BaseContactProcessor {
 		return false;
 	}
 
-	private boolean processBeginContact(Fixture planet, Fixture target){
-		System.out.println("Planet contact");
+	private boolean processBeginContact(Fixture planet, Fixture target) {
 		// Anything a planet touches dies
 		short targetCategory = target.getFilterData().categoryBits;
-		if((targetCategory & Collision.PLAYER_CATEGORY) > 0){
+		if((targetCategory & Collision.PLAYER_CATEGORY) > 0) {
 			getEventQueue().send(new PlayerKilledEvent());
-		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0){
+			Gdx.input.setInputProcessor(null); // TODO: Input disable in handler?
+			return true; // Player entity destruction has to be handled more delicately
+		} else if((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
 			getEventQueue().send(new EnemyKilledEvent());
 		}
 		getEventQueue().send(new DestroyEntityEvent((Entity) target.getBody().getUserData()));
 		return true;
 	};
-	
+
 	@Override
 	protected boolean handleEndContact(Contact contact) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

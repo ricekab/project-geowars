@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class NullAIShootBehaviour implements IAIShootBehaviour {
 
     @Override
-    public void titsAndSugar(Body ai,WeaponComponent weapon, Vector2 target) {
+    public void shoot(Body ai,WeaponComponent weapon, Vector2 target) {
     }
 
     @Override
@@ -18,6 +18,15 @@ public class NullAIShootBehaviour implements IAIShootBehaviour {
     @Override
     public float getRange() {
         return 0.0f;
+    }
+
+    @Override
+    public void setCanShoot(boolean canShoot) {
+    }
+
+    @Override
+    public boolean getCanShoot() {
+        return false;
     }
 
 }
