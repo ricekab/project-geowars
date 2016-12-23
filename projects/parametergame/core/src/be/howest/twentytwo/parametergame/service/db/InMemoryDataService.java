@@ -30,10 +30,6 @@ import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 public class InMemoryDataService implements IDataService {
-	// for the time being, this will have hard-coded data, and is later DELETED
-	// data management josb: faking access to MySQL data and return the
-	// appropriate data
-
 	@Override
 	public UserDataI getUser(String username, String hashedPassword) {
 		return new UserData(username, hashedPassword, "Casual");
@@ -60,15 +56,23 @@ public class InMemoryDataService implements IDataService {
 				0.5f, 25, new Vector2(4f, 1f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
-		ShipDataI ship = new ShipData("Recon", "recon", 3, 50.0f, 30.0f, 25.0f, 20.0f, 0f, 1.0f, weapons, physicsData,
-				8f, 8f, 5f);
+		ShipDataI ship = new ShipData("Recon", "recon", 3, 70.0f, 45.0f, 30.0f, 30.0f, 0.35f, 0.5f, weapons,
+				physicsData, 8f, 8f, 5f);
 		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f, 1);
+		ships.add(playerShip);
+
+		// FIGHTER
+		physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
+		physicsData.addFixture(new FixtureData("circle", 12f, 12f, 0, 0, 0.25f, 0.1f, 0f));
+		ship = new ShipData("Fighter", "fighter", 3, 60.0f, 30.0f, 30.0f, 20.0f, 0.45f, 0.5f, weapons,
+				physicsData, 12f, 12f, 0.75f);
+		playerShip = new PlayerShipData(ship, "X-Wing", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);
 
 		// JUGGERNAUT
 		physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
 		physicsData.addFixture(new FixtureData("box", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
-		ship = new ShipData("Juggernaught", "juggernaught", 3, 35.0f, 30.0f, 10.0f, 15.0f, 0f, 0.5f, weapons,
+		ship = new ShipData("Juggernaught", "juggernaught", 3, 40.0f, 30.0f, 15.0f, 15.0f, 0.75f, 0.5f, weapons,
 				physicsData, 16f, 16f, 0.75f);
 		playerShip = new PlayerShipData(ship, "Juggernaughty", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);
@@ -78,8 +82,10 @@ public class InMemoryDataService implements IDataService {
 
 	@Override
 	public List<DroneDataI> getDrones(UserDataI user) {
-		List<DroneDataI> data = new ArrayList<>();
-		data.add(new DroneData("dumbDrone", 0, 0));
+		List<DroneDataI> data = new ArrayList<>();		// sprite names:
+		data.add(new DroneData("Miner", 0, 0));		// drone_geom_collector
+		data.add(new DroneData("GravAssistBot-500", 0, 0));		// drone_gravitator
+		data.add(new DroneData("Combat Drone", 0, 0));		// drone_minigun
 		return data;
 	}
 
@@ -113,8 +119,8 @@ public class InMemoryDataService implements IDataService {
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
 		weapons.add(primaryWeapon);
 
-		shipData = new ShipData("encloser", "encloser", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, weapons,
-				physicsData, 8f, 8f, 1f);
+		shipData = new ShipData("encloser", "encloser", 3, 30.0f, 30.0f, 10.0f, 10.0f, 0.1f, 1.0f, weapons, physicsData,
+				8f, 8f, 1f);
 
 		data.add(new EnemyData("encloser", 10f, 250, "Brutalizer", shipData));
 
@@ -172,7 +178,7 @@ public class InMemoryDataService implements IDataService {
 
 	@Override
 	public void saveDrone(DroneDataI data, UserDataI user) {
-		
+
 	}
 
 }

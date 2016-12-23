@@ -112,7 +112,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 				* modifiers.getMovementModifier());
 		movement.setAngularAcceleration(shipData.getAngularAcceleration()
 				* modifiers.getMovementModifier());
-		movement.setLinearDampStrength(1f);
+		movement.setLinearDampStrength(shipData.getLinearDamping());
 		ship.add(movement);
 
 		// WEAPON

@@ -1,35 +1,30 @@
 package be.howest.twentytwo.parametergame.screen;
 
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.model.event.EventQueue;
-
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
 
 public class SPGameScreen extends BaseScreen {
 
 	private World world;
 	private PooledEngine engine;
-	private Viewport viewport; // Needs to be saved for resizes
+	private Viewport gameViewport, uiViewport; // Needs to be saved for resizes
 	private EventQueue eventQueue;
 
-	public static Entity mainPlayer = null;
-
-	public SPGameScreen(ScreenContext context, PooledEngine engine, Viewport vp,
-			EventQueue eventQueue) {
+	public SPGameScreen(ScreenContext context, PooledEngine engine, EventQueue eventQueue, Viewport vp,
+			Viewport uiViewport) {
 		super(context);
 		this.engine = engine;
-		this.viewport = vp;
+		this.gameViewport = vp;
+		this.uiViewport = uiViewport;
 		this.eventQueue = eventQueue;
 	}
 
 	@Override
 	public void show() {
-		// Music m = Gdx.audio.newMusic(Gdx.files.internal("hsmain.mp3"));
-		// m.setVolume(0.2f);
-		// m.play();
 	}
 
 	@Override
@@ -40,7 +35,8 @@ public class SPGameScreen extends BaseScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		viewport.update(width, height);
+		gameViewport.update(width, height);
+		uiViewport.update(width, height, true);
 	}
 
 	@Override

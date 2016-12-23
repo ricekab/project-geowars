@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import be.howest.twentytwo.parametergame.ScreenContext;
@@ -34,9 +35,10 @@ public class SPGameFactory extends BaseGameFactory {
 
 		// VIEWPORT / CAM
 		// A) Fitviewport = letterboxing (Also a bit easier to debug for atm)
-		// 240 135 // 320 180
-		Viewport viewport = new FitViewport(320f, 180f); // Viewport size (in
-															// world units)
+		// 240 135 // 320 180 // 400 225
+		// Size in world units
+		Viewport gameViewport = new FitViewport(400f, 225f);
+		
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on
 		 * aspect ratio --> possible balance concern
@@ -44,17 +46,18 @@ public class SPGameFactory extends BaseGameFactory {
 		// ScreenViewport sv = new ScreenViewport();
 		// sv.setUnitsPerPixel(0.25f);
 		// viewport = sv;
+		Viewport uiViewport = new ScreenViewport();
 
 		LevelFactory levelFactory = new LevelFactory();
 		EventQueue eventQueue = new EventQueue();
 
-		PooledEngine engine = levelFactory.createWorld(getContext(), viewport, eventQueue,
+		PooledEngine engine = levelFactory.createWorld(getContext(), gameViewport, uiViewport, eventQueue,
 				getLevelFile(), loadout);
 
 		registerSoundEvents(eventQueue);
 		registerGameEvents(eventQueue);
 		
-		return new SPGameScreen(getContext(), engine, viewport, eventQueue);
+		return new SPGameScreen(getContext(), engine, eventQueue, gameViewport, uiViewport);
 	}
 
 	private void registerSoundEvents(EventQueue eventQueue) {

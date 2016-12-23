@@ -54,6 +54,7 @@ public class AISpawnSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
+		// Do I need to spawn?
 		if(!active){
 			return;	// No more to be done
 		}
@@ -62,6 +63,7 @@ public class AISpawnSystem extends IntervalSystem {
 			return;
 		}
 		timeSinceLastSpawn = 0f;
+		// Retrieve cluster to spawn
 		if (currentPool == null || currentPool.isEmpty()) {
 			if (spawnpools.isEmpty()) {
 				System.out.println("GAME END");
@@ -74,10 +76,16 @@ public class AISpawnSystem extends IntervalSystem {
 			}
 			currentPool = spawnpools.poll();
 		}
+		// Start spawning based on cluster information
 		ClusterDataI cluster = currentPool.getRandomCluster();
-		cluster.getEnemyName();
-		spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), findSpawnPosition(), new Vector2(), 0f,
-				Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK));
+		for(int i = 0; i < cluster.getGroups(); i++){
+			// Find appropriate location to spawn.
+			// TODO
+			for(int j = 0; j < cluster.getEnemies(); j++){
+				spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), findSpawnPosition(), new Vector2(), 0f,
+						Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK));		
+			}
+		}
 	}
 
 	private Vector2 findSpawnPosition() {
