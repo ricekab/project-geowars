@@ -63,6 +63,6 @@ public interface IDataService {
 	
 	public void saveDrone(DroneDataI data, UserDataI user);
 	
-	public void saveWeapon(WeaponDataI weapon);
+	public void saveWeapon(WeaponDataI weapon, ShipDataI ship);
 	
 }

@@ -306,7 +306,7 @@ public class SQLDataService implements IDataService {
 		}
 	}
 	
-	public void savePlayerShip(PlayerShipDataI data) {		//TODO getPlayerShipData
+	public void savePlayerShip(PlayerShipDataI data) {		//TODO getPlayerShipData instead of writing the code again
 		try {
 			String sqlSave = "";
 			String sql = "select * from parametergame.playerShip where `ID` = ?";
@@ -376,8 +376,54 @@ public class SQLDataService implements IDataService {
 		}
 	}
 	
-	public void saveWeapon(WeaponDataI weapon) {
-		
+	private WeaponDataI getWeapon(WeaponDataI data) {
+		WeaponDataI weapon = null;
+		try {
+			String sql = "select * from parametergame.weapon where ID = ?";
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, data.getID());
+			ResultSet res = prep.executeQuery();
+			if(res.next()) {
+				WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
+				weapon = builder.setId(res.getString("ID")).setOffsetX(res.getFloat("offsetX")).setOffsetY(res.getFloat("offsetY")).setBulletDamage(res.getFloat("bulletDamage")).setShotConeAngle(res.getFloat("shotConeAngle")).setFireRate(res.getFloat("firerate")).setRange(res.getFloat("range")).setTimeDelay(res.getFloat("detonationDelay")).setBulletsPerShot(res.getInt("bulletsPerShot")).setBulletSpeed(res.getFloat("bulletSpeed")).setBulletMass(res.getFloat("bulletMass")).setTurnSpeed(res.getFloat("turnSpeed")).setAmmoCount(res.getInt("ammo")).setBulletSize(new Vector2(res.getFloat("bulletSizeX"), res.getFloat("bulletSizeY"))).build();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return weapon;
+	}
+	
+	public void saveWeapon(WeaponDataI data, ShipDataI ship) {
+		try {
+			String sqlSave = "";
+			WeaponDataI weapon = getWeapon(data);
+			if(weapon != null) {
+				sqlSave = "update parametergame.weapon `offsetX`=?, `offsetY`=?, `bulletDamage`=?, `shotConeAngle`=?, `firerate`=?, `range`=?, `detonationDelay`=?, `bulletsPerShot`=?, `bulletSpeed`=?, `shipName`=?, `bulletMass`=?, `turnSpeed`=?, `ammo`=?, `bulletSizeX`=?, `bulletSizeY`=? where ID = ?";
+			}else {
+				sqlSave = "insert into parametergame.weapon(`offsetX`,`offsetY`,`bulletDamage`,`shotConeAngle`,`firerate`,`range`,`detonationDelay`,`bulletsPerShot`,`bulletSpeed`,`shipName`,`bulletMass`,`turnSpeed`,`ammo`,`bulletSizeX`,`bulletSizeY`,`ID`) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			}
+			PreparedStatement prep = con.prepareStatement(sqlSave);
+			prep.setFloat(1, data.getOffsetX());
+			prep.setFloat(2, data.getOffsetY());
+			prep.setFloat(3, data.getBulletDamage());
+			prep.setFloat(4, data.getShotConeAngle());
+			prep.setFloat(5, data.getFireRate());
+			prep.setFloat(6, data.getRange());
+			prep.setFloat(7, data.getTimeDelay());
+			prep.setInt(8, data.getBulletsPerShot());
+			prep.setFloat(9, data.getBulletSpeed());
+			prep.setString(10, ship.getName());
+			prep.setFloat(11, data.getBulletMass());
+			prep.setFloat(12, data.getTurnSpeed());
+			prep.setInt(13, data.getAmmoCount());
+			prep.setFloat(14, data.getBulletSize().x);
+			prep.setFloat(15, data.getBulletSize().y);
+			prep.setString(16, data.getID());
+			System.out.println(sqlSave);
+			prep.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
