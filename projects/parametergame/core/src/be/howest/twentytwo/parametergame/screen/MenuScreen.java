@@ -106,7 +106,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		window.add(login);
 
 		InputListener enterInput = new LoginInputListener();
-		userField = new TextField("Username", getSkin());
+		userField = new TextField("user22", getSkin());
 		login.add(new Label("User", getSkin(), "default"), userField);
 		userField.addListener(enterInput);
 		login.row();
@@ -115,6 +115,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		passwordField.setPasswordMode(true);
 		login.add(new Label("Password", getSkin(), "default"), passwordField);
 		passwordField.addListener(enterInput);
+		passwordField.setText("22");
 		login.row();
 		login.add(tbf.createButton("Confirm", new LoginListener()));
 		loginStatusLabel = new Label("Not logged in", getSkin());
