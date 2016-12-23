@@ -9,7 +9,7 @@ public class SpawnGeomMessage implements ISpawnMessage {
 
 	private final Vector2 pos;
 	private final float rotation;
-	private int amount;
+	private final int amount;
 
 	public SpawnGeomMessage(Vector2 pos, float rotation, int amount) {
 		this.pos = pos;
@@ -23,15 +23,15 @@ public class SpawnGeomMessage implements ISpawnMessage {
 
 	@Override
 	public String getType() {
-		return "geom"; // HARD CODE LIKE I PARTY; HARD
+		return "geom"; // HARD CODE
 	}
 
 	@Override
 	public void execute(ISpawnFactory factory) {
 		Vector2 spawnPos;
 		for (int i = 0; i < amount; i++) {
-			spawnPos = new Vector2(getPos().x + (float) Math.random() * 2 - 1,
-					getPos().y + (float) Math.random() * 2 - 1);
+			spawnPos = new Vector2(getPos().x + (float) Math.random() * 4 - 2,
+					getPos().y + (float) Math.random() * 4 - 2);
 
 			factory.spawnEntity(spawnPos, getRotation(), new Vector2(0, 0), Collision.PLAYER_PICKUPS,
 					Collision.PICKUP_MASK);

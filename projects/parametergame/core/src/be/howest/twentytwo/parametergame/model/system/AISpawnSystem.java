@@ -92,13 +92,13 @@ public class AISpawnSystem extends IntervalSystem {
 		}
 		// Start spawning based on cluster information
 		ClusterDataI cluster = currentPool.getRandomCluster();
-		float boxSize = 20f;
+		float clearBoxAreaSize = 50f;
 		for (int i = 0; i < cluster.getGroups(); i++) {
 			// Find appropriate location to spawn (group).
-			Vector2 spawnBoxLower = findRandomSpawnPosition(boxSize);
+			Vector2 spawnBoxLower = findRandomSpawnPosition(clearBoxAreaSize);
 			for (int j = 0; j < cluster.getEnemies(); j++) {
-				Vector2 spawnPos = new Vector2(spawnBoxLower.x + (float) Math.random() * boxSize,
-						spawnBoxLower.y + (float) Math.random() * boxSize);
+				Vector2 spawnPos = new Vector2(spawnBoxLower.x + (float) Math.random() * clearBoxAreaSize,
+						spawnBoxLower.y + (float) Math.random() * clearBoxAreaSize);
 
 				Gdx.app.debug("AISPAWN", "AI SPAWNED AT: " + spawnPos.toString());
 				spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), spawnPos, new Vector2(0f, 0f),

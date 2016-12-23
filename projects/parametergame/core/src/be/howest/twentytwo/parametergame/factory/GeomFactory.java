@@ -22,7 +22,7 @@ import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 public class GeomFactory implements ISpawnFactory {
 	private static final String GEOM_SPRITE_PACK = "sprites/game.pack";
 
-	private static final float GEOM_SIZE = 4f;
+	private static final float GEOM_SIZE = 6f;
 
 	private final PooledEngine engine;
 	private final World world;
@@ -66,6 +66,7 @@ public class GeomFactory implements ISpawnFactory {
 		bodyDef.position.set(pos.x, pos.y);
 		bodyDef.angle = rotation;
 		Body body = world.createBody(bodyDef);
+		body.createFixture(fixtureDef);
 		body.setUserData(geomPickup);
 		bc.setBody(body);
 		geomPickup.add(bc);
