@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.service.db;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
@@ -8,6 +9,7 @@ import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
  */
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.GameIdDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
@@ -64,5 +66,7 @@ public interface IDataService {
 	public void saveDrone(DroneDataI data, UserDataI user);
 	
 	public void saveWeapon(WeaponDataI weapon, ShipDataI ship);
+	
+	public void saveScore(PlayerShipDataI ship, GameIdDataI game, int points, Timestamp date);
 	
 }

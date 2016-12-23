@@ -10,7 +10,10 @@ public class GameIdData implements GameIdDataI{
 	private String difficultyId;
 	private final SecureRandom random = new SecureRandom();
 	
-	public GameIdData() {
+	public GameIdData(String mode, String difficultyId) {
+		setMode(mode);
+		setUniqueId();
+		setDifficultyId(difficultyId);
 	}
 	
 	//	SETTERS

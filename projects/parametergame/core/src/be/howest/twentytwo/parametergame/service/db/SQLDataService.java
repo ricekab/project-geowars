@@ -440,13 +440,27 @@ public class SQLDataService implements IDataService {
 		GameIdDataI gameId = getGameId(game);
 		if(gameId == null) {
 			try {
-				String sql = "insert into parametergame.gameID() values()";	//TODO
+				String sql = "insert into parametergame.gameID(`mode`,`uniqueID`,`difficultyID`) values(?,?,?)";
+				PreparedStatement prep = con.prepareStatement(sql);
+				prep.setString(1, game.getMode());
+				prep.setString(2, game.getUniqueId());
+				prep.setString(3, game.getDifficultyId());
+				System.out.println(prep);
+				prep.executeUpdate();
+				prep.close();
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
 		try {
 			String sql = "insert into parametergame.playedGame(`playerShipID`,`gameUniqueID`,`points`,`date`) values(?,?,?,?)";	//TODO
+			PreparedStatement prep = con.prepareStatement(sql);
+			prep.setString(1, ship.getId());
+			prep.setString(2, game.getUniqueId());
+			prep.setInt(3, points);
+			prep.setTimestamp(4, date);
+			prep.executeUpdate();
+			prep.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
