@@ -7,6 +7,7 @@ import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
 import be.howest.twentytwo.parametergame.factory.MPVersusGameFactory;
 import be.howest.twentytwo.parametergame.factory.SPGameFactory;
 import be.howest.twentytwo.parametergame.ui.factory.TextButtonFactory;
+import be.howest.twentytwo.parametergame.ui.listener.ButtonChangeSoundListener;
 import be.howest.twentytwo.parametergame.utils.PassUtils;
 
 import com.badlogic.ashley.core.Engine;
@@ -49,7 +50,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	@Override
 	public void show() {
 		TextButtonStyle textBtnStyle = getSkin().get("default", TextButtonStyle.class);
-		TextButtonFactory tbf = new TextButtonFactory(textBtnStyle);
+		TextButtonFactory tbf = new TextButtonFactory(textBtnStyle,
+				new ButtonChangeSoundListener(getContext().getSoundService()));
 
 		Table root = getRoot();
 
@@ -75,12 +77,13 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		menu.add(tbf.createButton("Exit Game", new ExitListener()));
 
 		root.add(createLoginWindow(tbf)).width(300f);
-                
-                if(getContext().getMusicService().getMusic() != null  && getContext().getMusicService().getFile() != "music/finished_long.ogg"){
-                    getContext().getMusicService().disposeMusic();
-                }
-                if(getContext().getMusicService().getFile() != "music/finished_long.ogg")
-		getContext().getMusicService().playMusic("music/finished_long.ogg");
+
+		if (getContext().getMusicService().getMusic() != null
+				&& getContext().getMusicService().getFile() != "music/finished_long.ogg") {
+			getContext().getMusicService().disposeMusic();
+		}
+		if (getContext().getMusicService().getFile() != "music/finished_long.ogg")
+			getContext().getMusicService().playMusic("music/finished_long.ogg");
 
 		if (ParameterGame.DEBUG_ENABLED) {
 			userField.setText("debug");
@@ -192,8 +195,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			getContext().setScreen(new LoadingScreen(getContext(), getEngine(), factory));
-                        getContext().getMusicService().disposeMusic();
-                        getContext().getMusicService().playMusic("music/Tranquil_Trance_Express.ogg");
+			getContext().getMusicService().disposeMusic();
+			getContext().getMusicService().playMusic("music/Tranquil_Trance_Express.ogg");
 		}
 	}
 
