@@ -15,7 +15,7 @@ public class DesktopModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(IPlatformService.class).to(DesktopService.class);
-		bind(IDataService.class).to(SQLDataService.class);
+		bind(IDataService.class).to(InMemoryDataService.class);
 		bind(IFileAccessor.class).to(InMemoryFileAccessor.class);
 	}
 
