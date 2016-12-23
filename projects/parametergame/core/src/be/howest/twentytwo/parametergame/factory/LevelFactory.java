@@ -44,6 +44,7 @@ import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.CameraComponent;
+import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
 import be.howest.twentytwo.parametergame.model.component.TimedLifeComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
@@ -62,6 +63,7 @@ import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGam
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.WeaponFiredSoundHandler;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
+import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.GravityContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.collision.PlanetContactProcessor;
@@ -69,6 +71,8 @@ import be.howest.twentytwo.parametergame.model.physics.collision.PlayerBulletCon
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
+import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
+import be.howest.twentytwo.parametergame.model.spawn.message.SpawnGeomMessage;
 import be.howest.twentytwo.parametergame.model.system.AIMovementSystem;
 import be.howest.twentytwo.parametergame.model.system.AIShootSystem;
 import be.howest.twentytwo.parametergame.model.system.AISpawnSystem;
@@ -185,7 +189,8 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), gameViewport));
 		engine.addSystem(new TimerSystem(eventQueue));
-		engine.addSystem(new AISpawnSystem(world, eventQueue, spawnMessageQueue, levelData.getSpawnPools()));
+		engine.addSystem(new AISpawnSystem(levelData.getWorld(), playerBody, eventQueue, spawnMessageQueue,
+				levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
 		engine.addSystem(new UISystem(uiMessageQueue, uiFactory.createUI(playerShip)));
@@ -220,7 +225,6 @@ public class LevelFactory {
 		AIShootBehaviourFactory shootFactory = new AIShootBehaviourFactory();
 		for (EnemyDataI enemyData : enemies) {
 			String behaviourString = enemyData.getBehaviour();
-			// TODO: Convert behaviour string into concrete behaviours
 			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
 			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
 			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(),
@@ -233,6 +237,9 @@ public class LevelFactory {
 		}
 
 		// PICKUP FACTORY PREPARATION
+		
+		// TODO: Geom spawning creates nullpointer problems with collisions
+		// spawnSystem.addFactory(new GeomFactory(engine, world, assets, selections.getDifficulty()));
 		// TODO -- Pickup stuff
 
 		// INPUT
@@ -254,7 +261,8 @@ public class LevelFactory {
 		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
 		Controllers.addListener(cif.createControllerListener(playerShip));
 
-		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue);
+		PlayerData pd = PlayerComponent.MAPPER.get(playerShip).getPlayerData();
+		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue, pd);
 		registerSoundEvents(context, eventQueue, engine);
 		return engine;
 	}
@@ -278,13 +286,15 @@ public class LevelFactory {
 	}
 
 	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine,
-			Collection<IPhysicsMessage> physicsMessages, Collection<ISpawnMessage> spawnMessages) {
+			Collection<IPhysicsMessage> physicsMessages, Collection<ISpawnMessage> spawnMessages,
+			PlayerData playerData) {
 		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
 
 		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
 		eventQueue.register(EventEnum.ENEMY_HIT, new EnemyHitHandler());
 
-		eventQueue.register(EventEnum.ENEMY_KILLED, new EnemyKilledHandler(engine, physicsMessages, spawnMessages));
+		eventQueue.register(EventEnum.ENEMY_KILLED,
+				new EnemyKilledHandler(engine, playerData, physicsMessages, spawnMessages));
 		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledHandler(context, engine, physicsMessages));
 	}
 
@@ -362,20 +372,25 @@ public class LevelFactory {
 	private class EnemyKilledHandler extends BaseEnemyKilledHandler {
 
 		private PooledEngine engine;
+		private PlayerData playerData;
 		private Collection<IPhysicsMessage> physics;
 		private Collection<ISpawnMessage> spawn;
 
-		private EnemyKilledHandler(PooledEngine engine, Collection<IPhysicsMessage> physicsMessages,
-				Collection<ISpawnMessage> spawnMessages) {
+		private EnemyKilledHandler(PooledEngine engine, PlayerData playerData,
+				Collection<IPhysicsMessage> physicsMessages, Collection<ISpawnMessage> spawnMessages) {
 			this.engine = engine;
+			this.playerData = playerData;
 			this.physics = physicsMessages;
 			this.spawn = spawnMessages;
 		}
 
 		@Override
 		public void handleEvent(EnemyKilledEvent event) {
-			// 1. Award points to player (if applicable)
+			// 1. Award points to player
+			playerData.addScore(event.getScoreValue());
 			// 2. Drop geoms on location (based on enemydata)
+			int geomsToSpawn = Math.round(event.getGeomDropRate());
+			spawn.add(new SpawnGeomMessage(event.getDeathPosition(), geomsToSpawn));
 		}
 
 	}

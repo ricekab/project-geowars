@@ -4,22 +4,25 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.HealthComponent;
 import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
+import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
+import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
+import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 
@@ -57,6 +60,7 @@ public class LevelUIFactory {
 
 		Table score = new Table();
 		Label scoreLabel = new Label("Score: 0", labelStyle);
+		events.register(EventEnum.ENEMY_KILLED, new EnemyKilledScoreHandler(scoreLabel, pc.getPlayerData()));
 		pc.getPlayerData().addObserver(new ScoreLabelObserver(scoreLabel));
 		score.add(scoreLabel);
 
@@ -90,10 +94,13 @@ public class LevelUIFactory {
 		shipStatusWindow.bottom().right();
 		Table shipStatusTable = new Table();
 		shipStatusTable.bottom().right();
-		Label healthLabel = new Label("Health: ???", labelStyle);
+		Label healthLabel = new Label("Health: " + hp.getHealthData().getHealth(), labelStyle);
 		shipStatusTable.add(healthLabel);
 		shipStatusTable.row();
-		hp.getHealthData().addObserver(new HealthLabelObserver(healthLabel));
+		events.register(EventEnum.PLAYER_HIT, new PlayerHitHealthHandler(healthLabel));
+		hp.getHealthData().addObserver(new HealthLabelObserver(healthLabel)); // -->
+																				// doesn't
+																				// work?
 		// TODO: Weapons
 		shipStatusWindow.add(shipStatusTable);
 
@@ -102,6 +109,41 @@ public class LevelUIFactory {
 		stage.addActor(root);
 
 		return stage;
+	}
+
+	private class PlayerHitHealthHandler extends BasePlayerHitHandler {
+
+		private Label label;
+
+		public PlayerHitHealthHandler(Label l) {
+			this.label = l;
+		}
+
+		@Override
+		public void handleEvent(PlayerHitEvent event) {
+			if (event.getPlayerHealth().isInvulnerable()) {
+				return;
+			}
+			label.setText("Health: " + (event.getPlayerHealth().getHealth() - event.getDamage()));
+		}
+
+	}
+
+	private class EnemyKilledScoreHandler extends BaseEnemyKilledHandler {
+
+		private Label label;
+		private PlayerData playerData;
+
+		public EnemyKilledScoreHandler(Label l, PlayerData playerData) {
+			this.label = l;
+			this.playerData = playerData;
+		}
+
+		@Override
+		public void handleEvent(EnemyKilledEvent event) {
+			label.setText("Score: " + playerData.getScore());
+		}
+
 	}
 
 	private class HealthLabelObserver implements Observer {

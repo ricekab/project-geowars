@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.service.db;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyData;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureData;
+import be.howest.twentytwo.parametergame.dataTypes.GameIdDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
@@ -45,8 +47,8 @@ public class InMemoryDataService implements IDataService {
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
 		WeaponDataI primaryWeapon = builder.setId("bullet_basic").setOffsetX(0f).setOffsetY(0f).setFireRate(5f)
-				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(20f)
-				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(2f, 0.75f))
+				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(60f).setBulletMass(25f)
+				.setRange(200f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1.5f, 0.5f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
 		// new WeaponData("P001", 0f, 0f, 7.5f, 1, 0f, 1f, 5f, 75f, 1500f,0f,
 		// 5f,
@@ -97,7 +99,7 @@ public class InMemoryDataService implements IDataService {
 		physicsData.addFixture(new FixtureData("circle", 6f, 6f, 0, 0, 0.5f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("bullet_shooter").setOffsetX(0f).setOffsetY(0f).setFireRate(3f)
+		WeaponDataI primaryWeapon = builder.setId("bullet_shooter").setOffsetX(0f).setOffsetY(0f).setFireRate(1.5f)
 				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(5f)
 				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
@@ -178,6 +180,18 @@ public class InMemoryDataService implements IDataService {
 
 	@Override
 	public void saveWeapon(WeaponDataI weapon, ShipDataI ship) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveScore(PlayerShipDataI ship, GameIdDataI game, int points, Timestamp date) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeConnection() {
 		// TODO Auto-generated method stub
 		
 	}

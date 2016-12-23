@@ -1,19 +1,36 @@
 package be.howest.twentytwo.parametergame.model.event.game;
 
-import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import com.badlogic.gdx.math.Vector2;
+
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 
 public class EnemyKilledEvent extends BaseGameEvent {
 
-	private EnemyDataI enemy;
-	
-	public EnemyKilledEvent() {
-		// TODO Auto-generated constructor stub
+	private final Vector2 killedAt;
+	private final float scoreValue;
+	private final float geomDropRate;
+
+	public EnemyKilledEvent(Vector2 deathPosition, float score, float geomDrop) {
+		this.killedAt = deathPosition;
+		this.scoreValue = score;
+		this.geomDropRate = geomDrop;
 	}
-	
+
 	@Override
 	public EventEnum getType() {
 		return EventEnum.ENEMY_KILLED;
+	}
+
+	public Vector2 getDeathPosition() {
+		return killedAt;
+	}
+
+	public float getScoreValue() {
+		return scoreValue;
+	}
+
+	public float getGeomDropRate() {
+		return geomDropRate;
 	}
 
 }

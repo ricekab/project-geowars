@@ -3,6 +3,7 @@ package be.howest.twentytwo.parametergame.model.gamedata;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -13,10 +14,12 @@ public class WeaponGameData implements WeaponDataI {
 
 	private final WeaponDataI weapon;
 
+	private Entity owner;
 	private AmmoData ammo;
 	private DifficultyDataI modifier;
 
-	public WeaponGameData(WeaponDataI weapon, DifficultyDataI difficulty) {
+	public WeaponGameData(Entity owner, WeaponDataI weapon, DifficultyDataI difficulty) {
+		this.owner = owner;
 		this.weapon = weapon;
 		setAmmoData(new AmmoData(weapon.getAmmoCount(), 1f / weapon.getFireRate()));
 		this.modifier = difficulty;
