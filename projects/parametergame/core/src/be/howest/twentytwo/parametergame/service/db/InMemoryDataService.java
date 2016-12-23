@@ -97,7 +97,7 @@ public class InMemoryDataService implements IDataService {
 		physicsData.addFixture(new FixtureData("circle", 6f, 6f, 0, 0, 0.5f, 0.1f, 0f));
 		ArrayList<WeaponDataI> weapons = new ArrayList<>();
 		WeaponDataBuilder builder = new WeaponData.WeaponDataBuilder();
-		WeaponDataI primaryWeapon = builder.setId("bullet_shooter").setOffsetX(0f).setOffsetY(0f).setFireRate(7.5f)
+		WeaponDataI primaryWeapon = builder.setId("bullet_shooter").setOffsetX(0f).setOffsetY(0f).setFireRate(3f)
 				.setBulletsPerShot(1).setShotConeAngle(0f).setBulletDamage(1f).setBulletSpeed(75f).setBulletMass(5f)
 				.setRange(250f).setAmmoCount(WeaponDataI.INFINITE_AMMO).setBulletSize(new Vector2(1f, 0.25f))
 				.setTimeDelay(0f).setTurnSpeed(0f).build();
@@ -148,7 +148,7 @@ public class InMemoryDataService implements IDataService {
 	@Override
 	public Collection<PowerupDataI> getPowerups() {
 		Collection<PowerupDataI> powerups = new HashSet<>();
-		powerups.add(new PowerupData("shiny orb", "redbull", -1, 180, "movementSpeed", 3));
+		powerups.add(new PowerupData("geom", "geomEffect", -1, 180, "movementSpeed", 3));
 		return powerups;
 	}
 

@@ -38,13 +38,6 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 	public MenuScreen(ScreenContext context) {
 		super(context);
-		/*
-		 * SoundSequencer seq = new SoundSequencer(); SoundEngine se = new
-		 * SoundEngine(); se.playMusic("music/finished_long.ogg", true); for(int
-		 * i=0; i < 5; i++){ seq.addSound("sound/switch25.wav"); } for(int i=0;
-		 * i < 5; i++){ seq.play(1); //System.out.println(seq.getSize());
-		 * //System.out.println(seq.getIndex()); }
-		 */
 
 	}
 
