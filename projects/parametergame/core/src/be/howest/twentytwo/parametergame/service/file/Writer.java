@@ -11,8 +11,8 @@ public class Writer {	//Temporary test file
 		POJOFileAccessor pfa = new POJOFileAccessor();
 		
 		LevelDataI memoryLevel = ifa.loadLevel("level");
-		pfa.saveLevel(memoryLevel, "level1.java");
-		LevelDataI loadedLevel = pfa.loadLevel("level1.java");
+		pfa.saveLevel(memoryLevel, "level1.lvl");
+		LevelDataI loadedLevel = pfa.loadLevel("level1.lvl");
 		boolean equal1 = memoryLevel.getSpawnBox().getWidth() == loadedLevel.getSpawnBox().getWidth();
 		boolean equal2 = memoryLevel.getSpawnBox().getYCoord() == loadedLevel.getSpawnBox().getYCoord();
 		boolean equal3 = memoryLevel.getWorld().getHeight() == loadedLevel.getWorld().getHeight();
