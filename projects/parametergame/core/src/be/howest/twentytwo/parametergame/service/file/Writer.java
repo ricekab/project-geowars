@@ -7,8 +7,8 @@ public class Writer {	//Temporary test file
 	public static void main(String[] args){
 		
 		
-		InMemoryFileAccessor ifa = new InMemoryFileAccessor();
-		POJOFileAccessor pfa = new POJOFileAccessor();
+		IFileAccessor ifa = new InMemoryFileAccessor();
+		IFileAccessor pfa = new POJOFileAccessor();
 		
 		LevelDataI memoryLevel = ifa.loadLevel("level1.lvl");
 		pfa.saveLevel(memoryLevel, "levels/level1.lvl");
