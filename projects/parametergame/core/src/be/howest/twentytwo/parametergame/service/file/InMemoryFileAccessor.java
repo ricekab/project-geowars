@@ -77,7 +77,7 @@ public class InMemoryFileAccessor implements IFileAccessor {
 			data.addPlanet(planet2);
 			break;
 		default:
-			//data = new LevelData();
+			data = null;
 			break;
 		}
 		
