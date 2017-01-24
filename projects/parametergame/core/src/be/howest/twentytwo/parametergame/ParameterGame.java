@@ -1,8 +1,8 @@
 package be.howest.twentytwo.parametergame;
 
-import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import javax.inject.Inject;
 
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.screen.SplashScreen;
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.service.file.IFileAccessor;
