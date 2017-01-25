@@ -1,9 +1,9 @@
 package be.howest.twentytwo.parametergame.model.event.collision;
 
-import com.badlogic.gdx.physics.box2d.Fixture;
-
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
-import be.howest.twentytwo.parametergame.model.event.IEvent;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 public class PlayerPickupEvent extends BaseCollisionEvent{
 
@@ -16,4 +16,22 @@ public class PlayerPickupEvent extends BaseCollisionEvent{
 		return EventEnum.PLAYER_PICKUP;
 	}
 
+	/** Aliases to retrieve collision subject. */
+	public Entity getPlayerEntity() {
+		return super.getSubject();
+	}
+	
+	public Fixture getPlayerFixture(){
+		return super.getSubjectFixture();
+	}
+	
+	public Entity getPickupEntity(){
+		return super.getCollider();
+	}
+	
+	public Fixture getPickupFixture(){
+		return super.getColliderFixture();
+	}
+
+	
 }

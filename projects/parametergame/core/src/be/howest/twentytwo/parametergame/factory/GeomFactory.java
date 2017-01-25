@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -17,12 +18,14 @@ import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
 import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+import be.howest.twentytwo.parametergame.model.event.pickup.GeomPickupCallback;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 public class GeomFactory implements ISpawnFactory {
 	private static final String GEOM_SPRITE_PACK = "sprites/game.pack";
 
-	private static final float GEOM_SIZE = 6f;
+	private static final float GEOM_SIZE = 4f;
+	private static final float GEOM_BASE_SCORE = 10f;
 
 	private final PooledEngine engine;
 	private final World world;
@@ -70,7 +73,8 @@ public class GeomFactory implements ISpawnFactory {
 		fixtureDef.filter.categoryBits = physicsCategory;
 		fixtureDef.filter.maskBits = physicsMask;
 		
-		body.createFixture(fixtureDef);
+		Fixture fix = body.createFixture(fixtureDef);
+		fix.setUserData(new GeomPickupCallback(GEOM_BASE_SCORE));
 		body.setUserData(geomPickup);
 		bc.setBody(body);
 		geomPickup.add(bc);
