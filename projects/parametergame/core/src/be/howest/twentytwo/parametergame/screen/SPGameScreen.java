@@ -14,8 +14,8 @@ public class SPGameScreen extends BaseScreen {
 	private Viewport gameViewport, uiViewport; // Needs to be saved for resizes
 	private EventQueue eventQueue;
 
-	public SPGameScreen(ScreenContext context, PooledEngine engine, EventQueue eventQueue, Viewport vp,
-			Viewport uiViewport) {
+	public SPGameScreen(ScreenContext context, PooledEngine engine, EventQueue eventQueue,
+			Viewport vp, Viewport uiViewport) {
 		super(context);
 		this.engine = engine;
 		this.gameViewport = vp;
@@ -41,18 +41,14 @@ public class SPGameScreen extends BaseScreen {
 
 	@Override
 	public void pause() {
-		// TODO: pause boolean --> stop engine update?
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO: See pause();
 	}
 
 	@Override
 	public void hide() {
-		// TODO: GameScreen - hide()
 	}
 
 	@Override

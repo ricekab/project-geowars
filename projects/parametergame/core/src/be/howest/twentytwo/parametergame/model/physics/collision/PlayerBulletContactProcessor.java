@@ -45,7 +45,6 @@ public class PlayerBulletContactProcessor extends BaseContactProcessor {
 			return true;
 		}
 		if ((targetCategory & Collision.ENEMY_CATEGORY) > 0) {
-			// TODO: Damage enemy --> handled by event queue?
 			getEventQueue().send(new EnemyHitEvent(target, playerBullet));
 			getEventQueue().send(new DestroyEntityEvent((Entity) playerBullet.getBody().getUserData()));
 		}

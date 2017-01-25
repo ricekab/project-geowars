@@ -20,9 +20,6 @@ public class EventQueue {
 	//
 	// @Override
 	// public void handle(IEvent event) {
-	// // TODO: Going to have to cast for every callback object.
-	// // Either this or need to create specific observables for everything which makes
-	// // extension a problem...
 	// PlayerHitEvent phEvt = (PlayerHitEvent) event;
 	// }
 	// });
@@ -39,7 +36,11 @@ public class EventQueue {
 	 * Parse out all queued messages.
 	 */
 	public void dispatch() {
+		if(events.size() > 0){
+			System.out.println("EventQ: Processing events...");
+		}
 		for (IEvent evt : events) {
+			System.out.println("EventQ: Event - " + evt.getClass().getName());
 			Collection<IEventListener> listeners = eventListeners.get(evt.getType());
 			if(listeners != null) {
 				for (IEventListener cb : listeners) {

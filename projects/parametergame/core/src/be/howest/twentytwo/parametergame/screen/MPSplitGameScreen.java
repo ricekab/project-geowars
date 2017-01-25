@@ -68,18 +68,14 @@ public class MPSplitGameScreen extends BaseScreen {
 
 	@Override
 	public void pause() {
-		// TODO: pause boolean --> stop engine update?
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO: See pause();
 	}
 
 	@Override
 	public void hide() {
-		// TODO: GameScreen - hide()
 	}
 
 	@Override

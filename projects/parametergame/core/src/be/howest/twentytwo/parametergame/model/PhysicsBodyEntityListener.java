@@ -1,5 +1,6 @@
 package be.howest.twentytwo.parametergame.model;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
@@ -20,13 +21,13 @@ public class PhysicsBodyEntityListener implements EntityListener {
 
 	@Override
 	public void entityAdded(Entity entity) {
-		// Gdx.app.debug("EntityListener", "Entity added");
+		// Gdx.app.debug("EntityListener", "Entity added: " + entity);
 	}
 
 	@Override
 	public void entityRemoved(Entity entity) {
-		// Gdx.app.debug("EntityListener", "Entity removed");
 		if(fam.matches(entity)){
+			// Gdx.app.debug("BodyEntityListener", "Entity removed: " + entity);
 			world.destroyBody(BodyComponent.MAPPER.get(entity).getBody()); // Remove body from world
 		}
 	}

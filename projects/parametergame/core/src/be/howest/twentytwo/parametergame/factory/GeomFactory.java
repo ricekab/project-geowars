@@ -66,6 +66,10 @@ public class GeomFactory implements ISpawnFactory {
 		bodyDef.position.set(pos.x, pos.y);
 		bodyDef.angle = rotation;
 		Body body = world.createBody(bodyDef);
+		
+		fixtureDef.filter.categoryBits = physicsCategory;
+		fixtureDef.filter.maskBits = physicsMask;
+		
 		body.createFixture(fixtureDef);
 		body.setUserData(geomPickup);
 		bc.setBody(body);
@@ -76,12 +80,13 @@ public class GeomFactory implements ISpawnFactory {
 		sc.setRegion(sprite);
 		geomPickup.add(sc);
 
+		engine.addEntity(geomPickup);
 		return geomPickup;
 	}
 
 	@Override
 	public Entity spawnEntity(Vector2 pos, float rotation, Vector2 initialVelocity) {
-		return spawnEntity(pos, rotation, initialVelocity, Collision.PLAYER_PICKUPS, Collision.PICKUP_MASK);
+		return spawnEntity(pos, rotation, initialVelocity, fixtureDef.filter.categoryBits, fixtureDef.filter.maskBits);
 	}
 
 	@Override

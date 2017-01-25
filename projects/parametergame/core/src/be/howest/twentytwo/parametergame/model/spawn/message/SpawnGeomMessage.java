@@ -7,6 +7,9 @@ import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 
 public class SpawnGeomMessage implements ISpawnMessage {
 
+	private static float RANDOM_X_OFFSET = 2;
+	private static float RANDOM_Y_OFFSET = 2;
+
 	private final Vector2 pos;
 	private final float rotation;
 	private final int amount;
@@ -30,11 +33,12 @@ public class SpawnGeomMessage implements ISpawnMessage {
 	public void execute(ISpawnFactory factory) {
 		Vector2 spawnPos;
 		for (int i = 0; i < amount; i++) {
-			spawnPos = new Vector2(getPos().x + (float) Math.random() * 4 - 2,
-					getPos().y + (float) Math.random() * 4 - 2);
+			spawnPos = new Vector2(getPos().x + (float) Math.random() * RANDOM_X_OFFSET * 2
+					- RANDOM_X_OFFSET, getPos().y + (float) Math.random() * RANDOM_Y_OFFSET * 2
+					- RANDOM_Y_OFFSET);
 
-			factory.spawnEntity(spawnPos, getRotation(), new Vector2(0, 0), Collision.PLAYER_PICKUPS,
-					Collision.PICKUP_MASK);
+			factory.spawnEntity(spawnPos, getRotation(), new Vector2(0, 0),
+					Collision.PLAYER_PICKUPS, Collision.PICKUP_MASK);
 		}
 
 	}
