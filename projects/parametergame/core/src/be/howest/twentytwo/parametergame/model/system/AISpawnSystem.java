@@ -79,7 +79,7 @@ public class AISpawnSystem extends IntervalSystem {
 		// Retrieve cluster to spawn
 		if (currentPool == null || currentPool.isEmpty()) {
 			if (spawnpools.isEmpty()) {
-				System.out.println("SPAWN END");
+				Gdx.app.debug("AISpawnSys", "END OF SPAWNING");
 				this.active = false;
 				// No enemies left, player win.
 				// 1. UI Message --> player won
@@ -100,7 +100,7 @@ public class AISpawnSystem extends IntervalSystem {
 				Vector2 spawnPos = new Vector2(spawnBoxLower.x + (float) Math.random() * clearBoxAreaSize,
 						spawnBoxLower.y + (float) Math.random() * clearBoxAreaSize);
 
-				Gdx.app.debug("AISPAWN", "AI SPAWNED AT: " + spawnPos.toString());
+				Gdx.app.debug("AISpawnSys", "AI SPAWNED AT: " + spawnPos.toString());
 				spawner.add(new SpawnEntityMessage(cluster.getEnemyName(), spawnPos, new Vector2(0f, 0f),
 						(float) Math.random() * 360f, Collision.ENEMY_CATEGORY, Collision.ENEMY_MASK));
 			}

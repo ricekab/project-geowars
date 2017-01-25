@@ -71,9 +71,7 @@ public class PlayerContactProcessor extends BaseContactProcessor {
 				return true;
 			}
 		} else if((targetCategory & Collision.PLAYER_PICKUPS) > 0) {
-			System.out.println("PCP P-PICK CONTACT");
 			getEventQueue().send(new PlayerPickupEvent(player, target));
-			System.out.println("Sending destroy event for entity: " + (Entity) target.getBody().getUserData());
 			getEventQueue().send(new DestroyEntityEvent((Entity) target.getBody().getUserData()));
 			return true;
 		}
