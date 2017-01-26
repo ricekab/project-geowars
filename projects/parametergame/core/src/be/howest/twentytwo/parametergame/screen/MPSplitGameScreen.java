@@ -59,8 +59,8 @@ public class MPSplitGameScreen extends BaseScreen {
 	public void render(float delta) {
 		engineLeft.update(delta);
 		eventQueueLeft.dispatch();
-//		engineRight.update(delta);
-//		eventQueueRight.dispatch();
+		engineRight.update(delta);
+		eventQueueRight.dispatch();
 	}
 
 	@Override
@@ -73,8 +73,6 @@ public class MPSplitGameScreen extends BaseScreen {
 
 		viewportLeft.update(width / 2, height);
 		uiViewportLeft.update(width / 2, height, true);
-		viewportLeft.setScreenX(0);
-		viewportLeft.apply();
 		viewportRight.update(width / 2, height);
 		uiViewportRight.update(width / 2, height, true);
 		viewportRight.setScreenX(width / 2);

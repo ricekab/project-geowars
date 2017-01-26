@@ -30,6 +30,8 @@ public class RenderSystem extends IteratingSystem {
 
 	@Override
 	public void update(float deltaTime) {
+		getViewport().apply();
+		getCamera().update(); // TODO: Might not be needed.
 		batch.setProjectionMatrix(getCamera().combined);
 		batch.begin();
 		super.update(deltaTime);
@@ -40,8 +42,6 @@ public class RenderSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		TransformComponent transform = TransformComponent.MAPPER.get(entity);
 		SpriteComponent spriteComp = SpriteComponent.MAPPER.get(entity);
-
-		getCamera().update(); // TODO: Might not be needed.
 
 		TextureRegion region = spriteComp.getRegion();
 
