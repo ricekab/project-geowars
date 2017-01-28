@@ -7,7 +7,6 @@ import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 
 /**
  * System responsible for processing time delayed entities.

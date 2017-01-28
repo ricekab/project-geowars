@@ -9,7 +9,6 @@ import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.physics.message.LinearForceMessage;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalIteratingSystem;
 import com.badlogic.gdx.math.Vector2;

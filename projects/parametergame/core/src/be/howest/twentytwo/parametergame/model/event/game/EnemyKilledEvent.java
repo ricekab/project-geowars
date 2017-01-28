@@ -1,8 +1,8 @@
 package be.howest.twentytwo.parametergame.model.event.game;
 
-import com.badlogic.gdx.math.Vector2;
-
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
+
+import com.badlogic.gdx.math.Vector2;
 
 public class EnemyKilledEvent extends BaseGameEvent {
 

@@ -3,11 +3,11 @@ package be.howest.twentytwo.parametergame.factory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.Gdx;
-
 import be.howest.twentytwo.parametergame.model.ai.BasicAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIMoveBehaviour;
+
+import com.badlogic.gdx.Gdx;
 
 public class AIMoveBehaviourFactory {
 

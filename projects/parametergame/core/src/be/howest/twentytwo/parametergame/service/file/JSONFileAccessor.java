@@ -5,15 +5,15 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
-
 import be.howest.twentytwo.parametergame.dataTypes.LevelData;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserData;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
+
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 
 
 public class JSONFileAccessor implements IFileAccessor{	// CAN SAVE, NOT LOAD

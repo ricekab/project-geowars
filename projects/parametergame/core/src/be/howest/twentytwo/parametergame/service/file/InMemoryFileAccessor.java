@@ -12,7 +12,6 @@ import be.howest.twentytwo.parametergame.dataTypes.SettingsData;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolData;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
-import be.howest.twentytwo.parametergame.dataTypes.UserData;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 public class InMemoryFileAccessor implements IFileAccessor {

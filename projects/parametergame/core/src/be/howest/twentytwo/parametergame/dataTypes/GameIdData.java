@@ -1,7 +1,7 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
-import java.security.SecureRandom;
 import java.math.BigInteger;
+import java.security.SecureRandom;
 
 public class GameIdData implements GameIdDataI{
 

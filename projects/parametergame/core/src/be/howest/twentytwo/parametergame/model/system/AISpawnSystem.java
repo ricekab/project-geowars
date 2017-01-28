@@ -3,26 +3,23 @@ package be.howest.twentytwo.parametergame.model.system;
 import java.util.Collection;
 import java.util.Queue;
 
-import com.badlogic.ashley.systems.IntervalSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.badlogic.gdx.physics.box2d.World;
-
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ClusterDataI;
-import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
-import be.howest.twentytwo.parametergame.factory.ProjectileFactory;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.game.GameLoseEvent;
 import be.howest.twentytwo.parametergame.model.event.game.GameSpawnDepletedEvent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
+
+import com.badlogic.ashley.systems.IntervalSystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * This system is responsible for deciding when and where to spawn enemies on

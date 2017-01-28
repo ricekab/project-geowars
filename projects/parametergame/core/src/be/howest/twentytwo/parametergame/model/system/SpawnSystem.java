@@ -1,9 +1,7 @@
 package be.howest.twentytwo.parametergame.model.system;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import be.howest.twentytwo.parametergame.dataTypes.DefaultDifficultyData;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
-import be.howest.twentytwo.parametergame.dataTypes.DefaultDifficultyData;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
@@ -22,7 +22,6 @@ import be.howest.twentytwo.parametergame.model.gamedata.WeaponGameData;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

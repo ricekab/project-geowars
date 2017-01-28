@@ -1,9 +1,9 @@
 package be.howest.twentytwo.parametergame.model.event.game;
 
-import com.badlogic.ashley.core.Entity;
-
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
+
+import com.badlogic.ashley.core.Entity;
 
 public class DestroyEntityEvent implements IEvent {
 	

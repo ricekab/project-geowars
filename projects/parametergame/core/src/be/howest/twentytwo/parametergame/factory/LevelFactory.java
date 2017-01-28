@@ -8,20 +8,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.BoxDataI;
@@ -60,8 +46,6 @@ import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledHa
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerPickupHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.GameEndSoundHandler;
-import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
-import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.WeaponFiredSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.pickup.BasePickupCallback;
@@ -74,7 +58,6 @@ import be.howest.twentytwo.parametergame.model.physics.collision.PlayerBulletCon
 import be.howest.twentytwo.parametergame.model.physics.collision.PlayerContactProcessor;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.ISpawnMessage;
-import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
 import be.howest.twentytwo.parametergame.model.spawn.message.SpawnGeomMessage;
 import be.howest.twentytwo.parametergame.model.system.AIMovementSystem;
 import be.howest.twentytwo.parametergame.model.system.AIShootSystem;
@@ -97,6 +80,19 @@ import be.howest.twentytwo.parametergame.model.time.RemoveInvulnerabilityCallbac
 import be.howest.twentytwo.parametergame.service.db.IDataService;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 import be.howest.twentytwo.parametergame.ui.message.UIMessage;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Builds up the physics {@link World} as well as all populates the ECS engine

@@ -1,6 +1,6 @@
 package jUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import be.howest.twentytwo.parametergame.dataTypes.*;
+import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserData;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.service.db.SQLDataService;
 
 public class SQLDataServiceTests {

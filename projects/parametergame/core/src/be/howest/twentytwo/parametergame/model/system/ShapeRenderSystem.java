@@ -1,17 +1,14 @@
 package be.howest.twentytwo.parametergame.model.system;
 
+import be.howest.twentytwo.parametergame.model.component.ShapeComponent;
+import be.howest.twentytwo.parametergame.model.component.TransformComponent;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import be.howest.twentytwo.parametergame.model.component.ShapeComponent;
-import be.howest.twentytwo.parametergame.model.component.SpriteComponent;
-import be.howest.twentytwo.parametergame.model.component.TransformComponent;
 
 public class ShapeRenderSystem extends IteratingSystem {
 

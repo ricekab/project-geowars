@@ -5,11 +5,12 @@
  */
 package be.howest.twentytwo.parametergame.audio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.TimeUtils;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

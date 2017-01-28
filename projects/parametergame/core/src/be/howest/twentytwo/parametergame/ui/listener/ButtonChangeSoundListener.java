@@ -5,10 +5,10 @@
  */
 package be.howest.twentytwo.parametergame.ui.listener;
 
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
-import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 
 /**
  *

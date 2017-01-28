@@ -1,8 +1,8 @@
 package be.howest.twentytwo.parametergame.model.system;
 
-import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import java.util.Collection;
 
+import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
@@ -14,7 +14,6 @@ import be.howest.twentytwo.parametergame.model.spawn.message.SpawnEntityMessage;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 

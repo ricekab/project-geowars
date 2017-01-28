@@ -1,9 +1,9 @@
 package be.howest.twentytwo.parametergame.model.spawn.message;
 
-import com.badlogic.gdx.math.Vector2;
-
 import be.howest.twentytwo.parametergame.factory.ISpawnFactory;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
+
+import com.badlogic.gdx.math.Vector2;
 
 public class SpawnGeomMessage implements ISpawnMessage {
 

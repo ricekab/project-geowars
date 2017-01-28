@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.UserData;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 public class POJOFileAccessor implements IFileAccessor {	//CAN SAVE AND LOAD

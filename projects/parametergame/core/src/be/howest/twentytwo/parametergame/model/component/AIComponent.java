@@ -1,13 +1,13 @@
 package be.howest.twentytwo.parametergame.model.component;
 
 import be.howest.twentytwo.parametergame.model.ai.AITargetBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
+import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool.Poolable;
-
-import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
-import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 
 public class AIComponent implements Component, Poolable {
 

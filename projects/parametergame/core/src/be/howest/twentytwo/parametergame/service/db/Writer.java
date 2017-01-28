@@ -1,13 +1,10 @@
 package be.howest.twentytwo.parametergame.service.db;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Queue;
 
-import be.howest.twentytwo.parametergame.dataTypes.*;
+import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 
 public class Writer {
 	public static void main(String[] args) {

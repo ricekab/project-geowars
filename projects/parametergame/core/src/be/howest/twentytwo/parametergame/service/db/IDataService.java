@@ -10,7 +10,6 @@ import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.GameIdDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PlayerShipData;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;

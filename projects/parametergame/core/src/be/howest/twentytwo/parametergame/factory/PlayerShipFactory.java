@@ -1,12 +1,12 @@
 package be.howest.twentytwo.parametergame.factory;
 
+import java.util.Collection;
+
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
 import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
 import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
-
-import java.util.Collection;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;

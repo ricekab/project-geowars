@@ -1,7 +1,6 @@
 package be.howest.twentytwo.parametergame.dataTypes;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ShipDataI {
 

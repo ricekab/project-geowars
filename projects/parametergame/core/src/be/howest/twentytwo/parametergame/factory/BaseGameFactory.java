@@ -1,9 +1,9 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import com.badlogic.gdx.Screen;
-
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
+
+import com.badlogic.gdx.Screen;
 
 /**
  * Responsible for creating the game screen, be it a single player single view or multiplayer versus

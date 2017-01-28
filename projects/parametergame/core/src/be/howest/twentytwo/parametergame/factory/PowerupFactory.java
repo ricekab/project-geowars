@@ -1,14 +1,13 @@
 package be.howest.twentytwo.parametergame.factory;
 
+import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
+import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-
-import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
-import be.howest.twentytwo.parametergame.dataTypes.PowerupDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 
 public class PowerupFactory implements ISpawnFactory {
 	private static final String PICKUPS_SPRITE_PACK = "sprites/game.pack";

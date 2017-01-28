@@ -1,12 +1,12 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
+
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
 
 /**
  * An intermediary screen shown during loading of levels.

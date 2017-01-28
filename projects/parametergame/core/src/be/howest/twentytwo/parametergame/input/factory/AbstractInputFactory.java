@@ -19,7 +19,7 @@ import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 
-public class AbstractInputFactory {
+public abstract class AbstractInputFactory {
 
 	protected InputAction createActionFor(String actionString, Entity player) {
 		InputAction input;

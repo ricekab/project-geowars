@@ -1,9 +1,9 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import be.howest.twentytwo.parametergame.model.ai.BasicAIShootBehaviour;
 import java.util.HashMap;
 import java.util.Map;
 
+import be.howest.twentytwo.parametergame.model.ai.BasicAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.NullAIShootBehaviour;
 

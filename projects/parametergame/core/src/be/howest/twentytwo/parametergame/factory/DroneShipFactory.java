@@ -1,16 +1,17 @@
 package be.howest.twentytwo.parametergame.factory;
 
 //@author Ward Van den Berghe
-import be.howest.twentytwo.parametergame.dataTypes.DroneData;
+import java.util.Collection;
+
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.FixtureDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PhysicsDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.model.ai.AITargetBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
 import be.howest.twentytwo.parametergame.model.ai.IAIShootBehaviour;
 import be.howest.twentytwo.parametergame.model.component.AIComponent;
 import be.howest.twentytwo.parametergame.model.physics.collision.Collision;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.assets.AssetManager;
@@ -21,7 +22,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import java.util.Collection;
 
 public class DroneShipFactory implements ISpawnFactory {
     private static final String SHIP_SPRITE_PACK = "sprites/game.pack";

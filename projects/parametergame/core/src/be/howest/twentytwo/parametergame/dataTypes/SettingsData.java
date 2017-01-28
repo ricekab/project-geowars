@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import be.howest.twentytwo.parametergame.input.Inputs;
 
 public class SettingsData implements SettingsDataI, Serializable{

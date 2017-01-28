@@ -1,13 +1,11 @@
 package be.howest.twentytwo.parametergame.model;
 
-import com.badlogic.ashley.core.Component;
+import be.howest.twentytwo.parametergame.model.component.BodyComponent;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
-
-import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 
 public class PhysicsBodyEntityListener implements EntityListener {
 

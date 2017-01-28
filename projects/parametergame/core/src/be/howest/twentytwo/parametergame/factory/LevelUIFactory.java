@@ -3,6 +3,19 @@ package be.howest.twentytwo.parametergame.factory;
 import java.util.Observable;
 import java.util.Observer;
 
+import be.howest.twentytwo.parametergame.ParameterGame;
+import be.howest.twentytwo.parametergame.model.component.HealthComponent;
+import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
+import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
+import be.howest.twentytwo.parametergame.model.event.EventEnum;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.IEvent;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
+import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
+import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,21 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import be.howest.twentytwo.parametergame.ParameterGame;
-import be.howest.twentytwo.parametergame.model.component.HealthComponent;
-import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
-import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
-import be.howest.twentytwo.parametergame.model.event.EventEnum;
-import be.howest.twentytwo.parametergame.model.event.EventQueue;
-import be.howest.twentytwo.parametergame.model.event.IEvent;
-import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
-import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
-import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
-import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
-import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
-import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
-import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 
 public class LevelUIFactory {
 

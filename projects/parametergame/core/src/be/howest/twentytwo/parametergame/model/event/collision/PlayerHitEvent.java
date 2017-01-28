@@ -1,11 +1,11 @@
 package be.howest.twentytwo.parametergame.model.event.collision;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Fixture;
-
 import be.howest.twentytwo.parametergame.model.component.HealthComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 public class PlayerHitEvent extends BaseCollisionEvent {
 

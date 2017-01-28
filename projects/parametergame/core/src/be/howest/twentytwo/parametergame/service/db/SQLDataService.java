@@ -9,8 +9,6 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 
-import com.badlogic.gdx.math.Vector2;
-
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyData;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneData;
@@ -32,6 +30,8 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponData;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponData.WeaponDataBuilder;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
+
+import com.badlogic.gdx.math.Vector2;
 
 public class SQLDataService implements IDataService {
 

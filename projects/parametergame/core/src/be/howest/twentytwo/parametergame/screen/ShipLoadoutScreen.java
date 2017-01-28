@@ -7,7 +7,6 @@ import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.DifficultyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.DroneDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.factory.BaseGameFactory;
 import be.howest.twentytwo.parametergame.service.db.IDataService;

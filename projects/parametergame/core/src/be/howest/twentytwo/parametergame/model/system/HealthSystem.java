@@ -1,10 +1,5 @@
 package be.howest.twentytwo.parametergame.model.system;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-
 import be.howest.twentytwo.parametergame.model.component.BodyComponent;
 import be.howest.twentytwo.parametergame.model.component.EnemyComponent;
 import be.howest.twentytwo.parametergame.model.component.HealthComponent;
@@ -14,6 +9,11 @@ import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
 import be.howest.twentytwo.parametergame.utils.VectorMath;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 
 public class HealthSystem extends IteratingSystem {
 

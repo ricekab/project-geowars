@@ -1,9 +1,9 @@
 package be.howest.twentytwo.parametergame.model.event.listener;
 
-import com.badlogic.gdx.Gdx;
-
 import be.howest.twentytwo.parametergame.audio.SoundSequencer;
 import be.howest.twentytwo.parametergame.model.event.game.WeaponFiredEvent;
+
+import com.badlogic.gdx.Gdx;
 
 public class WeaponFiredSoundHandler extends BaseWeaponFiredHandler {
 

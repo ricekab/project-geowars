@@ -1,12 +1,5 @@
 package be.howest.twentytwo.parametergame.factory;
 
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
@@ -16,6 +9,12 @@ import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.screen.SPGameScreen;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
+
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SPGameFactory extends BaseGameFactory {
 

@@ -4,12 +4,10 @@ import java.util.Collection;
 
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
-import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;

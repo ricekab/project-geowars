@@ -8,7 +8,6 @@ import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.physics.message.GravityPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;

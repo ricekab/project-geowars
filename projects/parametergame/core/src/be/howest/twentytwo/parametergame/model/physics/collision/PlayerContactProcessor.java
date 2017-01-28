@@ -11,9 +11,7 @@ import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.ExplosionPhysicsMessage;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;

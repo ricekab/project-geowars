@@ -1,11 +1,11 @@
 package be.howest.twentytwo.parametergame.screen;
 
+import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.model.event.EventQueue;
+
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import be.howest.twentytwo.parametergame.ScreenContext;
-import be.howest.twentytwo.parametergame.model.event.EventQueue;
 
 public class SPGameScreen extends BaseScreen {
 

@@ -2,20 +2,19 @@ package be.howest.twentytwo.parametergame.model.physics.collision;
 
 import java.util.Collection;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
-
 import be.howest.twentytwo.parametergame.model.component.EnemyComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.game.DestroyEntityEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
 import be.howest.twentytwo.parametergame.model.physics.message.IPhysicsMessage;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class PlanetContactProcessor extends BaseContactProcessor {
 
