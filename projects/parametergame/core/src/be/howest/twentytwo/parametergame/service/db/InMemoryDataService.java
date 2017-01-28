@@ -58,7 +58,7 @@ public class InMemoryDataService implements IDataService {
 				0.5f, 25, new Vector2(4f, 1f));
 		weapons.add(primaryWeapon);
 		weapons.add(secondaryWeapon);
-		ShipDataI ship = new ShipData("Recon", "recon", 3, 70.0f, 45.0f, 30.0f, 30.0f, 0.35f, 0.5f, weapons,
+		ShipDataI ship = new ShipData("Recon", "recon", 3, 70.0f, 45.0f, 30.0f, 30.0f, 0.35f, 1f, weapons,
 				physicsData, 8f, 8f, 5f);
 		PlayerShipDataI playerShip = new PlayerShipData(ship, "Deadline", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);
@@ -66,7 +66,7 @@ public class InMemoryDataService implements IDataService {
 		// FIGHTER
 		physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
 		physicsData.addFixture(new FixtureData("circle", 12f, 12f, 0, 0, 0.25f, 0.1f, 0f));
-		ship = new ShipData("Fighter", "fighter", 3, 60.0f, 30.0f, 30.0f, 20.0f, 0.45f, 0.5f, weapons,
+		ship = new ShipData("Fighter", "fighter", 3, 60.0f, 30.0f, 30.0f, 20.0f, 0.45f, 1f, weapons,
 				physicsData, 12f, 12f, 0.75f);
 		playerShip = new PlayerShipData(ship, "X-Wing", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);
