@@ -7,6 +7,22 @@ public class Writer {	//Temporary test file
 	public static void main(String[] args){
 		
 		
+		InMemoryFileAccessor ifa = new InMemoryFileAccessor();
+		POJOFileAccessor pfa = new POJOFileAccessor();
+		
+		LevelDataI memoryLevel = ifa.loadLevel("level");
+		pfa.saveLevel(memoryLevel, "level1.lvl");
+		LevelDataI loadedLevel = pfa.loadLevel("level1.lvl");
+		boolean equal1 = memoryLevel.getSpawnBox().getWidth() == loadedLevel.getSpawnBox().getWidth();
+		boolean equal2 = memoryLevel.getSpawnBox().getYCoord() == loadedLevel.getSpawnBox().getYCoord();
+		boolean equal3 = memoryLevel.getWorld().getHeight() == loadedLevel.getWorld().getHeight();
+		boolean equal4 = memoryLevel.getWorld().getXCoord() == loadedLevel.getWorld().getXCoord();
+		
+		if(equal1 && equal2 && equal3 && equal4){
+			System.out.println("IT'S WORKING");
+		}else{
+			System.out.println("ALLAHU AKBAR!");
+		}
 
 		 
 		/*
@@ -47,7 +63,7 @@ public class Writer {	//Temporary test file
 		}
 		*/
 		
-		
+		/*
 		try {
 		
 			JSONFileAccessor jfa = new JSONFileAccessor();
@@ -64,6 +80,7 @@ public class Writer {	//Temporary test file
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		/**/
 		
 		/*
 		JSONFileAccessor jfa = new JSONFileAccessor();
