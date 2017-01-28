@@ -20,7 +20,7 @@ public class SoundEngine {
         this.file = file;
         this.music = Gdx.audio.newMusic(Gdx.files.internal(file));
         music.setLooping(true);
-        music.play();
+        // music.play(); -- TODO: TEMP DISABLE MUSIC
     }
     
     public void playMusic(String file, boolean loop){

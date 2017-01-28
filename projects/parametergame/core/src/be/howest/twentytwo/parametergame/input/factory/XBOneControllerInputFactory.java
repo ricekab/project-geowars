@@ -1,8 +1,11 @@
 package be.howest.twentytwo.parametergame.input.factory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import be.howest.twentytwo.parametergame.input.ControllerAxisMapping;
 import be.howest.twentytwo.parametergame.input.ControllerInputListener;
 import be.howest.twentytwo.parametergame.input.Inputs;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
@@ -16,6 +19,7 @@ public class XBOneControllerInputFactory extends AbstractInputFactory {
 	public ControllerListener createControllerListener(Entity player){
 		Map<Integer, InputAction> buttons = new HashMap<Integer, InputAction>();
 		Map<PovDirection, InputAction> pov = new HashMap<PovDirection, InputAction>();
+		List<ControllerAxisMapping> axis = new ArrayList<ControllerAxisMapping>();
 		
 		buttons.put(0, createActionFor(Inputs.FIRE_PRIMARY, player));
 		buttons.put(1, createActionFor(Inputs.FIRE_SECONDARY, player));
@@ -29,6 +33,12 @@ public class XBOneControllerInputFactory extends AbstractInputFactory {
 		pov.put(PovDirection.west, createActionFor(Inputs.TURN_LEFT, player));
 		pov.put(PovDirection.center, createActionFor(Inputs.HALT_MOVE, player));
 		
-		return new ControllerInputListener(buttons, pov);
+		axis.add(new ControllerAxisMapping(1, -2.0f, -0.5f, createActionFor(Inputs.TURN_LEFT, player)));
+		axis.add(new ControllerAxisMapping(1, 0.5f, 2.0f, createActionFor(Inputs.TURN_RIGHT, player)));
+		
+		axis.add(new ControllerAxisMapping(4, -2.0f, -0.3f, createActionFor(Inputs.ACCELERATE_FORWARD, player)));
+		axis.add(new ControllerAxisMapping(4, 0.3f, 2.0f, createActionFor(Inputs.ACCELERATE_BACKWARD, player)));
+		
+		return new ControllerInputListener(buttons, pov, axis);
 	}
 }

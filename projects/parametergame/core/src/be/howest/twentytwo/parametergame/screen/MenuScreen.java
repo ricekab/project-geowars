@@ -128,7 +128,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private class PlayArcadeListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			BaseGameFactory gameFactory = new SPGameFactory(getContext(), "arcade01");
+			BaseGameFactory gameFactory = new SPGameFactory(getContext(), "level1.lvl");
 			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(),
 					new ArcadeLoadoutListener(gameFactory), gameFactory));
 			dispose();
@@ -138,7 +138,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private class PlayVersusListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), "arcade01");
+			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), "level1.lvl");
 			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(),
 					new VersusLoadoutListener(gameFactory), gameFactory, "Loadout - Player 1"));
 			dispose();
