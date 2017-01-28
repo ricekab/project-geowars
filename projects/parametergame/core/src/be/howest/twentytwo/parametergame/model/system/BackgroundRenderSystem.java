@@ -54,9 +54,7 @@ public class BackgroundRenderSystem extends EntitySystem {
 
 	@Override
 	public void update(float deltaTime) {
-		Gdx.gl.glClearColor(255f, 255f, 255f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		getViewport().apply();
 		batch.setProjectionMatrix(getCamera().combined);
 		batch.begin();
 		/*

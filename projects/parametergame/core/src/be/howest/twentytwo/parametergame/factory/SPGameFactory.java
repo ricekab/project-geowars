@@ -38,25 +38,26 @@ public class SPGameFactory extends BaseGameFactory {
 		// 240 135 // 320 180 // 400 225
 		// Size in world units
 		Viewport gameViewport = new FitViewport(400f, 225f);
-		
+
 		/*
 		 * B) ScreenViewport = full size without stretching, but shown field is different based on
 		 * aspect ratio --> possible balance concern
 		 */
 		// ScreenViewport sv = new ScreenViewport();
-		// sv.setUnitsPerPixel(0.25f);
-		// viewport = sv;
+		// sv.setUnitsPerPixel(0.35f);
+		// gameViewport = sv;
+
 		Viewport uiViewport = new ScreenViewport();
 
 		LevelFactory levelFactory = new LevelFactory();
 		EventQueue eventQueue = new EventQueue();
 
-		PooledEngine engine = levelFactory.createWorld(getContext(), gameViewport, uiViewport, eventQueue,
-				getLevelFile(), loadout);
+		PooledEngine engine = levelFactory.createWorld(getContext(), gameViewport, uiViewport,
+				eventQueue, getLevelFile(), loadout);
 
 		registerSoundEvents(eventQueue);
 		registerGameEvents(eventQueue);
-		
+
 		return new SPGameScreen(getContext(), engine, eventQueue, gameViewport, uiViewport);
 	}
 

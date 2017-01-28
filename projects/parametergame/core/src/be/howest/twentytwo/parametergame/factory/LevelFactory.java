@@ -50,18 +50,21 @@ import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.collision.EnemyHitEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
+import be.howest.twentytwo.parametergame.model.event.collision.PlayerPickupEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.game.PlayerKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerKilledHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerPickupHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.DestroyEntityListener;
 import be.howest.twentytwo.parametergame.model.event.listener.GameEndSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledEndGameListener;
 import be.howest.twentytwo.parametergame.model.event.listener.PlayerKilledSoundHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.WeaponFiredSoundHandler;
+import be.howest.twentytwo.parametergame.model.event.pickup.BasePickupCallback;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 import be.howest.twentytwo.parametergame.model.physics.collision.BaseContactProcessor;
@@ -237,10 +240,8 @@ public class LevelFactory {
 		}
 
 		// PICKUP FACTORY PREPARATION
-		
-		// TODO: Geom spawning creates nullpointer problems with collisions
-		// spawnSystem.addFactory(new GeomFactory(engine, world, assets, selections.getDifficulty()));
-		// TODO -- Pickup stuff
+		spawnSystem.addFactory(new GeomFactory(engine, world, assets, selections.getDifficulty()));
+		// TODO -- Factories for other pickups
 
 		// INPUT
 		InputFactory inputFactory = new InputFactory();
@@ -289,6 +290,8 @@ public class LevelFactory {
 			Collection<IPhysicsMessage> physicsMessages, Collection<ISpawnMessage> spawnMessages,
 			PlayerData playerData) {
 		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
+		
+		eventQueue.register(EventEnum.PLAYER_PICKUP, new PlayerPickupHandler());
 
 		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
 		eventQueue.register(EventEnum.ENEMY_HIT, new EnemyHitHandler());
@@ -393,6 +396,15 @@ public class LevelFactory {
 			spawn.add(new SpawnGeomMessage(event.getDeathPosition(), geomsToSpawn));
 		}
 
+	}
+	
+	private class PlayerPickupHandler extends BasePlayerPickupHandler{
+
+		@Override
+		public void handleEvent(PlayerPickupEvent event) {
+			((BasePickupCallback)event.getColliderFixture().getUserData()).handle(event.getPlayerEntity());
+		}
+		
 	}
 
 	private void spawnTimedEntity(PooledEngine engine, float timeDelay, ITimeoutCallback callback) {

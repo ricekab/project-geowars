@@ -12,36 +12,39 @@ public class MPSplitGameScreen extends BaseScreen {
 
 	// If you see this, sorry for the duplication, but deadlines...
 	// Maybe this cat will make you feel better about this mess.
-	//    |\___/|
-	//    )     (             .              '
-	//   =\     /=
-	//     )===(       *
-	//    /     \
-	//    |     |
-	//   /       \
-	//   \       /
-	//_/\_/\_/\__  _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
-	//|  |  |  |( (  |  |  |  |  |  |  |  |  |  |
-	//|  |  |  | ) ) |  |  |  |  |  |  |  |  |  |
-	//|  |  |  |(_(  |  |  |  |  |  |  |  |  |  |
-	//|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-	//|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+	// |\___/|
+	// ) ( . '
+	// =\ /=
+	// )===( *
+	// / \
+	// | |
+	// / \
+	// \ /
+	// _/\_/\_/\__ _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
+	// | | | |( ( | | | | | | | | | |
+	// | | | | ) ) | | | | | | | | | |
+	// | | | |(_( | | | | | | | | | |
+	// | | | | | | | | | | | | | | |
+	// | | | | | | | | | | | | | | |
 	private World world;
 	private PooledEngine engineLeft, engineRight;
-	private Viewport viewportLeft, viewportRight;
+	private Viewport viewportLeft, viewportRight, uiViewportLeft, uiViewportRight;
 	private EventQueue eventQueueLeft, eventQueueRight;
 
 	public static Entity mainPlayer = null;
 
-	public MPSplitGameScreen(ScreenContext context, PooledEngine engineLeft, Viewport vpLeft,
-			EventQueue eventQueueLeft, PooledEngine engineRight, Viewport vpRight,
-			EventQueue eventQueueRight) {
+	public MPSplitGameScreen(ScreenContext context, PooledEngine engineLeft,
+			EventQueue eventQueueLeft, Viewport vpLeft, Viewport uiVpLeft,
+			PooledEngine engineRight, EventQueue eventQueueRight, Viewport vpRight,
+			Viewport uiVpRight) {
 		super(context);
 		this.engineLeft = engineLeft;
 		this.viewportLeft = vpLeft;
+		this.uiViewportLeft = uiVpLeft;
 		this.eventQueueLeft = eventQueueLeft;
 		this.engineRight = engineRight;
 		this.viewportRight = vpRight;
+		this.uiViewportRight = uiVpRight;
 		this.eventQueueRight = eventQueueRight;
 	}
 
@@ -55,31 +58,38 @@ public class MPSplitGameScreen extends BaseScreen {
 	@Override
 	public void render(float delta) {
 		engineLeft.update(delta);
-		engineRight.update(delta);
 		eventQueueLeft.dispatch();
+		engineRight.update(delta);
 		eventQueueRight.dispatch();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		viewportLeft.update(width/2, height);
-		viewportRight.update(width/2, height);
+		/*
+		 * 
+		 * gameViewport.update(width/2, height); uiViewport.update(width/2, height, true);
+		 * gameViewport.setScreenX(width/2);
+		 */
+
+		viewportLeft.update(width / 2, height);
+		uiViewportLeft.update(width / 2, height, true);
+		viewportRight.update(width / 2, height);
+		uiViewportRight.update(width / 2, height, true);
+		viewportRight.setScreenX(width / 2);
+		viewportRight.apply();
+
 	}
 
 	@Override
 	public void pause() {
-		// TODO: pause boolean --> stop engine update?
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO: See pause();
 	}
 
 	@Override
 	public void hide() {
-		// TODO: GameScreen - hide()
 	}
 
 	@Override

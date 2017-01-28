@@ -20,9 +20,6 @@ public class EventQueue {
 	//
 	// @Override
 	// public void handle(IEvent event) {
-	// // TODO: Going to have to cast for every callback object.
-	// // Either this or need to create specific observables for everything which makes
-	// // extension a problem...
 	// PlayerHitEvent phEvt = (PlayerHitEvent) event;
 	// }
 	// });

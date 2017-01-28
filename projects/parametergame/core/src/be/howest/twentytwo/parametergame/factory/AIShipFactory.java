@@ -65,12 +65,13 @@ public class AIShipFactory implements ISpawnFactory {
 		ai.setShootBehaviour(shootBehaviour);
 		ai.setTarget(target);
 		aiShip.add(ai);
-		engine.addEntity(aiShip);
 		
 		EnemyComponent ec = engine.createComponent(EnemyComponent.class);
 		ec.setScoreValue(enemyData.getBaseScore() * difficulty.getScoreModifier());
 		ec.setGeomDropRate(enemyData.getGeomDropRate());
 		aiShip.add(ec);
+		
+		engine.addEntity(aiShip);
 		return aiShip;
 	}
 

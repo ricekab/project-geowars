@@ -11,6 +11,7 @@ import be.howest.twentytwo.parametergame.ui.listener.ButtonChangeSoundListener;
 import be.howest.twentytwo.parametergame.utils.PassUtils;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -179,6 +180,11 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		public void changed(ChangeEvent event, Actor actor) {
 			CheckBox c = (CheckBox)event.getListenerActor();
 			ParameterGame.DEBUG_ENABLED = c.isChecked();
+			if(c.isChecked()){
+				Gdx.app.setLogLevel(Application.LOG_DEBUG);
+			} else{
+				Gdx.app.setLogLevel(Application.LOG_ERROR);
+			}
 		}
 	}
 

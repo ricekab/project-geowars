@@ -10,7 +10,6 @@ public class AngularForceMessage extends SinglePhysicsMessage {
 	private Body body;
 	private float torque;
 
-	// TODO: Data passed as param or smth? (See GravityPhysicsEvent)
 	public AngularForceMessage(Body body, float torque) {
 		super();
 		this.body = body;

@@ -19,10 +19,12 @@ import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
+import be.howest.twentytwo.parametergame.model.event.IEvent;
 import be.howest.twentytwo.parametergame.model.event.collision.PlayerHitEvent;
 import be.howest.twentytwo.parametergame.model.event.game.EnemyKilledEvent;
 import be.howest.twentytwo.parametergame.model.event.listener.BaseEnemyKilledHandler;
 import be.howest.twentytwo.parametergame.model.event.listener.BasePlayerHitHandler;
+import be.howest.twentytwo.parametergame.model.event.listener.IEventListener;
 import be.howest.twentytwo.parametergame.model.gamedata.HealthData;
 import be.howest.twentytwo.parametergame.model.gamedata.PlayerData;
 
@@ -60,7 +62,8 @@ public class LevelUIFactory {
 
 		Table score = new Table();
 		Label scoreLabel = new Label("Score: 0", labelStyle);
-		events.register(EventEnum.ENEMY_KILLED, new EnemyKilledScoreHandler(scoreLabel, pc.getPlayerData()));
+		events.register(EventEnum.ENEMY_KILLED, new ScoreUpdateHandler(scoreLabel, pc.getPlayerData()));
+		events.register(EventEnum.PLAYER_PICKUP, new ScoreUpdateHandler(scoreLabel, pc.getPlayerData()));
 		pc.getPlayerData().addObserver(new ScoreLabelObserver(scoreLabel));
 		score.add(scoreLabel);
 
@@ -101,7 +104,7 @@ public class LevelUIFactory {
 		hp.getHealthData().addObserver(new HealthLabelObserver(healthLabel)); // -->
 																				// doesn't
 																				// work?
-		// TODO: Weapons
+		// TODO: Weapons + DAMPING STATUS IN UI
 		shipStatusWindow.add(shipStatusTable);
 
 		root.add(shipStatusWindow).expand().bottom().right();
@@ -129,18 +132,18 @@ public class LevelUIFactory {
 
 	}
 
-	private class EnemyKilledScoreHandler extends BaseEnemyKilledHandler {
+	private class ScoreUpdateHandler implements IEventListener {
 
 		private Label label;
 		private PlayerData playerData;
 
-		public EnemyKilledScoreHandler(Label l, PlayerData playerData) {
+		public ScoreUpdateHandler(Label l, PlayerData playerData) {
 			this.label = l;
 			this.playerData = playerData;
 		}
-
+		
 		@Override
-		public void handleEvent(EnemyKilledEvent event) {
+		public void handle(IEvent event) {
 			label.setText("Score: " + playerData.getScore());
 		}
 
@@ -172,7 +175,7 @@ public class LevelUIFactory {
 
 		@Override
 		public void update(Observable o, Object arg) {
-			System.out.println("SCORE UPDATE");
+			System.out.println("SCORE UPDATE (OBSERVER)");
 			PlayerData player = (PlayerData) o;
 			int score = Math.round(player.getScore());
 			label.setText("Score: " + score);
