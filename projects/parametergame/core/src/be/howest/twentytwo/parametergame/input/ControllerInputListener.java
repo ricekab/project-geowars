@@ -32,8 +32,6 @@ public class ControllerInputListener extends ControllerAdapter {
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
-		System.out.println("BUTTON " + buttonCode);
-		
 		if(buttonMap.containsKey(buttonCode)) {
 			buttonMap.get(buttonCode).stop();
 			return true;
@@ -43,7 +41,6 @@ public class ControllerInputListener extends ControllerAdapter {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		System.out.println("axisCode " + axisCode + " : " + value);
 		for(ControllerAxisMapping cam : axisMapping){
 			if(cam.getAxisCode() == axisCode){
 				cam.handle(value);
