@@ -244,24 +244,7 @@ public class LevelFactory {
 		// TODO -- Factories for other pickups
 
 		// INPUT
-//		KeyboardInputFactory inputFactory = new KeyboardInputFactory();
-//
-//		SettingsDataI settings = context.getFileService().loadSettings("settings.ini", user);
-//		settings.addPlayer(user);
-//		Map<String, String> keyActionMap = settings.getKeyBinds(user);
-
-		// 0. Get player 1 - Keyboard assumed for now
-		// 1. Get keymap from file service (string: string)
-		// 2. Convert to keycode: action
-
-		// For controller,s input is slightly different (but same actions
-		// mostly)
-//		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
-//				playerShip);
-//		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
-//
-//		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
-//		Controllers.addListener(cif.createControllerListener(playerShip));
+		// MOVED INTO METHODS THAT HAVE TO BE CALLED BY CALLING OBJECT. SORRY CODE JESUS. 
 
 		PlayerData pd = PlayerComponent.MAPPER.get(playerShip).getPlayerData();
 		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue, pd);

@@ -5,6 +5,10 @@ import be.howest.twentytwo.parametergame.model.event.EventQueue;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -43,6 +47,13 @@ public class MPSplitGameScreen extends BaseScreen {
 	public void render(float delta) {
 		engineLeft.update(delta);
 		eventQueueLeft.dispatch();
+		ShapeRenderer sr = getContext().getShapeRenderer();
+		sr.setProjectionMatrix(uiViewportRight.getCamera().combined);
+		sr.begin(ShapeType.Line);
+		sr.setColor(Color.WHITE);
+		sr.line(Gdx.graphics.getWidth() / 2 - 1, 0, Gdx.graphics.getWidth() / 2 - 1,
+				Gdx.graphics.getHeight());
+		sr.end();
 		engineRight.update(delta);
 		eventQueueRight.dispatch();
 	}

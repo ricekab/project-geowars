@@ -45,8 +45,8 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	@Override
 	public void show() {
 		TextButtonStyle textBtnStyle = getSkin().get("default", TextButtonStyle.class);
-		TextButtonFactory tbf = new TextButtonFactory(textBtnStyle,
-				new ButtonChangeSoundListener(getContext().getSoundService()));
+		TextButtonFactory tbf = new TextButtonFactory(textBtnStyle, new ButtonChangeSoundListener(
+				getContext().getSoundService()));
 
 		Table root = getRoot();
 
@@ -58,7 +58,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		menu.add(arcade);
 
 		menu.row();
-		versus = tbf.createButton("Play Local Versus [DEBUG]", new PlayVersusListener());
+		versus = tbf.createButton("Play Local Versus", new PlayVersusListener());
 		versus.setDisabled(true);
 		menu.add(versus);
 
@@ -70,7 +70,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 		menu.row();
 		menu.add(tbf.createButton("Exit Game", new ExitListener()));
-		
+
 		menu.row();
 		CheckBox debugCB = new CheckBox("Enable Debug", getSkin());
 		debugCB.setChecked(ParameterGame.DEBUG_ENABLED);
@@ -79,20 +79,20 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 		root.add(createLoginWindow(tbf)).width(300f);
 
-		if (getContext().getMusicService().getMusic() != null
+		if(getContext().getMusicService().getMusic() != null
 				&& getContext().getMusicService().getFile() != "music/finished_long.ogg") {
 			getContext().getMusicService().disposeMusic();
 		}
-		if (getContext().getMusicService().getFile() != "music/finished_long.ogg")
+		if(getContext().getMusicService().getFile() != "music/finished_long.ogg")
 			getContext().getMusicService().playMusic("music/finished_long.ogg");
 
-		if (ParameterGame.DEBUG_ENABLED) {
+		if(ParameterGame.DEBUG_ENABLED) {
 			userField.setText("debug");
 			passwordField.setText("DEBUG");
 			doLogin();
 		}
 
-		if (getContext().getUser() != null) {
+		if(getContext().getUser() != null) {
 			setLoggedIn(getContext().getUser());
 		}
 	}
@@ -129,8 +129,9 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			BaseGameFactory gameFactory = new SPGameFactory(getContext(), "level1.lvl");
-			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(),
-					new ArcadeLoadoutListener(gameFactory), gameFactory));
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
+							gameFactory), gameFactory));
 			dispose();
 		}
 	}
@@ -139,8 +140,9 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), "level1.lvl");
-			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(),
-					new VersusLoadoutListener(gameFactory), gameFactory, "Loadout - Player 1"));
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new VersusLoadoutListener(
+							gameFactory), gameFactory, "Loadout - Player 1"));
 			dispose();
 		}
 	}
@@ -174,15 +176,15 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 			doLogin();
 		}
 	}
-	
-	private class DebugCheckBoxListener extends ChangeListener{
+
+	private class DebugCheckBoxListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			CheckBox c = (CheckBox)event.getListenerActor();
+			CheckBox c = (CheckBox) event.getListenerActor();
 			ParameterGame.DEBUG_ENABLED = c.isChecked();
-			if(c.isChecked()){
+			if(c.isChecked()) {
 				Gdx.app.setLogLevel(Application.LOG_DEBUG);
-			} else{
+			} else {
 				Gdx.app.setLogLevel(Application.LOG_ERROR);
 			}
 		}
@@ -192,7 +194,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 
 		@Override
 		public boolean keyDown(InputEvent event, int keycode) {
-			if (Keys.ENTER == keycode) {
+			if(Keys.ENTER == keycode) {
 				doLogin();
 			}
 			return false;
@@ -229,8 +231,9 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			Gdx.app.debug("MenuScreen", "Versus Mode selected");
-			getContext().setScreen(new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(factory),
-					factory, "Loadout - Player 2"));
+			getContext().setScreen(
+					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
+							factory), factory, "Loadout - Player 2"));
 		}
 	}
 
@@ -243,13 +246,13 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	}
 
 	private void setLoggedIn(UserDataI user) {
-		if (user != null) {
+		if(user != null) {
 			loginStatusLabel.setText("Active Login: " + user.getUser());
 			getContext().setUser(user);
 			arcade.setDisabled(false);
-			if(ParameterGame.DEBUG_ENABLED){
-				versus.setDisabled(false);
-			}
+			// if(ParameterGame.DEBUG_ENABLED){
+			versus.setDisabled(false);
+			// }
 		}
 	}
 }

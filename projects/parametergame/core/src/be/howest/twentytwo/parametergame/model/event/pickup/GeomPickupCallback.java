@@ -15,7 +15,6 @@ public class GeomPickupCallback extends BasePickupCallback {
 
 	@Override
 	public void handle(Entity entity) {
-		System.out.println("GeomPickupCB HANDLED");
 		PlayerData pData = PlayerComponent.MAPPER.get(entity).getPlayerData();
 		pData.setScore(pData.getScore() + score);
 	}
