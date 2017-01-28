@@ -39,7 +39,7 @@ public class ShapeRenderSystem extends IteratingSystem {
 		if(sc.getDrawType() == ShapeComponent.ShapeDraw.BOX){
 			shapes.box(t.getPos().x, t.getPos().y, 0f, sc.getWidth(), sc.getHeight(), 0f);
 		} else if(sc.getDrawType() == ShapeComponent.ShapeDraw.CIRCLE){
-			shapes.circle(t.getPos().x, t.getPos().y, sc.getWidth(), Math.round(sc.getWidth()*12));
+			shapes.circle(t.getPos().x, t.getPos().y, sc.getWidth(), Math.round(sc.getWidth()*6));
 		}
 		shapes.end();
 	}

@@ -89,7 +89,7 @@ public class AISpawnSystem extends IntervalSystem {
 		}
 		// Start spawning based on cluster information
 		ClusterDataI cluster = currentPool.getRandomCluster();
-		float clearBoxAreaSize = 50f;
+		float clearBoxAreaSize = 75f;
 		for (int i = 0; i < cluster.getGroups(); i++) {
 			// Find appropriate location to spawn (group).
 			Vector2 spawnBoxLower = findRandomSpawnPosition(clearBoxAreaSize);

@@ -62,21 +62,21 @@ public class InMemoryFileAccessor implements IFileAccessor {
 			
 			spawnPool2.setSpawnTreshold(10f);
 			spawnPool2.setSpawnTresholdIncrease(2f);
-			ClusterDataI cluster2 = new ClusterData(1f, 4, 10f, 25, 25, "encloser");
+			ClusterDataI cluster2 = new ClusterData(1f, 5, 10f, 5, 4, "encloser");
 			spawnPool2.addCluster(cluster2);
-			cluster2 = new ClusterData(1f, 4, 10f, 50, 10, "scouter");
+			cluster2 = new ClusterData(1f, 25, 10f, 5, 2, "scouter");
 			spawnPool2.addCluster(cluster2);
 			data.addSpawnPool(spawnPool2);
 			
 			data.setWorld(world2);
 			data.setSpawnBox(spawnBox2);
-			PlanetDataI planet2 = new PlanetData(200, 200, 100f, "planet1", 1000f, 250f);
+			PlanetDataI planet2 = new PlanetData(300, 300, 80f, "planet1", 600f, 300f);
 			data.addPlanet(planet2);
-			planet2 = new PlanetData(-100, -100, 50f, "planet4", 1f, 125f);
+			planet2 = new PlanetData(-100, -100, 25f, "planet4", 20f, 100f);
 			data.addPlanet(planet2);
 			break;
 		default:
-			data = null;
+			data = null;	// Should be an exception instead of null
 			break;
 		}
 		

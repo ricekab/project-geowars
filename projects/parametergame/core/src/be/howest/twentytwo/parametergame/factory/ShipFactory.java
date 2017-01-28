@@ -145,7 +145,7 @@ public class ShipFactory implements ISpawnFactory, Disposable {
 		rigidBody.setUserData(ship);
 		bodyComponent.setBody(rigidBody);
 
-		rigidBody.setLinearDamping(shipData.getLinearDamping());
+		rigidBody.setLinearDamping(0f);
 		rigidBody.setAngularDamping(shipData.getAngularDamping());
 
 		for (FixtureDef fixture : fixtureDefs) {
