@@ -19,13 +19,13 @@ public class InMemoryFileAccessor implements IFileAccessor {
 
 	@Override
 	public LevelDataI loadLevel(String levelName) {
-		LevelDataI data = null;
+		LevelDataI data = new LevelData();
 		switch(levelName) {
 		case "level1.lvl":
 			BoxDataI world = new BoxData(1000f, 500f, 0f, 0f);
 			BoxDataI spawnBox = new BoxData(5f, 5f, -5f, -5f);
 	
-			/*LevelDataI*/ data = new LevelData();
+			///*LevelDataI*/ data = new LevelData();
 			SpawnPoolDataI spawnPool = new SpawnPoolData();
 	
 			spawnPool.setSpawnTreshold(3f);
@@ -53,6 +53,31 @@ public class InMemoryFileAccessor implements IFileAccessor {
 			data.addPlanet(planet);
 			planet = new PlanetData(300, 0, 12f, "planet3", 50f, 80f);
 			data.addPlanet(planet);
+			break;
+		case "level2.lvl":
+			BoxDataI world2 = new BoxData(1000f, 500f, 0f, 0f);
+			BoxDataI spawnBox2 = new BoxData(10f, 10f, -5f, -5f);
+			
+			//data = new LevelData();
+			SpawnPoolDataI spawnPool2 = new SpawnPoolData();
+			
+			spawnPool2.setSpawnTreshold(10f);
+			spawnPool2.setSpawnTresholdIncrease(2f);
+			ClusterDataI cluster2 = new ClusterData(1f, 4, 10f, 25, 25, "encloser");
+			spawnPool2.addCluster(cluster2);
+			cluster2 = new ClusterData(1f, 4, 10f, 50, 10, "scouter");
+			spawnPool2.addCluster(cluster2);
+			data.addSpawnPool(spawnPool2);
+			
+			data.setWorld(world2);
+			data.setSpawnBox(spawnBox2);
+			PlanetDataI planet2 = new PlanetData(200, 200, 100f, "planet1", 1000f, 250f);
+			data.addPlanet(planet2);
+			planet2 = new PlanetData(-100, -100, 50f, "planet4", 1f, 125f);
+			data.addPlanet(planet2);
+			break;
+		default:
+			data = null;
 			break;
 		}
 		

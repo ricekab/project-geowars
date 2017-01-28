@@ -13,6 +13,10 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 public interface IFileAccessor {
 	//This is the general blueprint for different classes, such as InMemoryFileAccessor, JSONFileAccessor,....	
 
+	/**
+	 * @param location the location of the level. By default this is "levels/level[NUMBER].lvl"
+	 * @return returns the level that was loaded from the location, or null if no level was found.
+	 */
 	public LevelDataI loadLevel(String location);
 	public void saveLevel(LevelDataI data, String location);
 	

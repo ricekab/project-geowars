@@ -7,11 +7,14 @@ public class Writer {	//Temporary test file
 	public static void main(String[] args){
 		
 		
-		InMemoryFileAccessor ifa = new InMemoryFileAccessor();
-		POJOFileAccessor pfa = new POJOFileAccessor();
+		IFileAccessor ifa = new InMemoryFileAccessor();
+		IFileAccessor pfa = new POJOFileAccessor();
 		
-		LevelDataI memoryLevel = ifa.loadLevel("level");
-		pfa.saveLevel(memoryLevel, "level1.lvl");
+		LevelDataI memoryLevel = ifa.loadLevel("level1.lvl");
+		pfa.saveLevel(memoryLevel, "levels/level1.lvl");
+		memoryLevel = ifa.loadLevel("level2.lvl");
+		pfa.saveLevel(memoryLevel, "levels/level2.lvl");
+		/*
 		LevelDataI loadedLevel = pfa.loadLevel("level1.lvl");
 		boolean equal1 = memoryLevel.getSpawnBox().getWidth() == loadedLevel.getSpawnBox().getWidth();
 		boolean equal2 = memoryLevel.getSpawnBox().getYCoord() == loadedLevel.getSpawnBox().getYCoord();
@@ -21,9 +24,9 @@ public class Writer {	//Temporary test file
 		if(equal1 && equal2 && equal3 && equal4){
 			System.out.println("IT'S WORKING");
 		}else{
-			System.out.println("ALLAHU AKBAR!");
+			System.out.println("Or maybe not?");
 		}
-
+		 */
 		 
 		/*
 		 * TODO fix the reading
