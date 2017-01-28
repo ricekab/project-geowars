@@ -23,7 +23,7 @@ import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.dataTypes.WeaponDataI;
 import be.howest.twentytwo.parametergame.input.PlayerInputProcessor;
 import be.howest.twentytwo.parametergame.input.actions.InputAction;
-import be.howest.twentytwo.parametergame.input.factory.InputFactory;
+import be.howest.twentytwo.parametergame.input.factory.KeyboardInputFactory;
 import be.howest.twentytwo.parametergame.input.factory.XBOneControllerInputFactory;
 import be.howest.twentytwo.parametergame.model.PhysicsBodyEntityListener;
 import be.howest.twentytwo.parametergame.model.ai.IAIMoveBehaviour;
@@ -95,27 +95,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Builds up the physics {@link World} as well as all populates the ECS engine
- * with level-defined entities.
+ * Builds up the physics {@link World} as well as all populates the ECS engine with level-defined
+ * entities.
  * 
- * Note -- The ECS engine can listen for new entities added and add their body
- * to the world. This simplifies adding entities to the engine without having to
- * pass the World around everywhere just in case it's needed. The downside (?)
- * is that the body definition is required as well.
+ * Note -- The ECS engine can listen for new entities added and add their body to the world. This
+ * simplifies adding entities to the engine without having to pass the World around everywhere just
+ * in case it's needed. The downside (?) is that the body definition is required as well.
  * 
- * --> Ended up opting for factories having access to the World object. They're
- * responsibly for creating the object in its entirety.
+ * --> Ended up opting for factories having access to the World object. They're responsibly for
+ * creating the object in its entirety.
  * 
- * Logically, it makes sense for most of the builders/factories to keep a copy
- * of body def and fixture def since they'll make a lot of copies. This
- * basically becomes flyweight-esque.
+ * Logically, it makes sense for most of the builders/factories to keep a copy of body def and
+ * fixture def since they'll make a lot of copies. This basically becomes flyweight-esque.
  *
  * TODO: Fix docs
  */
 public class LevelFactory {
 
-	public PooledEngine createWorld(ScreenContext context, Viewport gameViewport, Viewport uiViewport,
-			EventQueue eventQueue, String levelName, LoadoutSelectionData selections) {
+	public PooledEngine createWorld(ScreenContext context, Viewport gameViewport,
+			Viewport uiViewport, EventQueue eventQueue, String levelName,
+			LoadoutSelectionData selections) {
 		LevelDataI levelData = context.getFileService().loadLevel(levelName);
 		IDataService dataService = context.getDataService();
 		AssetManager assets = context.getAssetManager();
@@ -132,11 +131,13 @@ public class LevelFactory {
 		// PHYSICS INIT
 		World world = new World(new Vector2(0f, 0f), true);
 		world.setContactListener(getCollisionChain(eventQueue, physicsMessageQueue));
-		engine.addEntityListener(Family.all(BodyComponent.class).get(), new PhysicsBodyEntityListener(world));
+		engine.addEntityListener(Family.all(BodyComponent.class).get(),
+				new PhysicsBodyEntityListener(world));
 
 		// UI INIT
 		Skin uiSkin = assets.get(ParameterGame.UI_SKIN, Skin.class);
-		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), eventQueue, uiViewport, uiSkin);
+		LevelUIFactory uiFactory = new LevelUIFactory(context.getSpriteBatch(), eventQueue,
+				uiViewport, uiSkin);
 
 		// ENTITY CREATION
 		// Needed to prepare projectile factories
@@ -148,7 +149,8 @@ public class LevelFactory {
 		playerShipData.setDrones(selections.getDrones());
 		allWeapons.addAll(shipData.getWeapons());
 
-		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets, playerShipData);
+		PlayerShipFactory playerFactory = new PlayerShipFactory(engine, world, assets,
+				playerShipData);
 		BoxDataI spawnBox = levelData.getSpawnBox();
 		Entity playerShip = playerFactory.createPlayerShip(
 				spawnBox.getXCoord() + (float) Math.random() * spawnBox.getWidth(),
@@ -188,16 +190,17 @@ public class LevelFactory {
 		engine.addSystem(renderSys);
 		engine.addSystem(new ShapeRenderSystem(context.getShapeRenderer(), gameViewport));
 		engine.addSystem(new TimerSystem(eventQueue));
-		engine.addSystem(new AISpawnSystem(levelData.getWorld(), playerBody, eventQueue, spawnMessageQueue,
-				levelData.getSpawnPools()));
+		engine.addSystem(new AISpawnSystem(levelData.getWorld(), playerBody, eventQueue,
+				spawnMessageQueue, levelData.getSpawnPools()));
 		engine.addSystem(new AIMovementSystem());
 		engine.addSystem(new AIShootSystem());
 		engine.addSystem(new UISystem(uiMessageQueue, uiFactory.createUI(playerShip)));
 		engine.addSystem(new HealthSystem(eventQueue));
 		// Animation, ...
 
-		if (ParameterGame.DEBUG_ENABLED) {
-			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context.getShapeRenderer()));
+		if(ParameterGame.DEBUG_ENABLED) {
+			engine.addSystem(new PhysicsDebugRenderSystem(world, renderSys.getCamera(), context
+					.getShapeRenderer()));
 		}
 
 		// AI FACTORY PREPARATION
@@ -213,7 +216,8 @@ public class LevelFactory {
 			}
 		}
 
-		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames.toArray(new String[enemyNames.size()]));
+		Collection<EnemyDataI> enemies = dataService.getEnemies(enemyNames
+				.toArray(new String[enemyNames.size()]));
 
 		for (EnemyDataI enemy : enemies) {
 			// Adding all weapons for projectile factories
@@ -226,8 +230,8 @@ public class LevelFactory {
 			String behaviourString = enemyData.getBehaviour();
 			IAIMoveBehaviour move = moveFactory.createBehaviour(behaviourString);
 			IAIShootBehaviour shoot = shootFactory.createBehaviour(behaviourString);
-			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections.getDifficulty(),
-					playerBody, move, shoot));
+			spawnSystem.addFactory(new AIShipFactory(engine, world, assets, enemyData, selections
+					.getDifficulty(), playerBody, move, shoot));
 		}
 
 		// PROJECTILE FACTORY PREPARATION
@@ -240,11 +244,11 @@ public class LevelFactory {
 		// TODO -- Factories for other pickups
 
 		// INPUT
-		InputFactory inputFactory = new InputFactory();
-
-		SettingsDataI settings = context.getFileService().loadSettings("settings.ini", user);
-		settings.addPlayer(user);
-		Map<String, String> keyActionMap = settings.getKeyBinds(user);
+//		KeyboardInputFactory inputFactory = new KeyboardInputFactory();
+//
+//		SettingsDataI settings = context.getFileService().loadSettings("settings.ini", user);
+//		settings.addPlayer(user);
+//		Map<String, String> keyActionMap = settings.getKeyBinds(user);
 
 		// 0. Get player 1 - Keyboard assumed for now
 		// 1. Get keymap from file service (string: string)
@@ -252,11 +256,12 @@ public class LevelFactory {
 
 		// For controller,s input is slightly different (but same actions
 		// mostly)
-		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap, playerShip);
-		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
-
-		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
-		Controllers.addListener(cif.createControllerListener(playerShip));
+//		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
+//				playerShip);
+//		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
+//
+//		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
+//		Controllers.addListener(cif.createControllerListener(playerShip));
 
 		PlayerData pd = PlayerComponent.MAPPER.get(playerShip).getPlayerData();
 		registerGameEvents(context, eventQueue, engine, physicsMessageQueue, spawnMessageQueue, pd);
@@ -264,8 +269,28 @@ public class LevelFactory {
 		return engine;
 	}
 
-	private ContactListener getCollisionChain(EventQueue events, Collection<IPhysicsMessage> physicsMessages) {
-		BaseContactProcessor collisionListener = new GravityContactProcessor(events, physicsMessages);
+	// This is obviously very bad. But in the interest of time and since it's not actually
+	// maintained I'm going to just cut this corner.
+	public void attachKeyboardInput(PooledEngine level, Map<String, String> keyActionMap) {
+		Entity player = level.getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+		
+		KeyboardInputFactory inputFactory = new KeyboardInputFactory();
+		
+		Map<Integer, InputAction> keyActions = inputFactory.createPlayerKeymap(keyActionMap,
+				player);
+		Gdx.input.setInputProcessor(new PlayerInputProcessor(keyActions));
+	}
+	
+	public void attachControllerInput(PooledEngine level){
+		Entity player = level.getEntitiesFor(Family.all(PlayerComponent.class).get()).first();
+		XBOneControllerInputFactory cif = new XBOneControllerInputFactory();
+		Controllers.addListener(cif.createControllerListener(player));
+	}
+
+	private ContactListener getCollisionChain(EventQueue events,
+			Collection<IPhysicsMessage> physicsMessages) {
+		BaseContactProcessor collisionListener = new GravityContactProcessor(events,
+				physicsMessages);
 		collisionListener.addProcessor(new PlayerContactProcessor(events, physicsMessages))
 				.addProcessor(new PlayerBulletContactProcessor(events, physicsMessages))
 				.addProcessor(new PlanetContactProcessor(events, physicsMessages));
@@ -273,28 +298,33 @@ public class LevelFactory {
 		return collisionListener;
 	}
 
-	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine) {
+	private void registerSoundEvents(ScreenContext context, EventQueue eventQueue,
+			PooledEngine engine) {
 		// register event handlers on event queue to send sound messages.
 		// Will need another chain of objects to filter the messages
 		// Eg. PlayerHit --> BulletHitSound or CrashedWithEnemySound or ...
-		eventQueue.register(EventEnum.WEAPON_FIRED, new WeaponFiredSoundHandler(context.getSoundService()));
-		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledSoundHandler(context.getSoundService()));
-		eventQueue.register(EventEnum.GAME_LOSE, new GameEndSoundHandler(context.getSoundService()));
+		eventQueue.register(EventEnum.WEAPON_FIRED,
+				new WeaponFiredSoundHandler(context.getSoundService()));
+		eventQueue.register(EventEnum.PLAYER_KILLED,
+				new PlayerKilledSoundHandler(context.getSoundService()));
+		eventQueue
+				.register(EventEnum.GAME_LOSE, new GameEndSoundHandler(context.getSoundService()));
 	}
 
-	private void registerGameEvents(ScreenContext context, EventQueue eventQueue, PooledEngine engine,
-			Collection<IPhysicsMessage> physicsMessages, Collection<ISpawnMessage> spawnMessages,
-			PlayerData playerData) {
+	private void registerGameEvents(ScreenContext context, EventQueue eventQueue,
+			PooledEngine engine, Collection<IPhysicsMessage> physicsMessages,
+			Collection<ISpawnMessage> spawnMessages, PlayerData playerData) {
 		eventQueue.register(EventEnum.DESTROY_ENTITY, new DestroyEntityListener(engine));
-		
+
 		eventQueue.register(EventEnum.PLAYER_PICKUP, new PlayerPickupHandler());
 
 		eventQueue.register(EventEnum.PLAYER_HIT, new PlayerHitHandler(engine));
 		eventQueue.register(EventEnum.ENEMY_HIT, new EnemyHitHandler());
 
-		eventQueue.register(EventEnum.ENEMY_KILLED,
-				new EnemyKilledHandler(engine, playerData, physicsMessages, spawnMessages));
-		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledHandler(context, engine, physicsMessages));
+		eventQueue.register(EventEnum.ENEMY_KILLED, new EnemyKilledHandler(engine, playerData,
+				physicsMessages, spawnMessages));
+		eventQueue.register(EventEnum.PLAYER_KILLED, new PlayerKilledHandler(context, engine,
+				physicsMessages));
 	}
 
 	private class PlayerHitHandler extends BasePlayerHitHandler {
@@ -309,7 +339,7 @@ public class LevelFactory {
 		public void handleEvent(PlayerHitEvent event) {
 			HealthData playerHP = event.getPlayerHealth();
 
-			if (playerHP.isInvulnerable()) {
+			if(playerHP.isInvulnerable()) {
 				return;
 			}
 
@@ -352,7 +382,7 @@ public class LevelFactory {
 
 		@Override
 		public void handleEvent(PlayerKilledEvent event) {
-			if (!active) {
+			if(!active) {
 				return;
 			}
 			Gdx.app.debug("LF/PlayerKilledHandler", "Called");
@@ -393,14 +423,15 @@ public class LevelFactory {
 		}
 
 	}
-	
-	private class PlayerPickupHandler extends BasePlayerPickupHandler{
+
+	private class PlayerPickupHandler extends BasePlayerPickupHandler {
 
 		@Override
 		public void handleEvent(PlayerPickupEvent event) {
-			((BasePickupCallback)event.getColliderFixture().getUserData()).handle(event.getPlayerEntity());
+			((BasePickupCallback) event.getColliderFixture().getUserData()).handle(event
+					.getPlayerEntity());
 		}
-		
+
 	}
 
 	private void spawnTimedEntity(PooledEngine engine, float timeDelay, ITimeoutCallback callback) {

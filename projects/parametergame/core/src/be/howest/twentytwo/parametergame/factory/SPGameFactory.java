@@ -1,6 +1,10 @@
 package be.howest.twentytwo.parametergame.factory;
 
+import java.util.Map;
+
 import be.howest.twentytwo.parametergame.ScreenContext;
+import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
+import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.model.event.IEvent;
@@ -53,7 +57,16 @@ public class SPGameFactory extends BaseGameFactory {
 
 		PooledEngine engine = levelFactory.createWorld(getContext(), gameViewport, uiViewport,
 				eventQueue, getLevelFile(), loadout);
+		
+		// INPUT
+		UserDataI user = getContext().getUser();
+		SettingsDataI settings = getContext().getFileService().loadSettings("settings.ini", user);
+		settings.addPlayer(user);
+		Map<String, String> keyActionMap = settings.getKeyBinds(user);
+		levelFactory.attachKeyboardInput(engine, keyActionMap);
 
+		levelFactory.attachControllerInput(engine);
+		
 		registerSoundEvents(eventQueue);
 		registerGameEvents(eventQueue);
 

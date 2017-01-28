@@ -8,7 +8,7 @@ import be.howest.twentytwo.parametergame.input.actions.InputAction;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input.Keys;
 
-public class InputFactory extends AbstractInputFactory {
+public class KeyboardInputFactory extends AbstractInputFactory {
 
 	/**
 	 * Generate a mapping of {@link Keys} to {@link InputAction} for a specific

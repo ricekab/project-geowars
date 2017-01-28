@@ -10,22 +10,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MPSplitGameScreen extends BaseScreen {
 
-	// If you see this, sorry for the duplication, but deadlines...
-	// Maybe this cat will make you feel better about this mess.
-	// |\___/|
-	// ) ( . '
-	// =\ /=
-	// )===( *
-	// / \
-	// | |
-	// / \
-	// \ /
-	// _/\_/\_/\__ _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
-	// | | | |( ( | | | | | | | | | |
-	// | | | | ) ) | | | | | | | | | |
-	// | | | |(_( | | | | | | | | | |
-	// | | | | | | | | | | | | | | |
-	// | | | | | | | | | | | | | | |
 	private World world;
 	private PooledEngine engineLeft, engineRight;
 	private Viewport viewportLeft, viewportRight, uiViewportLeft, uiViewportRight;
