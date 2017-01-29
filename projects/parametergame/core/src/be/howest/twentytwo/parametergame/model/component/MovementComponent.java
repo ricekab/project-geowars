@@ -1,7 +1,5 @@
 package be.howest.twentytwo.parametergame.model.component;
 
-import java.util.Observable;
-
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.utils.Pool.Poolable;

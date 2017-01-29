@@ -16,7 +16,6 @@ import be.howest.twentytwo.parametergame.dataTypes.EnemyDataI;
 import be.howest.twentytwo.parametergame.dataTypes.LevelDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlanetDataI;
 import be.howest.twentytwo.parametergame.dataTypes.PlayerShipDataI;
-import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.ShipDataI;
 import be.howest.twentytwo.parametergame.dataTypes.SpawnPoolDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;

@@ -5,12 +5,10 @@ import java.util.Map;
 import be.howest.twentytwo.parametergame.ScreenContext;
 import be.howest.twentytwo.parametergame.dataTypes.SettingsDataI;
 import be.howest.twentytwo.parametergame.dataTypes.UserDataI;
-import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
 import be.howest.twentytwo.parametergame.model.event.EventQueue;
 import be.howest.twentytwo.parametergame.screen.MPSplitGameScreen;
 import be.howest.twentytwo.parametergame.ui.data.LoadoutSelectionData;
 
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
