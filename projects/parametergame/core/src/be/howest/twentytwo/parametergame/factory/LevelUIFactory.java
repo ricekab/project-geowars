@@ -3,6 +3,8 @@ package be.howest.twentytwo.parametergame.factory;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.HealthComponent;
 import be.howest.twentytwo.parametergame.model.component.MovementComponent;
@@ -103,7 +105,7 @@ public class LevelUIFactory {
 		Label healthLabel = new Label("Health: " + hp.getHealthData().getHealth(), labelStyle);
 		shipStatusTable.add(healthLabel);
 		Label dampingLabel = new Label("Damping: OFF", labelStyle);
-		// mc.getNotifier().addObserver(new DampingLabelObserver(dampingLabel));
+		mc.getDampenOnProperty().addListener(new DampingLabelObserver(dampingLabel));
 		shipStatusTable.row();
 		shipStatusTable.add(dampingLabel);
 		shipStatusTable.row();
@@ -189,7 +191,7 @@ public class LevelUIFactory {
 		}
 	}
 
-	private class DampingLabelObserver implements Observer {
+	private class DampingLabelObserver implements ChangeListener<Boolean> {
 		private Label label;
 
 		public DampingLabelObserver(Label label) {
@@ -197,10 +199,11 @@ public class LevelUIFactory {
 		}
 
 		@Override
-		public void update(Observable o, Object arg) {
-			MovementComponent playerMC = (MovementComponent) arg;
-			String state = playerMC.isDampenOn() ? "ON" : "OFF";
+		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			String state = newValue ? "ON" : "OFF";
 			label.setText("Damping: " + state);
+
 		}
 	}
+
 }

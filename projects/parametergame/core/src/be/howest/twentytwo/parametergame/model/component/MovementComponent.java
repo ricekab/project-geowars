@@ -1,5 +1,9 @@
 package be.howest.twentytwo.parametergame.model.component;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -17,7 +21,9 @@ public class MovementComponent implements Component, Poolable {
 	private boolean accelerateBackward;
 	private boolean turnLeft;
 	private boolean turnRight;
-	private boolean dampenOn;
+	private BooleanProperty dampenOnProperty;
+	// private boolean dampenOn;
+	
 
 	private float maxLinearVelocity; // Limit to linear velocity (units/second)
 	private float maxAngularVelocity; // Limit to angular velocity (in radians)
@@ -27,6 +33,10 @@ public class MovementComponent implements Component, Poolable {
 
 	private float linearDampStrength;
 
+	public MovementComponent(){
+		reset();
+	}
+	
 	public boolean isAccelerateForward() {
 		return accelerateForward;
 	}
@@ -59,12 +69,18 @@ public class MovementComponent implements Component, Poolable {
 		this.turnRight = turnRight;
 	}
 
+	public BooleanProperty getDampenOnProperty(){
+		return dampenOnProperty;
+	}
+	
 	public boolean isDampenOn() {
-		return dampenOn;
+		// return dampenOn;
+		return dampenOnProperty.get();
 	}
 
 	public void toggleDampen() {
-		this.dampenOn = !dampenOn;
+//		this.dampenOn = !dampenOn;
+		dampenOnProperty.set(! dampenOnProperty.get());
 	}
 
 	public float getMaxLinearVelocity() {
@@ -109,6 +125,6 @@ public class MovementComponent implements Component, Poolable {
 
 	@Override
 	public void reset() {
-
+		dampenOnProperty = new SimpleBooleanProperty();
 	}
 }
