@@ -1,5 +1,7 @@
 package be.howest.twentytwo.parametergame.model.component;
 
+import java.util.Observable;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -9,7 +11,8 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  */
 public class MovementComponent implements Component, Poolable {
 
-	public static final ComponentMapper<MovementComponent> MAPPER = ComponentMapper.getFor(MovementComponent.class);
+	public static final ComponentMapper<MovementComponent> MAPPER = ComponentMapper
+			.getFor(MovementComponent.class);
 
 	// Flags set by input
 	private boolean accelerateForward;
@@ -23,7 +26,7 @@ public class MovementComponent implements Component, Poolable {
 
 	private float linearAcceleration; // units / s²
 	private float angularAcceleration; // = Turn rate in radians / second
-	
+
 	private float linearDampStrength;
 
 	public boolean isAccelerateForward() {
@@ -110,5 +113,4 @@ public class MovementComponent implements Component, Poolable {
 	public void reset() {
 
 	}
-
 }

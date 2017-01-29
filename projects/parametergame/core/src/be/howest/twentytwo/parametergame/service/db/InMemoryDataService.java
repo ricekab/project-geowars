@@ -74,7 +74,7 @@ public class InMemoryDataService implements IDataService {
 		// JUGGERNAUT
 		physicsData = new PhysicsData(Collision.PLAYER_CATEGORY, Collision.PLAYER_MASK);
 		physicsData.addFixture(new FixtureData("box", 8f, 8f, 0, 0, 0.25f, 0.1f, 0f));
-		ship = new ShipData("Juggernaught", "juggernaught", 3, 40.0f, 30.0f, 15.0f, 15.0f, 0.75f, 0.5f, weapons,
+		ship = new ShipData("Juggernaught", "juggernaught", 3, 40.0f, 30.0f, 15.0f, 15.0f, 0.75f, 1f, weapons,
 				physicsData, 16f, 16f, 0.75f);
 		playerShip = new PlayerShipData(ship, "Juggernaughty", 10f, 0, 1, 50f, 1);
 		ships.add(playerShip);

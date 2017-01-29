@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -32,6 +33,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private TextButton arcade, versus;
 	private TextField userField, passwordField;
 	private Label loginStatusLabel;
+	private SelectBox<String> levelBox;
 
 	public MenuScreen(ScreenContext context, Engine backgroundEngine) {
 		super(context, backgroundEngine);
@@ -76,6 +78,12 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 		debugCB.setChecked(ParameterGame.DEBUG_ENABLED);
 		debugCB.addListener(new DebugCheckBoxListener());
 		menu.add(debugCB);
+		
+		menu.row();
+		levelBox = new SelectBox<String>(getSkin());
+		levelBox.setItems("empty_planets.lvl", "arcade1.lvl", "arcade2.lvl", "hcf.lvl");
+		levelBox.setSelected("arcade1.lvl");
+		menu.add(levelBox);
 
 		root.add(createLoginWindow(tbf)).width(300f);
 
@@ -128,7 +136,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private class PlayArcadeListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			BaseGameFactory gameFactory = new SPGameFactory(getContext(), "level1.lvl");
+			BaseGameFactory gameFactory = new SPGameFactory(getContext(), levelBox.getSelected());
 			getContext().setScreen(
 					new ShipLoadoutScreen(getContext(), getEngine(), new ArcadeLoadoutListener(
 							gameFactory), gameFactory));
@@ -139,7 +147,7 @@ public class MenuScreen extends BaseUIBackgroundScreen {
 	private class PlayVersusListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), "level2.lvl");
+			BaseGameFactory gameFactory = new MPVersusGameFactory(getContext(), levelBox.getSelected());
 			getContext().setScreen(
 					new ShipLoadoutScreen(getContext(), getEngine(), new VersusLoadoutListener(
 							gameFactory), gameFactory, "Loadout - Player 1"));

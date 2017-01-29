@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import be.howest.twentytwo.parametergame.ParameterGame;
 import be.howest.twentytwo.parametergame.model.component.HealthComponent;
+import be.howest.twentytwo.parametergame.model.component.MovementComponent;
 import be.howest.twentytwo.parametergame.model.component.PlayerComponent;
 import be.howest.twentytwo.parametergame.model.component.WeaponComponent;
 import be.howest.twentytwo.parametergame.model.event.EventEnum;
@@ -33,7 +34,8 @@ public class LevelUIFactory {
 	private final Skin uiSkin;
 	private final EventQueue events;
 
-	public LevelUIFactory(SpriteBatch spriteBatch, EventQueue eventQueue, Viewport uiViewport, Skin uiSkin) {
+	public LevelUIFactory(SpriteBatch spriteBatch, EventQueue eventQueue, Viewport uiViewport,
+			Skin uiSkin) {
 		this.batch = spriteBatch;
 		this.viewport = uiViewport;
 		this.uiSkin = uiSkin;
@@ -45,6 +47,7 @@ public class LevelUIFactory {
 		stage.setDebugAll(ParameterGame.DEBUG_ENABLED);
 
 		HealthComponent hp = HealthComponent.MAPPER.get(playerEntity);
+		MovementComponent mc = MovementComponent.MAPPER.get(playerEntity);
 		WeaponComponent wc = WeaponComponent.MAPPER.get(playerEntity);
 		PlayerComponent pc = PlayerComponent.MAPPER.get(playerEntity);
 
@@ -60,9 +63,11 @@ public class LevelUIFactory {
 
 		Table score = new Table();
 		Label scoreLabel = new Label("Score: 0", labelStyle);
-		events.register(EventEnum.ENEMY_KILLED, new ScoreUpdateHandler(scoreLabel, pc.getPlayerData()));
-		events.register(EventEnum.PLAYER_PICKUP, new ScoreUpdateHandler(scoreLabel, pc.getPlayerData()));
-		pc.getPlayerData().addObserver(new ScoreLabelObserver(scoreLabel));
+		events.register(EventEnum.ENEMY_KILLED,
+				new ScoreUpdateHandler(scoreLabel, pc.getPlayerData()));
+		events.register(EventEnum.PLAYER_PICKUP,
+				new ScoreUpdateHandler(scoreLabel, pc.getPlayerData()));
+		// pc.getPlayerData().addObserver(new ScoreLabelObserver(scoreLabel));
 		score.add(scoreLabel);
 
 		root.add(score).expand().top();
@@ -97,6 +102,10 @@ public class LevelUIFactory {
 		shipStatusTable.bottom().right();
 		Label healthLabel = new Label("Health: " + hp.getHealthData().getHealth(), labelStyle);
 		shipStatusTable.add(healthLabel);
+		Label dampingLabel = new Label("Damping: OFF", labelStyle);
+		// mc.getNotifier().addObserver(new DampingLabelObserver(dampingLabel));
+		shipStatusTable.row();
+		shipStatusTable.add(dampingLabel);
 		shipStatusTable.row();
 		events.register(EventEnum.PLAYER_HIT, new PlayerHitHealthHandler(healthLabel));
 		hp.getHealthData().addObserver(new HealthLabelObserver(healthLabel)); // -->
@@ -122,7 +131,7 @@ public class LevelUIFactory {
 
 		@Override
 		public void handleEvent(PlayerHitEvent event) {
-			if (event.getPlayerHealth().isInvulnerable()) {
+			if(event.getPlayerHealth().isInvulnerable()) {
 				return;
 			}
 			label.setText("Health: " + (event.getPlayerHealth().getHealth() - event.getDamage()));
@@ -139,7 +148,7 @@ public class LevelUIFactory {
 			this.label = l;
 			this.playerData = playerData;
 		}
-		
+
 		@Override
 		public void handle(IEvent event) {
 			label.setText("Score: " + playerData.getScore());
@@ -176,7 +185,22 @@ public class LevelUIFactory {
 			System.out.println("SCORE UPDATE (OBSERVER)");
 			PlayerData player = (PlayerData) o;
 			int score = Math.round(player.getScore());
-			label.setText("Score: " + score);
+			label.setText("Score: " + player.getScore());
+		}
+	}
+
+	private class DampingLabelObserver implements Observer {
+		private Label label;
+
+		public DampingLabelObserver(Label label) {
+			this.label = label;
+		}
+
+		@Override
+		public void update(Observable o, Object arg) {
+			MovementComponent playerMC = (MovementComponent) arg;
+			String state = playerMC.isDampenOn() ? "ON" : "OFF";
+			label.setText("Damping: " + state);
 		}
 	}
 }
